@@ -1,0 +1,161 @@
+---
+// Base layout for the pito apex marketing site.
+//
+// Single page now ("under construction" placeholder). Future Theta-phase
+// pages reuse this layout. Keeps the inline pre-paint theme script in
+// <head> so the browser never flashes the wrong theme — same approach
+// as the Rails app's `app/views/layouts/application.html.erb`.
+
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "pito ~ best YouTube tool",
+  description = "best YouTube tool",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="application-name" content="Pito" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#1a1a1a" />
+
+    {/*
+      Icon discovery — apex domain's favicon and OpenGraph hints. Google's
+      favicon service queries `pitomd.com` for `/favicon.ico`; social
+      previews pull `og:image`. Mirrors the Rails app's surface but with
+      the apex domain's image URL.
+    */}
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/Pito.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/Pito.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/Pito.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta property="og:title" content="pito" />
+    <meta property="og:description" content="best YouTube tool" />
+    <meta property="og:image" content="https://pitomd.com/Pito.png" />
+    <meta property="og:url" content="https://pitomd.com" />
+    <meta property="og:type" content="website" />
+
+    {/*
+      Pre-paint theme resolver — sets `data-theme` BEFORE first paint so
+      the page never flashes the wrong palette. localStorage override
+      (key `pito-theme`) wins; otherwise `prefers-color-scheme` decides.
+      Mirrors the inline script at the top of the Rails app's
+      <head>. ~10 lines of vanilla JS, no framework.
+    */}
+    <script is:inline>
+      (function () {
+        try {
+          var s = localStorage.getItem("pito-theme");
+          if (s === "light" || s === "dark") {
+            document.documentElement.setAttribute("data-theme", s);
+            return;
+          }
+        } catch (_) {}
+        var prefersDark =
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.setAttribute(
+          "data-theme",
+          prefersDark ? "dark" : "light",
+        );
+      })();
+    </script>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="site-header-row">
+        <a href="/" class="logo-link" aria-label="Home">
+          <img src="/Pito.png" alt="Pito" class="header-logo" />
+        </a>
+        <span class="brand-word">pito</span>
+        <a
+          href="#"
+          class="keycap"
+          aria-label="Toggle theme"
+          id="theme-toggle">n</a
+        >
+      </div>
+    </header>
+
+    <div class="header-clearance">
+      <main>
+        <slot />
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <div class="site-footer-row">
+        <a href="/" class="footer-logo-link" aria-label="Home">
+          <img src="/Pito.png" alt="Pito" class="footer-logo" />
+        </a>
+        <span class="text-muted"
+          >&copy; 2026<span class="hide-mobile"> &mdash; all rights reserved.</span
+          ></span
+        >
+        <span class="text-muted footer-version">v0.0.1.beta1</span>
+      </div>
+    </footer>
+
+    {/*
+      Theme toggle — pressing `n` (or clicking the `n` keycap) flips
+      between light and dark, persists to `localStorage("pito-theme")`.
+      Mirrors the Rails app's `theme_controller.js` + `keyboard_controller.js`
+      `n` shortcut, but as ~20 lines of vanilla JS instead of two
+      Stimulus controllers.
+
+      No `n` keypress while the user is typing in an input (none on this
+      page yet, but the guard keeps the contract identical to the Rails
+      app and future-proofs the layout for a contact form).
+    */}
+    <script is:inline>
+      (function () {
+        function toggleTheme() {
+          var current =
+            document.documentElement.getAttribute("data-theme") === "dark"
+              ? "dark"
+              : "light";
+          var next = current === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", next);
+          try {
+            localStorage.setItem("pito-theme", next);
+          } catch (_) {}
+        }
+
+        var btn = document.getElementById("theme-toggle");
+        if (btn) {
+          btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            toggleTheme();
+          });
+        }
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key !== "n") return;
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+          var t = e.target;
+          if (
+            t &&
+            (t.tagName === "INPUT" ||
+              t.tagName === "TEXTAREA" ||
+              t.isContentEditable)
+          )
+            return;
+          e.preventDefault();
+          toggleTheme();
+        });
+      })();
+    </script>
+  </body>
+</html>

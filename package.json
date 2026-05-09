@@ -1,0 +1,17 @@
+{
+  "name": "pito-website",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Astro landing page for pitomd.com — apex marketing surface.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^6.3.1"
+  }
+}
