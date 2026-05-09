@@ -11,9 +11,9 @@ placeholder; real marketing site arrives during Theta.
 
 - Astro (static output, zero JavaScript by default)
 - Cloudflare Pages target
-- Design tokens mirror `app/assets/tailwind/application.css` from the Rails
-  app — keep in sync when the design system shifts in a way that should reach
-  the marketing surface.
+- Design tokens mirror `app/assets/tailwind/application.css` from the Rails app
+  — keep in sync when the design system shifts in a way that should reach the
+  marketing surface.
 
 ## Layout
 
@@ -53,8 +53,9 @@ Cloudflare Pages project on every push to `main` that touches
 
 Light/dark theme parity with the Rails app:
 
-- Tokens duplicated in `src/styles/global.css` (`:root` + `[data-theme="dark"]`).
-- Pre-paint resolver in `<head>` reads `localStorage("pito-theme")`, falls
-  back to `prefers-color-scheme`. No theme flash on load.
+- Tokens duplicated in `src/styles/global.css` (`:root` +
+  `[data-theme="dark"]`).
+- Pre-paint resolver in `<head>` reads `localStorage("pito-theme")`, falls back
+  to `prefers-color-scheme`. No theme flash on load.
 - `n` keypress (or clicking the `n` keycap) toggles theme, persists to
   localStorage. ~20 lines of inline vanilla JS — no framework.
