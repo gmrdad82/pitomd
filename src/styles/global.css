@@ -52,15 +52,11 @@ body {
 
 body {
   font-family:
-    ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
-    monospace;
+    ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
   font-size: 13px;
   line-height: 1.4;
   color: var(--color-text);
   background: var(--color-bg);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 /* Headings — compact, mirror Rails app spacing. */
@@ -148,7 +144,6 @@ a:hover {
  * <main> inside carries an extra 16px for breathing room. */
 .header-clearance {
   padding-top: 32px;
-  flex: 1;
 }
 
 main {

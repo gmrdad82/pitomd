@@ -7,6 +7,9 @@
 // <head> so the browser never flashes the wrong theme — same approach
 // as the Rails app's `app/views/layouts/application.html.erb`.
 
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
 import "../styles/global.css";
 
 interface Props {
@@ -18,6 +21,26 @@ const {
   title = "pito ~ best YouTube tool",
   description = "best YouTube tool",
 } = Astro.props;
+
+// Read version from the project's root VERSION file at build time, mirroring
+// the Rails app's `application_helper#app_version` (which reads
+// `Rails.root.join("VERSION").read.strip`). Astro frontmatter runs in Node
+// during the build, so the website always renders the same version as the
+// Rails app.
+//
+// `import.meta.dirname` points at the bundled chunk under `dist/.prerender/`
+// after Vite processes the frontmatter, so we anchor on `process.cwd()`
+// instead. Both `npm run dev` and `npm run build` invoke astro from
+// `extras/website/`, so going up two levels reliably reaches the repo root.
+// Falls back to "unknown" rather than crashing the build if the file is
+// unreadable.
+const versionPath = resolve(process.cwd(), "../../VERSION");
+let version = "unknown";
+try {
+  version = readFileSync(versionPath, "utf-8").trim();
+} catch (_) {
+  // Keep the "unknown" fallback.
+}
 ---
 
 <!doctype html>
@@ -104,7 +127,7 @@ const {
           >&copy; 2026<span class="hide-mobile"> &mdash; all rights reserved.</span
           ></span
         >
-        <span class="text-muted footer-version">v0.0.1.beta1</span>
+        <span class="text-muted footer-version">v{version}</span>
       </div>
     </footer>
 
