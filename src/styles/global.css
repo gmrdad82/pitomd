@@ -129,10 +129,6 @@ a:hover {
   align-items: center;
   line-height: 0;
 }
-.brand-word {
-  font-weight: bold;
-  color: var(--color-text-bold);
-}
 
 /* Keycap — keyboard shortcut indicator. Letter only, purple, no parens.
  * Mirrors `.keycap` in the Rails app. */
