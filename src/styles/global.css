@@ -1,7 +1,7 @@
 /*
  * Pito apex marketing site — pitomd.com.
  *
- * Minimal hero surface for the early-launch teaser. Near-black background,
+ * Minimal hero surface for the early-launch teaser. Dracula bg (`#282a36`),
  * centered card with the project mark + name + subtitle + version/revision
  * K-V grid + copyright. No header, no footer, no theme toggle, no media
  * queries for light theme. Dark is the only theme this surface ships in.
@@ -9,13 +9,46 @@
  * Hard rule: red (`#cc0000`) is reserved for destructive UI in the Rails
  * app and is OFF-LIMITS on the marketing site.
  *
- * Implementation note: values are inlined rather than referenced through
- * CSS custom properties so there is zero chance of a UA-default or a
- * `prefers-color-scheme: light` cascade flipping the surface back to a
- * light background. The previous version used `:root { --bg: ... }` and
- * `background: var(--bg)`; that worked, but a hard-coded value is less
- * surface area for regressions.
+ * Token strategy: the L1 raw palette (12 atoms) is declared in `:root`
+ * below and mirrors the Rails app's atomic palette (see ADR 0015 in the
+ * main repo). Because this surface ships dark-only with no media-query
+ * fallback, the atoms are stable regardless of `prefers-color-scheme`.
+ * The previous implementation inlined hex values out of caution about a
+ * light-cascade flip; with the L1 atoms living only in `:root` (no
+ * `@media (prefers-color-scheme: light)` block anywhere), the same
+ * regression-safety holds while gaining cross-app token parity.
  */
+
+:root {
+  /* ============================================================
+     L1 — Raw palette (atoms, immutable, 12 tokens)
+     Shared with the Rails app. See ADR 0015 in the main repo.
+     Astro landing uses Home Purple #bd93f9 as sole section accent.
+     ============================================================ */
+  --dracula-bg:           #282a36;
+  --dracula-current-line: #44475a;
+  --dracula-fg:           #f8f8f2;
+  --dracula-comment:      #6272a4;
+  --dracula-cyan:         #8be9fd;
+  --dracula-green:        #50fa7b;
+  --dracula-orange:       #ffb86c;
+  --dracula-pink:         #ff79c6;
+  --dracula-purple:       #bd93f9;
+  --dracula-red:          #ff5555;
+  --dracula-yellow:       #f1fa8c;
+  --pale-cobalt:          #7eb6ff;
+
+  /* Astro section accent: Home Purple (single-page landing) */
+  --section-accent: var(--dracula-purple);
+
+  /* Common semantic tokens */
+  --color-bg:           var(--dracula-bg);
+  --color-text:         var(--dracula-fg);
+  --color-muted:        var(--dracula-comment);
+  --color-border:       var(--dracula-current-line);
+  --color-link:         var(--section-accent);
+  --color-link-hover:   color-mix(in srgb, var(--section-accent) 80%, white);
+}
 
 * {
   box-sizing: border-box;
@@ -25,8 +58,8 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: #0f0f10;
-  color: #f8f8f2;
+  background: var(--color-bg);
+  color: var(--dracula-fg);
   font-family:
     ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
   font-size: 13px;
@@ -68,12 +101,14 @@ body {
  *                            (line ~2142). Tightened from 480px so the
  *                            card reads as the same modal silhouette.
  *
- * Page bg (`#0f0f10` on html/body above) stays darker than the card so
- * the card visually pops as a contained surface — same relationship as
- * the in-app modal sitting on top of the page beneath it. */
+ * Page bg (`var(--color-bg)` = `#282a36` on html/body above) now matches
+ * the card surface (Dracula bg L1 token, 2026-05-20 alignment). The 1px
+ * `--color-border` hairline keeps the card readable against the flush
+ * surface — same treatment as the in-app About modal when its backdrop
+ * is dimmed to the same surface tone. */
 .hero-card {
-  background: #282a36;
-  border: 1px solid #44475a;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
   border-radius: 2px;
   text-align: center;
   padding: 24px 32px;
@@ -145,18 +180,18 @@ body {
  * No section variants (single-page surface). See pito Rails app
  * for the section-variant theme system. */
 .bracketed-link {
-  color: #bd93f9;
+  color: var(--color-link);
   text-decoration: none;
   font-weight: 700;
   cursor: pointer;
 }
 
 .bracketed-link:visited {
-  color: #bd93f9;
+  color: var(--color-link);
 }
 
 .bracketed-link:hover {
-  color: #d4b8ff;
+  color: var(--color-link-hover);
 }
 
 .em-dash {

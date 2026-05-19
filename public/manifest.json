@@ -4,8 +4,8 @@
   "description": "best YouTube tool",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f0f10",
-  "theme_color": "#0f0f10",
+  "background_color": "#282a36",
+  "theme_color": "#282a36",
   "icons": [
     {
       "src": "/Pito.png",
