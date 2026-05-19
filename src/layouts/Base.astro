@@ -1,14 +1,20 @@
 ---
 // Base layout for the pito apex marketing site.
 //
-// Single page now (early launch — points users to the app). Future
-// Theta-phase pages reuse this layout. Keeps the inline pre-paint
-// theme script in
-// <head> so the browser never flashes the wrong theme — same approach
-// as the Rails app's `app/views/layouts/application.html.erb`.
+// Minimal hero-card surface — no header, no footer, no nav, no theme toggle.
+// Renders a centered About-style card on a near-black background. Mirrors
+// the Rails app's `AboutModalComponent` HTML structure minus the dialog
+// chrome. Future Theta-phase pages may reintroduce chrome; this layout
+// stays bare for the early-launch teaser.
+//
+// Dark theme only. No system-preference detection, no toggle. The single
+// `<meta name="color-scheme" content="dark">` hint tells the UA which
+// scheme to use for form controls and scrollbars; the rest of the surface
+// is locked dark via `global.css`.
 
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { execFileSync } from "node:child_process";
 
 import "../styles/global.css";
 
@@ -23,17 +29,8 @@ const {
 } = Astro.props;
 
 // Read version from the project's root VERSION file at build time, mirroring
-// the Rails app's `application_helper#app_version` (which reads
-// `Rails.root.join("VERSION").read.strip`). Astro frontmatter runs in Node
-// during the build, so the website always renders the same version as the
-// Rails app.
-//
-// `import.meta.dirname` points at the bundled chunk under `dist/.prerender/`
-// after Vite processes the frontmatter, so we anchor on `process.cwd()`
-// instead. Both `npm run dev` and `npm run build` invoke astro from
-// `extras/website/`, so going up two levels reliably reaches the repo root.
-// Falls back to "unknown" rather than crashing the build if the file is
-// unreadable.
+// the Rails app's `application_helper#app_version`. Falls back to "unknown"
+// rather than crashing the build if unreadable.
 const versionPath = resolve(process.cwd(), "../../VERSION");
 let version = "unknown";
 try {
@@ -41,6 +38,23 @@ try {
 } catch (_) {
   // Keep the "unknown" fallback.
 }
+
+// Capture the current short SHA at build time so the rendered card always
+// reflects the deployed revision. Mirrors `ApplicationHelper#git_sha`.
+// `execFileSync` (no shell) keeps this safe — the arguments are static
+// literals. If git is unavailable (tarball deploy, etc.) the SHA falls
+// back to null and the template renders an em-dash.
+let sha: string | null = null;
+try {
+  sha = execFileSync("git", ["rev-parse", "--short", "HEAD"], {
+    encoding: "utf-8",
+  }).trim();
+} catch (_) {
+  sha = null;
+}
+
+const commitUrl = sha ? `https://github.com/gmrdad82/pito/commit/${sha}` : null;
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
@@ -51,134 +65,56 @@ try {
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="application-name" content="pito" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#1a1a1a" />
+    <meta name="theme-color" content="#0f0f10" />
+    <meta name="color-scheme" content="dark" />
 
     {/*
-      Icon discovery — apex domain's favicon and OpenGraph hints. Google's
-      favicon service queries `pitomd.com` for `/favicon.ico`; social
-      previews pull `og:image`. Mirrors the Rails app's surface but with
-      the apex domain's image URL.
+      Icon discovery — apex domain's favicon and OpenGraph hints. Mirrors
+      the Rails app's surface. Favicon PNG set + site.webmanifest +
+      browserconfig.xml generated from the apex Pito mark.
     */}
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="/Pito.png" type="image/png" />
-    <link rel="apple-touch-icon" href="/Pito.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/Pito.png" />
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#0f0f10" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
     <meta property="og:title" content="pito" />
     <meta property="og:description" content="best YouTube tool" />
-    <meta property="og:image" content="https://pitomd.com/Pito.png" />
+    <meta property="og:image" content="https://pitomd.com/favicon-256x256.png?v=2" />
     <meta property="og:url" content="https://pitomd.com" />
     <meta property="og:type" content="website" />
-
-    {/*
-      Pre-paint theme resolver — sets `data-theme` BEFORE first paint so
-      the page never flashes the wrong palette. localStorage override
-      (key `pito-theme`) wins; otherwise `prefers-color-scheme` decides.
-      Mirrors the inline script at the top of the Rails app's
-      <head>. ~10 lines of vanilla JS, no framework.
-    */}
-    <script is:inline>
-      (function () {
-        try {
-          var s = localStorage.getItem("pito-theme");
-          if (s === "light" || s === "dark") {
-            document.documentElement.setAttribute("data-theme", s);
-            return;
-          }
-        } catch (_) {}
-        var prefersDark =
-          window.matchMedia &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.setAttribute(
-          "data-theme",
-          prefersDark ? "dark" : "light",
-        );
-      })();
-    </script>
   </head>
 
   <body>
-    <header class="site-header">
-      <div class="site-header-row">
-        <a href="/" class="logo-link" aria-label="Home">
-          <img src="/Pito.png" alt="pito" class="header-logo" />
-        </a>
-        <a
-          href="#"
-          class="keycap"
-          aria-label="Toggle theme"
-          id="theme-toggle">n</a
-        >
-      </div>
-    </header>
+    <main class="hero-card">
+      <img src="/favicon-128x128.png?v=2" alt="pito" class="hero-logo" />
 
-    <div class="header-clearance">
-      <main>
-        <slot />
-      </main>
-    </div>
+      <div class="hero-name">pito</div>
+      <div class="hero-subtitle">best YouTube tool</div>
 
-    <footer class="site-footer">
-      <div class="site-footer-row">
-        <a href="/" class="footer-logo-link" aria-label="Home">
-          <img src="/Pito.png" alt="pito" class="footer-logo" />
-        </a>
-        <span class="text-muted"
-          >&copy; 2026<span class="hide-mobile"> &mdash; all rights reserved.</span
-          ></span
-        >
-        <span class="text-muted footer-version">v{version}</span>
-      </div>
-    </footer>
+      <dl class="hero-meta">
+        <dt>version</dt>
+        <dd>v{version}</dd>
+        <dt>revision</dt>
+        <dd>
+          {commitUrl && sha ? (
+            <a
+              href={commitUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bracketed-link"
+            >[<span>{sha}</span>]</a>
+          ) : (
+            <span class="em-dash">&mdash;</span>
+          )}
+        </dd>
+      </dl>
 
-    {/*
-      Theme toggle — pressing `n` (or clicking the `n` keycap) flips
-      between light and dark, persists to `localStorage("pito-theme")`.
-      Mirrors the Rails app's `theme_controller.js` + `keyboard_controller.js`
-      `n` shortcut, but as ~20 lines of vanilla JS instead of two
-      Stimulus controllers.
+      <p class="hero-copyright">&copy; {year} &mdash; all rights reserved.</p>
 
-      No `n` keypress while the user is typing in an input (none on this
-      page yet, but the guard keeps the contract identical to the Rails
-      app and future-proofs the layout for a contact form).
-    */}
-    <script is:inline>
-      (function () {
-        function toggleTheme() {
-          var current =
-            document.documentElement.getAttribute("data-theme") === "dark"
-              ? "dark"
-              : "light";
-          var next = current === "dark" ? "light" : "dark";
-          document.documentElement.setAttribute("data-theme", next);
-          try {
-            localStorage.setItem("pito-theme", next);
-          } catch (_) {}
-        }
-
-        var btn = document.getElementById("theme-toggle");
-        if (btn) {
-          btn.addEventListener("click", function (e) {
-            e.preventDefault();
-            toggleTheme();
-          });
-        }
-
-        document.addEventListener("keydown", function (e) {
-          if (e.key !== "n") return;
-          if (e.metaKey || e.ctrlKey || e.altKey) return;
-          var t = e.target;
-          if (
-            t &&
-            (t.tagName === "INPUT" ||
-              t.tagName === "TEXTAREA" ||
-              t.isContentEditable)
-          )
-            return;
-          e.preventDefault();
-          toggleTheme();
-        });
-      })();
-    </script>
+      <slot />
+    </main>
   </body>
 </html>

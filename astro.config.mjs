@@ -25,6 +25,15 @@ export default defineConfig({
     host: "127.0.0.1",
     port: 3029,
   },
+  // Vite blocks requests whose Host header isn't in `allowedHosts`. Since
+  // Cloudflared proxies `local.pitomd.com` (and any future *.pitomd.com
+  // dev subdomain) to this dev server, the leading-dot wildcard lets all
+  // pitomd.com subdomains through during local development.
+  vite: {
+    server: {
+      allowedHosts: [".pitomd.com"],
+    },
+  },
   devToolbar: {
     enabled: false,
   },

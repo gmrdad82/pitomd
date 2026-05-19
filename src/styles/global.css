@@ -1,205 +1,160 @@
 /*
  * Pito apex marketing site — pitomd.com.
  *
- * Design tokens mirrored from the Rails app's
- * `app/assets/tailwind/application.css`. Two sites are independently
- * deployable; tokens are duplicated rather than imported. Keep this in
- * sync when the Rails app's design system shifts in a way that should
- * apply to the marketing surface too.
+ * Minimal hero surface for the early-launch teaser. Near-black background,
+ * centered card with the project mark + name + subtitle + version/revision
+ * K-V grid + copyright. No header, no footer, no theme toggle, no media
+ * queries for light theme. Dark is the only theme this surface ships in.
  *
- * Hard rule: red (`--color-danger` = #cc0000) is reserved for
- * destructive UI in the Rails app and is OFF-LIMITS for decorative
- * elements on the marketing site. Don't paint emphasis or accents red.
+ * Hard rule: red (`#cc0000`) is reserved for destructive UI in the Rails
+ * app and is OFF-LIMITS on the marketing site.
+ *
+ * Implementation note: values are inlined rather than referenced through
+ * CSS custom properties so there is zero chance of a UA-default or a
+ * `prefers-color-scheme: light` cascade flipping the surface back to a
+ * light background. The previous version used `:root { --bg: ... }` and
+ * `background: var(--bg)`; that worked, but a hard-coded value is less
+ * surface area for regressions.
  */
 
-/* Light theme tokens — subset of the Rails app's :root block. */
-:root {
-  --color-bg: #ffffff;
-  --color-bg-alt: #fafafa;
-  --color-text: #1a1a1a;
-  --color-text-bold: #1a1a1a;
-  --color-link: #0000cc;
-  --color-link-hover: #0000ff;
-  --color-muted: #555555;
-  --color-border: #dddddd;
-  --color-danger: #cc0000;
-  --color-keycap: #6f42c1;
-  --color-keycap-hover: #553098;
+* {
+  box-sizing: border-box;
 }
 
-/* Dark theme tokens — Dracula palette, mirrors the Rails app's
- * `[data-theme="dark"]` block. */
-[data-theme="dark"] {
-  --color-bg: #282a36;
-  --color-bg-alt: #21222c;
-  --color-text: #f8f8f2;
-  --color-text-bold: #f8f8f2;
-  --color-link: #bd93f9;
-  --color-link-hover: #d4b8ff;
-  --color-muted: #6272a4;
-  --color-border: #44475a;
-  --color-danger: #ff5555;
-  --color-keycap: #bd93f9;
-  --color-keycap-hover: #d4b8ff;
-}
-
-/* Base typography — monospace stack, 13px, 1.4 line-height. */
 html,
 body {
   margin: 0;
   padding: 0;
-}
-
-body {
+  background: #0f0f10;
+  color: #f8f8f2;
   font-family:
     ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
   font-size: 13px;
   line-height: 1.4;
-  color: var(--color-text);
-  background: var(--color-bg);
 }
 
-/* Headings — compact, mirror Rails app spacing. */
-h1 {
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hero card — About-modal chrome (2026-05-19).
+ *
+ * Previously chromeless so the card floated on the near-black page bg.
+ * User feedback (2026-05-19): give it the same visible-card feel as the
+ * Rails app's `AboutModalComponent` — a lighter surface sitting on a
+ * dim backdrop, with a 1px border and 2px corners.
+ *
+ * Values are pinned to the Rails app's dark-theme tokens so the apex
+ * card reads as a sibling of the in-app About modal:
+ *   - background  #282a36  → `--color-bg` in
+ *                            `app/assets/tailwind/application.css`
+ *                            (`[data-theme="dark"]` block, line ~183).
+ *                            Same surface `dialog.confirm-modal` uses.
+ *   - border      #44475a  → `--color-border` in the same block (~226).
+ *                            Same hairline the confirm modal uses.
+ *   - radius      2px      → project-wide rule (`docs/design.md`).
+ *   - padding     24px 32px → hero rhythm: the About modal uses
+ *                            12px/16px on a compact dialog; the apex
+ *                            card is a hero surface (logo + name +
+ *                            subtitle + K-V + copyright), so we keep
+ *                            the previous 32px outer padding feel but
+ *                            tighten the vertical to 24px so the card
+ *                            doesn't look stretched against the new
+ *                            border.
+ *   - max-width   420px    → matches `dialog.confirm-modal` cap
+ *                            (line ~2142). Tightened from 480px so the
+ *                            card reads as the same modal silhouette.
+ *
+ * Page bg (`#0f0f10` on html/body above) stays darker than the card so
+ * the card visually pops as a contained surface — same relationship as
+ * the in-app modal sitting on top of the page beneath it. */
+.hero-card {
+  background: #282a36;
+  border: 1px solid #44475a;
+  border-radius: 2px;
+  text-align: center;
+  padding: 24px 32px;
+  max-width: 420px;
+}
+
+/* Hero logo — 96px display size sourced from `/favicon-128x128.png` for
+ * ~1.3x retina density. `border-radius: 2px` matches the Rails app's
+ * About modal logo (square-asset radius). `margin: 0 auto` keeps the
+ * logo centered even if a parent ever changes from text-align centering. */
+.hero-logo {
+  width: 96px;
+  height: 96px;
+  border-radius: 2px;
+  display: block;
+  margin: 0 auto 12px;
+}
+
+/* Project name — bold, slightly larger than body text for hero weight. */
+.hero-name {
+  font-weight: 700;
   font-size: 18px;
-  font-weight: bold;
-  color: var(--color-text-bold);
-  margin: 0 0 1px 0;
-}
-h2 {
-  font-size: 14px;
-  font-weight: bold;
-  color: var(--color-text-bold);
-  margin-top: 2px;
-  margin-bottom: 1px;
+  margin: 0;
 }
 
-p {
-  margin: 0 0 8px 0;
+/* Subtitle — muted, matches the About modal's `.text-muted` treatment. */
+.hero-subtitle {
+  color: #8a8a93;
+  margin: 4px 0 16px;
 }
 
-/* Links — blue, no underline, bold. Same as Rails app. */
-a {
-  color: var(--color-link);
+/* Version + revision K-V grid — mirrors the About modal layout.
+ * `display: inline-grid` lets the grid shrink to its content width so
+ * `margin: 0 auto` actually centers it within the text-aligned card.
+ * `auto auto` keeps label and value columns shrink-to-fit. Labels are
+ * right-aligned, values left-aligned — column alignment meets in the
+ * middle gutter for a clean K-V appearance. */
+.hero-meta {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  column-gap: 8px;
+  row-gap: 4px;
+  margin: 0 auto 16px;
+  text-align: left;
+}
+
+.hero-meta dt {
+  color: #8a8a93;
+  text-align: right;
+  margin: 0;
+}
+
+.hero-meta dd {
+  margin: 0;
+  text-align: left;
+}
+
+/* Copyright line — same muted treatment as the subtitle. */
+.hero-copyright {
+  color: #8a8a93;
+  margin: 0;
+}
+
+/* Bracketed link — mirrors the Rails app's `[label]` convention.
+ * Bold, colored link, no underline. The brackets are literal text in
+ * the template, not pseudo-elements, so they copy cleanly. */
+.bracketed-link {
+  color: #bd93f9;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
 }
-a:visited {
-  color: var(--color-link);
-}
-a:hover {
-  color: var(--color-link-hover);
+
+.bracketed-link:visited {
+  color: #bd93f9;
 }
 
-/* Header logo — same height/positioning as the Rails app. */
-.header-logo {
-  height: 14px;
-  width: auto;
-  display: block;
-  position: relative;
-  top: -1px;
+.bracketed-link:hover {
+  color: #d4b8ff;
 }
 
-/* Header — fixed top bar, mirrors the Rails app's `<header>` inline
- * styles in `app/views/layouts/application.html.erb`. */
-.site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 32px;
-  background: var(--color-bg);
-  border-bottom: 1px solid var(--color-border);
-  padding: 0 12px;
-  z-index: 100;
-}
-.site-header-row {
-  display: flex;
-  align-items: center;
-  height: 32px;
-  gap: 6px;
-}
-.site-header-row .logo-link {
-  display: flex;
-  align-items: center;
-  line-height: 0;
-}
-
-/* Keycap — keyboard shortcut indicator. Letter only, purple, no parens.
- * Mirrors `.keycap` in the Rails app. */
-.keycap {
-  font-weight: bold;
-  text-decoration: none;
-  cursor: pointer;
-  color: var(--color-keycap);
-  margin-left: auto;
-}
-.keycap:hover {
-  color: var(--color-keycap-hover);
-}
-
-/* Header-clearance wrapper — same composition as the Rails app: this
- * div carries the 32px top padding to clear the fixed header; the
- * <main> inside carries an extra 16px for breathing room. */
-.header-clearance {
-  padding-top: 32px;
-}
-
-main {
-  padding: 16px 12px 8px 12px;
-}
-
-/* Hairline rule used by the under-construction layout. */
-.hairline {
-  border: none;
-  border-top: 1px solid var(--color-border);
-  margin: 12px 0;
-}
-
-/* Muted text — same token as Rails app. */
-.text-muted {
-  color: var(--color-muted);
-  font-weight: 400;
-}
-
-/* Footer — mirrors the Rails app's footer aesthetic. */
-.site-footer {
-  border-top: 1px solid var(--color-border);
-  padding: 8px 12px;
-  margin-top: 24px;
-}
-.site-footer-row {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  flex-wrap: wrap;
-}
-.footer-logo {
-  height: 10px;
-  width: auto;
-  display: block;
-  position: relative;
-  top: -1px;
-}
-.footer-logo-link {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  text-decoration: none;
-  color: inherit;
-}
-.footer-version {
-  margin-left: auto;
-}
-
-/* Hide-mobile utility — same convention as Rails app. */
-@media (max-width: 768px) {
-  .hide-mobile {
-    display: none !important;
-  }
-  main {
-    padding: 6px 8px;
-  }
+.em-dash {
+  color: #8a8a93;
 }
