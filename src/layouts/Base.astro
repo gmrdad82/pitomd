@@ -94,6 +94,13 @@ const year = new Date().getFullYear();
       <div class="hero-name">pito</div>
       <div class="hero-subtitle">best YouTube tool</div>
 
+      {/*
+        Astro hero K-V: version + revision ONLY.
+        DO NOT add an env row (Rails.env is meaningless on a static deploy).
+        Accent color is fixed to Dracula Purple (#bd93f9) — no section variants
+        because Astro is a single-page surface. See pito Rails app for the
+        section-variant theme system (channels=red, games=blue, settings=orange).
+      */}
       <dl class="hero-meta">
         <dt>version</dt>
         <dd>v{version}</dd>

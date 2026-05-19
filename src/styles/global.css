@@ -139,7 +139,11 @@ body {
 
 /* Bracketed link — mirrors the Rails app's `[label]` convention.
  * Bold, colored link, no underline. The brackets are literal text in
- * the template, not pseudo-elements, so they copy cleanly. */
+ * the template, not pseudo-elements, so they copy cleanly.
+ *
+ * Astro accent — Dracula Purple, invariant.
+ * No section variants (single-page surface). See pito Rails app
+ * for the section-variant theme system. */
 .bracketed-link {
   color: #bd93f9;
   text-decoration: none;
