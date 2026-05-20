@@ -2,7 +2,7 @@
  * Pito apex marketing site — pitomd.com.
  *
  * Minimal hero surface for the early-launch teaser. Dracula bg (`#282a36`),
- * centered card with the project mark + name + subtitle + version/revision
+ * centered card with the project mark + name + subtitle + version
  * K-V grid + copyright. No header, no footer, no theme toggle, no media
  * queries for light theme. Dark is the only theme this surface ships in.
  *
@@ -173,7 +173,7 @@ body {
   margin: 4px 0 16px;
 }
 
-/* Version + revision K-V grid — mirrors the About modal layout.
+/* Version K-V grid — mirrors the About modal layout.
  * `display: inline-grid` lets the grid shrink to its content width so
  * `margin: 0 auto` actually centers it within the text-aligned card.
  * `auto auto` keeps label and value columns shrink-to-fit. Labels are

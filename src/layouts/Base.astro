@@ -14,7 +14,6 @@
 
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { execFileSync } from "node:child_process";
 
 import "../styles/global.css";
 
@@ -39,21 +38,6 @@ try {
   // Keep the "unknown" fallback.
 }
 
-// Capture the current short SHA at build time so the rendered card always
-// reflects the deployed revision. Mirrors `ApplicationHelper#git_sha`.
-// `execFileSync` (no shell) keeps this safe — the arguments are static
-// literals. If git is unavailable (tarball deploy, etc.) the SHA falls
-// back to null and the template renders an em-dash.
-let sha: string | null = null;
-try {
-  sha = execFileSync("git", ["rev-parse", "--short", "HEAD"], {
-    encoding: "utf-8",
-  }).trim();
-} catch (_) {
-  sha = null;
-}
-
-const commitUrl = sha ? `https://github.com/gmrdad82/pito/commit/${sha}` : null;
 const year = new Date().getFullYear();
 ---
 
@@ -95,7 +79,7 @@ const year = new Date().getFullYear();
       <div class="hero-subtitle">best YouTube tool</div>
 
       {/*
-        Astro hero K-V: version + revision ONLY.
+        Astro hero K-V: version ONLY.
         DO NOT add an env row (Rails.env is meaningless on a static deploy).
         Accent color is fixed to Dracula Purple (#bd93f9) — no section variants
         because Astro is a single-page surface. See pito Rails app for the
@@ -104,19 +88,6 @@ const year = new Date().getFullYear();
       <dl class="hero-meta">
         <dt>version</dt>
         <dd>v{version}</dd>
-        <dt>revision</dt>
-        <dd>
-          {commitUrl && sha ? (
-            <a
-              href={commitUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="bracketed-link"
-            >[<span>{sha}</span>]</a>
-          ) : (
-            <span class="em-dash">&mdash;</span>
-          )}
-        </dd>
       </dl>
 
       <p class="hero-copyright">&copy; {year} &mdash; all rights reserved.</p>
