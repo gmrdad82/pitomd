@@ -62,7 +62,7 @@ body {
   color: var(--dracula-fg);
   font-family: ui-monospace, Menlo, "Cascadia Code", "Source Code Pro", Consolas, monospace;
   font-size: 13px;
-  line-height: 1.4;
+  line-height: 1;
 }
 
 body {
@@ -163,6 +163,18 @@ body {
 .hero-meta dd {
   margin: 0;
   text-align: left;
+}
+
+/* Contact line — same muted treatment as the copyright.
+ * Sits between the version K-V grid and the copyright, providing the
+ * visual rhythm (empty row) between version → contact → copyright that
+ * mirrors the existing subtitle → version spacing. The `.hero-meta`
+ * block above already supplies its own bottom margin (16px), so the
+ * contact line only needs a matching bottom margin to keep the same
+ * gap before the copyright. */
+.hero-contact {
+  color: #8a8a93;
+  margin: 0 0 16px;
 }
 
 /* Copyright line — same muted treatment as the subtitle. */
