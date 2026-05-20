@@ -19,38 +19,6 @@
  * regression-safety holds while gaining cross-app token parity.
  */
 
-@font-face {
-  font-family: "BitstromWera Nerd Font Mono";
-  src: url("/fonts/BitstromWeraNerdFontMono-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "BitstromWera Nerd Font Mono";
-  src: url("/fonts/BitstromWeraNerdFontMono-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "BitstromWera Nerd Font Mono";
-  src: url("/fonts/BitstromWeraNerdFontMono-Oblique.ttf") format("truetype");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "BitstromWera Nerd Font Mono";
-  src: url("/fonts/BitstromWeraNerdFontMono-BoldOblique.ttf") format("truetype");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
 :root {
   /* ============================================================
      L1 — Raw palette (atoms, immutable, 12 tokens)
@@ -92,9 +60,7 @@ body {
   padding: 0;
   background: var(--color-bg);
   color: var(--dracula-fg);
-  font-family:
-    "BitstromWera Nerd Font Mono",
-    ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+  font-family: ui-monospace, Menlo, "Cascadia Code", "Source Code Pro", Consolas, monospace;
   font-size: 13px;
   line-height: 1.4;
 }
