@@ -126,10 +126,13 @@ body {
   margin: 0 auto 12px;
 }
 
-/* Project name — bold, slightly larger than body text for hero weight. */
+/* Project name — bold screen title at the locked single 13px font size
+ * (ADR 0016 single-font-size lock, propagated 2026-05-21). Bold is earned
+ * for the screen identifier per the TST rules; size matches body text. */
 .hero-name {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 13px;
+  line-height: 1;
   margin: 0;
 }
 
