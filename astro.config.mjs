@@ -17,10 +17,9 @@ export default defineConfig({
     // while Cloudflare Pages still gets a normal Astro `dist/` tree.
     inlineStylesheets: "auto",
   },
-  // Pito convention: dev servers live in the 3027-3029 range alongside the
-  // Rails web (3027) and MCP (3028) Pumas. Cloudflared routes
-  // `local.pitomd.com` to this port so hot-reload works without leaking
-  // a localhost port number into the URL.
+  // Pito convention: dev servers live in the 3027-3029 range.
+  // Cloudflared routes `local.pitomd.com` to this port so hot-reload
+  // works without leaking a localhost port number into the URL.
   server: {
     host: "127.0.0.1",
     port: 3029,
