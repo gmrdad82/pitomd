@@ -1,0 +1,76 @@
+name: Bug report
+description: Report a bug on the pitomd.com landing site
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. This repo is just the **landing site** — bugs
+        in the Pito app itself belong in https://github.com/gmrdad82/pito.
+
+        One person's side project, open-sourced as-is. No SLA.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area?
+      options:
+        - "Page content / copy"
+        - "Styling / layout / responsiveness"
+        - "Favicon / meta / SEO / OpenGraph"
+        - "Build (Astro) / dev server"
+        - "Deploy (Cloudflare Pages) / CI"
+        - "Docs (README, AGENTS, EXTRA)"
+        - "Other / unsure"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the bug + what you expected to happen.
+      placeholder: |
+        I expected ... but ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Shortest deterministic path to the bug.
+      placeholder: |
+        1. Visit https://pitomd.com
+        2. ...
+        3. See ...
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Browser + OS
+      placeholder: e.g. Firefox 124 on Arch Linux, Safari on iOS 17
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console errors / screenshots
+      description: Paste browser console output or attach a screenshot.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: ack
+    attributes:
+      label: Acknowledgment
+      options:
+        - label: This is about the landing site, not the Pito app.
+          required: true
+        - label: I've searched existing issues to avoid duplicates.
+          required: true

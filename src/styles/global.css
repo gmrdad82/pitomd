@@ -1,53 +1,22 @@
 /*
- * Pito apex marketing site — pitomd.com.
+ * pitomd.com — minimal landing surface.
  *
- * Minimal hero surface for the early-launch teaser. Dracula bg (`#282a36`),
- * centered card with the project mark + name + subtitle + version
- * K-V grid + copyright. No header, no footer, no theme toggle, no media
- * queries for light theme. Dark is the only theme this surface ships in.
- *
- * Hard rule: red (`#cc0000`) is reserved for destructive UI in the Rails
- * app and is OFF-LIMITS on the marketing site.
- *
- * Token strategy: the L1 raw palette (12 atoms) is declared in `:root`
- * below and mirrors the Rails app's atomic palette (see ADR 0015 in the
- * main repo). Because this surface ships dark-only with no media-query
- * fallback, the atoms are stable regardless of `prefers-color-scheme`.
- * The previous implementation inlined hex values out of caution about a
- * light-cascade flip; with the L1 atoms living only in `:root` (no
- * `@media (prefers-color-scheme: light)` block anywhere), the same
- * regression-safety holds while gaining cross-app token parity.
+ * Dark-only. Tokyo Night palette, mirroring the essential tokens the Pito
+ * app's start screen uses (bg-root, brand-pito, fg-dim/faded, accents) — just
+ * the atoms this page needs, not the app's full token system.
  */
 
 :root {
-  /* ============================================================
-     L1 — Raw palette (atoms, immutable, 12 tokens)
-     Shared with the Rails app. See ADR 0015 in the main repo.
-     Astro landing uses Home Purple #bd93f9 as sole section accent.
-     ============================================================ */
-  --dracula-bg:           #282a36;
-  --dracula-current-line: #44475a;
-  --dracula-fg:           #f8f8f2;
-  --dracula-comment:      #6272a4;
-  --dracula-cyan:         #8be9fd;
-  --dracula-green:        #50fa7b;
-  --dracula-orange:       #ffb86c;
-  --dracula-pink:         #ff79c6;
-  --dracula-purple:       #bd93f9;
-  --dracula-red:          #ff5555;
-  --dracula-yellow:       #f1fa8c;
-  --pale-cobalt:          #7eb6ff;
-
-  /* Astro section accent: Home Purple (single-page landing) */
-  --section-accent: var(--dracula-purple);
-
-  /* Common semantic tokens */
-  --color-bg:           var(--dracula-bg);
-  --color-text:         var(--dracula-fg);
-  --color-muted:        var(--dracula-comment);
-  --color-border:       var(--dracula-current-line);
-  --color-link:         var(--section-accent);
-  --color-link-hover:   color-mix(in srgb, var(--section-accent) 80%, white);
+  --bg-root: #1a1b26;
+  --bg-surface: #1f2335;
+  --fg-default: #c0caf5;
+  --fg-dim: #565f89;
+  --fg-faded: #414868;
+  --brand-pito: #5170ff;
+  --accent-orange: #ff9e64;
+  --accent-purple: #bb9af7;
+  --accent-yellow: #e0af68;
+  color-scheme: dark;
 }
 
 * {
@@ -58,156 +27,118 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: var(--color-bg);
-  color: var(--dracula-fg);
-  font-family: ui-monospace, Menlo, "Cascadia Code", "Source Code Pro", Consolas, monospace;
-  font-size: 13px;
-  line-height: 1;
+  background: var(--bg-root);
+  color: var(--fg-default);
+  font-family:
+    ui-monospace, Menlo, "Cascadia Code", "Source Code Pro", Consolas, monospace;
+  font-size: 16px;
+  line-height: 1.4;
 }
 
-body {
+.page {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ASCII PITO logo — brand blocks + dim box-drawing shadow. */
+.logo {
+  /* App /start uses a fixed 18px; clamp only shrinks it on very narrow
+     viewports so the box-drawing rows never overflow. */
+  font-size: clamp(13px, 4.2vw, 18px);
+  line-height: 1;
+  margin: 0;
+  white-space: pre;
+  font-family: inherit;
+}
+.logo .blk {
+  color: var(--brand-pito);
+}
+.logo .sh {
+  color: var(--fg-dim);
+}
+
+.gap {
+  height: 32px;
+}
+
+/* Search box — DESIGN ONLY, no functionality. Static replica of the app's
+ * chatbox: 4px purple bar + 6px gap + surface-filled content with a ghost
+ * cursor and the placeholder copy. */
+.searchbox {
+  width: 100%;
+  max-width: 600px;
+  padding: 0 16px;
+  display: flex;
+}
+.searchbox .bar {
+  width: 4px;
+  background: var(--accent-purple);
+  flex-shrink: 0;
+}
+.searchbox .innergap {
+  width: 6px;
+  flex-shrink: 0;
+}
+.searchbox .content {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-surface);
+  padding: 10px 16px 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.searchbox .cursor {
+  border: 1px solid var(--fg-dim);
+  color: var(--fg-dim);
+  padding: 0 3px;
+  border-radius: 1px;
+}
+.searchbox .placeholder {
+  color: var(--fg-faded);
+}
+
+/* Tip — orange bullet + yellow label + faded copy. */
+.tip-wrap {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* Hero card — About-modal chrome (2026-05-19).
- *
- * Previously chromeless so the card floated on the near-black page bg.
- * User feedback (2026-05-19): give it the same visible-card feel as the
- * Rails app's `AboutModalComponent` — a lighter surface sitting on a
- * dim backdrop, with a 1px border and 2px corners.
- *
- * Values are pinned to the Rails app's dark-theme tokens so the apex
- * card reads as a sibling of the in-app About modal:
- *   - background  #282a36  → `--color-bg` in
- *                            `app/assets/tailwind/application.css`
- *                            (`[data-theme="dark"]` block, line ~183).
- *                            Same surface `dialog.confirm-modal` uses.
- *   - border      #44475a  → `--color-border` in the same block (~226).
- *                            Same hairline the confirm modal uses.
- *   - radius      2px      → project-wide rule (`docs/design.md`).
- *   - padding     24px 32px → hero rhythm: the About modal uses
- *                            12px/16px on a compact dialog; the apex
- *                            card is a hero surface (logo + name +
- *                            subtitle + K-V + copyright), so we keep
- *                            the previous 32px outer padding feel but
- *                            tighten the vertical to 24px so the card
- *                            doesn't look stretched against the new
- *                            border.
- *   - max-width   420px    → matches `dialog.confirm-modal` cap
- *                            (line ~2142). Tightened from 480px so the
- *                            card reads as the same modal silhouette.
- *
- * Page bg (`var(--color-bg)` = `#282a36` on html/body above) now matches
- * the card surface (Dracula bg L1 token, 2026-05-20 alignment). The 1px
- * `--color-border` hairline keeps the card readable against the flush
- * surface — same treatment as the in-app About modal when its backdrop
- * is dimmed to the same surface tone. */
-.hero-card {
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 2px;
+  padding: 16px;
   text-align: center;
-  padding: 24px 32px;
-  max-width: 420px;
 }
-
-/* Hero logo — 96px display size sourced from `/favicon-128x128.png` for
- * ~1.3x retina density. `border-radius: 2px` matches the Rails app's
- * About modal logo (square-asset radius). `margin: 0 auto` keeps the
- * logo centered even if a parent ever changes from text-align centering. */
-.hero-logo {
-  width: 96px;
-  height: 96px;
-  border-radius: 2px;
-  display: block;
-  margin: 0 auto 12px;
+.tip {
+  color: var(--fg-faded);
 }
-
-/* Project name — bold screen title at the locked single 13px font size
- * (ADR 0016 single-font-size lock, propagated 2026-05-21). Bold is earned
- * for the screen identifier per the TST rules; size matches body text. */
-.hero-name {
+.tip .bullet {
+  color: var(--accent-orange);
+}
+.tip .label {
+  color: var(--accent-yellow);
   font-weight: 700;
-  font-size: 13px;
-  line-height: 1;
-  margin: 0;
 }
 
-/* Subtitle — muted, matches the About modal's `.text-muted` treatment. */
-.hero-subtitle {
-  color: #8a8a93;
-  margin: 4px 0 16px;
+/* Footer — GitHub source (left) / license (right). No version. */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 50px) 32px;
 }
-
-/* Version K-V grid — mirrors the About modal layout.
- * `display: inline-grid` lets the grid shrink to its content width so
- * `margin: 0 auto` actually centers it within the text-aligned card.
- * `auto auto` keeps label and value columns shrink-to-fit. Labels are
- * right-aligned, values left-aligned — column alignment meets in the
- * middle gutter for a clean K-V appearance. */
-.hero-meta {
-  display: inline-grid;
-  grid-template-columns: auto auto;
-  column-gap: 8px;
-  row-gap: 4px;
-  margin: 0 auto 16px;
-  text-align: left;
-}
-
-.hero-meta dt {
-  color: #8a8a93;
-  text-align: right;
-  margin: 0;
-}
-
-.hero-meta dd {
-  margin: 0;
-  text-align: left;
-}
-
-/* Contact line — same muted treatment as the copyright.
- * Sits between the version K-V grid and the copyright, providing the
- * visual rhythm (empty row) between version → contact → copyright that
- * mirrors the existing subtitle → version spacing. The `.hero-meta`
- * block above already supplies its own bottom margin (16px), so the
- * contact line only needs a matching bottom margin to keep the same
- * gap before the copyright. */
-.hero-contact {
-  color: #8a8a93;
-  margin: 0 0 16px;
-}
-
-/* Copyright line — same muted treatment as the subtitle. */
-.hero-copyright {
-  color: #8a8a93;
-  margin: 0;
-}
-
-/* Bracketed link — mirrors the Rails app's `[label]` convention.
- * Bold, colored link, no underline. The brackets are literal text in
- * the template, not pseudo-elements, so they copy cleanly.
- *
- * Astro accent — Dracula Purple, invariant.
- * No section variants (single-page surface). See pito Rails app
- * for the section-variant theme system. */
-.bracketed-link {
-  color: var(--color-link);
+.footer a {
+  color: var(--fg-dim);
   text-decoration: none;
-  font-weight: 700;
-  cursor: pointer;
 }
-
-.bracketed-link:visited {
-  color: var(--color-link);
-}
-
-.bracketed-link:hover {
-  color: var(--color-link-hover);
-}
-
-.em-dash {
-  color: #8a8a93;
+.footer a:hover {
+  text-decoration: underline;
 }

@@ -1,15 +1,14 @@
 # AGENTS.md
 
-Agent guidance for **pitomd** — the Astro marketing/landing site for
+Agent guidance for **pitomd** — the Astro landing site for
 [Pito](https://github.com/gmrdad82/pito), served at pitomd.com and deployed to
-Cloudflare Pages. Project-specific conventions live in
-[`docs/EXTRA.md`](docs/EXTRA.md); this file defers to it on any conflict.
+Cloudflare Pages. Project-specific notes live in [`docs/EXTRA.md`](docs/EXTRA.md).
 
 ## What this is
 
-A static Astro site. **No SSR, no server runtime, zero client JavaScript by
-default.** Output is a plain `dist/` tree published to Cloudflare Pages. Keep it
-that way — reach for a framework island only when there is no static option.
+A static Astro site. **No SSR, no server runtime, dark-only, no client
+JavaScript.** Output is a plain `dist/` tree published to Cloudflare Pages. Keep
+it that way — reach for an island only when there's truly no static option.
 
 ## Commands
 
@@ -17,9 +16,9 @@ Node 22 (pinned in `.mise.toml`).
 
 ```bash
 npm install
-npm run dev      # local dev server → http://localhost:4321
-npm run build    # static build → dist/
-npm run preview  # serve the built dist/ locally
+npm run dev      # http://localhost:4321
+npm run build    # → dist/
+npm run preview  # serve the built dist/
 npx astro check  # type + template check (run before pushing)
 ```
 
@@ -28,38 +27,30 @@ npx astro check  # type + template check (run before pushing)
 ```
 astro.config.mjs       static output; site = https://pitomd.com
 src/
-  layouts/Base.astro   shared shell (header, footer, theme script)
-  pages/               one .astro file per route
-  styles/global.css    design tokens (:root + [data-theme="dark"])
-public/                static assets copied verbatim (logo, favicon, robots.txt)
-docs/                  project docs (plan, log, EXTRA conventions)
+  layouts/Base.astro   <head> (favicons + meta) + <body> slot
+  pages/index.astro    the landing page
+  styles/global.css    minimal Tokyo Night tokens + layout
+public/                static assets copied verbatim (favicons, robots.txt)
 ```
 
 ## Conventions
 
-- **Static-first.** Prefer plain HTML/CSS. Inline small styles (the config sets
-  `inlineStylesheets: "auto"`). Don't add JS frameworks for presentational work.
-- **Theme parity with the Pito app.** Tokens in `src/styles/global.css` mirror
-  the Rails app's Tailwind theme; the pre-paint resolver reads
-  `localStorage("pito-theme")` then `prefers-color-scheme` (no flash). When the
-  app's design system shifts in a way that should reach the marketing surface,
-  update the tokens here to match.
-- **`site` is the canonical origin.** `https://pitomd.com` drives absolute URLs,
-  `og:` tags, and the sitemap — derive from `Astro.site`, don't hardcode the
-  domain in templates.
-- **Accessibility + performance** are the bar for a marketing page: semantic
-  HTML, real `alt` text, no layout shift, no render-blocking JS.
+- **Static-first.** Plain HTML/CSS. Inline small styles (config sets
+  `inlineStylesheets: "auto"`). No JS frameworks for presentational work.
+- **Dark-only.** No theme toggle, no system-preference detection.
+- **`site` is canonical.** `https://pitomd.com` drives absolute URLs / `og:` /
+  sitemap — derive from `Astro.site`, don't hardcode the domain in templates.
+- Marketing-page bar: semantic HTML, real `alt` text, no layout shift.
 
-## Git / CI
+## CI / deploy
 
-- Default branch is `main`. Open a PR for changes; CI must be green.
-- `.github/workflows/ci.yml` runs `npm audit` (high gate), `astro check`, a
-  build, and prettier on markdown for every push/PR.
-- `.github/workflows/deploy.yml` builds and publishes `dist/` to the
-  `pito-website` Cloudflare Pages project on push to `main` (and manual
-  dispatch). Needs repo secrets `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`.
-- Dependabot (`.github/dependabot.yml`) keeps npm + GitHub Actions current.
+- `.github/workflows/ci.yml` — `npm audit` (high gate), `astro check`, build,
+  prettier on markdown. Runs on every push / PR.
+- `.github/workflows/deploy.yml` — builds + publishes `dist/` to the
+  `pito-website` Cloudflare Pages project on push to `main` and manual dispatch.
+  Needs repo secrets `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`.
+- Dependabot keeps npm + GitHub Actions current.
 
 ## License
 
-AGPL-3.0 (see [`LICENSE`](LICENSE)), matching the Pito app.
+AGPL-3.0 (see [`LICENSE`](LICENSE)).

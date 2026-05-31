@@ -1,0 +1,53 @@
+name: Feature request
+description: Suggest a change to the pitomd.com landing site
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. This is the **landing site** repo — ideas for
+        the Pito app go to https://github.com/gmrdad82/pito.
+
+        Wishlist only, no commitment to ship. PRs welcome.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of suggestion?
+      options:
+        - "Content / copy"
+        - "Design / styling"
+        - "New page / section"
+        - "SEO / meta / performance"
+        - "Accessibility"
+        - "Build / tooling"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: What would you change or add, and why?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed approach
+      description: Optional — sketch how it might work.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: ack
+    attributes:
+      label: Acknowledgment
+      options:
+        - label: This is about the landing site, not the Pito app.
+          required: true
+        - label: I've searched existing issues to avoid duplicates.
+          required: true
