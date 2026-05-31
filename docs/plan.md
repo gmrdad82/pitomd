@@ -172,7 +172,8 @@ product identity): dark variables go in `:root`, light variables go in
 
 ```css
 :root {
-  --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+  --font-mono:
+    ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
   --font-size-base: 13px;
   --font-size-h1: 18px;
   --font-size-h2: 14px;

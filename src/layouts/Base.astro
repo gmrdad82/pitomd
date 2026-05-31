@@ -1,19 +1,8 @@
 ---
-// Base layout for the pito apex marketing site.
+// Base layout for pitomd.com — the Pito marketing/landing site.
 //
-// Minimal hero-card surface — no header, no footer, no nav, no theme toggle.
-// Renders a centered About-style card on a near-black background. Mirrors
-// the Rails app's `AboutModalComponent` HTML structure minus the dialog
-// chrome. Future Theta-phase pages may reintroduce chrome; this layout
-// stays bare for the early-launch teaser.
-//
-// Dark theme only. No system-preference detection, no toggle. The single
-// `<meta name="color-scheme" content="dark">` hint tells the UA which
-// scheme to use for form controls and scrollbars; the rest of the surface
-// is locked dark via `global.css`.
-
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+// Bare shell: <head> (favicons + meta) and a <body> slot. Dark-only; the
+// page content lives in src/pages/. No theme toggle, no scripts.
 
 import "../styles/global.css";
 
@@ -26,19 +15,6 @@ const {
   title = "pito ~ best YouTube tool",
   description = "best YouTube tool",
 } = Astro.props;
-
-// Read version from the project's root VERSION file at build time, mirroring
-// the Rails app's `application_helper#app_version`. Falls back to "unknown"
-// rather than crashing the build if unreadable.
-const versionPath = resolve(process.cwd(), "../../VERSION");
-let version = "unknown";
-try {
-  version = readFileSync(versionPath, "utf-8").trim();
-} catch (_) {
-  // Keep the "unknown" fallback.
-}
-
-const year = new Date().getFullYear();
 ---
 
 <!doctype html>
@@ -49,55 +25,38 @@ const year = new Date().getFullYear();
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="application-name" content="pito" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#282a36" />
+    <meta name="theme-color" content="#1a1b26" />
     <meta name="color-scheme" content="dark" />
 
-    {/*
-      Icon discovery — apex domain's favicon and OpenGraph hints. Mirrors
-      the Rails app's surface. Favicon PNG set + site.webmanifest +
-      browserconfig.xml generated from the apex Pito mark.
-    */}
+    {/* Favicons — the apex Pito mark, sourced from the app. */}
     <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon-32x32.png?v=2"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon-16x16.png?v=2"
+    />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="msapplication-TileColor" content="#282a36" />
+    <meta name="msapplication-TileColor" content="#1a1b26" />
     <meta name="msapplication-config" content="/browserconfig.xml" />
     <meta property="og:title" content="pito" />
     <meta property="og:description" content="best YouTube tool" />
-    <meta property="og:image" content="https://pitomd.com/favicon-256x256.png?v=2" />
+    <meta
+      property="og:image"
+      content="https://pitomd.com/favicon-256x256.png?v=2"
+    />
     <meta property="og:url" content="https://pitomd.com" />
     <meta property="og:type" content="website" />
   </head>
 
   <body>
-    <main class="hero-card">
-      <img src="/favicon-128x128.png?v=2" alt="pito" class="hero-logo" />
-
-      <div class="hero-name">pito</div>
-      <div class="hero-subtitle">best YouTube tool</div>
-
-      {/*
-        Astro hero K-V: version ONLY.
-        DO NOT add an env row (Rails.env is meaningless on a static deploy).
-        Accent color is fixed to Dracula Purple (#bd93f9) — no section variants
-        because Astro is a single-page surface. See pito Rails app for the
-        section-variant theme system (channels=red, games=blue, settings=orange).
-      */}
-      <dl class="hero-meta">
-        <dt>version</dt>
-        <dd>v{version}</dd>
-      </dl>
-
-      <p class="hero-contact">ping me at gmrdad82 [at] gmail [dot] com</p>
-
-      <p class="hero-copyright">
-        &copy; {year} &mdash; AGPL-3.0 &mdash;
-        <a href="https://github.com/gmrdad82/pito">source</a>
-      </p>
-
-      <slot />
-    </main>
+    <slot />
   </body>
 </html>
