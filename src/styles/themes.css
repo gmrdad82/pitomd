@@ -1,0 +1,396 @@
+/*
+ * Theme palettes — ported from pito (app/assets/tailwind/themes.css).
+ *
+ * One :root default (tokyo-night) + 19 [data-theme="…"] blocks. Each declares
+ * the SAME custom-property names with different hex, so putting data-theme on a
+ * <section> re-themes its whole subtree via the cascade — zero JS.
+ *
+ *   Backgrounds  --bg-root --bg-surface --bg-elevated
+ *   Borders      --border-default --border-faded
+ *   Foreground   --fg-default --fg-dim --fg-faded
+ *   Accents      --accent-purple --accent-blue --accent-cyan --accent-green
+ *                --accent-yellow --accent-orange --accent-red
+ *   Brand        --brand-pito  →  #5170ff, CONSTANT across every theme
+ *
+ * Adapted by reference, not imported. Keep hex in sync with pito if it changes.
+ */
+
+:root {
+  --bg-root: #1a1b26;
+  --bg-surface: #1f2335;
+  --bg-elevated: #24283b;
+  --border-default: #292e42;
+  --border-faded: #414868;
+  --fg-default: #c0caf5;
+  --fg-dim: #565f89;
+  --fg-faded: #414868;
+  --accent-purple: #bb9af7;
+  --accent-blue: #7aa2f7;
+  --accent-cyan: #7dcfff;
+  --accent-green: #9ece6a;
+  --accent-yellow: #e0af68;
+  --accent-orange: #ff9e64;
+  --accent-red: #f7768e;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="ayu-dark"] {
+  --bg-root: #0b0e14;
+  --bg-surface: #11151c;
+  --bg-elevated: #1c212b;
+  --border-default: #282a2e;
+  --border-faded: #3d3f41;
+  --fg-default: #bfbdb6;
+  --fg-dim: #777775;
+  --fg-faded: #535455;
+  --accent-purple: #d2a6ff;
+  --accent-blue: #59c2ff;
+  --accent-cyan: #95e6cb;
+  --accent-green: #aad94c;
+  --accent-yellow: #e6b450;
+  --accent-orange: #ff8f40;
+  --accent-red: #f07178;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="ayu-light"] {
+  --bg-root: #fcfcfc;
+  --bg-surface: #f3f4f5;
+  --bg-elevated: #e7eaed;
+  --border-default: #e2e3e4;
+  --border-faded: #cfd1d2;
+  --fg-default: #5c6166;
+  --fg-dim: #9c9fa2;
+  --fg-faded: #bcbec0;
+  --accent-purple: #a37acc;
+  --accent-blue: #399ee6;
+  --accent-cyan: #4cbf99;
+  --accent-green: #86b300;
+  --accent-yellow: #f2ae49;
+  --accent-orange: #fa8d3e;
+  --accent-red: #f07171;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="ayu-mirage"] {
+  --bg-root: #1f2430;
+  --bg-surface: #232834;
+  --bg-elevated: #2b3340;
+  --border-default: #3f434b;
+  --border-faded: #57595e;
+  --fg-default: #e6e3d6;
+  --fg-dim: #969794;
+  --fg-faded: #6f7072;
+  --accent-purple: #d4bfff;
+  --accent-blue: #73d0ff;
+  --accent-cyan: #95e6cb;
+  --accent-green: #bae67e;
+  --accent-yellow: #ffd580;
+  --accent-orange: #ffad66;
+  --accent-red: #f28779;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="catppuccin-latte"] {
+  --bg-root: #eff1f5;
+  --bg-surface: #ccd0da;
+  --bg-elevated: #bcc0cc;
+  --border-default: #d5d7df;
+  --border-faded: #c1c4ce;
+  --fg-default: #4c4f69;
+  --fg-dim: #5c5f77;
+  --fg-faded: #7c7f93;
+  --accent-purple: #8839ef;
+  --accent-blue: #1e66f5;
+  --accent-cyan: #179299;
+  --accent-green: #40a02b;
+  --accent-yellow: #df8e1d;
+  --accent-orange: #fe640b;
+  --accent-red: #d20f39;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="catppuccin-mocha"] {
+  --bg-root: #1e1e2e;
+  --bg-surface: #313244;
+  --bg-elevated: #45475a;
+  --border-default: #3a3b4e;
+  --border-faded: #4f5265;
+  --fg-default: #cdd6f4;
+  --fg-dim: #878ca5;
+  --fg-faded: #64687d;
+  --accent-purple: #cba6f7;
+  --accent-blue: #89b4fa;
+  --accent-cyan: #94e2d5;
+  --accent-green: #a6e3a1;
+  --accent-yellow: #f9e2af;
+  --accent-orange: #fab387;
+  --accent-red: #f38ba8;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="dracula"] {
+  --bg-root: #282a36;
+  --bg-surface: #343641;
+  --bg-elevated: #44475a;
+  --border-default: #44475a;
+  --border-faded: #6272a4;
+  --fg-default: #f8f8f2;
+  --fg-dim: #6272a4;
+  --fg-faded: #7b7c81;
+  --accent-purple: #bd93f9;
+  --accent-blue: #6272a4;
+  --accent-cyan: #8be9fd;
+  --accent-green: #50fa7b;
+  --accent-yellow: #f1fa8c;
+  --accent-orange: #ffb86c;
+  --accent-red: #ff5555;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="github-dark"] {
+  --bg-root: #0d1117;
+  --bg-surface: #161b22;
+  --bg-elevated: #21262d;
+  --border-default: #2b3036;
+  --border-faded: #42474d;
+  --fg-default: #c9d1d9;
+  --fg-dim: #7e848b;
+  --fg-faded: #585e65;
+  --accent-purple: #bc8cff;
+  --accent-blue: #58a6ff;
+  --accent-cyan: #39c5cf;
+  --accent-green: #3fb950;
+  --accent-yellow: #d29922;
+  --accent-orange: #f0883e;
+  --accent-red: #ff7b72;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="github-light"] {
+  --bg-root: #ffffff;
+  --bg-surface: #f6f8fa;
+  --bg-elevated: #eaeef2;
+  --border-default: #dcddde;
+  --border-faded: #c2c3c5;
+  --fg-default: #24292f;
+  --fg-dim: #7c7f82;
+  --fg-faded: #a7a9ac;
+  --accent-purple: #8250df;
+  --accent-blue: #0969da;
+  --accent-cyan: #1b7c83;
+  --accent-green: #1a7f37;
+  --accent-yellow: #9a6700;
+  --accent-orange: #bc4c00;
+  --accent-red: #cf222e;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="gruvbox-dark"] {
+  --bg-root: #282828;
+  --bg-surface: #3c3836;
+  --bg-elevated: #504945;
+  --border-default: #47453e;
+  --border-faded: #5f5a4f;
+  --fg-default: #ebdbb2;
+  --fg-dim: #9d937b;
+  --fg-faded: #76705f;
+  --accent-purple: #d3869b;
+  --accent-blue: #83a598;
+  --accent-cyan: #8ec07c;
+  --accent-green: #b8bb26;
+  --accent-yellow: #fabd2f;
+  --accent-orange: #fe8019;
+  --accent-red: #fb4934;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="gruvbox-light"] {
+  --bg-root: #fbf1c7;
+  --bg-surface: #ebdbb2;
+  --bg-elevated: #d5c4a1;
+  --border-default: #dcd3b0;
+  --border-faded: #c6bd9e;
+  --fg-default: #3c3836;
+  --fg-dim: #888270;
+  --fg-faded: #afa78d;
+  --accent-purple: #b16286;
+  --accent-blue: #458588;
+  --accent-cyan: #689d6a;
+  --accent-green: #98971a;
+  --accent-yellow: #d79921;
+  --accent-orange: #d65d0e;
+  --accent-red: #cc241d;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="nord"] {
+  --bg-root: #2e3440;
+  --bg-surface: #3b4252;
+  --bg-elevated: #434c5e;
+  --border-default: #494f5b;
+  --border-faded: #5e646f;
+  --fg-default: #d8dee9;
+  --fg-dim: #949aa5;
+  --fg-faded: #727884;
+  --accent-purple: #b48ead;
+  --accent-blue: #81a1c1;
+  --accent-cyan: #88c0d0;
+  --accent-green: #a3be8c;
+  --accent-yellow: #ebcb8b;
+  --accent-orange: #d08770;
+  --accent-red: #bf616a;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="one-dark"] {
+  --bg-root: #282c34;
+  --bg-surface: #21252b;
+  --bg-elevated: #2c313a;
+  --border-default: #3d414a;
+  --border-faded: #4d525b;
+  --fg-default: #abb2bf;
+  --fg-dim: #777c87;
+  --fg-faded: #5c626c;
+  --accent-purple: #c678dd;
+  --accent-blue: #61afef;
+  --accent-cyan: #56b6c2;
+  --accent-green: #98c379;
+  --accent-yellow: #e5c07b;
+  --accent-orange: #d19a66;
+  --accent-red: #e06c75;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="one-light"] {
+  --bg-root: #fafafa;
+  --bg-surface: #eeeeef;
+  --bg-elevated: #e3e3e4;
+  --border-default: #dbdbdd;
+  --border-faded: #c4c4c6;
+  --fg-default: #383a42;
+  --fg-dim: #86878c;
+  --fg-faded: #acadb0;
+  --accent-purple: #a626a4;
+  --accent-blue: #4078f2;
+  --accent-cyan: #0184bc;
+  --accent-green: #50a14f;
+  --accent-yellow: #c18401;
+  --accent-orange: #986801;
+  --accent-red: #e45649;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="solarized-dark"] {
+  --bg-root: #002b36;
+  --bg-surface: #073642;
+  --bg-elevated: #0a4a59;
+  --border-default: #153c45;
+  --border-faded: #254851;
+  --fg-default: #839496;
+  --fg-dim: #4f6a70;
+  --fg-faded: #34555c;
+  --accent-purple: #6c71c4;
+  --accent-blue: #268bd2;
+  --accent-cyan: #2aa198;
+  --accent-green: #859900;
+  --accent-yellow: #b58900;
+  --accent-orange: #cb4b16;
+  --accent-red: #dc322f;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="solarized-light"] {
+  --bg-root: #fdf6e3;
+  --bg-surface: #eee8d5;
+  --bg-elevated: #ddd6c1;
+  --border-default: #e5e2d4;
+  --border-faded: #d2d4c8;
+  --fg-default: #657b83;
+  --fg-dim: #a2aca9;
+  --fg-faded: #c0c5bd;
+  --accent-purple: #6c71c4;
+  --accent-blue: #268bd2;
+  --accent-cyan: #2aa198;
+  --accent-green: #859900;
+  --accent-yellow: #b58900;
+  --accent-orange: #cb4b16;
+  --accent-red: #dc322f;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="synthwave"] {
+  --bg-root: #1a0b2e;
+  --bg-surface: #241046;
+  --bg-elevated: #2d1259;
+  --border-default: #3a1d6e;
+  --border-faded: #5a2d9e;
+  --fg-default: #f5e0ff;
+  --fg-dim: #c4a7e7;
+  --fg-faded: #7a5c9e;
+  --accent-purple: #b967ff;
+  --accent-blue: #5d8bff;
+  --accent-cyan: #00f0ff;
+  --accent-green: #39ff88;
+  --accent-yellow: #ffe066;
+  --accent-orange: #ff8c42;
+  --accent-red: #ff2e63;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="tokyo-night"] {
+  --bg-root: #1a1b26;
+  --bg-surface: #1f2335;
+  --bg-elevated: #24283b;
+  --border-default: #292e42;
+  --border-faded: #414868;
+  --fg-default: #c0caf5;
+  --fg-dim: #565f89;
+  --fg-faded: #414868;
+  --accent-purple: #bb9af7;
+  --accent-blue: #7aa2f7;
+  --accent-cyan: #7dcfff;
+  --accent-green: #9ece6a;
+  --accent-yellow: #e0af68;
+  --accent-orange: #ff9e64;
+  --accent-red: #f7768e;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="tomorrow"] {
+  --bg-root: #ffffff;
+  --bg-surface: #efefef;
+  --bg-elevated: #d6d6d6;
+  --border-default: #e3e3e2;
+  --border-faded: #cdcdcd;
+  --fg-default: #4d4d4c;
+  --fg-dim: #949494;
+  --fg-faded: #b8b8b7;
+  --accent-purple: #8959a8;
+  --accent-blue: #4271ae;
+  --accent-cyan: #3e999f;
+  --accent-green: #718c00;
+  --accent-yellow: #eab700;
+  --accent-orange: #f5871f;
+  --accent-red: #c82829;
+  --brand-pito: #5170ff;
+}
+
+[data-theme="tomorrow-night"] {
+  --bg-root: #1d1f21;
+  --bg-surface: #282a2e;
+  --bg-elevated: #373b41;
+  --border-default: #383a3b;
+  --border-faded: #4c4e4f;
+  --fg-default: #c5c8c6;
+  --fg-dim: #828484;
+  --fg-faded: #606363;
+  --accent-purple: #b294bb;
+  --accent-blue: #81a2be;
+  --accent-cyan: #8abeb7;
+  --accent-green: #b5bd68;
+  --accent-yellow: #f0c674;
+  --accent-orange: #de935f;
+  --accent-red: #cc6666;
+  --brand-pito: #5170ff;
+}

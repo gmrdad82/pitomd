@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# bin/dev — start the pitomd dev server.
+#
+# Convenience wrapper (pito-style) around `npm run dev`. Installs deps on first
+# run, then serves the site with hot-reload at http://localhost:4321.
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+if [ ! -d node_modules ]; then
+  echo "→ installing dependencies (first run)…"
+  npm install
+fi
+
+echo "→ pitomd dev server → http://localhost:4321"
+exec npm run dev -- "$@"

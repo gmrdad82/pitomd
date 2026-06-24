@@ -1,0 +1,31 @@
+---
+// Section.astro — one scroll-snap frame of the showcase.
+//
+// Each section carries its own pito theme via `data-theme` (the whole subtree
+// re-themes through the CSS cascade — zero JS) and registers itself for the
+// right-rail nav through `id` + `data-nav-label`. Content goes in the slot,
+// wrapped in `.section__inner` for the centered marketing column.
+
+interface Props {
+  id: string;
+  /** pito theme slug → data-theme on the <section> */
+  theme?: string;
+  /** short label shown by the active right-rail dot */
+  label: string;
+  /** extra classes on the <section> */
+  class?: string;
+}
+
+const { id, theme, label, class: extra = "" } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={["section", extra]}
+  data-theme={theme}
+  data-nav-label={label}
+>
+  <div class="section__inner">
+    <slot />
+  </div>
+</section>

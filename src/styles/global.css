@@ -1,144 +1,322 @@
 /*
- * pitomd.com — minimal landing surface.
+ * pitomd.com — global shell.
  *
- * Dark-only. Tokyo Night palette, mirroring the essential tokens the Pito
- * app's start screen uses (bg-root, brand-pito, fg-dim/faded, accents) — just
- * the atoms this page needs, not the app's full token system.
+ * A single, scroll-snapped, per-section re-themed marketing canvas. Tokens +
+ * the 19 [data-theme] blocks live in themes.css (imported first). This file is
+ * the reset, the typographic system, the section/nav scaffolding, and the
+ * reveal/motion primitives. Big display type carries each frame; mono is accent.
+ *
+ * Motion is the point — it runs full-bore by default. prefers-reduced-motion is
+ * a targeted courtesy: it collapses transitions/animations to clean static
+ * frames ONLY for visitors who asked their OS to reduce motion.
  */
 
-:root {
-  --bg-root: #1a1b26;
-  --bg-surface: #1f2335;
-  --fg-default: #c0caf5;
-  --fg-dim: #565f89;
-  --fg-faded: #414868;
-  --brand-pito: #5170ff;
-  --accent-orange: #ff9e64;
-  --accent-purple: #bb9af7;
-  --accent-yellow: #e0af68;
-  color-scheme: dark;
-}
+@import "./themes.css";
+@import "./fx.css";
+@import "./components.css";
 
-* {
+/* ── Reset ─────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html,
-body {
+* {
   margin: 0;
-  padding: 0;
-  background: var(--bg-root);
-  color: var(--fg-default);
-  font-family:
-    ui-monospace, Menlo, "Cascadia Code", "Source Code Pro", Consolas, monospace;
+}
+
+:root {
+  --font-display:
+    "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, Menlo, "Cascadia Code", "Source Code Pro",
+    Consolas, monospace;
+
+  /* the one constant accent, lifted from pito */
+  --pito-blue: #5170ff;
+
+  /* rail / layout rhythm */
+  --rail-gap: clamp(1rem, 4vw, 3rem);
+  --section-pad-x: clamp(1.25rem, 6vw, 7rem);
+
+  color-scheme: dark;
+}
+
+html {
   font-size: 16px;
-  line-height: 1.4;
+  scroll-behavior: smooth;
+  /* the scroll-snap container; proximity (not mandatory) so long sections
+     never trap the scroll mid-content */
+  scroll-snap-type: y proximity;
+  background: var(--bg-root);
+  /* slim themed scrollbar (nod to pito) */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-faded) var(--bg-root);
 }
 
-.page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+body {
+  font-family: var(--font-mono);
+  color: var(--fg-default);
+  background: var(--bg-root);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
-.spacer {
-  flex: 1;
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-root);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-faded);
+  border-radius: 0;
 }
 
-.center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* ASCII PITO logo — brand blocks + dim box-drawing shadow. */
-.logo {
-  /* App /start uses a fixed 18px; clamp only shrinks it on very narrow
-     viewports so the box-drawing rows never overflow. */
-  font-size: clamp(13px, 4.2vw, 18px);
-  line-height: 1;
-  margin: 0;
-  white-space: pre;
-  font-family: inherit;
-}
-.logo .blk {
-  color: var(--brand-pito);
-}
-.logo .sh {
-  color: var(--fg-dim);
-}
-
-.gap {
-  height: 32px;
-}
-
-/* Search box — DESIGN ONLY, no functionality. Static replica of the app's
- * chatbox: 4px purple bar + 6px gap + surface-filled content with a ghost
- * cursor and the placeholder copy. */
-.searchbox {
-  width: 100%;
-  max-width: 600px;
-  padding: 0 16px;
-  display: flex;
-}
-.searchbox .bar {
-  width: 4px;
-  background: var(--accent-purple);
-  flex-shrink: 0;
-}
-.searchbox .innergap {
-  width: 6px;
-  flex-shrink: 0;
-}
-.searchbox .content {
-  flex: 1;
-  min-width: 0;
-  background: var(--bg-surface);
-  padding: 10px 16px 10px 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.searchbox .cursor {
-  border: 1px solid var(--fg-dim);
-  color: var(--fg-dim);
-  padding: 0 3px;
-  border-radius: 1px;
-}
-.searchbox .placeholder {
-  color: var(--fg-faded);
-}
-
-/* Tip — orange bullet + yellow label + faded copy. */
-.tip-wrap {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  text-align: center;
-}
-.tip {
-  color: var(--fg-faded);
-}
-.tip .bullet {
-  color: var(--accent-orange);
-}
-.tip .label {
-  color: var(--accent-yellow);
-  font-weight: 700;
-}
-
-/* Footer — GitHub source (left) / license (right). No version. */
-.footer {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 clamp(16px, 4vw, 50px) 32px;
-}
-.footer a {
-  color: var(--fg-dim);
+a {
+  color: inherit;
   text-decoration: none;
 }
-.footer a:hover {
-  text-decoration: underline;
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Typographic system — big display, mono accents ────────── */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+h1.display {
+  font-size: clamp(2.75rem, 9vw, 8rem);
+}
+h2.display {
+  font-size: clamp(2.25rem, 6.5vw, 5.5rem);
+}
+h3.display {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* eyebrow label above a heading — mono, dim, tracked-out */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+}
+
+.lede {
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 2.1vw, 1.4rem);
+  line-height: 1.55;
+  color: var(--fg-dim);
+  text-wrap: pretty;
+}
+
+.pito-blue {
+  color: var(--pito-blue);
+}
+.accent {
+  color: var(--accent-orange);
+}
+
+/* ── Section scaffolding ───────────────────────────────────── */
+
+.section {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  scroll-snap-align: start;
+  display: grid;
+  place-items: center;
+  padding: clamp(4rem, 10vh, 8rem) var(--section-pad-x);
+  background: var(--bg-root);
+  color: var(--fg-default);
+  overflow: clip;
+  /* smooth the palette swap as you scroll between themed sections */
+  transition:
+    background-color 0.6s ease,
+    color 0.6s ease;
+}
+
+.section__inner {
+  width: min(72rem, 100%);
+  margin-inline: auto;
+}
+
+/* subtle terminal-nod texture: scanlines + faint grain over each frame */
+.section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+  background-image: repeating-linear-gradient(
+    0deg,
+    color-mix(in oklab, var(--fg-faded) 7%, transparent) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+.section__inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* pito-blue glow halo helper (place behind hero art, CTAs, etc.) */
+.glow {
+  position: relative;
+}
+.glow::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  background: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in oklab, var(--pito-blue) 45%, transparent),
+    transparent 65%
+  );
+  filter: blur(40px);
+  opacity: 0.7;
+}
+
+/* ── Right-rail dotted nav ─────────────────────────────────── */
+
+.railnav {
+  position: fixed;
+  top: 50%;
+  right: clamp(0.75rem, 2.5vw, 2rem);
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  align-items: center;
+}
+
+.railnav__dot {
+  --size: 9px;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  padding: 0;
+  border: 1px solid var(--fg-faded);
+  background: transparent;
+  cursor: pointer;
+  border-radius: 0;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+.railnav__dot::after {
+  /* the section label, revealed on the active dot */
+  content: attr(data-label);
+  position: absolute;
+  right: calc(100% + 0.75rem);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.railnav__dot:hover,
+.railnav__dot:focus-visible {
+  border-color: var(--pito-blue);
+  outline: none;
+}
+.railnav__dot.is-active {
+  background: var(--pito-blue);
+  border-color: var(--pito-blue);
+  transform: scale(1.35);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--pito-blue) 25%, transparent);
+}
+.railnav__dot.is-active::after,
+.railnav__dot:hover::after {
+  opacity: 1;
+}
+
+/* ── Reveal primitives (fx islands toggle .is-in) ──────────── */
+
+[data-reveal] {
+  opacity: 0;
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+[data-reveal="rise"] {
+  transform: translateY(40px);
+}
+[data-reveal="fade"] {
+  transform: none;
+}
+[data-reveal="left"] {
+  transform: translateX(-60px);
+}
+[data-reveal="right"] {
+  transform: translateX(60px);
+}
+[data-reveal="zoom"] {
+  transform: scale(0.92);
+  filter: blur(6px);
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* staggered children: set --i on each child */
+[data-stagger] > * {
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+
+/* ── Reduced-motion: collapse to clean static frames ───────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
