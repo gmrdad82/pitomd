@@ -1,48 +1,248 @@
 ---
 import Base from "../layouts/Base.astro";
+import Section from "../components/Section.astro";
+
+// pitomd.com — the over-the-top, scroll-driven PITO showcase. One long page,
+// one theme per section, fx ported (in spirit) from pito. Sells and wows; every
+// "how/where" resolves to GitHub.
+
+const GITHUB = "https://github.com/gmrdad82/pito";
+const SPONSOR = "https://github.com/sponsors/gmrdad82";
+const YOUTUBE = "https://www.youtube.com/@gmrdad82";
+const INSTALL = "curl -fsSL pitomd.com/install.sh | sh";
+
+const avatars = [
+  { file: "@gmrdad82.png", name: "Gamer Dad" },
+  { file: "@gmrdad82good.png", name: "The Good" },
+  { file: "@gmrdad82hard.png", name: "The Hard" },
+  { file: "@gmrdad82fighter.png", name: "The Fighter" },
+  { file: "@gmrdad82strategist.png", name: "The Strategist" },
+  { file: "@gmrdad82survivor.png", name: "The Survivor" },
+];
 ---
 
 <Base>
-  <div class="page">
-    <div class="spacer"></div>
-
-    <div class="center">
-      <pre class="logo"><span class="blk">██████</span><span class="sh">╗ </span><span class="blk">██</span><span class="sh">╗</span><span class="blk">████████</span><span class="sh">╗ </span><span class="blk">██████</span><span class="sh">╗ </span>
-<span class="blk">██</span><span class="sh">╔══</span><span class="blk">██</span><span class="sh">╗</span><span class="blk">██</span><span class="sh">║╚══</span><span class="blk">██</span><span class="sh">╔══╝</span><span class="blk">██</span><span class="sh">╔═══</span><span class="blk">██</span><span class="sh">╗</span>
-<span class="blk">██████</span><span class="sh">╔╝</span><span class="blk">██</span><span class="sh">║   </span><span class="blk">██</span><span class="sh">║   </span><span class="blk">██</span><span class="sh">║   </span><span class="blk">██</span><span class="sh">║</span>
-<span class="blk">██</span><span class="sh">╔═══╝ </span><span class="blk">██</span><span class="sh">║   </span><span class="blk">██</span><span class="sh">║   </span><span class="blk">██</span><span class="sh">║   </span><span class="blk">██</span><span class="sh">║</span>
-<span class="blk">██</span><span class="sh">║     </span><span class="blk">██</span><span class="sh">║   </span><span class="blk">██</span><span class="sh">║   ╚</span><span class="blk">██████</span><span class="sh">╔╝</span>
-<span class="sh">╚═╝     ╚═╝   ╚═╝    ╚═════╝ </span></pre>
-
-      <div class="gap"></div>
-
-      {/* Search box — DESIGN ONLY, no functionality attached. */}
-      <div class="searchbox">
-        <div class="bar"></div>
-        <div class="innergap"></div>
-        <div class="content">
-          <span class="cursor">/</span>
-          <span class="placeholder">Best YouTube Tool</span>
+  {/* ── 1 · HERO ─────────────────────────────────────────── */}
+  <Section id="hero" theme="synthwave" label="Start" class="hero spotlight">
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <p class="eyebrow" data-reveal="fade">PITO — the best YouTube tool</p>
+        <h1 class="display hero__title">
+          <span data-fx="typewriter" data-fx-speed="55">one chatbox.</span><br />
+          <span class="pito-blue" data-fx="typewriter" data-fx-speed="55" data-fx-delay="1"
+            >every channel.</span
+          >
+        </h1>
+        <p class="lede" data-reveal="rise">
+          A self-hosted command deck for the multi-channel creator. Type plain
+          English, it answers. No tabs, no logging out, no €50-a-month ransom.
+        </p>
+        <div class="hero__cta" data-reveal="rise">
+          <a class="btn btn--primary" href={GITHUB} data-magnetic
+            >Get it on GitHub →</a
+          >
+          <a class="btn btn--ghost" href={YOUTUBE}>▶ Watch the tour</a>
         </div>
+        <p class="hero__install mono" data-reveal="fade">
+          <span class="hero__prompt">$</span>
+          {INSTALL}
+        </p>
+      </div>
+      <div class="hero__art glow" data-tilt data-reveal="zoom">
+        <a href={YOUTUBE} aria-label="Watch the PITO tour">
+          <img
+            src="/media/pito-tour-thumb.png"
+            width="760"
+            height="428"
+            alt="PITO — a guided tour"
+            fetchpriority="high"
+          />
+        </a>
       </div>
     </div>
+    <span class="scroll-hint" aria-hidden="true">scroll ↓</span>
+  </Section>
 
-    <div class="tip-wrap">
-      <span class="tip"
-        ><span class="bullet">●</span> <span class="label">Tip</span> — ping me at
-        gmrdad82 [at] gmail [dot] com</span
-      >
+  {/* ── 2 · THE PAIN ─────────────────────────────────────── */}
+  <Section id="pain" theme="dracula" label="The pain">
+    <p class="eyebrow" data-reveal="fade">If this is you</p>
+    <h2 class="display" data-fx="scramble">Log out. Log in. Repeat. Forever.</h2>
+    <div class="prose" data-reveal="rise">
+      <p>
+        YouTube Studio, in its infinite wisdom, manages exactly
+        <span class="accent">one channel at a time</span>. Run a handful and your
+        day becomes a carousel of sign-outs and sign-ins until your will to live
+        quietly files for unemployment.
+      </p>
+      <p>
+        The paid tools? Social Blade, vidIQ, TubeBuddy — tried them, paid them,
+        and not one did the specific things a real multi-channel creator needs.
+        They'd love <span class="accent">€50+ a month</span>, please, forever,
+        amen, for the privilege of <em>almost</em> fitting.
+      </p>
+    </div>
+  </Section>
+
+  {/* ── 3 · ONE CHATBOX ──────────────────────────────────── */}
+  <Section id="chatbox" theme="tokyo-night" label="One chatbox">
+    <div class="split">
+      <div class="split__copy">
+        <p class="eyebrow" data-reveal="fade">One box to rule them all</p>
+        <h2 class="display" data-reveal="rise">Type. It answers.</h2>
+        <p class="lede" data-reveal="rise">
+          No dashboards to learn, no menus to hunt. A single chatbox that speaks
+          every one of your channels. Ask, and PITO does the digging.
+        </p>
+      </div>
+      <figure class="split__media" data-reveal="right" data-tilt>
+        <img src="/media/01-chat.gif" width="760" alt="The PITO chatbox in action" loading="lazy" />
+      </figure>
+    </div>
+  </Section>
+
+  {/* ── 4 · PLAIN LANGUAGE ───────────────────────────────── */}
+  <Section id="language" theme="nord" label="Plain language">
+    <div class="split split--reverse">
+      <div class="split__copy">
+        <p class="eyebrow" data-reveal="fade">No syntax to memorize</p>
+        <h2 class="display" data-reveal="rise">Just say what you want.</h2>
+        <p class="lede" data-reveal="rise">
+          <code class="kbd">list vids</code>. <code class="kbd">show game</code>.
+          PITO speaks human — plain commands, real answers, zero manual.
+        </p>
+      </div>
+      <figure class="split__media" data-reveal="left" data-tilt>
+        <img src="/media/02-language.gif" width="760" alt="Plain-language commands in PITO" loading="lazy" />
+      </figure>
+    </div>
+  </Section>
+
+  {/* ── 5 · SMART LINKAGE ────────────────────────────────── */}
+  <Section id="linkage" theme="gruvbox-dark" label="Linkage">
+    <div class="split">
+      <div class="split__copy">
+        <p class="eyebrow" data-reveal="fade">It connects the dots</p>
+        <h2 class="display" data-reveal="rise">Games ↔ videos ↔ channels.</h2>
+        <p class="lede" data-reveal="rise">
+          PITO links what you play to what you publish to where it lands — then
+          Voyage hands you recommendations on what to make next.
+        </p>
+      </div>
+      <figure class="split__media" data-reveal="right" data-tilt>
+        <img src="/media/03-linkage.gif" width="760" alt="Game-to-video linkage and recommendations" loading="lazy" />
+      </figure>
+    </div>
+  </Section>
+
+  {/* ── 6 · SCHEDULING ───────────────────────────────────── */}
+  <Section id="schedule" theme="ayu-mirage" label="Scheduling">
+    <div class="split split--reverse">
+      <div class="split__copy">
+        <p class="eyebrow" data-reveal="fade">A calendar that gets it</p>
+        <h2 class="display" data-reveal="rise">Find the open slot.</h2>
+        <p class="lede" data-reveal="rise">
+          See every channel's cadence at once and drop the next upload where it
+          actually fits — no spreadsheet, no guesswork.
+        </p>
+      </div>
+      <figure class="split__media" data-reveal="left" data-tilt>
+        <img src="/media/04-schedule.gif" width="760" alt="Cross-channel scheduling in PITO" loading="lazy" />
+      </figure>
+    </div>
+  </Section>
+
+  {/* ── 7 · THEMES SHOWCASE ──────────────────────────────── */}
+  <Section id="themes" theme="catppuccin-mocha" label="19 themes">
+    <p class="eyebrow" data-reveal="fade">Dress it how you like</p>
+    <h2 class="display" data-reveal="rise">Nineteen themes. Pick a vibe.</h2>
+    <div class="themestage glow" data-theme-cycle data-tilt>
+      <div class="themestage__bar">
+        <span class="themestage__name mono" data-theme-name>tokyo-night</span>
+        <span class="themestage__index mono" data-theme-index>01 / 19</span>
+      </div>
+      <img
+        class="themestage__shot"
+        data-theme-shot
+        src="/media/themes/tokyo-night.png"
+        width="760"
+        height="714"
+        alt="PITO in the tokyo-night theme"
+        loading="lazy"
+      />
+      <div class="themestage__controls">
+        <button type="button" class="btn btn--ghost" data-theme-prev aria-label="Previous theme">←</button>
+        <span class="themestage__hint mono">auto-cycling · hover to pause</span>
+        <button type="button" class="btn btn--ghost" data-theme-next aria-label="Next theme">→</button>
+      </div>
+    </div>
+  </Section>
+
+  {/* ── 8 · €0, SELF-HOSTED ──────────────────────────────── */}
+  <Section id="free" theme="one-dark" label="€0 · private">
+    <p class="eyebrow" data-reveal="fade">The price, the privacy</p>
+    <h2 class="display" data-reveal="rise">
+      <span class="pito-blue">€0.</span> Your laptop, your data.
+    </h2>
+    <div class="cards" data-stagger data-reveal="rise">
+      <div class="card" style="--i:0">
+        <h3 class="display card__h">Free, full stop</h3>
+        <p>No subscription. No "starter plan." No quarterly ransom. €0, forever.</p>
+      </div>
+      <div class="card" style="--i:1">
+        <h3 class="display card__h">Self-hosted</h3>
+        <p>Runs on your machine. Your data never leaves it. Nothing phones home.</p>
+      </div>
+      <div class="card" style="--i:2">
+        <h3 class="display card__h">Yours to keep</h3>
+        <p>Open source under AGPL-3.0. Fork it, read it, build on it.</p>
+      </div>
+    </div>
+  </Section>
+
+  {/* ── 9 · CTA / FOOTER ─────────────────────────────────── */}
+  <Section id="get" theme="synthwave" label="Get PITO" class="cta spotlight">
+    <p class="eyebrow" data-reveal="fade">One line and you're running</p>
+    <h2 class="display" data-reveal="rise">Get PITO.</h2>
+
+    {/* Install cast placeholder — VHS GIF drops in here in Phase 4. */}
+    <div class="cast glow" data-reveal="zoom">
+      <div class="cast__chrome">
+        <span class="cast__dot"></span><span class="cast__dot"></span><span class="cast__dot"></span>
+        <span class="cast__title mono">install</span>
+      </div>
+      <pre class="cast__body mono"><span class="hero__prompt">$</span> {INSTALL}
+<span class="cast__dim">  ▸ pulling the stack…</span>
+<span class="cast__dim">  ▸ pito up on :3027</span>  <span class="pito-blue">✓</span></pre>
     </div>
 
-    <div class="footer">
-      <a href="https://github.com/gmrdad82/pito" target="_blank" rel="noopener"
-        >GitHub Source</a
-      >
-      <a
-        href="https://www.gnu.org/licenses/agpl-3.0"
-        target="_blank"
-        rel="noopener">AGPL-3.0</a
-      >
+    <div class="hero__cta" data-reveal="rise">
+      <a class="btn btn--primary" href={GITHUB} data-magnetic>Get it on GitHub →</a>
+      <a class="btn btn--ghost" href={SPONSOR} data-magnetic>❤ Sponsor</a>
     </div>
-  </div>
+
+    <div class="maker" data-reveal="rise">
+      <p class="maker__by mono">
+        Built by <strong>Catalin Ilinca</strong> —
+        <a href={YOUTUBE} class="pito-blue">@gmrdad82</a>, a 20-yr Rails engineer
+        and multi-channel YouTuber who got tired of the tooling.
+      </p>
+      <ul class="avatars" aria-label="The Gamer Dad channels">
+        {
+          avatars.map((a) => (
+            <li>
+              <a href={YOUTUBE} title={a.name}>
+                <img src={`/avatars/${a.file}`} width="72" height="72" alt={a.name} loading="lazy" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <footer class="footer">
+      <a href={GITHUB}>GitHub</a>
+      <a href="https://www.gnu.org/licenses/agpl-3.0">AGPL-3.0</a>
+      <a href={SPONSOR}>Sponsor</a>
+    </footer>
+  </Section>
 </Base>

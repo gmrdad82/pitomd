@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # Agent working docs (plans/specs/briefs) — local only
 /docs/claude/
+
+# VHS cast working dir (Phase 4) — local only
+/tmp-vhs/

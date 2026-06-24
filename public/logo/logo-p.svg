@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <g font-family="'JetBrainsMono Nerd Font Mono','JetBrains Mono',monospace" font-size="160" xml:space="preserve" font-weight="400">
+    <text x="200" y="210"><tspan fill="#5170ff">██████</tspan><tspan fill="#565f89">╗ </tspan></text>
+    <text x="200" y="360"><tspan fill="#5170ff">██</tspan><tspan fill="#565f89">╔══</tspan><tspan fill="#5170ff">██</tspan><tspan fill="#565f89">╗</tspan></text>
+    <text x="200" y="510"><tspan fill="#5170ff">██████</tspan><tspan fill="#565f89">╔╝</tspan></text>
+    <text x="200" y="660"><tspan fill="#5170ff">██</tspan><tspan fill="#565f89">╔═══╝</tspan></text>
+    <text x="200" y="810"><tspan fill="#5170ff">██</tspan><tspan fill="#565f89">║</tspan></text>
+    <text x="200" y="960"><tspan fill="#565f89">╚═╝</tspan></text>
+  </g>
+</svg>
