@@ -1,0 +1,89 @@
+/*
+ * fx.css — styling for the JS-driven effects (pointer.js, reveal.js).
+ * Imported by global.css. All effects degrade to nothing under reduced motion.
+ */
+
+/* ── Cursor comet trail ────────────────────────────────────── */
+
+.cursor-trail {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.cursor-trail__dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    var(--pito-blue),
+    color-mix(in oklab, var(--accent-purple) 60%, transparent) 70%,
+    transparent
+  );
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* ── Pointer spotlight ─────────────────────────────────────── */
+/* Add class `spotlight` to any element to give it a cursor-following glow. */
+
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in oklab, var(--pito-blue) 22%, transparent),
+    transparent 22%
+  );
+  transition: opacity 0.3s ease;
+}
+
+/* ── Typewriter caret ──────────────────────────────────────── */
+
+[data-fx="typewriter"].is-typing::after {
+  content: "";
+  display: inline-block;
+  width: 0.6ch;
+  height: 1.1em;
+  margin-left: 0.1em;
+  vertical-align: text-bottom;
+  background: var(--pito-blue);
+  animation: caret-blink 1s steps(1) infinite;
+}
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ── Magnetic / tilt easing ────────────────────────────────── */
+
+[data-magnetic] {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-tilt] {
+  transition: transform 0.2s ease-out;
+  transform-style: preserve-3d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-trail {
+    display: none;
+  }
+  .spotlight::before {
+    display: none;
+  }
+}
