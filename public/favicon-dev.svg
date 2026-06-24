@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Development-only favicon: the PITO "P" in the synthwave YELLOW token
+     (#ffe066) on the synthwave dark background, so a localhost tab is never
+     mistaken for production. Linked from Base.astro head only when
+     import.meta.env.DEV. SVG favicons outrank /favicon.ico in modern browsers. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#1a0b2e"/>
+  <g font-family="'JetBrainsMono Nerd Font Mono','JetBrains Mono',monospace" font-size="160" xml:space="preserve" font-weight="400">
+    <text x="200" y="210"><tspan fill="#ffe066">██████</tspan><tspan fill="#8a6d1f">╗ </tspan></text>
+    <text x="200" y="360"><tspan fill="#ffe066">██</tspan><tspan fill="#8a6d1f">╔══</tspan><tspan fill="#ffe066">██</tspan><tspan fill="#8a6d1f">╗</tspan></text>
+    <text x="200" y="510"><tspan fill="#ffe066">██████</tspan><tspan fill="#8a6d1f">╔╝</tspan></text>
+    <text x="200" y="660"><tspan fill="#ffe066">██</tspan><tspan fill="#8a6d1f">╔═══╝</tspan></text>
+    <text x="200" y="810"><tspan fill="#ffe066">██</tspan><tspan fill="#8a6d1f">║</tspan></text>
+    <text x="200" y="960"><tspan fill="#8a6d1f">╚═╝</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Production favicon: INVERSE of the app mark — pito-blue (#5170ff) fills the
+     background and the "P" blocks are punched out in the dark base (#1a1b26),
+     with a mid-blue box-drawing shadow. Distinct from the dev (yellow) icon and
+     from the in-app blue-on-dark mark. SVG outranks /favicon.ico. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#5170ff"/>
+  <g font-family="'JetBrainsMono Nerd Font Mono','JetBrains Mono',monospace" font-size="160" xml:space="preserve" font-weight="400">
+    <text x="200" y="210"><tspan fill="#1a1b26">██████</tspan><tspan fill="#3a4488">╗ </tspan></text>
+    <text x="200" y="360"><tspan fill="#1a1b26">██</tspan><tspan fill="#3a4488">╔══</tspan><tspan fill="#1a1b26">██</tspan><tspan fill="#3a4488">╗</tspan></text>
+    <text x="200" y="510"><tspan fill="#1a1b26">██████</tspan><tspan fill="#3a4488">╔╝</tspan></text>
+    <text x="200" y="660"><tspan fill="#1a1b26">██</tspan><tspan fill="#3a4488">╔═══╝</tspan></text>
+    <text x="200" y="810"><tspan fill="#1a1b26">██</tspan><tspan fill="#3a4488">║</tspan></text>
+    <text x="200" y="960"><tspan fill="#3a4488">╚═╝</tspan></text>
+  </g>
+</svg>

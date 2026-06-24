@@ -45,7 +45,17 @@ const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
     />
 
-    {/* Favicons — the apex PITO mark, sourced from the app. */}
+    {/* Favicon — SVG outranks the .ico fallback in modern browsers. Dev links
+        the synthwave-YELLOW mark so a localhost tab is unmistakable; production
+        links the inverse blue-background mark. The .ico/.png below stay as
+        fallbacks for older browsers. */}
+    {
+      import.meta.env.DEV ? (
+        <link rel="icon" type="image/svg+xml" href="/favicon-dev.svg" />
+      ) : (
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      )
+    }
     <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
@@ -68,6 +78,10 @@ const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
 
   <body>
     <slot />
+
+    {/* Dev-only banner pinned to the bottom (synthwave yellow), so a localhost
+        tab is unmistakable next to production — mirrors pito's DEVELOPMENT bar. */}
+    {import.meta.env.DEV && <div class="dev-banner">DEVELOPMENT</div>}
 
     {/* fx islands — deferred, vanilla, dependency-free. */}
     <script src="../scripts/railnav.js"></script>

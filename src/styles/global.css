@@ -263,6 +263,29 @@ h3.display {
   opacity: 1;
 }
 
+/* ── Dev-only banner ───────────────────────────────────────── */
+/* Synthwave yellow bg + synthwave dark-bg text (readable on yellow). Hardcoded
+   (not theme-reactive) so it's an unmistakable localhost marker on every
+   section theme. Only rendered under import.meta.env.DEV. */
+
+.dev-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: #ffe066; /* synthwave --accent-yellow */
+  color: #1a0b2e; /* synthwave --bg-root, high contrast on yellow */
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  text-align: center;
+  padding: 0.25rem 0;
+  pointer-events: none;
+  user-select: none;
+}
+
 /* ── Reveal primitives (fx islands toggle .is-in) ──────────── */
 
 /* Only hide reveal elements when JS is present to un-hide them (the inline
