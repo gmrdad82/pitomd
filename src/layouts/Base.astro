@@ -25,6 +25,10 @@ const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
 <html lang="en" data-theme="tokyo-night">
   <head>
     <meta charset="utf-8" />
+    {/* JS flag — reveal elements only start hidden when JS can un-hide them. */}
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
     <title>{title}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="application-name" content="PITO" />

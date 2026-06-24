@@ -1,0 +1,7 @@
+# Cloudflare Pages redirects.
+#
+# Vanity install URL: make the marketed one-liner real without hosting any
+# install logic here. `curl -fsSL pitomd.com/install.sh | sh` 302s through to
+# the canonical installer in the pito repo (curl -L follows it). The real,
+# documented steps live on GitHub — this is just a memorable front door.
+/install.sh  https://raw.githubusercontent.com/gmrdad82/pito/main/script/install.sh  302

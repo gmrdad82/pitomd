@@ -204,16 +204,24 @@ const avatars = [
     <p class="eyebrow" data-reveal="fade">One line and you're running</p>
     <h2 class="display" data-reveal="rise">Get PITO.</h2>
 
-    {/* Install cast placeholder — VHS GIF drops in here in Phase 4. */}
-    <div class="cast glow" data-reveal="zoom">
+    {/* Install cast — the real VHS recording shipped by the pito repo:
+        curl | sh picks a version, fetches, and brings the stack up. Show,
+        don't tell — the actual install steps live on GitHub. */}
+    <figure class="cast glow" data-reveal="zoom" data-tilt>
       <div class="cast__chrome">
         <span class="cast__dot"></span><span class="cast__dot"></span><span class="cast__dot"></span>
-        <span class="cast__title mono">install</span>
+        <span class="cast__title mono">curl -fsSL … /install.sh | sh</span>
       </div>
-      <pre class="cast__body mono"><span class="hero__prompt">$</span> {INSTALL}
-<span class="cast__dim">  ▸ pulling the stack…</span>
-<span class="cast__dim">  ▸ pito up on :3027</span>  <span class="pito-blue">✓</span></pre>
-    </div>
+      <img
+        class="cast__shot"
+        src="/media/pito-install-cast.gif"
+        width="1180"
+        height="760"
+        alt="curl | sh installing PITO — picks a version, fetches, and brings the stack up"
+        loading="lazy"
+      />
+      <figcaption class="cast__cap mono">One line. The full steps live on GitHub.</figcaption>
+    </figure>
 
     <div class="hero__cta" data-reveal="rise">
       <a class="btn btn--primary" href={GITHUB} data-magnetic>Get it on GitHub →</a>

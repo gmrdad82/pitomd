@@ -245,17 +245,18 @@
   color: var(--fg-dim);
   font-size: 0.8rem;
 }
-.cast__body {
-  margin: 0;
-  padding: 1.2rem 1.1rem;
-  font-size: clamp(0.78rem, 1.6vw, 0.95rem);
-  line-height: 1.7;
-  white-space: pre-wrap;
-  word-break: break-word;
-  color: var(--fg-default);
+.cast__shot {
+  width: 100%;
+  display: block;
 }
-.cast__dim {
+.cast__cap {
+  margin: 0;
+  padding: 0.7rem 1rem;
+  border-top: 1px solid var(--border-default);
+  background: var(--bg-elevated);
   color: var(--fg-dim);
+  font-size: 0.78rem;
+  text-align: left;
 }
 
 /* ── Maker / avatars / footer ──────────────────────────────── */

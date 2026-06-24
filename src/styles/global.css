@@ -265,7 +265,9 @@ h3.display {
 
 /* ── Reveal primitives (fx islands toggle .is-in) ──────────── */
 
-[data-reveal] {
+/* Only hide reveal elements when JS is present to un-hide them (the inline
+   .js flag in <head>). No-JS / JS-error → content stays visible. */
+.js [data-reveal] {
   opacity: 0;
   transition:
     opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
@@ -273,23 +275,23 @@ h3.display {
     filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
-[data-reveal="rise"] {
+.js [data-reveal="rise"] {
   transform: translateY(40px);
 }
-[data-reveal="fade"] {
+.js [data-reveal="fade"] {
   transform: none;
 }
-[data-reveal="left"] {
+.js [data-reveal="left"] {
   transform: translateX(-60px);
 }
-[data-reveal="right"] {
+.js [data-reveal="right"] {
   transform: translateX(60px);
 }
-[data-reveal="zoom"] {
+.js [data-reveal="zoom"] {
   transform: scale(0.92);
   filter: blur(6px);
 }
-[data-reveal].is-in {
+.js [data-reveal].is-in {
   opacity: 1;
   transform: none;
   filter: none;
