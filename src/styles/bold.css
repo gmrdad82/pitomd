@@ -1,0 +1,371 @@
+/*
+ * bold.css — the maximalist layer. Per-section fonts, extra reveal/morph
+ * variants, the all-section pointer spotlight, the pinned scrollytelling stage,
+ * and the new sections (footage, price/coins, shinies/tiers). Imported last so
+ * it can override. Everything degrades under prefers-reduced-motion.
+ */
+
+/* ── Per-section display fonts ─────────────────────────────── */
+/* Each class re-points --font-display, so every .display inside the section
+   picks up that voice. Mono stays mono via --font-mono. */
+
+.f-grotesk {
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+}
+.f-heavy {
+  --font-display: "Archivo Black", system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+.f-funk {
+  --font-display: "Syne", system-ui, sans-serif;
+}
+.f-serif {
+  --font-display: "Instrument Serif", Georgia, serif;
+}
+.f-round {
+  --font-display: "Unbounded", system-ui, sans-serif;
+}
+.f-mono {
+  --font-display: var(--font-mono);
+}
+/* the serif wants gentler tracking + a touch more line height */
+.f-serif .display {
+  letter-spacing: 0;
+  line-height: 1.02;
+}
+
+/* ── PITO ASCII wordmark ───────────────────────────────────── */
+
+.pito-logo {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: clamp(7px, 2.4vw, 17px);
+  line-height: 1.05;
+  white-space: pre;
+  display: inline-block;
+  filter: drop-shadow(0 0 24px color-mix(in oklab, var(--pito-blue) 55%, transparent));
+}
+.pito-logo .b {
+  color: var(--pito-blue);
+}
+.pito-logo .s {
+  color: var(--fg-dim);
+}
+.pito-logo--hero {
+  font-size: clamp(8px, 2.9vw, 22px);
+}
+
+/* ── All-section pointer spotlight ─────────────────────────── */
+/* pointer.js sets --lx/--ly (local %) + .is-hot on the hovered section. */
+
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle 420px at var(--lx, 50%) var(--ly, 50%),
+    color-mix(in oklab, var(--pito-blue) 20%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+.section.is-hot::before {
+  opacity: 1;
+}
+
+/* ── Extra reveal / morph variants ─────────────────────────── */
+
+.js [data-reveal="rise-big"] {
+  transform: translateY(120px);
+}
+.js [data-reveal="rotate"] {
+  transform: rotate(-7deg) translateY(50px);
+  transform-origin: left bottom;
+}
+.js [data-reveal="skew"] {
+  transform: skewY(7deg) translateY(60px);
+}
+.js [data-reveal="flip"] {
+  transform: perspective(900px) rotateX(40deg);
+  transform-origin: center bottom;
+}
+.js [data-reveal="blurin"] {
+  filter: blur(22px);
+}
+.js [data-reveal="clip"] {
+  opacity: 1;
+  clip-path: inset(0 100% 0 0);
+}
+.js [data-reveal="clip"].is-in {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.js [data-reveal="morph"] {
+  opacity: 1;
+  clip-path: circle(0% at 50% 50%);
+}
+.js [data-reveal="morph"].is-in {
+  clip-path: circle(140% at 50% 50%);
+  transition: clip-path 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Scroll-driven parallax (progressive enhancement) ──────── */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-parallax] {
+      animation: parallax-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 60%;
+    }
+    @keyframes parallax-rise {
+      from {
+        transform: translateY(60px) scale(0.96);
+      }
+      to {
+        transform: translateY(0) scale(1);
+      }
+    }
+    [data-parallax="slow"] {
+      animation: parallax-slow linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+    @keyframes parallax-slow {
+      from {
+        transform: translateY(8%);
+      }
+      to {
+        transform: translateY(-8%);
+      }
+    }
+  }
+}
+
+/* ── Pinned scrollytelling (Voyage) ────────────────────────── */
+
+.scrolly {
+  position: relative;
+  /* tall block — JS reads scroll progress through it. Height ≈ steps × 100vh
+     is set inline per-block via --steps. */
+  height: calc(var(--steps, 5) * 100vh);
+  background: var(--bg-root);
+  scroll-snap-align: none;
+}
+.scrolly__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: clip;
+  padding: var(--section-pad-x);
+  text-align: center;
+}
+.scrolly__steps {
+  position: relative;
+  width: min(60rem, 100%);
+}
+.scrolly__step {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  filter: blur(8px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.6s ease;
+  pointer-events: none;
+}
+.scrolly__step.is-active {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+.scrolly__step.is-past {
+  opacity: 0;
+  transform: translateY(-40px) scale(1.02);
+  filter: blur(8px);
+}
+.scrolly__big {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  font-size: clamp(2.5rem, 8vw, 7rem);
+  text-wrap: balance;
+}
+.scrolly__sub {
+  font-family: var(--font-mono);
+  color: var(--fg-dim);
+  font-size: clamp(1rem, 2.2vw, 1.5rem);
+  max-width: 40rem;
+  margin-inline: auto;
+  text-wrap: pretty;
+}
+.scrolly__arrow {
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 6vw, 4rem);
+  color: var(--pito-blue);
+  line-height: 1;
+}
+.scrolly__counter {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: var(--fg-dim);
+}
+.scrolly__hint {
+  position: absolute;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* show the sequence as a simple stack */
+  .scrolly {
+    height: auto;
+  }
+  .scrolly__stage {
+    position: static;
+    height: auto;
+    display: block;
+    padding-block: 6rem;
+  }
+  .scrolly__steps {
+    margin-inline: auto;
+  }
+  .scrolly__step {
+    position: static;
+    opacity: 1;
+    transform: none;
+    filter: none;
+    margin-bottom: 5rem;
+  }
+}
+
+/* ── Footage section — big time number ─────────────────────── */
+
+.bignum {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(4rem, 16vw, 13rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--accent-cyan);
+}
+.bignum sup {
+  font-size: 0.32em;
+  color: var(--fg-dim);
+  vertical-align: super;
+}
+
+/* ── Price / coins ─────────────────────────────────────────── */
+
+.coins {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+.coin-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.7rem 1.1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-faded);
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+}
+.coin-chip .glyphs {
+  font-size: 1.2em;
+  letter-spacing: 0.1em;
+}
+.coin-chip .num {
+  color: var(--accent-yellow);
+  font-weight: 700;
+}
+.coin-chip .free {
+  color: var(--accent-green);
+  font-weight: 700;
+}
+
+/* ── Shinies / tiers ───────────────────────────────────────── */
+
+.tiers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+.shiny {
+  --c: var(--accent-blue);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--c);
+  color: var(--c);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  background: color-mix(in oklab, var(--c) 8%, transparent);
+}
+.shiny::before {
+  content: "✦";
+}
+
+/* ── Cast trio (CTA) ───────────────────────────────────────── */
+
+.casts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 2.5rem auto;
+  max-width: 56rem;
+}
+.casts figure {
+  margin: 0;
+  border: 1px solid var(--border-faded);
+  background: var(--bg-surface);
+}
+.casts img {
+  width: 100%;
+  display: block;
+}
+.casts figcaption {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--fg-dim);
+  padding: 0.5rem 0.7rem;
+  border-top: 1px solid var(--border-default);
+  text-align: left;
+}
+
+@media (max-width: 860px) {
+  .casts {
+    grid-template-columns: 1fr;
+  }
+}

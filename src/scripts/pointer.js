@@ -24,9 +24,21 @@ function initPointer() {
   let ticking = false;
 
   // ── spotlight vars ───────────────────────────────────────
+  // Global viewport coords (for the hero) + per-section LOCAL coords so every
+  // section's glow tracks the real cursor position, not a box-relative guess.
+  const sections = Array.from(document.querySelectorAll(".section"));
   const updateSpotlight = () => {
     body.style.setProperty("--mx", `${(px / window.innerWidth) * 100}%`);
     body.style.setProperty("--my", `${(py / window.innerHeight) * 100}%`);
+    for (const s of sections) {
+      const r = s.getBoundingClientRect();
+      const inside = py >= r.top && py <= r.bottom;
+      s.classList.toggle("is-hot", inside);
+      if (inside) {
+        s.style.setProperty("--lx", `${((px - r.left) / r.width) * 100}%`);
+        s.style.setProperty("--ly", `${((py - r.top) / r.height) * 100}%`);
+      }
+    }
   };
 
   // ── magnetic buttons ─────────────────────────────────────

@@ -37,12 +37,13 @@ const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
     <meta name="color-scheme" content="dark light" />
     <link rel="canonical" href={canonical} />
 
-    {/* Display + mono webfonts (Space Grotesk / JetBrains Mono). */}
+    {/* Webfonts — a varied display palette so each section has its own voice,
+        plus JetBrains Mono for the terminal accents. */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Unbounded:wght@600;800&display=swap"
     />
 
     {/* Favicon — SVG outranks the .ico fallback in modern browsers. Dev links
@@ -88,5 +89,6 @@ const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
     <script src="../scripts/reveal.js"></script>
     <script src="../scripts/pointer.js"></script>
     <script src="../scripts/themes.js"></script>
+    <script src="../scripts/scrollytell.js"></script>
   </body>
 </html>

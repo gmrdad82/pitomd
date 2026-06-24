@@ -46,6 +46,12 @@ pitomd does **not** bundle or import pito's source. It **references**
 - **Reuse** asset PNGs/GIFs (copy into `public/` as needed): feature GIFs and
   theme PNGs under `pito/docs/media/`, avatars under `pito/docs/avatars/`, logo
   `pito/tmp/logo-p.svg`.
+- **Install/CLI casts — reuse pito's shipped GIFs, do NOT run VHS.** The casts
+  live in `pito/docs/media/` (`pito-install-cast.gif`, `pito-cli-cast.gif`,
+  `pito-update-cast.gif`). Copy those. **Never run `vhs`, the real `install.sh`,
+  or anything that boots the pito Docker stack** — it would clobber the owner's
+  local pito setup (containers, systemd, secrets). Only invoke `vhs` if the owner
+  explicitly confirms in the moment.
 - The fx controllers
   (`pito/app/javascript/controllers/pito/{type_fx,diff_reveal,cursor_trail}_controller.js`)
   are Stimulus, coupled to the terminal app — treat them as **conceptual

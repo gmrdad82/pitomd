@@ -1,10 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
 import Section from "../components/Section.astro";
+import PitoLogo from "../components/PitoLogo.astro";
 
 // pitomd.com — the over-the-top, scroll-driven PITO showcase. One long page,
-// one theme per section, fx ported (in spirit) from pito. Sells and wows; every
-// "how/where" resolves to GitHub.
+// a distinct theme + font + entrance per section, fx ported (in spirit) from
+// pito. Sells and wows; every "how/where" resolves to GitHub. Copy is pito's
+// house voice (dry, witty), much of it adapted from the app's own strings.
 
 const GITHUB = "https://github.com/gmrdad82/pito";
 const SPONSOR = "https://github.com/sponsors/gmrdad82";
@@ -23,50 +25,36 @@ const avatars = [
 
 <Base>
   {/* ── 1 · HERO ─────────────────────────────────────────── */}
-  <Section id="hero" theme="synthwave" label="Start" class="hero spotlight">
-    <div class="hero__grid">
-      <div class="hero__copy">
-        <p class="eyebrow" data-reveal="fade">PITO — the best YouTube tool</p>
-        <h1 class="display hero__title">
-          <span data-fx="typewriter" data-fx-speed="55">one chatbox.</span><br />
-          <span class="pito-blue" data-fx="typewriter" data-fx-speed="55" data-fx-delay="1"
-            >every channel.</span
-          >
-        </h1>
-        <p class="lede" data-reveal="rise">
-          A self-hosted command deck for the multi-channel creator. Type plain
-          English, it answers. No tabs, no logging out, no €50-a-month ransom.
-        </p>
-        <div class="hero__cta" data-reveal="rise">
-          <a class="btn btn--primary" href={GITHUB} data-magnetic
-            >Get it on GitHub →</a
-          >
-          <a class="btn btn--ghost" href={YOUTUBE}>▶ Watch the tour</a>
-        </div>
-        <p class="hero__install mono" data-reveal="fade">
-          <span class="hero__prompt">$</span>
-          {INSTALL}
-        </p>
+  <Section id="hero" theme="synthwave" label="Start" class="hero f-grotesk">
+    <div class="hero__stack">
+      <PitoLogo class="pito-logo--hero" reveal={true} />
+      <p class="eyebrow" data-reveal="fade">the best YouTube tool</p>
+      <h1 class="display hero__title">
+        <span data-fx="typewriter" data-fx-speed="55">one chatbox.</span><br />
+        <span class="pito-blue" data-fx="typewriter" data-fx-speed="55">every channel.</span>
+      </h1>
+      <p class="lede hero__lede" data-reveal="rise">
+        A self-hosted command deck for the multi-channel creator. Type plain
+        English, it answers. No tabs, no logging out, no €50-a-month ransom.
+      </p>
+      <div class="hero__cta" data-reveal="rise">
+        <a class="btn btn--primary" href={GITHUB} data-magnetic>Get it on GitHub →</a>
+        <a class="btn btn--ghost" href={YOUTUBE}>▶ Watch the tour</a>
       </div>
-      <div class="hero__art glow" data-tilt data-reveal="zoom">
-        <a href={YOUTUBE} aria-label="Watch the PITO tour">
-          <img
-            src="/media/pito-tour-thumb.png"
-            width="760"
-            height="428"
-            alt="PITO — a guided tour"
-            fetchpriority="high"
-          />
-        </a>
-      </div>
+      <p class="hero__install mono" data-reveal="fade">
+        <span class="hero__prompt">$</span>
+        {INSTALL}
+      </p>
     </div>
     <span class="scroll-hint" aria-hidden="true">scroll ↓</span>
   </Section>
 
   {/* ── 2 · THE PAIN ─────────────────────────────────────── */}
-  <Section id="pain" theme="dracula" label="The pain">
+  <Section id="pain" theme="dracula" label="The pain" class="f-heavy">
     <p class="eyebrow" data-reveal="fade">If this is you</p>
-    <h2 class="display" data-fx="scramble">Log out. Log in. Repeat. Forever.</h2>
+    <h2 class="display" data-fx="scramble" data-reveal="skew">
+      Log out. Log in. Repeat. Forever.
+    </h2>
     <div class="prose" data-reveal="rise">
       <p>
         YouTube Studio, in its infinite wisdom, manages exactly
@@ -84,75 +72,184 @@ const avatars = [
   </Section>
 
   {/* ── 3 · ONE CHATBOX ──────────────────────────────────── */}
-  <Section id="chatbox" theme="tokyo-night" label="One chatbox">
+  <Section id="chatbox" theme="tokyo-night" label="One chatbox" class="f-funk">
     <div class="split">
       <div class="split__copy">
         <p class="eyebrow" data-reveal="fade">One box to rule them all</p>
-        <h2 class="display" data-reveal="rise">Type. It answers.</h2>
+        <h2 class="display" data-reveal="rotate">Type. It answers.</h2>
         <p class="lede" data-reveal="rise">
           No dashboards to learn, no menus to hunt. A single chatbox that speaks
-          every one of your channels. Ask, and PITO does the digging.
+          every one of your channels — see subs · vids · views for all of them in
+          one <code class="kbd">list channels</code>.
         </p>
       </div>
-      <figure class="split__media" data-reveal="right" data-tilt>
+      <figure class="split__media" data-reveal="right" data-tilt data-parallax="slow">
         <img src="/media/01-chat.gif" width="760" alt="The PITO chatbox in action" loading="lazy" />
       </figure>
     </div>
   </Section>
 
   {/* ── 4 · PLAIN LANGUAGE ───────────────────────────────── */}
-  <Section id="language" theme="nord" label="Plain language">
+  <Section id="language" theme="nord" label="Plain language" class="f-mono">
     <div class="split split--reverse">
       <div class="split__copy">
         <p class="eyebrow" data-reveal="fade">No syntax to memorize</p>
-        <h2 class="display" data-reveal="rise">Just say what you want.</h2>
+        <h2 class="display" data-reveal="left">Just say what you want.</h2>
         <p class="lede" data-reveal="rise">
-          <code class="kbd">list vids</code>. <code class="kbd">show game</code>.
-          PITO speaks human — plain commands, real answers, zero manual.
+          <code class="kbd">list vids</code>. <code class="kbd">show game 42</code>.
+          <code class="kbd">list games rpg ps5</code> filters by genre and
+          platform — natural-ish, case-insensitive. PITO speaks human.
         </p>
       </div>
-      <figure class="split__media" data-reveal="left" data-tilt>
+      <figure class="split__media" data-reveal="left" data-tilt data-parallax="slow">
         <img src="/media/02-language.gif" width="760" alt="Plain-language commands in PITO" loading="lazy" />
       </figure>
     </div>
   </Section>
 
-  {/* ── 5 · SMART LINKAGE ────────────────────────────────── */}
-  <Section id="linkage" theme="gruvbox-dark" label="Linkage">
+  {/* ── 5 · LINKAGE ──────────────────────────────────────── */}
+  <Section id="linkage" theme="gruvbox-dark" label="Linkage" class="f-grotesk">
     <div class="split">
       <div class="split__copy">
-        <p class="eyebrow" data-reveal="fade">It connects the dots</p>
+        <p class="eyebrow" data-reveal="fade">You tell it, it remembers</p>
         <h2 class="display" data-reveal="rise">Games ↔ videos ↔ channels.</h2>
         <p class="lede" data-reveal="rise">
-          PITO links what you play to what you publish to where it lands — then
-          Voyage hands you recommendations on what to make next.
+          <code class="kbd">import game</code> grabs genres, themes, devs,
+          release, and price from IGDB. <code class="kbd">link</code> ties a video
+          to a game — <span class="accent">PITO never guesses from titles, you
+          tell it.</span>
         </p>
       </div>
-      <figure class="split__media" data-reveal="right" data-tilt>
-        <img src="/media/03-linkage.gif" width="760" alt="Game-to-video linkage and recommendations" loading="lazy" />
+      <figure class="split__media" data-reveal="right" data-tilt data-parallax="slow">
+        <img src="/media/03-linkage.gif" width="760" alt="Game-to-video linkage in PITO" loading="lazy" />
       </figure>
     </div>
   </Section>
 
-  {/* ── 6 · SCHEDULING ───────────────────────────────────── */}
-  <Section id="schedule" theme="ayu-mirage" label="Scheduling">
+  {/* ── 6 · VOYAGE — pinned scrollytelling ───────────────── */}
+  <section
+    id="voyage"
+    class="scrolly"
+    data-theme="synthwave"
+    data-nav-label="Voyage"
+    data-scrolly
+    style="--steps: 6"
+  >
+    <div class="scrolly__stage">
+      <span class="scrolly__hint">Voyage · scroll through</span>
+      <div class="scrolly__steps">
+        <div class="scrolly__step" data-scrolly-step>
+          <h2 class="scrolly__big">You played a game.</h2>
+          <p class="scrolly__sub">
+            Tell PITO once. It pulls genres, themes, devs, release, and price from
+            IGDB — the game becomes a first-class thing it can reason about.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <p class="scrolly__arrow">game →</p>
+          <h2 class="scrolly__big pito-blue">the channels it fits.</h2>
+          <p class="scrolly__sub">
+            Every game card surfaces the channels it pairs well with. Stop
+            guessing where the footage belongs.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <h2 class="scrolly__big">You run a channel.</h2>
+          <p class="scrolly__sub">A channel is its videos. PITO already knows what you cover.</p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <p class="scrolly__arrow">channel →</p>
+          <h2 class="scrolly__big pito-blue">the games that suit it.</h2>
+          <p class="scrolly__sub">
+            The channel-specific picks are computed from the games you've covered —
+            <span class="accent">no guesswork, no vibes.</span>
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <h2 class="scrolly__big">Similar games, surfaced.</h2>
+          <p class="scrolly__sub">
+            Curious what to play next? Voyage keeps fresh similar-games picks warm
+            in the background.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <h2 class="scrolly__big">It runs on <span class="pito-blue">Voyage</span> embeddings.</h2>
+          <p class="scrolly__sub">
+            The more you publish, the sharper it gets — recommendations recomputed
+            over time from everything you cover.
+          </p>
+        </div>
+      </div>
+      <span class="scrolly__counter" data-scrolly-progress>01 / 06</span>
+    </div>
+  </section>
+
+  {/* ── 7 · FOOTAGE ──────────────────────────────────────── */}
+  <Section id="footage" theme="ayu-dark" label="Footage" class="f-round">
+    <p class="eyebrow" data-reveal="fade">Time is the real budget</p>
+    <p class="bignum" data-reveal="zoom">37<sup>hrs</sup></p>
+    <h2 class="display" data-reveal="rise" style="margin-top:1rem">Track the footage.</h2>
+    <p class="lede" data-reveal="rise" style="margin-inline:auto;max-width:42rem">
+      Recorded-but-unpublished hours per game, kept as a manual
+      <code class="kbd">footage</code> total. The time you've sunk is an
+      investment — PITO makes it visible so you know what's already paid for.
+    </p>
+  </Section>
+
+  {/* ── 8 · PRICE / COINS ────────────────────────────────── */}
+  <Section id="price" theme="gruvbox-dark" label="Price" class="f-funk">
+    <p class="eyebrow" data-reveal="fade">Value per coin</p>
+    <h2 class="display" data-reveal="rise">What did it cost you?</h2>
+    <p class="lede" data-reveal="rise" style="margin-inline:auto;max-width:42rem">
+      <code class="kbd">price set 42 59.99</code> tags a game's cost so you can
+      budget your next capture — and see the value you got for each coin.
+    </p>
+    <div class="coins" data-reveal="rise" data-stagger>
+      <span class="coin-chip" style="--i:0"><span class="glyphs">🪙🪙🪙</span> <span class="num">59.99</span></span>
+      <span class="coin-chip" style="--i:1"><span class="glyphs">🪙</span> <span class="num">14.99</span></span>
+      <span class="coin-chip" style="--i:2"><span class="free">★ FREE</span></span>
+    </div>
+  </Section>
+
+  {/* ── 9 · SHINIES ──────────────────────────────────────── */}
+  <Section id="shinies" theme="synthwave" label="Shinies" class="f-round">
+    <p class="eyebrow" data-reveal="fade">Achievements, but honest</p>
+    <h2 class="display" data-reveal="morph">We call them shinies.</h2>
+    <p class="lede" data-reveal="rise" style="margin-inline:auto;max-width:42rem">
+      They unlock as your subs, views, and watch time grow — tiered milestones
+      that shimmer up through the ranks. Your worst vid taught you more than your
+      best; the shinies remember the climb.
+    </p>
+    <div class="tiers" data-reveal="rise" data-stagger>
+      <span class="shiny" style="--c: var(--accent-green); --i:0">100</span>
+      <span class="shiny" style="--c: var(--accent-cyan); --i:1">1K</span>
+      <span class="shiny" style="--c: var(--accent-blue); --i:2">10K</span>
+      <span class="shiny" style="--c: var(--accent-purple); --i:3">100K</span>
+      <span class="shiny" style="--c: var(--accent-orange); --i:4">1M</span>
+      <span class="shiny" style="--c: var(--accent-red); --i:5">10M</span>
+    </div>
+  </Section>
+
+  {/* ── 10 · SCHEDULING ──────────────────────────────────── */}
+  <Section id="schedule" theme="ayu-mirage" label="Scheduling" class="f-grotesk">
     <div class="split split--reverse">
       <div class="split__copy">
         <p class="eyebrow" data-reveal="fade">A calendar that gets it</p>
-        <h2 class="display" data-reveal="rise">Find the open slot.</h2>
+        <h2 class="display" data-reveal="left">Find the open slot.</h2>
         <p class="lede" data-reveal="rise">
           See every channel's cadence at once and drop the next upload where it
-          actually fits — no spreadsheet, no guesswork.
+          actually fits. Consistency is a personality trait you can fake with a
+          calendar.
         </p>
       </div>
-      <figure class="split__media" data-reveal="left" data-tilt>
+      <figure class="split__media" data-reveal="left" data-tilt data-parallax="slow">
         <img src="/media/04-schedule.gif" width="760" alt="Cross-channel scheduling in PITO" loading="lazy" />
       </figure>
     </div>
   </Section>
 
-  {/* ── 7 · THEMES SHOWCASE ──────────────────────────────── */}
-  <Section id="themes" theme="catppuccin-mocha" label="19 themes">
+  {/* ── 11 · THEMES SHOWCASE ─────────────────────────────── */}
+  <Section id="themes" theme="catppuccin-mocha" label="19 themes" class="f-funk">
     <p class="eyebrow" data-reveal="fade">Dress it how you like</p>
     <h2 class="display" data-reveal="rise">Nineteen themes. Pick a vibe.</h2>
     <div class="themestage glow" data-theme-cycle data-tilt>
@@ -177,9 +274,9 @@ const avatars = [
     </div>
   </Section>
 
-  {/* ── 8 · €0, SELF-HOSTED ──────────────────────────────── */}
-  <Section id="free" theme="one-dark" label="€0 · private">
-    <p class="eyebrow" data-reveal="fade">The price, the privacy</p>
+  {/* ── 12 · FREE · PRIVATE · READ-ONLY ──────────────────── */}
+  <Section id="free" theme="one-dark" label="€0 · private" class="f-serif">
+    <p class="eyebrow" data-reveal="fade">The price, the privacy, the trust</p>
     <h2 class="display" data-reveal="rise">
       <span class="pito-blue">€0.</span> Your laptop, your data.
     </h2>
@@ -193,35 +290,41 @@ const avatars = [
         <p>Runs on your machine. Your data never leaves it. Nothing phones home.</p>
       </div>
       <div class="card" style="--i:2">
-        <h3 class="display card__h">Yours to keep</h3>
-        <p>Open source under AGPL-3.0. Fork it, read it, build on it.</p>
+        <h3 class="display card__h">Read-only by default</h3>
+        <p>
+          The only writes PITO makes to YouTube: <code class="kbd">publish</code>,
+          <code class="kbd">unlist</code>, <code class="kbd">schedule</code>,
+          <code class="kbd">delete</code>. Everything else is read-only.
+        </p>
       </div>
     </div>
   </Section>
 
-  {/* ── 9 · CTA / FOOTER ─────────────────────────────────── */}
-  <Section id="get" theme="synthwave" label="Get PITO" class="cta spotlight">
+  {/* ── 13 · GET PITO / CTA / FOOTER ─────────────────────── */}
+  <Section id="get" theme="synthwave" label="Get PITO" class="cta f-grotesk">
     <p class="eyebrow" data-reveal="fade">One line and you're running</p>
     <h2 class="display" data-reveal="rise">Get PITO.</h2>
+    <p class="lede" data-reveal="rise" style="margin-inline:auto;max-width:40rem">
+      One command fetches a small install, generates your own secrets, pulls the
+      prebuilt image, and walks you through a login. The real steps live on
+      GitHub — here's what it looks like.
+    </p>
 
-    {/* Install cast — the real VHS recording shipped by the pito repo:
-        curl | sh picks a version, fetches, and brings the stack up. Show,
-        don't tell — the actual install steps live on GitHub. */}
-    <figure class="cast glow" data-reveal="zoom" data-tilt>
-      <div class="cast__chrome">
-        <span class="cast__dot"></span><span class="cast__dot"></span><span class="cast__dot"></span>
-        <span class="cast__title mono">curl -fsSL … /install.sh | sh</span>
-      </div>
-      <img
-        class="cast__shot"
-        src="/media/pito-install-cast.gif"
-        width="1180"
-        height="760"
-        alt="curl | sh installing PITO — picks a version, fetches, and brings the stack up"
-        loading="lazy"
-      />
-      <figcaption class="cast__cap mono">One line. The full steps live on GitHub.</figcaption>
-    </figure>
+    {/* The three VHS casts pito ships: install, the CLI, and updates. */}
+    <div class="casts" data-reveal="rise" data-stagger>
+      <figure style="--i:0">
+        <img src="/media/pito-install-cast.gif" width="1180" height="760" alt="curl | sh installing PITO" loading="lazy" />
+        <figcaption>curl | sh — one-line install</figcaption>
+      </figure>
+      <figure style="--i:1">
+        <img src="/media/pito-cli-cast.gif" width="1120" height="880" alt="The pito CLI in action" loading="lazy" />
+        <figcaption>the pito CLI</figcaption>
+      </figure>
+      <figure style="--i:2">
+        <img src="/media/pito-update-cast.gif" width="1120" height="820" alt="pito update — stable or edge" loading="lazy" />
+        <figcaption>pito update · stable / edge</figcaption>
+      </figure>
+    </div>
 
     <div class="hero__cta" data-reveal="rise">
       <a class="btn btn--primary" href={GITHUB} data-magnetic>Get it on GitHub →</a>
@@ -232,7 +335,8 @@ const avatars = [
       <p class="maker__by mono">
         Built by <strong>Catalin Ilinca</strong> —
         <a href={YOUTUBE} class="pito-blue">@gmrdad82</a>, a 20-yr Rails engineer
-        and multi-channel YouTuber who got tired of the tooling.
+        and multi-channel YouTuber who got tired of the tooling and did the math.
+        The math said "build it yourself, you cheapskate."
       </p>
       <ul class="avatars" aria-label="The Gamer Dad channels">
         {
