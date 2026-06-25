@@ -1244,10 +1244,13 @@
 }
 
 @media (max-width: 760px) {
-  /* show the bridge covers on phones too — they still fade in with the V
-     reveal (opacity is --bp driven) but their drift is frozen so the
-     scroll-zoom stays smooth */
+  /* show the bridge covers on phones too — same wedge effect as desktop, but
+     sized DOWN so they keep the dense, crisp scatter. The fixed-px widths
+     (160–290px) were ~half a portrait viewport each, so they overlapped into a
+     washed, cramped mass; scaling preserves each cover's relative size while
+     matching desktop's cover-to-viewport ratio. Drift frozen → smoother zoom. */
   .bridge__cover {
+    width: calc(var(--cw, 220px) * 0.34);
     transform: none;
     transition: none;
   }
