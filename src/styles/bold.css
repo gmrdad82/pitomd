@@ -1038,10 +1038,12 @@
   }
 }
 
-/* Drop on mobile — keeps phone performance and avoids crowding */
+/* On phones (portrait incl.) keep the cover visible too, but freeze it to a
+   static scale — no scroll/cursor-linked transform — so scrolling stays smooth. */
 @media (max-width: 760px) {
   .cover-bed {
-    display: none;
+    transform: scale(1.12);
+    transition: none;
   }
 }
 
@@ -1114,7 +1116,8 @@
 
 @media (max-width: 760px) {
   .scrolly__bed {
-    display: none;
+    transform: scale(1.12);
+    transition: none;
   }
 }
 
