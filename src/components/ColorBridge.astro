@@ -1,0 +1,44 @@
+---
+// ColorBridge.astro — a scroll-driven transition between sections.
+//
+// A tall block whose sticky stage holds one giant letter. As you scroll, the
+// letter zooms up until its colour floods the whole viewport, and a statement
+// fades in on that colour — "the letter's colour becomes the background." Driven
+// by bridge.js (sets --bp 0→1). No-JS / reduced-motion: a clean static colour
+// panel with the statement.
+
+interface Props {
+  /** the glyph that zooms (single char reads best) */
+  letter: string;
+  /** the flood colour (also the statement background) */
+  color: string;
+  /** statement headline shown once flooded */
+  text: string;
+  /** optional sub-line */
+  sub?: string;
+  /** ink colour for the statement (must read on `color`) */
+  ink?: string;
+  id?: string;
+  label?: string;
+}
+
+const { letter, color, text, sub, ink = "#0a0a12", id, label } = Astro.props;
+---
+
+<section
+  class="bridge"
+  data-bridge
+  id={id}
+  data-nav-label={label}
+  style={`--bridge-color:${color};--bridge-ink:${ink}`}
+  aria-label={text}
+>
+  <div class="bridge__stage">
+    <span class="bridge__letter" aria-hidden="true">{letter}</span>
+    <div class="bridge__flood" aria-hidden="true"></div>
+    <div class="bridge__statement">
+      <h2 class="bridge__title display">{text}</h2>
+      {sub && <p class="bridge__sub mono">{sub}</p>}
+    </div>
+  </div>
+</section>

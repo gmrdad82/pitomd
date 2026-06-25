@@ -1,0 +1,473 @@
+/*
+ * pito-components.css — the real pito components, ported VERBATIM from
+ * app/assets/tailwind/application.css (+ rendered markup captured via
+ * `bin/rails runner` render_in). The shimmer keyframes, per-element stagger,
+ * achievement track, ScoreBar, and TimeToBeat are pito's exact CSS — only the
+ * surrounding `.pito-widget` frame is pitomd's. Every color reads from the
+ * theme tokens already in themes.css, so each stays theme-aware.
+ *
+ * Keep in sync with pito if those rules change.
+ */
+
+/* ── Embedding frame (pitomd's own) ────────────────────────── */
+.pito-widget {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 1.4;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-faded);
+  padding: 2rem 1.6rem 1.4rem;
+  width: min(46rem, 100%);
+  margin-inline: auto;
+  text-align: left;
+  color: var(--fg-default);
+}
+.pito-widget + .pito-widget {
+  margin-top: 1.25rem;
+}
+
+/* ── Shimmer keyframes + per-element stagger ───────────────── */
+
+@keyframes pito-kbd-shimmer-sweep {
+  0% {
+    background-position: 200% 200%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.pito-shimmer-d0 {
+  animation-delay: 0s;
+}
+.pito-shimmer-d1 {
+  animation-delay: -0.17s;
+}
+.pito-shimmer-d2 {
+  animation-delay: -0.34s;
+}
+.pito-shimmer-d3 {
+  animation-delay: -0.51s;
+}
+.pito-shimmer-d4 {
+  animation-delay: -0.68s;
+}
+.pito-shimmer-d5 {
+  animation-delay: -0.85s;
+}
+.pito-shimmer-d6 {
+  animation-delay: -1.02s;
+}
+.pito-shimmer-d7 {
+  animation-delay: -1.19s;
+}
+.pito-shimmer-d8 {
+  animation-delay: -1.36s;
+}
+.pito-shimmer-d9 {
+  animation-delay: -1.53s;
+}
+.pito-shimmer-d10 {
+  animation-delay: -1.7s;
+}
+.pito-shimmer-d11 {
+  animation-delay: -1.87s;
+}
+.pito-shimmer-d12 {
+  animation-delay: -2.04s;
+}
+.pito-shimmer-d13 {
+  animation-delay: -2.21s;
+}
+.pito-shimmer-d14 {
+  animation-delay: -2.38s;
+}
+.pito-shimmer-d15 {
+  animation-delay: -2.55s;
+}
+.pito-shimmer-d16 {
+  animation-delay: -2.72s;
+}
+.pito-shimmer-d17 {
+  animation-delay: -2.89s;
+}
+.pito-shimmer-d18 {
+  animation-delay: -3.06s;
+}
+.pito-shimmer-d19 {
+  animation-delay: -3.23s;
+}
+
+/* ── Achievement track (the "shinies" progress rail) ───────── */
+
+.pito-achievement-track {
+  display: block;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+.pito-achievement-track__label {
+  display: block;
+  color: var(--fg-dim);
+  margin-bottom: 0.25rem;
+}
+.pito-achievement-track__rail {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+.pito-achievement-track__cell {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pito-achievement-track__connector {
+  flex: 1 1 auto;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--fg-faded);
+  align-self: flex-start;
+}
+.pito-achievement-track__ellipsis {
+  flex: 1 1 auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+  color: var(--fg-faded);
+  align-self: flex-start;
+}
+.pito-achievement-track [data-accent="muted"] {
+  color: var(--fg-dim);
+  --pito-track-shimmer: var(--accent-cyan);
+}
+.pito-achievement-track [data-accent="green"] {
+  color: var(--accent-green);
+  --pito-track-shimmer: var(--accent-yellow);
+}
+.pito-achievement-track [data-accent="cyan"] {
+  color: var(--accent-cyan);
+  --pito-track-shimmer: var(--accent-orange);
+}
+.pito-achievement-track [data-accent="blue"] {
+  color: var(--accent-blue);
+  --pito-track-shimmer: var(--accent-orange);
+}
+.pito-achievement-track [data-accent="purple"] {
+  color: var(--accent-purple);
+  --pito-track-shimmer: var(--accent-yellow);
+}
+.pito-achievement-track [data-accent="orange"] {
+  color: var(--accent-orange);
+  --pito-track-shimmer: var(--accent-cyan);
+}
+.pito-achievement-track [data-accent="yellow"] {
+  color: var(--accent-yellow);
+  --pito-track-shimmer: var(--accent-blue);
+}
+.pito-achievement-track [data-accent="pito"] {
+  color: var(--brand-pito);
+  --pito-track-shimmer: var(--accent-orange);
+}
+.pito-achievement-track__dot--upcoming {
+  color: var(--fg-faded);
+}
+.pito-achievement-track__value {
+  color: var(--fg-dim);
+}
+.pito-achievement-track__dot--reached,
+.pito-achievement-track__connector--reached,
+.pito-achievement-track__ellipsis--reached {
+  background-image: linear-gradient(
+    135deg,
+    currentColor 0%,
+    currentColor 38%,
+    var(--pito-track-shimmer, var(--fg-default)) 50%,
+    currentColor 62%,
+    currentColor 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation-name: pito-kbd-shimmer-sweep;
+  animation-duration: 3.4s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* ── ScoreBar ──────────────────────────────────────────────── */
+
+.pito-score-bar {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 1.75rem;
+}
+.pito-score-bar__label {
+  flex: 0 0 auto;
+  color: var(--fg-dim);
+  white-space: pre;
+}
+.pito-score-bar__track {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+}
+.pito-score-bar__bracket {
+  flex: 0 0 auto;
+}
+.pito-score-bar__fill {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  background-image:
+    var(--pito-bar-band, linear-gradient(transparent, transparent)),
+    linear-gradient(
+      to right,
+      color-mix(in oklch, var(--accent-red) 72%, var(--fg-faded)) 0%,
+      color-mix(in oklch, var(--accent-red) 72%, var(--fg-faded)) 25%,
+      color-mix(in oklch, var(--accent-red) 85%, var(--fg-default)) 25%,
+      color-mix(in oklch, var(--accent-red) 85%, var(--fg-default)) 50%,
+      color-mix(
+          in oklch,
+          color-mix(in oklch, var(--accent-red), var(--accent-orange)) 82%,
+          var(--fg-default)
+        )
+        50%,
+      color-mix(in oklch, var(--accent-orange) 70%, var(--fg-default)) 65%,
+      color-mix(in oklch, var(--accent-yellow) 58%, var(--fg-default)) 75%,
+      color-mix(
+          in oklch,
+          color-mix(in oklch, var(--accent-yellow) 45%, var(--accent-green)) 65%,
+          var(--fg-default)
+        )
+        85%,
+      color-mix(in oklch, var(--accent-green) 70%, var(--fg-default)) 90%,
+      color-mix(in oklch, var(--accent-green) 70%, var(--fg-default)) 100%
+    );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.pito-score-bar--muted .pito-score-bar__fill {
+  background-image: none;
+  color: var(--fg-faded);
+}
+.pito-score-bar__tick {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  color: var(--fg-default);
+  font-weight: 700;
+  pointer-events: none;
+}
+.pito-score-bar__bubble {
+  position: absolute;
+  bottom: calc(100% + 2px);
+  transform: translateX(-50%);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  color: var(--fg-default);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.pito-score-bar__bubble-num {
+  font-weight: 700;
+}
+.pito-score-bar__bubble-arrow {
+  line-height: 1;
+}
+.pito-score-bar__overlay--at-start {
+  transform: translateX(0);
+}
+.pito-score-bar__overlay--centered {
+  transform: translateX(-50%);
+}
+.pito-score-bar__overlay--at-end {
+  transform: translateX(-100%);
+}
+
+/* ── TimeToBeat ────────────────────────────────────────────── */
+
+.pito-ttb {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  max-width: 100%;
+}
+.pito-ttb__label {
+  flex: 0 0 auto;
+  color: var(--fg-dim);
+  white-space: pre;
+  margin-top: 2.4em;
+}
+.pito-ttb__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pito-ttb__bar-row {
+  position: relative;
+}
+.pito-ttb__bar {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  overflow: visible;
+}
+.pito-ttb__track {
+  display: inline-flex;
+  align-items: baseline;
+  width: 100%;
+}
+.pito-ttb__bracket {
+  flex: 0 0 auto;
+  color: var(--fg-default);
+}
+.pito-ttb__fill {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.pito-ttb__tick {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  color: var(--fg-default);
+  font-weight: 700;
+  pointer-events: none;
+  z-index: 2;
+}
+.pito-ttb__values {
+  position: relative;
+}
+.pito-ttb__values--top {
+  height: 2.4em;
+}
+.pito-ttb__values--bottom {
+  height: 1.4em;
+  margin-top: 2px;
+}
+.pito-ttb__footage-bubble {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  color: var(--fg-default);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.pito-ttb__footage-bubble-num {
+  font-weight: 700;
+}
+.pito-ttb__footage-bubble-arrow {
+  line-height: 1;
+}
+.pito-ttb__value {
+  position: absolute;
+  color: var(--fg-faded);
+  white-space: nowrap;
+}
+.pito-ttb__value--pillar {
+  top: 0;
+}
+.ttb-label--at-start {
+  transform: translateX(0);
+}
+.ttb-label--centered {
+  transform: translateX(-50%);
+}
+.ttb-label--at-end {
+  transform: translateX(-100%);
+}
+.pito-ttb__legend {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.pito-ttb__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pito-ttb__legend-tick {
+  font-weight: 700;
+  color: var(--fg-default);
+}
+.pito-ttb__legend-label {
+  color: var(--fg-faded);
+}
+[data-accent="main"] {
+  color: color-mix(in oklch, var(--accent-green) 70%, var(--fg-default));
+}
+[data-accent="extras"] {
+  color: color-mix(
+    in oklch,
+    color-mix(in oklch, var(--accent-green), var(--accent-yellow)) 58%,
+    var(--fg-default)
+  );
+}
+[data-accent="completionist"] {
+  color: color-mix(in oklch, var(--accent-red), var(--accent-purple));
+}
+
+/* ── Moving highlight band (ScoreBar + TTB fills) ──────────── */
+
+@property --pito-bar-sweep {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: -20%;
+}
+@keyframes pito-bar-glyph-sweep {
+  from {
+    --pito-bar-sweep: -20%;
+  }
+  to {
+    --pito-bar-sweep: 120%;
+  }
+}
+.pito-bar-shimmer {
+  --pito-bar-band: linear-gradient(
+    135deg,
+    transparent calc(var(--pito-bar-sweep) - 14%),
+    color-mix(in oklch, var(--brand-pito) 72%, transparent) var(--pito-bar-sweep),
+    transparent calc(var(--pito-bar-sweep) + 14%)
+  );
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  animation-name: pito-bar-glyph-sweep;
+  animation-duration: 3.4s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pito-achievement-track__dot--reached,
+  .pito-achievement-track__connector--reached,
+  .pito-achievement-track__ellipsis--reached {
+    animation: none;
+  }
+  .pito-bar-shimmer {
+    animation: none;
+    --pito-bar-band: linear-gradient(transparent, transparent);
+  }
+}

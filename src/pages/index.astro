@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Section from "../components/Section.astro";
+import ColorBridge from "../components/ColorBridge.astro";
 import PitoLogo from "../components/PitoLogo.astro";
 
 // pitomd.com — the over-the-top, scroll-driven PITO showcase. One long page,
@@ -27,7 +28,15 @@ const avatars = [
   {/* ── 1 · HERO ─────────────────────────────────────────── */}
   <Section id="hero" theme="synthwave" label="Start" class="hero f-grotesk">
     <div class="hero__stack">
-      <PitoLogo class="pito-logo--hero" reveal={true} />
+      <img
+        class="hero__logo"
+        src="/logo/pito-logo-hero.png"
+        width="4140"
+        height="1393"
+        alt="PITO"
+        fetchpriority="high"
+        data-reveal="zoom"
+      />
       <p class="eyebrow" data-reveal="fade">the best YouTube tool</p>
       <h1 class="display hero__title">
         <span data-fx="typewriter" data-fx-speed="55">one chatbox.</span><br />
@@ -41,16 +50,25 @@ const avatars = [
         <a class="btn btn--primary" href={GITHUB} data-magnetic>Get it on GitHub →</a>
         <a class="btn btn--ghost" href={YOUTUBE}>▶ Watch the tour</a>
       </div>
-      <p class="hero__install mono" data-reveal="fade">
-        <span class="hero__prompt">$</span>
-        {INSTALL}
-      </p>
+      <div
+        class="copybox"
+        data-copy={INSTALL}
+        data-reveal="fade"
+        title="Click to copy"
+      >
+        <span class="copybox__prompt mono">$</span>
+        <code class="copybox__cmd mono" data-fx="comet">{INSTALL}</code>
+        <button type="button" class="copybox__btn mono" data-copy-btn aria-label="Copy install command">
+          <span data-copy-label>⧉ copy</span>
+        </button>
+      </div>
     </div>
     <span class="scroll-hint" aria-hidden="true">scroll ↓</span>
   </Section>
 
   {/* ── 2 · THE PAIN ─────────────────────────────────────── */}
   <Section id="pain" theme="dracula" label="The pain" class="f-heavy">
+    <img slot="decor" class="logo-accent logo-accent--watermark" src="/logo/pito-wordmark-white.png" alt="" aria-hidden="true" />
     <p class="eyebrow" data-reveal="fade">If this is you</p>
     <h2 class="display" data-fx="scramble" data-reveal="skew">
       Log out. Log in. Repeat. Forever.
@@ -109,6 +127,7 @@ const avatars = [
 
   {/* ── 5 · LINKAGE ──────────────────────────────────────── */}
   <Section id="linkage" theme="gruvbox-dark" label="Linkage" class="f-grotesk">
+    <PitoLogo slot="decor" class="logo-accent logo-accent--tr" />
     <div class="split">
       <div class="split__copy">
         <p class="eyebrow" data-reveal="fade">You tell it, it remembers</p>
@@ -125,6 +144,15 @@ const avatars = [
       </figure>
     </div>
   </Section>
+
+  {/* ── COLOR BRIDGE → Voyage ─────────────────────────────── */}
+  <ColorBridge
+    letter="V"
+    color="#5170ff"
+    ink="#0a0a12"
+    text="Voyage"
+    sub="game ↔ channel. both ways."
+  />
 
   {/* ── 6 · VOYAGE — pinned scrollytelling ───────────────── */}
   <section
@@ -187,47 +215,118 @@ const avatars = [
   {/* ── 7 · FOOTAGE ──────────────────────────────────────── */}
   <Section id="footage" theme="ayu-dark" label="Footage" class="f-round">
     <p class="eyebrow" data-reveal="fade">Time is the real budget</p>
-    <p class="bignum" data-reveal="zoom">37<sup>hrs</sup></p>
-    <h2 class="display" data-reveal="rise" style="margin-top:1rem">Track the footage.</h2>
+    <h2 class="display" data-reveal="rise">Track the footage.</h2>
     <p class="lede" data-reveal="rise" style="margin-inline:auto;max-width:42rem">
       Recorded-but-unpublished hours per game, kept as a manual
-      <code class="kbd">footage</code> total. The time you've sunk is an
-      investment — PITO makes it visible so you know what's already paid for.
+      <code class="kbd">footage</code> total, plotted against the game's
+      time-to-beat. The time you've sunk is an investment — PITO makes it visible.
     </p>
+    {/* Real Pito::TimeToBeatComponent — heat-mapped fuel gauge with the footage
+        tick, rendered from pito. Per-game adaptive gradient (inline). */}
+    <div class="pito-widget" data-reveal="rise" data-tilt>
+      <div class="pito-ttb" data-component="time-to-beat">
+        <span class="pito-ttb__label">Time spend</span>
+        <div class="pito-ttb__body">
+          <div class="pito-ttb__values pito-ttb__values--top">
+            <div class="pito-ttb__footage-bubble ttb-label--at-start" data-accent="footage" style="left: 8.75%;">
+              <span class="pito-ttb__footage-bubble-num">12h</span>
+              <span class="pito-ttb__footage-bubble-arrow">&#9660;</span>
+            </div>
+          </div>
+          <div class="pito-ttb__bar-row">
+            <span class="pito-ttb__bar">
+              <span class="pito-ttb__track">
+                <span class="pito-ttb__bracket">[</span>
+                <span class="pito-ttb__fill pito-bar-shimmer pito-shimmer-d10" style="background-image: var(--pito-bar-band, linear-gradient(transparent, transparent)), linear-gradient(to right in oklch, color-mix(in oklch, var(--accent-green) 70%, var(--fg-default)) 0.0%, color-mix(in oklch, color-mix(in oklch, var(--accent-green), var(--accent-yellow)) 58%, var(--fg-default)) 8.06%, color-mix(in oklch, color-mix(in oklch, var(--accent-orange) 60%, var(--accent-yellow)) 58%, var(--fg-default)) 32.26%, color-mix(in oklch, var(--accent-red), var(--accent-purple)) 80.65%, color-mix(in oklch, var(--accent-red), var(--accent-purple)) 100%);">============================================================================================================================================================================================================================================================================================================</span>
+                <span class="pito-ttb__bracket">]</span>
+              </span>
+              <span class="pito-ttb__tick ttb-tick--main" data-accent="main" style="left: 26.25%;">|</span>
+              <span class="pito-ttb__tick ttb-tick--extras" data-accent="extras" style="left: 56.25%;">|</span>
+              <span class="pito-ttb__tick ttb-tick--completionist" data-accent="completionist" style="left: 98.75%;">|</span>
+              <span class="pito-ttb__tick ttb-tick--footage" data-accent="footage" style="left: 8.75%;">|</span>
+            </span>
+          </div>
+          <div class="pito-ttb__values pito-ttb__values--bottom">
+            <span class="pito-ttb__value pito-ttb__value--pillar ttb-label--centered" data-pillar="main" style="left: 26.25%;">31h</span>
+            <span class="pito-ttb__value pito-ttb__value--pillar ttb-label--centered" data-pillar="extras" style="left: 56.25%;">71h</span>
+            <span class="pito-ttb__value pito-ttb__value--pillar ttb-label--at-end" data-pillar="completionist" style="left: 98.75%;">124h</span>
+          </div>
+          <div class="pito-ttb__legend">
+            <span class="pito-ttb__legend-item"><span class="pito-ttb__legend-tick" data-accent="main">|</span><span class="pito-ttb__legend-label">main</span></span>
+            <span class="pito-ttb__legend-item"><span class="pito-ttb__legend-tick" data-accent="extras">|</span><span class="pito-ttb__legend-label">extras</span></span>
+            <span class="pito-ttb__legend-item"><span class="pito-ttb__legend-tick" data-accent="completionist">|</span><span class="pito-ttb__legend-label">completionist</span></span>
+            <span class="pito-ttb__legend-item"><span class="pito-ttb__legend-tick" data-accent="footage">|</span><span class="pito-ttb__legend-label">footage</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
   </Section>
 
   {/* ── 8 · PRICE / COINS ────────────────────────────────── */}
+  {/* Coin/star glyphs + tier map are pito's exact spec (Pito::Coin):
+      ≤9.99→1 · ≤29.99→2 · ≤59.99→3 · ≤79.99→4 · >79.99→5 · free→star. */}
   <Section id="price" theme="gruvbox-dark" label="Price" class="f-funk">
     <p class="eyebrow" data-reveal="fade">Value per coin</p>
     <h2 class="display" data-reveal="rise">What did it cost you?</h2>
     <p class="lede" data-reveal="rise" style="margin-inline:auto;max-width:42rem">
       <code class="kbd">price set 42 59.99</code> tags a game's cost so you can
-      budget your next capture — and see the value you got for each coin.
+      budget your next capture. The coins read how expensive it is at a glance —
+      one for budget, five for collector — and the <span class="accent">star</span>
+      means genuine free, not cheap-but-paid.
     </p>
     <div class="coins" data-reveal="rise" data-stagger>
-      <span class="coin-chip" style="--i:0"><span class="glyphs">🪙🪙🪙</span> <span class="num">59.99</span></span>
-      <span class="coin-chip" style="--i:1"><span class="glyphs">🪙</span> <span class="num">14.99</span></span>
-      <span class="coin-chip" style="--i:2"><span class="free">★ FREE</span></span>
+      <span class="coin-chip" style="--i:0">
+        <span class="glyphs"><img src="/coin/coin.gif" alt="" width="22" height="22" /></span>
+        <span class="num">9.99</span>
+      </span>
+      <span class="coin-chip" style="--i:1">
+        <span class="glyphs"><img src="/coin/coin.gif" alt="" width="22" height="22" /><img src="/coin/coin.gif" alt="" width="22" height="22" /><img src="/coin/coin.gif" alt="" width="22" height="22" /></span>
+        <span class="num">59.99</span>
+      </span>
+      <span class="coin-chip" style="--i:2">
+        <span class="glyphs"><img src="/coin/coin.gif" alt="" width="22" height="22" /><img src="/coin/coin.gif" alt="" width="22" height="22" /><img src="/coin/coin.gif" alt="" width="22" height="22" /><img src="/coin/coin.gif" alt="" width="22" height="22" /><img src="/coin/coin.gif" alt="" width="22" height="22" /></span>
+        <span class="num">89.99</span>
+      </span>
+      <span class="coin-chip" style="--i:3">
+        <span class="glyphs"><img src="/coin/star.gif" alt="" width="22" height="22" /></span>
+        <span class="free">FREE</span>
+      </span>
+    </div>
+    <p class="lede" data-reveal="rise" style="margin:2.5rem auto 0;max-width:42rem">
+      Cost is half the story — PITO also scores each game (vote-weighted), so you
+      read value at a glance: what you paid against how good it actually is.
+    </p>
+    {/* Real Pito::ScoreBarComponent — red→green heat bar + score bubble. */}
+    <div class="pito-widget" data-reveal="rise" data-tilt>
+      <span class="pito-score-bar" data-score="81" data-tier="good" data-resyncing="no">
+        <span class="pito-score-bar__track">
+          <span class="pito-score-bar__bracket">[</span>
+          <span class="pito-score-bar__fill pito-bar-shimmer pito-shimmer-d13">============================================================================================================================================================================================================================================================================================================</span>
+          <span class="pito-score-bar__bracket">]</span>
+          <span class="pito-score-bar__bubble pito-score-bar__overlay--centered" data-accent="score" style="left: 81.0%;">
+            <span class="pito-score-bar__bubble-num">81</span>
+            <span class="pito-score-bar__bubble-arrow">&#9660;</span>
+          </span>
+          <span class="pito-score-bar__tick pito-score-bar__overlay--centered" data-accent="score" style="left: 81.0%;">|</span>
+        </span>
+      </span>
     </div>
   </Section>
 
   {/* ── 9 · SHINIES ──────────────────────────────────────── */}
   <Section id="shinies" theme="synthwave" label="Shinies" class="f-round">
+    <PitoLogo slot="decor" class="logo-accent logo-accent--bl" />
     <p class="eyebrow" data-reveal="fade">Achievements, but honest</p>
     <h2 class="display" data-reveal="morph">We call them shinies.</h2>
     <p class="lede" data-reveal="rise" style="margin-inline:auto;max-width:42rem">
-      They unlock as your subs, views, and watch time grow — tiered milestones
-      that shimmer up through the ranks. Your worst vid taught you more than your
-      best; the shinies remember the climb.
+      They unlock as your subs, views, and watch time grow — a 22-step milestone
+      series (1 → 10M) that shimmers up through the tier colours. This is PITO's
+      real progress track, live:
     </p>
-    <div class="tiers" data-reveal="rise" data-stagger>
-      <span class="shiny" style="--c: var(--accent-green); --i:0">100</span>
-      <span class="shiny" style="--c: var(--accent-cyan); --i:1">1K</span>
-      <span class="shiny" style="--c: var(--accent-blue); --i:2">10K</span>
-      <span class="shiny" style="--c: var(--accent-purple); --i:3">100K</span>
-      <span class="shiny" style="--c: var(--accent-orange); --i:4">1M</span>
-      <span class="shiny" style="--c: var(--accent-red); --i:5">10M</span>
-    </div>
+    {/* Real Pito::Achievement::TrackComponent markup, rendered from pito via
+        bin/rails runner. The reached run shimmers in the next tier's colour. */}
+    <div class="pito-widget" data-reveal="rise" data-tilt><span class="pito-achievement-track"><span class="pito-achievement-track__label">Subs</span><span class="pito-achievement-track__rail"><span class="pito-achievement-track__cell"><span class="pito-achievement-track__dot pito-achievement-track__dot--reached pito-shimmer-d4" data-accent="blue">●</span><span class="pito-achievement-track__value">1</span></span><span class="pito-achievement-track__ellipsis pito-achievement-track__ellipsis--reached pito-shimmer-d1" data-accent="blue">──────────────────────────────···──────────────────────────────</span><span class="pito-achievement-track__cell"><span class="pito-achievement-track__dot pito-achievement-track__dot--reached pito-shimmer-d3" data-accent="blue">●</span><span class="pito-achievement-track__value">500</span></span><span class="pito-achievement-track__connector pito-achievement-track__connector--reached pito-shimmer-d13" data-accent="blue">────────────────────────────────────────────────────────────</span><span class="pito-achievement-track__cell"><span class="pito-achievement-track__dot pito-achievement-track__dot--reached pito-shimmer-d5" data-accent="blue">◉</span><span class="pito-achievement-track__value">1K</span></span><span class="pito-achievement-track__connector pito-achievement-track__connector--reached pito-shimmer-d11" data-accent="blue">────────────────────────────────────────────────────────────</span><span class="pito-achievement-track__cell"><span class="pito-achievement-track__dot pito-achievement-track__dot--upcoming">○</span><span class="pito-achievement-track__value">2K</span></span><span class="pito-achievement-track__ellipsis">──────────────────────────────···──────────────────────────────</span><span class="pito-achievement-track__cell"><span class="pito-achievement-track__dot pito-achievement-track__dot--upcoming">○</span><span class="pito-achievement-track__value">10M</span></span></span></span></div>
+    <div class="pito-widget" data-reveal="rise" data-tilt><span class="pito-achievement-track"><span class="pito-achievement-track__label">Views</span><span class="pito-achievement-track__rail"><span class="pito-achievement-track__cell"><span class="pito-achievement-track__dot pito-achievement-track__dot--reached pito-shimmer-d4" data-accent="orange">●</span><span class="pito-achievement-track__value">1</span></span><span class="pito-achievement-track__ellipsis pito-achievement-track__ellipsis--reached pito-shimmer-d7" data-accent="orange">──────────────────────────────···──────────────────────────────</span><span class="pito-achievement-track__cell"><span class="pito-achievement-track__dot pito-achievement-track__dot--reached pito-shimmer-d7" data-accent="orange">●</span><span class="pito-achievement-track__value">100K</span></span><span class="pito-achievement-track__connector pito-achievement-track__connector--reached pito-shimmer-d0" data-accent="orange">────────────────────────────────────────────────────────────</span><span class="pito-achievement-track__cell"><span class="pito-achievement-track__dot pito-achievement-track__dot--reached pito-shimmer-d9" data-accent="orange">◉</span><span class="pito-achievement-track__value">200K</span></span><span class="pito-achievement-track__connector pito-achievement-track__connector--reached pito-shimmer-d16" data-accent="orange">────────────────────────────────────────────────────────────</span><span class="pito-achievement-track__cell"><span class="pito-achievement-track__dot pito-achievement-track__dot--upcoming">○</span><span class="pito-achievement-track__value">500K</span></span><span class="pito-achievement-track__ellipsis">──────────────────────────────···──────────────────────────────</span><span class="pito-achievement-track__cell"><span class="pito-achievement-track__dot pito-achievement-track__dot--upcoming">○</span><span class="pito-achievement-track__value">10M</span></span></span></span></div>
   </Section>
 
   {/* ── 10 · SCHEDULING ──────────────────────────────────── */}
@@ -273,6 +372,15 @@ const avatars = [
       </div>
     </div>
   </Section>
+
+  {/* ── COLOR BRIDGE → €0 ─────────────────────────────────── */}
+  <ColorBridge
+    letter="€"
+    color="#9ece6a"
+    ink="#0a0a12"
+    text="Zero."
+    sub="no subscription. no ransom. forever."
+  />
 
   {/* ── 12 · FREE · PRIVATE · READ-ONLY ──────────────────── */}
   <Section id="free" theme="one-dark" label="€0 · private" class="f-serif">

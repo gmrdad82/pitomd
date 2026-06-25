@@ -25,6 +25,8 @@ const { id, theme, label, class: extra = "" } = Astro.props;
   data-theme={theme}
   data-nav-label={label}
 >
+  {/* decorative layer (logos/watermarks) — sits behind the content column */}
+  <slot name="decor" />
   <div class="section__inner">
     <slot />
   </div>

@@ -64,12 +64,32 @@ function typewriter(el) {
   step();
 }
 
+// Comet: each character streaks in from the right with a fading blue glow tail,
+// staggered left-to-right — pito's comet reveal, for a page element.
+function comet(el) {
+  const final = el.dataset.fxText || el.textContent || "";
+  if (reduceMotion) {
+    el.textContent = final;
+    return;
+  }
+  el.textContent = "";
+  const chars = Array.from(final);
+  chars.forEach((ch, i) => {
+    const span = document.createElement("span");
+    span.className = "cchar";
+    span.style.setProperty("--i", i);
+    span.textContent = ch === " " ? " " : ch;
+    el.appendChild(span);
+  });
+}
+
 function runFx(el) {
   if (el.dataset.fxDone) return;
   el.dataset.fxDone = "1";
   const kind = el.dataset.fx;
   if (kind === "scramble") scramble(el);
   else if (kind === "typewriter") typewriter(el);
+  else if (kind === "comet") comet(el);
 }
 
 function initReveal() {
@@ -80,7 +100,8 @@ function initReveal() {
   // there's no flash of full text before the effect runs.
   fxEls.forEach((el) => {
     if (!el.dataset.fxText) el.dataset.fxText = el.textContent.trim();
-    if (!reduceMotion && el.dataset.fx === "typewriter") el.textContent = "";
+    if (!reduceMotion && (el.dataset.fx === "typewriter" || el.dataset.fx === "comet"))
+      el.textContent = "";
   });
 
   if (reduceMotion) {

@@ -69,6 +69,43 @@
   }
 }
 
+/* ── Comet text reveal ─────────────────────────────────────── */
+/* reveal.js wraps each char in .cchar with a staggered --i; each streaks in
+   from the right with a fading blue glow tail. */
+
+[data-fx="comet"] {
+  white-space: pre-wrap;
+}
+[data-fx="comet"] .cchar {
+  display: inline-block;
+  white-space: pre;
+  opacity: 0;
+  animation: comet-char 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--i) * 28ms);
+}
+@keyframes comet-char {
+  from {
+    opacity: 0;
+    transform: translateX(0.7em);
+    filter: blur(5px);
+    text-shadow:
+      -0.5em 0 0.5em color-mix(in oklab, var(--pito-blue) 80%, transparent),
+      0 0 0.8em var(--pito-blue);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    text-shadow: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-fx="comet"] .cchar {
+    opacity: 1;
+    animation: none;
+  }
+}
+
 /* ── Magnetic / tilt easing ────────────────────────────────── */
 
 [data-magnetic] {

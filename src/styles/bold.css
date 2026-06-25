@@ -145,6 +145,45 @@
   }
 }
 
+/* ── Section pop-in from alternating sides ─────────────────── */
+/* Scroll-driven: each section's content column slides in from a side as it
+   enters (odd → from left, even → from right). Progressive enhancement only. */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section:nth-of-type(odd) .section__inner {
+      animation: pop-from-left linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 75%;
+    }
+    .section:nth-of-type(even) .section__inner {
+      animation: pop-from-right linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 75%;
+    }
+    @keyframes pop-from-left {
+      from {
+        transform: translateX(-8vw);
+        opacity: 0.3;
+      }
+      to {
+        transform: none;
+        opacity: 1;
+      }
+    }
+    @keyframes pop-from-right {
+      from {
+        transform: translateX(8vw);
+        opacity: 0.3;
+      }
+      to {
+        transform: none;
+        opacity: 1;
+      }
+    }
+  }
+}
+
 /* ── Pinned scrollytelling (Voyage) ────────────────────────── */
 
 .scrolly {
@@ -291,8 +330,8 @@
 }
 .coin-chip {
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.55rem;
   padding: 0.7rem 1.1rem;
   background: var(--bg-surface);
   border: 1px solid var(--border-faded);
@@ -300,8 +339,15 @@
   font-size: clamp(1rem, 2.5vw, 1.6rem);
 }
 .coin-chip .glyphs {
-  font-size: 1.2em;
-  letter-spacing: 0.1em;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.coin-chip .glyphs img {
+  width: 22px;
+  height: 22px;
+  display: block;
+  image-rendering: pixelated;
 }
 .coin-chip .num {
   color: var(--accent-yellow);
@@ -335,6 +381,145 @@
 }
 .shiny::before {
   content: "✦";
+}
+
+/* ── ColorBridge transition ────────────────────────────────── */
+/* Default (no-JS / fallback): a static flooded colour panel with the statement.
+   The .js enhancement turns it into the zoom-flood scroll transition. */
+
+.bridge {
+  position: relative;
+  background: var(--bg-root);
+}
+.bridge__stage {
+  position: static;
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  overflow: clip;
+  background: var(--bridge-color);
+  padding: var(--section-pad-x);
+}
+.bridge__letter,
+.bridge__flood {
+  display: none;
+}
+.bridge__statement {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  color: var(--bridge-ink);
+}
+.bridge__title {
+  font-size: clamp(3rem, 12vw, 10rem);
+  color: var(--bridge-ink);
+  line-height: 0.95;
+}
+.bridge__sub {
+  color: color-mix(in oklab, var(--bridge-ink) 72%, transparent);
+  margin-top: 1.2rem;
+  font-size: clamp(1rem, 2.2vw, 1.5rem);
+}
+
+/* JS-enhanced: scroll-driven zoom-flood (bridge.js sets --bp 0→1). */
+.js .bridge {
+  height: 220vh;
+}
+.js .bridge__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  min-height: 0;
+  background: var(--bg-root);
+}
+.js .bridge__letter {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 40vmin;
+  line-height: 1;
+  color: var(--bridge-color);
+  transform: scale(calc(1 + var(--bp, 0) * 28));
+  opacity: clamp(0, calc(1 - (var(--bp, 0) - 0.5) * 7), 1);
+  will-change: transform, opacity;
+}
+.js .bridge__flood {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--bridge-color);
+  opacity: clamp(0, calc((var(--bp, 0) - 0.42) * 7), 1);
+}
+.js .bridge__statement {
+  opacity: clamp(0, calc((var(--bp, 0) - 0.64) * 7), 1);
+  transform: translateY(calc((1 - clamp(0, calc((var(--bp, 0) - 0.64) * 7), 1)) * 24px));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .bridge {
+    height: auto;
+  }
+  .js .bridge__stage {
+    position: static;
+    height: auto;
+    min-height: 60vh;
+    background: var(--bridge-color);
+  }
+  .js .bridge__letter,
+  .js .bridge__flood {
+    display: none;
+  }
+  .js .bridge__statement {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Scattered PITO logo accents ───────────────────────────── */
+/* Decorative marks placed via Section's `decor` slot; sit behind the content
+   column (.section__inner is z-index 1). */
+
+.logo-accent {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.07;
+  margin: 0;
+}
+.logo-accent--tr {
+  top: 6%;
+  right: 5%;
+  width: clamp(120px, 18vw, 260px);
+  transform: rotate(6deg);
+}
+.logo-accent--bl {
+  bottom: 7%;
+  left: 5%;
+  width: clamp(120px, 16vw, 240px);
+  transform: rotate(-7deg);
+}
+.logo-accent--watermark {
+  top: 50%;
+  left: 50%;
+  width: min(120vw, 1400px);
+  transform: translate(-50%, -50%) rotate(-4deg);
+  opacity: 0.04;
+}
+.logo-accent img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* the <pre> ascii variant as an accent */
+.logo-accent.pito-logo {
+  font-size: clamp(5px, 1.4vw, 11px);
+  opacity: 0.12;
+  filter: none;
 }
 
 /* ── Cast trio (CTA) ───────────────────────────────────────── */
