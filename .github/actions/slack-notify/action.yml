@@ -1,0 +1,149 @@
+name: Slack notify (Deadpan Butler)
+description: >-
+  Posts a witty CI/deploy summary to Slack, naming the branch and — on failure
+  — the actual step that broke (looked up via the Actions API, not hardcoded).
+  One voice ("Deadpan Butler"), shared by every workflow. No-ops when no webhook
+  is configured, so it never fails a run. Ported from the pito repo, tuned for
+  this Astro/Cloudflare site.
+
+# Usage (LAST step of a job, after actions/checkout). To avoid spam the site
+# wires it as: CI → only on failure; Deploy → only on success (the deploy
+# notice). So a push yields at most one message.
+#
+#   - name: Notify Slack
+#     if: failure()                  # (or: success() on the deploy job)
+#     continue-on-error: true
+#     uses: ./.github/actions/slack-notify
+#     with:
+#       status: ${{ job.status }}
+#       webhook: ${{ secrets.SLACK_WEBHOOK }}
+#       github-token: ${{ github.token }}
+#
+# Requires the calling job to grant `actions: read` (to read step conclusions).
+
+inputs:
+  status:
+    description: "Job status (success / failure / cancelled). Pass job.status."
+    required: true
+  webhook:
+    description: "Slack incoming-webhook URL (SLACK_WEBHOOK). Empty → no-op."
+    required: true
+  github-token:
+    description: "Token with actions:read (github.token). Looks up the failing step."
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Post result to Slack
+      shell: bash
+      env:
+        STATUS: ${{ inputs.status }}
+        SLACK_WEBHOOK: ${{ inputs.webhook }}
+        GH_TOKEN: ${{ inputs.github-token }}
+        BRANCH: ${{ github.head_ref || github.ref_name }}
+        REPO: ${{ github.repository }}
+        WORKFLOW: ${{ github.workflow }}
+        JOB: ${{ github.job }}
+        RUN_ID: ${{ github.run_id }}
+        RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        SHA: ${{ github.sha }}
+      run: |
+        set -uo pipefail
+
+        # No webhook configured (e.g. before the secret is added) → stay quiet.
+        if [ -z "${SLACK_WEBHOOK:-}" ]; then
+          echo "SLACK_WEBHOOK not set; skipping Slack notification."
+          exit 0
+        fi
+
+        repo_name="${REPO##*/}"
+        short_sha="${SHA:0:7}"
+
+        # Random element from the args — keeps the Butler from repeating himself.
+        pick() { local arr=("$@"); printf '%s' "${arr[RANDOM % ${#arr[@]}]}"; }
+
+        is_deploy=false
+        case "$WORKFLOW" in *[Dd]eploy*) is_deploy=true ;; esac
+
+        case "$STATUS" in
+          success)
+            if [ "$is_deploy" = true ]; then
+              line="$(pick \
+                "Shipped. pitomd.com just got a little fresher." \
+                "Deployed without incident. Go look — I'll wait." \
+                "Live on the apex. The Butler dusts his hands." \
+                "Out the door and onto Cloudflare. Mind the edge cache." \
+                "Published. Try to act like you expected it to work." \
+                "It's live. Refresh, admire, repeat.")"
+              text="$(printf '%s\n%s\n%s' \
+                ":rocket: *Deployed \`${BRANCH}\` to pitomd.com* :sparkles:" \
+                "${line}" \
+                "_${repo_name} · <https://pitomd.com|site> · <${RUN_URL}|run> · \`${short_sha}\`_")"
+            else
+              line="$(pick \
+                "Green across the board. I shall permit myself a small nod." \
+                "All checks passed — suspiciously smooth, but I won't jinx it." \
+                "Spotless. You may frame this one." \
+                "No notes. The pipeline is, dare I say, content." \
+                "Everything's green. Do try to act surprised." \
+                "Passed without complaint. A rare and beautiful thing.")"
+              text="$(printf '%s\n%s\n%s' \
+                ":white_check_mark: *${WORKFLOW} is green on \`${BRANCH}\`* :four_leaf_clover:" \
+                "${line}" \
+                "_${repo_name} · <${RUN_URL}|run> · \`${short_sha}\`_")"
+            fi
+            ;;
+
+          cancelled)
+            line="$(pick \
+              "Someone pulled the plug mid-run. I shan't ask why." \
+              "Aborted. We'll pretend that didn't happen." \
+              "Stopped mid-stride. Most undignified." \
+              "Cancelled. The Butler retires to his quarters.")"
+            text="$(printf '%s\n%s\n%s' \
+              ":no_entry: *${WORKFLOW} was called off on \`${BRANCH}\`*" \
+              "${line}" \
+              "_${repo_name} · <${RUN_URL}|run> · \`${short_sha}\`_")"
+            ;;
+
+          *)
+            # Failure. Ask the Actions API which step actually fell over.
+            failed_step="$(gh api "repos/${REPO}/actions/runs/${RUN_ID}/jobs" \
+              --jq ".jobs[] | select(.name == \"${JOB}\") | .steps[] | select(.conclusion == \"failure\") | .name" \
+              2>/dev/null | head -n1 || true)"
+            [ -z "$failed_step" ] && failed_step="an unnamed step (it's being coy)"
+
+            quip="Something downstream took offense."
+            shopt -s nocasematch
+            case "$failed_step" in
+              *prettier*|*format*)   quip="Your formatting wandered off-script. The horror." ;;
+              *eslint*)              quip="ESLint finds your JavaScript... wanting." ;;
+              *stylelint*)           quip="Stylelint took quiet issue with your CSS." ;;
+              *astro\ check*|*astro*) quip="Astro's type-checker raised a single eyebrow." ;;
+              *lighthouse*)          quip="Lighthouse is unimpressed with the vitals." ;;
+              *audit*)               quip="A dependency has a known... reputation." ;;
+              *build*)               quip="The build declined to assemble itself." ;;
+              *install*|*npm\ ci*)   quip="The dependencies declined the invitation." ;;
+              *node*)                quip="Node.js could not be located. Ironic." ;;
+              *checkout*)            quip="We couldn't even check out the code. Bold start." ;;
+              *deploy*|*wrangler*|*cloudflare*) quip="Cloudflare wasn't in the mood to receive us." ;;
+            esac
+            shopt -u nocasematch
+
+            verb="$(pick "fell over" "face-planted" "threw a tantrum" "came apart at the seams" "had a moment" "lost its composure")"
+            text="$(printf '%s\n%s\n%s\n%s' \
+              ":rotating_light: *${WORKFLOW} ${verb} on \`${BRANCH}\`*" \
+              "Tripped at: *${failed_step}*" \
+              "${quip}" \
+              "_${repo_name} · \`${short_sha}\` · <${RUN_URL}|View the carnage>_")"
+            ;;
+        esac
+
+        payload="$(jq -n --arg text "$text" '{text: $text}')"
+        curl -sS -X POST -H 'Content-type: application/json' \
+          --data "$payload" "$SLACK_WEBHOOK" >/dev/null \
+          && echo "Slack notified (${STATUS})." \
+          || echo "Slack POST failed; not failing the run."
+
+        exit 0

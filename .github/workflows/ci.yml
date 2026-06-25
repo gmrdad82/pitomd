@@ -5,8 +5,14 @@ on:
     branches: [main]
   pull_request:
 
+# actions:read lets the Slack notifier look up which step failed.
+permissions:
+  contents: read
+  actions: read
+
 jobs:
-  lint-and-audit:
+  # One job, so a failure produces exactly one Slack message (no double-posting).
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -38,24 +44,18 @@ jobs:
       - name: Build verification
         run: npm run build
 
-  lighthouse:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "22"
-          cache: npm
-          cache-dependency-path: package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
       - name: Lighthouse CI (a11y / SEO / best-practices gated; perf is a warning)
         uses: treosh/lighthouse-ci-action@v12
         with:
           configPath: ./lighthouserc.json
+
+      # Slack only on FAILURE — successful CI is silent (no spam). The deploy
+      # workflow posts the success/"deployed" notice, so the two never overlap.
+      - name: Notify Slack on failure
+        if: failure()
+        continue-on-error: true
+        uses: ./.github/actions/slack-notify
+        with:
+          status: ${{ job.status }}
+          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          github-token: ${{ github.token }}

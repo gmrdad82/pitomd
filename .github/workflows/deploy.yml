@@ -2,7 +2,7 @@ name: Deploy
 
 # Builds the static site and publishes it to Cloudflare Pages on every push to
 # main (and on manual dispatch). Requires repo secrets CLOUDFLARE_API_TOKEN and
-# CLOUDFLARE_ACCOUNT_ID.
+# CLOUDFLARE_ACCOUNT_ID. SLACK_WEBHOOK (optional) posts a deploy notice.
 on:
   push:
     branches: [main]
@@ -14,6 +14,7 @@ jobs:
     permissions:
       contents: read
       deployments: write
+      actions: read
     steps:
       - uses: actions/checkout@v7
 
@@ -35,3 +36,14 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=pito-website
+
+      # Slack only on SUCCESS — the deploy notice. A broken build fails CI (which
+      # sends the fail message) and this step is skipped, so no double-posting.
+      - name: Notify Slack on deploy
+        if: success()
+        continue-on-error: true
+        uses: ./.github/actions/slack-notify
+        with:
+          status: ${{ job.status }}
+          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          github-token: ${{ github.token }}
