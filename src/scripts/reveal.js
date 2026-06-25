@@ -92,7 +92,33 @@ function runFx(el) {
   else if (kind === "comet") comet(el);
 }
 
+// Section pop-in: each .section slides in from an alternating side and locks
+// centred once it enters (deterministic — no scroll-timeline stranding).
+function initSectionPop() {
+  const sections = Array.from(document.querySelectorAll(".section"));
+  sections.forEach((s, i) => {
+    s.style.setProperty("--sec-pop", i % 2 ? "7vw" : "-7vw");
+  });
+  if (reduceMotion) {
+    sections.forEach((s) => s.classList.add("sec-in"));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries, obs) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add("sec-in");
+          obs.unobserve(e.target);
+        }
+      }
+    },
+    { threshold: 0.12 }
+  );
+  sections.forEach((s) => io.observe(s));
+}
+
 function initReveal() {
+  initSectionPop();
   const reveals = document.querySelectorAll("[data-reveal]");
   const fxEls = document.querySelectorAll("[data-fx]");
 

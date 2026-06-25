@@ -117,6 +117,13 @@
   color: var(--accent-green);
   border-color: var(--accent-green);
 }
+.copybox--center {
+  margin-inline: auto;
+}
+.maker__contact {
+  color: var(--fg-dim);
+  margin-top: 0.8rem;
+}
 .hero__title {
   margin: 0.5em 0 0.3em;
 }

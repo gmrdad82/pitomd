@@ -16,14 +16,16 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 10px;
-  height: 10px;
-  margin: -5px 0 0 -5px;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
   border-radius: 50%;
+  /* tinted live by pointer.js to the section under the cursor (--trail-c1/c2),
+     falling back to brand blue/purple before the first move */
   background: radial-gradient(
     circle,
-    var(--pito-blue),
-    color-mix(in oklab, var(--accent-purple) 60%, transparent) 70%,
+    var(--trail-c1, var(--pito-blue)),
+    color-mix(in oklab, var(--trail-c2, var(--accent-purple)) 65%, transparent) 70%,
     transparent
   );
   opacity: 0;

@@ -146,41 +146,20 @@
 }
 
 /* ── Section pop-in from alternating sides ─────────────────── */
-/* Scroll-driven: each section's content column slides in from a side as it
-   enters (odd → from left, even → from right). Progressive enhancement only. */
+/* Deterministic: reveal.js sets --sec-pop (±) per section and adds `.sec-in`
+   once it enters — the inner slides in from that side and STAYS centred (no
+   scroll-timeline stranding the content off to one side). */
 
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .section:nth-of-type(odd) .section__inner {
-      animation: pop-from-left linear both;
-      animation-timeline: view();
-      animation-range: entry 5% entry 75%;
-    }
-    .section:nth-of-type(even) .section__inner {
-      animation: pop-from-right linear both;
-      animation-timeline: view();
-      animation-range: entry 5% entry 75%;
-    }
-    @keyframes pop-from-left {
-      from {
-        transform: translateX(-8vw);
-        opacity: 0.3;
-      }
-      to {
-        transform: none;
-        opacity: 1;
-      }
-    }
-    @keyframes pop-from-right {
-      from {
-        transform: translateX(8vw);
-        opacity: 0.3;
-      }
-      to {
-        transform: none;
-        opacity: 1;
-      }
-    }
+.js .section__inner {
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.js .section:not(.sec-in) .section__inner {
+  transform: translateX(var(--sec-pop, 0));
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .section__inner {
+    transition: none;
+    transform: none !important;
   }
 }
 
@@ -492,23 +471,44 @@
   margin: 0;
 }
 .logo-accent--tr {
-  top: 6%;
+  top: 7%;
   right: 5%;
-  width: clamp(120px, 18vw, 260px);
-  transform: rotate(6deg);
+  width: clamp(110px, 16vw, 240px);
+  rotate: 6deg;
+}
+.logo-accent--tl {
+  top: 8%;
+  left: 5%;
+  width: clamp(100px, 14vw, 210px);
+  rotate: -8deg;
+}
+.logo-accent--br {
+  bottom: 8%;
+  right: 6%;
+  width: clamp(110px, 15vw, 230px);
+  rotate: 5deg;
 }
 .logo-accent--bl {
   bottom: 7%;
   left: 5%;
-  width: clamp(120px, 16vw, 240px);
-  transform: rotate(-7deg);
+  width: clamp(110px, 16vw, 240px);
+  rotate: -7deg;
+}
+.logo-accent--side {
+  top: 50%;
+  right: -4%;
+  width: clamp(160px, 22vw, 360px);
+  translate: 0 -50%;
+  rotate: 90deg;
+  opacity: 0.06;
 }
 .logo-accent--watermark {
   top: 50%;
   left: 50%;
   width: min(120vw, 1400px);
-  transform: translate(-50%, -50%) rotate(-4deg);
-  opacity: 0.04;
+  translate: -50% -50%;
+  rotate: -4deg;
+  opacity: 0.045;
 }
 .logo-accent img {
   width: 100%;
@@ -518,8 +518,76 @@
 /* the <pre> ascii variant as an accent */
 .logo-accent.pito-logo {
   font-size: clamp(5px, 1.4vw, 11px);
-  opacity: 0.12;
+  opacity: 0.14;
   filter: none;
+}
+
+/* gentle perpetual drift */
+.logo-accent--float {
+  animation: logo-drift 9s ease-in-out infinite;
+}
+.logo-accent--float.logo-accent--tl {
+  animation-duration: 11s;
+}
+.logo-accent--float.logo-accent--br {
+  animation-duration: 13s;
+}
+@keyframes logo-drift {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -18px;
+  }
+}
+
+/* mouse-reactive parallax (pointer.js sets --par-x/--par-y, -1..1) */
+.logo-accent--react {
+  transition: translate 0.4s ease-out;
+  translate: calc(var(--par-x, 0) * 26px) calc(var(--par-y, 0) * 26px);
+}
+.logo-accent--react.logo-accent--strong {
+  translate: calc(var(--par-x, 0) * 60px) calc(var(--par-y, 0) * 60px);
+}
+
+/* colour variants — recolour the ascii blocks */
+.logo-accent--cyan .b {
+  color: var(--accent-cyan);
+}
+.logo-accent--purple .b {
+  color: var(--accent-purple);
+}
+.logo-accent--orange .b {
+  color: var(--accent-orange);
+}
+.logo-accent--green .b {
+  color: var(--accent-green);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-accent--float {
+    animation: none;
+  }
+  .logo-accent--react {
+    translate: 0 0 !important;
+  }
+}
+
+/* ── Crash-zoom reveal (extra creative variant) ────────────── */
+.js [data-reveal="crash"] {
+  opacity: 0;
+  transform: scale(1.6);
+  filter: blur(14px);
+}
+.js [data-reveal="crash"].is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  transition:
+    opacity 0.5s ease,
+    transform 0.55s cubic-bezier(0.2, 1.4, 0.3, 1),
+    filter 0.5s ease;
 }
 
 /* ── Cast trio (CTA) ───────────────────────────────────────── */
@@ -534,19 +602,24 @@
 .casts figure {
   margin: 0;
   border: 1px solid var(--border-faded);
-  background: var(--bg-surface);
+  background: var(--bg-root);
+  overflow: hidden;
 }
 .casts img {
   width: 100%;
+  /* uniform boxes regardless of each cast's native ratio — letterbox, no crop */
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  background: var(--bg-root);
   display: block;
 }
 .casts figcaption {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   color: var(--fg-dim);
-  padding: 0.5rem 0.7rem;
+  padding: 0.55rem 0.7rem;
   border-top: 1px solid var(--border-default);
-  text-align: left;
+  text-align: center;
 }
 
 @media (max-width: 860px) {

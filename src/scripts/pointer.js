@@ -23,20 +23,44 @@ function initPointer() {
   let py = window.innerHeight / 2;
   let ticking = false;
 
-  // ── spotlight vars ───────────────────────────────────────
+  // ── spotlight vars + section-reactive trail colour ──────────
   // Global viewport coords (for the hero) + per-section LOCAL coords so every
-  // section's glow tracks the real cursor position, not a box-relative guess.
-  const sections = Array.from(document.querySelectorAll(".section"));
+  // section's glow tracks the real cursor position. When the cursor crosses into
+  // a new section we read that theme's accents and retint the cursor trail —
+  // the comet takes on each section's own colour as you move down the page.
+  const sections = Array.from(document.querySelectorAll(".section, .bridge, .scrolly"));
+  let hotId = null;
+  const retint = (section) => {
+    const cs = getComputedStyle(section);
+    const c1 =
+      cs.getPropertyValue("--accent-purple").trim() || "var(--pito-blue)";
+    const c2 = cs.getPropertyValue("--accent-cyan").trim() || c1;
+    body.style.setProperty("--trail-c1", c1);
+    body.style.setProperty("--trail-c2", c2);
+  };
   const updateSpotlight = () => {
     body.style.setProperty("--mx", `${(px / window.innerWidth) * 100}%`);
     body.style.setProperty("--my", `${(py / window.innerHeight) * 100}%`);
+    // normalized cursor offset from centre (-1..1) → mouse-parallax for logos
+    body.style.setProperty("--par-x", (px / window.innerWidth - 0.5) * 2);
+    body.style.setProperty("--par-y", (py / window.innerHeight - 0.5) * 2);
     for (const s of sections) {
       const r = s.getBoundingClientRect();
-      const inside = py >= r.top && py <= r.bottom;
-      s.classList.toggle("is-hot", inside);
+      const inside = py >= r.top && py <= r.bottom && r.top < window.innerHeight && r.bottom > 0;
+      if (s.classList.contains("section")) {
+        s.classList.toggle("is-hot", inside);
+        if (inside) {
+          s.style.setProperty("--lx", `${((px - r.left) / r.width) * 100}%`);
+          s.style.setProperty("--ly", `${((py - r.top) / r.height) * 100}%`);
+        }
+      }
+      // retint the trail when entering a new section/bridge/scrolly
       if (inside) {
-        s.style.setProperty("--lx", `${((px - r.left) / r.width) * 100}%`);
-        s.style.setProperty("--ly", `${((py - r.top) / r.height) * 100}%`);
+        const id = s.id || s.dataset.navLabel || String(sections.indexOf(s));
+        if (id !== hotId) {
+          hotId = id;
+          retint(s);
+        }
       }
     }
   };

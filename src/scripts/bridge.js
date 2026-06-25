@@ -34,6 +34,21 @@ function initBridges() {
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll, { passive: true });
   update();
+
+  // Slow, readable glyph shuffle on bridges that opt in (e.g. $ € £).
+  for (const b of bridges) {
+    const spec = b.getAttribute("data-bridge-glyphs");
+    if (!spec) continue;
+    const glyphs = spec.trim().split(/\s+/);
+    if (glyphs.length < 2) continue;
+    const letterEl = b.querySelector(".bridge__letter");
+    if (!letterEl) continue;
+    let gi = 0;
+    setInterval(() => {
+      gi = (gi + 1) % glyphs.length;
+      letterEl.textContent = glyphs[gi];
+    }, 1300);
+  }
 }
 
 if (document.readyState === "loading") {

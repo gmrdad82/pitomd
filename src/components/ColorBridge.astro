@@ -18,11 +18,13 @@ interface Props {
   sub?: string;
   /** ink colour for the statement (must read on `color`) */
   ink?: string;
+  /** optional space-separated glyphs the letter slowly shuffles through */
+  glyphs?: string;
   id?: string;
   label?: string;
 }
 
-const { letter, color, text, sub, ink = "#0a0a12", id, label } = Astro.props;
+const { letter, color, text, sub, ink = "#0a0a12", glyphs, id, label } = Astro.props;
 ---
 
 <section
@@ -30,6 +32,7 @@ const { letter, color, text, sub, ink = "#0a0a12", id, label } = Astro.props;
   data-bridge
   id={id}
   data-nav-label={label}
+  data-bridge-glyphs={glyphs}
   style={`--bridge-color:${color};--bridge-ink:${ink}`}
   aria-label={text}
 >
