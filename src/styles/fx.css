@@ -10,7 +10,10 @@
   inset: 0;
   z-index: 60;
   pointer-events: none;
-  mix-blend-mode: screen;
+  /* NB: no mix-blend-mode here. A full-viewport blend layer forces everything
+     beneath it (the animated cast GIFs) to recomposite on every frame, which
+     flickers when the window is unfocused and the browser throttles rendering.
+     The dots glow via their own gradient + a per-dot drop-shadow instead. */
 }
 .cursor-trail__dot {
   position: absolute;
