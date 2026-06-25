@@ -29,18 +29,20 @@ function copyText(text) {
 function initCopy() {
   const widgets = document.querySelectorAll("[data-copy]");
   widgets.forEach((widget) => {
-    const btn = widget.querySelector("[data-copy-btn]") || widget;
-    btn.addEventListener("click", async () => {
+    // The ENTIRE widget surface is clickable (not just the button) — the button
+    // stays as the visual affordance. Listener on the widget, label still the
+    // button's.
+    const label = widget.querySelector("[data-copy-label]");
+    widget.addEventListener("click", async () => {
       const text = widget.getAttribute("data-copy");
       try {
         await copyText(text);
         widget.classList.add("is-copied");
-        const label = btn.querySelector("[data-copy-label]") || btn;
-        const prev = label.textContent;
-        label.textContent = "copied ✓";
+        const prev = label ? label.textContent : null;
+        if (label) label.textContent = "copied ✓";
         setTimeout(() => {
           widget.classList.remove("is-copied");
-          label.textContent = prev;
+          if (label) label.textContent = prev;
         }, 1600);
       } catch {
         /* clipboard blocked — no-op */

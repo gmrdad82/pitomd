@@ -170,8 +170,8 @@
     box-shadow 0.2s ease;
 }
 .social a img {
-  width: 1.2em;
-  height: 1.2em;
+  height: 1.15em;
+  width: auto;
 }
 .social a:hover,
 .social a:focus-visible {
@@ -211,8 +211,8 @@
   border-color: var(--pito-blue);
 }
 .socialbar img {
-  width: 17px;
   height: 17px;
+  width: auto;
 }
 @media (max-width: 860px) {
   .socialbar {

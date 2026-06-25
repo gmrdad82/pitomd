@@ -161,19 +161,36 @@ function initPointer() {
     head = (head + 1) % TRAIL;
     g.life = 1;
     g.el.style.transform = `translate(${x}px, ${y}px)`;
+    startTrail();
   }
 
+  // The trail layer is a full-viewport screen-blend; running its rAF loop while
+  // nothing is animating forces a per-frame recomposite of everything beneath
+  // it (the cast GIFs etc.), which flickers when the window is unfocused and the
+  // browser throttles rendering. So the loop only runs while ghosts are alive
+  // and idles itself the moment the last one fades out.
+  let trailRunning = false;
   function decay() {
+    let active = false;
     for (const g of ghosts) {
       if (g.life > 0) {
         g.life -= 0.06;
         g.el.style.opacity = Math.max(0, g.life).toFixed(3);
         g.el.style.scale = (0.4 + g.life * 0.6).toFixed(3);
+        if (g.life > 0) active = true;
       }
     }
+    if (active) {
+      requestAnimationFrame(decay);
+    } else {
+      trailRunning = false;
+    }
+  }
+  function startTrail() {
+    if (trailRunning) return;
+    trailRunning = true;
     requestAnimationFrame(decay);
   }
-  requestAnimationFrame(decay);
 }
 
 if (document.readyState === "loading") {
