@@ -358,3 +358,12 @@ h3.display {
     filter: none !important;
   }
 }
+
+/* Mobile: hide the right-rail nav. Defined here (end of global.css, after the
+   @import of components.css) so it wins the cascade over the .railnav base rule
+   that also lives in this file below the imports. */
+@media (max-width: 860px) {
+  .railnav {
+    display: none;
+  }
+}
