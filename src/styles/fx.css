@@ -3,39 +3,6 @@
  * Imported by global.css. All effects degrade to nothing under reduced motion.
  */
 
-/* ── Cursor comet trail ────────────────────────────────────── */
-
-.cursor-trail {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  /* NB: no mix-blend-mode here. A full-viewport blend layer forces everything
-     beneath it (the animated cast GIFs) to recomposite on every frame, which
-     flickers when the window is unfocused and the browser throttles rendering.
-     The dots glow via their own gradient + a per-dot drop-shadow instead. */
-}
-.cursor-trail__dot {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 12px;
-  height: 12px;
-  margin: -6px 0 0 -6px;
-  border-radius: 50%;
-  /* tinted live by pointer.js to the section under the cursor (--trail-c1/c2),
-     falling back to brand blue/purple before the first move */
-  background: radial-gradient(
-    circle,
-    var(--trail-c1, var(--pito-blue)),
-    color-mix(in oklab, var(--trail-c2, var(--accent-purple)) 65%, transparent)
-      70%,
-    transparent
-  );
-  opacity: 0;
-  will-change: transform, opacity;
-}
-
 /* ── Pointer spotlight ─────────────────────────────────────── */
 /* Add class `spotlight` to any element to give it a cursor-following glow. */
 
@@ -128,9 +95,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cursor-trail {
-    display: none;
-  }
   .spotlight::before {
     display: none;
   }

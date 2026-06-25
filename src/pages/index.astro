@@ -16,13 +16,36 @@ const X = "https://x.com/GamerDady82";
 const DISCORD = "https://discord.gg/q947UyDTqJ";
 const INSTALL = "curl -fsSL pitomd.com/install.sh | sh";
 
+// The six channels — each avatar links to its own channel (handles per
+// ~/Dev/gmrdad82/README.md), not the shared main one.
+const YT = "https://www.youtube.com";
 const avatars = [
-  { file: "@gmrdad82.png", name: "Gamer Dad" },
-  { file: "@gmrdad82good.png", name: "The Good" },
-  { file: "@gmrdad82hard.png", name: "The Hard" },
-  { file: "@gmrdad82fighter.png", name: "The Fighter" },
-  { file: "@gmrdad82strategist.png", name: "The Strategist" },
-  { file: "@gmrdad82survivor.png", name: "The Survivor" },
+  { file: "@gmrdad82.png", name: "Catalin Ilinca", url: `${YT}/@gmrdad82` },
+  {
+    file: "@gmrdad82good.png",
+    name: "Gamer Dad — The Good Ones",
+    url: `${YT}/@gmrdad82good`,
+  },
+  {
+    file: "@gmrdad82hard.png",
+    name: "Gamer Dad — The Hard Ones",
+    url: `${YT}/@gmrdad82hard`,
+  },
+  {
+    file: "@gmrdad82fighter.png",
+    name: "Gamer Dad — The Fighter",
+    url: `${YT}/@gmrdad82fighter`,
+  },
+  {
+    file: "@gmrdad82strategist.png",
+    name: "Gamer Dad — The Strategist",
+    url: `${YT}/@gmrdad82strategist`,
+  },
+  {
+    file: "@gmrdad82survivor.png",
+    name: "Gamer Dad — The Survivor",
+    url: `${YT}/@gmrdad82survivor`,
+  },
 ];
 
 // Real game cover art exported from pito (the owner's own catalogue).
@@ -58,6 +81,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 
   {/* ── 1 · HERO ─────────────────────────────────────────── */}
   <Section id="hero" theme="synthwave" label="Start" class="hero f-grotesk">
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/stellar-blade.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     <PitoLogo
       slot="decor"
       class="logo-accent logo-accent--tr logo-accent--react logo-accent--sm logo-accent--cyan"
@@ -118,6 +148,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 
   {/* ── 2 · THE PAIN ─────────────────────────────────────── */}
   <Section id="pain" theme="dracula" label="The pain" class="f-heavy">
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/demon-s-souls.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     {/* Layer A — bg watermark: slow, large parallax */}
     <img
       slot="decor"
@@ -198,6 +235,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 
   {/* ── 4 · PLAIN LANGUAGE ───────────────────────────────── */}
   <Section id="language" theme="nord" label="Plain language" class="f-mono">
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/nioh-3.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     <PitoLogo
       slot="decor"
       class="logo-accent logo-accent--br logo-accent--react"
@@ -238,6 +282,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 
   {/* ── 5 · LINKAGE ──────────────────────────────────────── */}
   <Section id="linkage" theme="gruvbox-dark" label="Linkage" class="f-grotesk">
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/cyberpunk-2077.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     <PitoLogo
       slot="decor"
       class="logo-accent logo-accent--tr logo-accent--react"
@@ -342,7 +393,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       {
         covers.map((c, i) => (
           <figure
-            class={`cover${i === 0 ? " cover--featured" : ""}`}
+            class="cover"
             style={`--d:${depths[i] ?? 8}`}
             data-reveal="zoom"
           >
@@ -366,6 +417,22 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     ink="#0a0a12"
     text="Voyage AI"
     sub="game <-> channel. both ways."
+    covers={[
+      "/covers/terminator-2d-no-fate.jpg",
+      "/covers/stellar-blade-blood-rain.jpg",
+      "/covers/demon-s-souls.jpg",
+      "/covers/cyberpunk-2077.jpg",
+      "/covers/elden-ring.jpg",
+      "/covers/nioh-3.jpg",
+      "/covers/tekken-7.jpg",
+      "/covers/pragmata.jpg",
+      "/covers/elden-ring-nightreign.jpg",
+      "/covers/ghosts-n-goblins-resurrection.jpg",
+      "/covers/stellar-blade.jpg",
+      "/covers/elden-ring.jpg",
+      "/covers/cyberpunk-2077.jpg",
+      "/covers/demon-s-souls.jpg",
+    ]}
   />
 
   {/* ── 6 · VOYAGE — pinned scrollytelling ───────────────── */}
@@ -381,6 +448,12 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       <span class="scrolly__hint">Voyage AI · scroll through</span>
       <div class="scrolly__steps">
         <div class="scrolly__step" data-scrolly-step>
+          <div
+            class="scrolly__bed"
+            style="--cover:url('/covers/pragmata.jpg')"
+            aria-hidden="true"
+          >
+          </div>
           <h2 class="scrolly__big" data-fx="comet">You played a game.</h2>
           <p class="scrolly__sub">
             Tell PITO once. It pulls genres, themes, devs, and release from IGDB
@@ -388,6 +461,12 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
           </p>
         </div>
         <div class="scrolly__step" data-scrolly-step>
+          <div
+            class="scrolly__bed"
+            style="--cover:url('/covers/tekken-7.jpg')"
+            aria-hidden="true"
+          >
+          </div>
           <p class="scrolly__arrow">game -></p>
           <h2 class="scrolly__big pito-blue" data-fx="comet">
             the channels it fits.
@@ -404,6 +483,12 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
           </p>
         </div>
         <div class="scrolly__step" data-scrolly-step>
+          <div
+            class="scrolly__bed"
+            style="--cover:url('/covers/elden-ring-nightreign.jpg')"
+            aria-hidden="true"
+          >
+          </div>
           <p class="scrolly__arrow">channel -></p>
           <h2 class="scrolly__big pito-blue" data-fx="comet">
             the games that suit it.
@@ -414,6 +499,12 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
           </p>
         </div>
         <div class="scrolly__step" data-scrolly-step>
+          <div
+            class="scrolly__bed"
+            style="--cover:url('/covers/ghosts-n-goblins-resurrection.jpg')"
+            aria-hidden="true"
+          >
+          </div>
           <h2 class="scrolly__big" data-fx="comet">Similar games, surfaced.</h2>
           <p class="scrolly__sub">
             Curious what to play next? Voyage AI keeps fresh similar-games picks
@@ -445,6 +536,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 
   {/* ── 7 · FOOTAGE ──────────────────────────────────────── */}
   <Section id="footage" theme="ayu-dark" label="Footage" class="f-round">
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/elden-ring.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     <PitoLogo
       slot="decor"
       class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong"
@@ -1174,7 +1272,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
         {
           avatars.map((a) => (
             <li>
-              <a href={YOUTUBE} title={a.name}>
+              <a href={a.url} title={a.name}>
                 <img
                   src={`/avatars/${a.file}`}
                   width="72"

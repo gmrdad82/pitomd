@@ -22,6 +22,12 @@ interface Props {
   glyphs?: string;
   id?: string;
   label?: string;
+  /**
+   * Optional game cover paths scattered in the bridge background (e.g. Voyage).
+   * Only pass this to bridges where the cover atmosphere fits — Zero bridge
+   * intentionally gets none.
+   */
+  covers?: string[];
 }
 
 const {
@@ -33,6 +39,7 @@ const {
   glyphs,
   id,
   label,
+  covers,
 } = Astro.props;
 ---
 
@@ -46,6 +53,18 @@ const {
   aria-label={text}
 >
   <div class="bridge__stage">
+    {
+      covers && covers.length > 0 && (
+        <div class="bridge__covers" aria-hidden="true">
+          {covers.map((src, i) => (
+            <div
+              class={`bridge__cover bridge__cover--${i}`}
+              style={`--cover-src:url('${src}');--ci:${i}`}
+            />
+          ))}
+        </div>
+      )
+    }
     <span class="bridge__letter" aria-hidden="true">{letter}</span>
     <div class="bridge__flood" aria-hidden="true"></div>
     <div class="bridge__statement">

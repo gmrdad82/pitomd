@@ -15,7 +15,9 @@ function initParallax() {
   if (reduceMotion) return;
 
   const targets = Array.from(
-    document.querySelectorAll("#pain, #price, #shinies, #free"),
+    document.querySelectorAll(
+      "#pain, #price, #shinies, #free, #hero, #linkage, #language, #footage",
+    ),
   );
 
   if (!targets.length) return;

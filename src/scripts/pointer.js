@@ -6,8 +6,6 @@
 //   • Magnetic buttons    — [data-magnetic] elements ease toward the pointer
 //     when it's near, springing back on leave.
 //   • 3D tilt cards        — [data-tilt] elements rotate toward the pointer.
-//   • Cursor comet trail   — a pooled ring of fading dots streaks behind the
-//     pointer (pito's cursor_trail, reimagined for a page cursor).
 //
 // Everything is disabled under prefers-reduced-motion or on coarse (touch)
 // pointers, where these effects are pointless or janky.
@@ -25,23 +23,12 @@ function initPointer() {
   let py = window.innerHeight / 2;
   let ticking = false;
 
-  // ── spotlight vars + section-reactive trail colour ──────────
+  // ── spotlight vars ──────────────────────────────────────────
   // Global viewport coords (for the hero) + per-section LOCAL coords so every
-  // section's glow tracks the real cursor position. When the cursor crosses into
-  // a new section we read that theme's accents and retint the cursor trail —
-  // the comet takes on each section's own colour as you move down the page.
+  // section's glow tracks the real cursor position.
   const sections = Array.from(
     document.querySelectorAll(".section, .bridge, .scrolly"),
   );
-  let hotId = null;
-  const retint = (section) => {
-    const cs = getComputedStyle(section);
-    const c1 =
-      cs.getPropertyValue("--accent-purple").trim() || "var(--pito-blue)";
-    const c2 = cs.getPropertyValue("--accent-cyan").trim() || c1;
-    body.style.setProperty("--trail-c1", c1);
-    body.style.setProperty("--trail-c2", c2);
-  };
   const updateSpotlight = () => {
     body.style.setProperty("--mx", `${(px / window.innerWidth) * 100}%`);
     body.style.setProperty("--my", `${(py / window.innerHeight) * 100}%`);
@@ -60,14 +47,6 @@ function initPointer() {
         if (inside) {
           s.style.setProperty("--lx", `${((px - r.left) / r.width) * 100}%`);
           s.style.setProperty("--ly", `${((py - r.top) / r.height) * 100}%`);
-        }
-      }
-      // retint the trail when entering a new section/bridge/scrolly
-      if (inside) {
-        const id = s.id || s.dataset.navLabel || String(sections.indexOf(s));
-        if (id !== hotId) {
-          hotId = id;
-          retint(s);
         }
       }
     }
@@ -128,7 +107,6 @@ function initPointer() {
     (e) => {
       px = e.clientX;
       py = e.clientY;
-      spawnGhost(px, py);
       if (!ticking) {
         ticking = true;
         requestAnimationFrame(onFrame);
@@ -136,61 +114,6 @@ function initPointer() {
     },
     { passive: true },
   );
-
-  // ── cursor comet trail ───────────────────────────────────
-  const TRAIL = 14;
-  const ghosts = [];
-  const layer = document.createElement("div");
-  layer.className = "cursor-trail";
-  layer.setAttribute("aria-hidden", "true");
-  body.appendChild(layer);
-  for (let i = 0; i < TRAIL; i++) {
-    const g = document.createElement("span");
-    g.className = "cursor-trail__dot";
-    layer.appendChild(g);
-    ghosts.push({ el: g, life: 0 });
-  }
-  let head = 0;
-  let lastSpawn = 0;
-
-  function spawnGhost(x, y) {
-    const now = performance.now();
-    if (now - lastSpawn < 16) return;
-    lastSpawn = now;
-    const g = ghosts[head];
-    head = (head + 1) % TRAIL;
-    g.life = 1;
-    g.el.style.transform = `translate(${x}px, ${y}px)`;
-    startTrail();
-  }
-
-  // The trail layer is a full-viewport screen-blend; running its rAF loop while
-  // nothing is animating forces a per-frame recomposite of everything beneath
-  // it (the cast GIFs etc.), which flickers when the window is unfocused and the
-  // browser throttles rendering. So the loop only runs while ghosts are alive
-  // and idles itself the moment the last one fades out.
-  let trailRunning = false;
-  function decay() {
-    let active = false;
-    for (const g of ghosts) {
-      if (g.life > 0) {
-        g.life -= 0.06;
-        g.el.style.opacity = Math.max(0, g.life).toFixed(3);
-        g.el.style.scale = (0.4 + g.life * 0.6).toFixed(3);
-        if (g.life > 0) active = true;
-      }
-    }
-    if (active) {
-      requestAnimationFrame(decay);
-    } else {
-      trailRunning = false;
-    }
-  }
-  function startTrail() {
-    if (trailRunning) return;
-    trailRunning = true;
-    requestAnimationFrame(decay);
-  }
 }
 
 if (document.readyState === "loading") {

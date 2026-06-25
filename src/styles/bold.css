@@ -821,17 +821,9 @@
     translate: 0 0 !important;
   }
 }
-/* First cover in the library wall is displayed at a larger feature size. */
-.cover--featured {
-  width: clamp(200px, 26vw, 300px);
-}
-
 @media (max-width: 640px) {
   .cover-wall {
     columns: 3 110px;
-  }
-  .cover--featured {
-    width: clamp(140px, 18vw, 200px);
   }
 }
 
@@ -989,5 +981,267 @@
 @media (max-width: 860px) {
   .casts {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ── Game-cover deepest decor layer (.cover-bed) ───────────── */
+/* Placed as the FIRST child in <slot name="decor"> so it sits behind the
+   logo-accents (same z-index: 0, later in DOM). .section__inner (z-index: 1)
+   and the spotlight ::before / scanlines ::after are all above it.
+   The cover image lives in the ::before pseudo so the container div can carry
+   just the parallax transform, keeping transform composition clean.
+   Readability mask: multi-layer background darkens the centre (where copy
+   sits) while the edges breathe the game atmosphere. */
+
+.cover-bed {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  /* translate THEN scale: scale(1.12) gives ~6% bleed on all edges so the
+     cover never reveals a gap when it drifts on scroll + cursor */
+  transform: translate3d(
+      calc(var(--par-x, 0) * 14px),
+      calc(var(--par-y, 0) * 14px + var(--scroll-p, 0) * 40px),
+      0
+    )
+    scale(1.12);
+  transition: transform 0.6s ease-out;
+  will-change: transform;
+}
+
+/* Cover image + centre-dark readability mask as a single pseudo */
+.cover-bed::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    /* top layer: darkens centre where text sits, transparent at edges */
+    radial-gradient(
+      ellipse 55% 65% at center,
+      var(--bg-root) 0%,
+      transparent 70%
+    ),
+    /* bottom layer: the game cover */ var(--cover);
+  background-size: auto, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  opacity: 0.13;
+  filter: saturate(0.8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover-bed {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+/* Drop on mobile — keeps phone performance and avoids crowding */
+@media (max-width: 760px) {
+  .cover-bed {
+    display: none;
+  }
+}
+
+/* ── Scrolly-step cover variant (.scrolly__bed) ─────────────── */
+/* Used inside individual .scrolly__step elements (voyage section).
+   Fades in/out automatically with the step's opacity transition.
+   z-index: -1 keeps it behind the step's in-flow text content;
+   isolation: isolate on the step ensures -1 is resolved within the step's
+   stacking context, not the page root. No scroll-p parallax (stage is sticky
+   and doesn't scroll relative to itself); cursor-only drift. */
+
+/* Ensure each step always forms a stacking context (makes z-index: -1
+   on .scrolly__bed resolve correctly even after opacity reaches 1). */
+.scrolly__step {
+  isolation: isolate;
+}
+
+/* Stretch the steps wrapper to fill the sticky stage so inset:0 steps
+   have proper height for the absolutely-positioned cover beds. */
+.scrolly__steps {
+  align-self: stretch;
+}
+
+.scrolly__bed {
+  position: absolute;
+  /* break out of the 60rem .scrolly__steps wrapper so the cover fills the WHOLE
+     stage — full viewport width AND full stage height (overflow:clip on the
+     stage swallows the 100vw overscan, so no horizontal scrollbar) */
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  z-index: -1;
+  pointer-events: none;
+  user-select: none;
+  transform: translate3d(
+      calc(var(--par-x, 0) * 12px),
+      calc(var(--par-y, 0) * 12px),
+      0
+    )
+    scale(1.12);
+  transition: transform 0.6s ease-out;
+  will-change: transform;
+}
+
+.scrolly__bed::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(
+      ellipse 55% 65% at center,
+      var(--bg-root) 0%,
+      transparent 70%
+    ),
+    var(--cover);
+  background-size: auto, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  opacity: 0.11;
+  filter: saturate(0.8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrolly__bed {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .scrolly__bed {
+    display: none;
+  }
+}
+
+/* ── Voyage bridge cover images (.bridge__cover) ────────────── */
+/* Optional game covers scattered in the background of the Voyage AI
+   ColorBridge. Rendered only when JS is active (hidden in no-JS / static
+   fallback). A dense scatter of covers at different positions drift at
+   different speeds via --spd (from --bp) and cursor (--par-x/--par-y). */
+
+.bridge__covers {
+  display: none;
+}
+
+.js .bridge__covers {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0; /* behind letter (z:1), flood (z:2), statement (z:3) */
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bridge__cover {
+  position: absolute;
+  width: var(--cw, 220px);
+  aspect-ratio: 2 / 3;
+  background-image: var(--cover-src);
+  background-size: cover;
+  background-position: center;
+  /* Visible EARLY — almost full strength as soon as the V begins to zoom
+     (peaks by --bp ≈ 0.04), then the rising blue flood (z:2) covers them. */
+  opacity: clamp(0, calc(var(--bp, 0) * 5), 0.2);
+  filter: saturate(0.65);
+  /* each cover drifts at its own speed (varied by index) + cursor */
+  --spd: calc(40px + var(--ci, 0) * 13px);
+  --mag: calc(7px + var(--ci, 0) * 1.6px);
+  transform: translate3d(
+    calc(var(--par-x, 0) * var(--mag)),
+    calc(var(--par-y, 0) * var(--mag) - var(--bp, 0) * var(--spd)),
+    0
+  );
+  transition: transform 0.5s ease-out;
+  will-change: transform;
+}
+
+/* Dense scatter — a loose 5×3 tile across the stage, varied sizes. Resize is
+   intentional (background atmosphere); a few sit behind the V on purpose. */
+.bridge__cover--0 {
+  left: 1%;
+  top: 2%;
+  --cw: 230px;
+}
+.bridge__cover--1 {
+  left: 22%;
+  top: -3%;
+  --cw: 180px;
+}
+.bridge__cover--2 {
+  left: 42%;
+  top: 0%;
+  --cw: 270px;
+}
+.bridge__cover--3 {
+  left: 64%;
+  top: -2%;
+  --cw: 190px;
+}
+.bridge__cover--4 {
+  left: 83%;
+  top: 5%;
+  --cw: 240px;
+}
+.bridge__cover--5 {
+  left: -3%;
+  top: 34%;
+  --cw: 250px;
+}
+.bridge__cover--6 {
+  left: 80%;
+  top: 37%;
+  --cw: 260px;
+}
+.bridge__cover--7 {
+  left: 2%;
+  top: 64%;
+  --cw: 220px;
+}
+.bridge__cover--8 {
+  left: 21%;
+  top: 70%;
+  --cw: 290px;
+}
+.bridge__cover--9 {
+  left: 42%;
+  top: 66%;
+  --cw: 200px;
+}
+.bridge__cover--10 {
+  left: 62%;
+  top: 72%;
+  --cw: 250px;
+}
+.bridge__cover--11 {
+  left: 84%;
+  top: 67%;
+  --cw: 230px;
+}
+.bridge__cover--12 {
+  left: 33%;
+  top: 33%;
+  --cw: 170px;
+}
+.bridge__cover--13 {
+  left: 56%;
+  top: 35%;
+  --cw: 160px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bridge__covers {
+    display: none !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .bridge__covers {
+    display: none !important;
   }
 }
