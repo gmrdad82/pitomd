@@ -1244,7 +1244,11 @@
 }
 
 @media (max-width: 760px) {
-  .bridge__covers {
-    display: none !important;
+  /* show the bridge covers on phones too — they still fade in with the V
+     reveal (opacity is --bp driven) but their drift is frozen so the
+     scroll-zoom stays smooth */
+  .bridge__cover {
+    transform: none;
+    transition: none;
   }
 }
