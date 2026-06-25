@@ -27,6 +27,8 @@ const avatars = [
 <Base>
   {/* ── 1 · HERO ─────────────────────────────────────────── */}
   <Section id="hero" theme="synthwave" label="Start" class="hero f-grotesk">
+    <PitoLogo slot="decor" class="logo-accent logo-accent--tr logo-accent--react logo-accent--sm logo-accent--cyan" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--bl logo-accent--float logo-accent--sm logo-accent--purple" />
     <div class="hero__stack">
       <img
         class="hero__logo"
@@ -68,6 +70,7 @@ const avatars = [
   {/* ── 2 · THE PAIN ─────────────────────────────────────── */}
   <Section id="pain" theme="dracula" label="The pain" class="f-heavy">
     <img slot="decor" class="logo-accent logo-accent--watermark" src="/logo/pito-wordmark-white.png" alt="" aria-hidden="true" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--tr logo-accent--sm logo-accent--react logo-accent--strong logo-accent--orange" />
     <p class="eyebrow" data-reveal="fade">If this is you</p>
     <h2 class="display" data-fx="scramble" data-reveal="skew">
       Log out. Log in. Repeat. Forever.
@@ -91,6 +94,7 @@ const avatars = [
   {/* ── 3 · ONE CHATBOX ──────────────────────────────────── */}
   <Section id="chatbox" theme="tokyo-night" label="One chatbox" class="f-funk">
     <PitoLogo slot="decor" class="logo-accent logo-accent--tl logo-accent--float logo-accent--cyan" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--br logo-accent--sm logo-accent--react" />
     <div class="split">
       <div class="split__copy">
         <p class="eyebrow" data-reveal="fade">One box to rule them all</p>
@@ -110,6 +114,7 @@ const avatars = [
   {/* ── 4 · PLAIN LANGUAGE ───────────────────────────────── */}
   <Section id="language" theme="nord" label="Plain language" class="f-mono">
     <PitoLogo slot="decor" class="logo-accent logo-accent--br logo-accent--react" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--tl logo-accent--float logo-accent--green logo-accent--sm" />
     <div class="split split--reverse">
       <div class="split__copy">
         <p class="eyebrow" data-reveal="fade">No syntax to memorize</p>
@@ -129,6 +134,7 @@ const avatars = [
   {/* ── 5 · LINKAGE ──────────────────────────────────────── */}
   <Section id="linkage" theme="gruvbox-dark" label="Linkage" class="f-grotesk">
     <PitoLogo slot="decor" class="logo-accent logo-accent--tr logo-accent--react" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--bl logo-accent--float logo-accent--sm logo-accent--orange" />
     <div class="split">
       <div class="split__copy">
         <p class="eyebrow" data-reveal="fade">You tell it, it remembers</p>
@@ -216,6 +222,8 @@ const avatars = [
   {/* ── 7 · FOOTAGE ──────────────────────────────────────── */}
   <Section id="footage" theme="ayu-dark" label="Footage" class="f-round">
     <PitoLogo slot="decor" class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--bl logo-accent--float logo-accent--cyan logo-accent--sm" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--tl logo-accent--float logo-accent--sm" />
     <p class="eyebrow" data-reveal="fade">Time is the real budget</p>
     <h2 class="display" data-fx="comet">Track the footage.</h2>
     <p class="lede" data-reveal="rise" style="margin-inline:auto;max-width:42rem">
@@ -269,6 +277,7 @@ const avatars = [
       ≤9.99→1 · ≤29.99→2 · ≤59.99→3 · ≤79.99→4 · >79.99→5 · free→star. */}
   <Section id="price" theme="gruvbox-dark" label="Price" class="f-funk">
     <PitoLogo slot="decor" class="logo-accent logo-accent--bl logo-accent--float logo-accent--orange" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--tr logo-accent--react logo-accent--sm" />
     <p class="eyebrow" data-reveal="fade">Value per coin</p>
     <h2 class="display" data-reveal="crash">What did it cost you?</h2>
     <p class="lede" data-reveal="rise" style="margin-inline:auto;max-width:42rem">
@@ -319,6 +328,7 @@ const avatars = [
   {/* ── 9 · SHINIES ──────────────────────────────────────── */}
   <Section id="shinies" theme="synthwave" label="Shinies" class="f-round">
     <PitoLogo slot="decor" class="logo-accent logo-accent--bl logo-accent--float logo-accent--purple" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong logo-accent--cyan logo-accent--sm" />
     <p class="eyebrow" data-reveal="fade">Achievements, but honest</p>
     <h2 class="display" data-reveal="morph">We call them shinies.</h2>
     <p class="lede" data-reveal="rise" style="margin-inline:auto;max-width:42rem">
@@ -335,6 +345,7 @@ const avatars = [
   {/* ── 10 · SCHEDULING ──────────────────────────────────── */}
   <Section id="schedule" theme="ayu-mirage" label="Scheduling" class="f-grotesk">
     <PitoLogo slot="decor" class="logo-accent logo-accent--tl logo-accent--react" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--br logo-accent--float logo-accent--orange logo-accent--sm" />
     <div class="split split--reverse">
       <div class="split__copy">
         <p class="eyebrow" data-reveal="fade">A calendar that gets it</p>
@@ -354,6 +365,7 @@ const avatars = [
   {/* ── 11 · THEMES SHOWCASE ─────────────────────────────── */}
   <Section id="themes" theme="catppuccin-mocha" label="19 themes" class="f-funk">
     <PitoLogo slot="decor" class="logo-accent logo-accent--br logo-accent--float logo-accent--purple" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--tl logo-accent--react logo-accent--cyan logo-accent--sm" />
     <p class="eyebrow" data-reveal="fade">Dress it how you like</p>
     <h2 class="display" data-reveal="rise">Nineteen themes. Pick a vibe.</h2>
     <div class="themestage glow" data-theme-cycle data-tilt>
@@ -391,6 +403,8 @@ const avatars = [
   {/* ── 12 · FREE · PRIVATE · READ-ONLY ──────────────────── */}
   <Section id="free" theme="one-dark" label="$0 · private" class="f-serif">
     <img slot="decor" class="logo-accent logo-accent--watermark" src="/logo/pito-wordmark-white.png" alt="" aria-hidden="true" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--tr logo-accent--float logo-accent--sm logo-accent--green" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--bl logo-accent--react logo-accent--sm" />
     <p class="eyebrow" data-reveal="fade">The price, the privacy, the trust</p>
     <h2 class="display" data-reveal="rise">
       <span class="pito-blue">$0.</span> Your laptop, your data.
@@ -418,6 +432,8 @@ const avatars = [
   {/* ── 13 · GET PITO / CTA / FOOTER ─────────────────────── */}
   <Section id="get" theme="synthwave" label="Get PITO" class="cta f-grotesk">
     <PitoLogo slot="decor" class="logo-accent logo-accent--side logo-accent--float" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--tl logo-accent--react logo-accent--sm logo-accent--cyan" />
+    <PitoLogo slot="decor" class="logo-accent logo-accent--br logo-accent--float logo-accent--sm logo-accent--purple" />
     <p class="eyebrow" data-reveal="fade">One line and you're running</p>
     <h2 class="display" data-fx="comet">Get PITO.</h2>
     <p class="lede" data-reveal="rise" style="margin-inline:auto;max-width:40rem">

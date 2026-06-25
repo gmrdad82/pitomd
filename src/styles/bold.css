@@ -522,6 +522,14 @@
   filter: none;
 }
 
+/* size modifiers (so stacked logos in one section read at different scales) */
+.logo-accent--sm {
+  width: clamp(64px, 8vw, 120px);
+}
+.logo-accent--lg {
+  width: clamp(220px, 30vw, 460px);
+}
+
 /* gentle perpetual drift */
 .logo-accent--float {
   animation: logo-drift 9s ease-in-out infinite;
