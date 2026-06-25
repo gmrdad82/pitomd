@@ -105,7 +105,9 @@ function runFx(el) {
 
 function initReveal() {
   const reveals = document.querySelectorAll("[data-reveal]");
-  const fxEls = document.querySelectorAll("[data-fx]");
+  // scrolly slide headings are driven by scrollytell.js (per-slide activation),
+  // not on viewport-enter — exclude them here.
+  const fxEls = document.querySelectorAll("[data-fx]:not(.scrolly__big)");
 
   // Stash original text so fx can restore the final string, and clear it so
   // there's no flash of full text before the effect runs.
