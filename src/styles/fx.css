@@ -78,6 +78,11 @@
 [data-fx="comet"] {
   white-space: pre-wrap;
 }
+/* keep each word's chars together so a line only wraps at spaces (no "V\noyage") */
+[data-fx="comet"] .cword {
+  display: inline-block;
+  white-space: nowrap;
+}
 [data-fx="comet"] .cchar {
   display: inline-block;
   white-space: pre;

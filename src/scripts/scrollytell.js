@@ -21,7 +21,7 @@ function initScrolly() {
     const text = el.dataset.cometText || (el.dataset.cometText = el.textContent.trim());
     el.textContent = "";
     let ci = 0;
-    for (const token of text.split(/(\s+)/)) {
+    for (const token of text.split(/([^\S\u00A0]+)/)) {
       if (token === "") continue;
       if (/^\s+$/.test(token)) {
         el.appendChild(document.createTextNode(token));

@@ -714,16 +714,18 @@
   filter: drop-shadow(0 0 34px color-mix(in oklab, var(--pito-blue) 75%, transparent));
 }
 
-/* true masonry via CSS columns */
+/* centred grid of uniform covers (all 374×499) — wraps, last row centred */
 .cover-wall {
-  columns: 5 168px;
-  column-gap: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
   margin-top: 2.5rem;
 }
 .cover {
-  margin: 0 0 14px;
-  break-inside: avoid;
-  display: block;
+  flex: 0 0 auto;
+  width: clamp(118px, 15vw, 180px);
+  margin: 0;
   /* mouse-parallax depth: each cover drifts by its own --d (pointer.js --par) */
   translate: calc(var(--par-x, 0) * var(--d, 8) * 1px)
     calc(var(--par-y, 0) * var(--d, 8) * 1px);
@@ -759,6 +761,43 @@
 @media (max-width: 640px) {
   .cover-wall {
     columns: 3 110px;
+  }
+}
+
+/* ── Mobile pass ───────────────────────────────────────────── */
+@media (max-width: 760px) {
+  /* the heavy decorative layers crowd (and can overflow) a phone — drop the
+     biggest ones, dim the rest, keep content first */
+  .pixel-accent,
+  .logo-accent--side,
+  .logo-accent--watermark,
+  .logo-accent--strong {
+    display: none;
+  }
+  .logo-accent {
+    opacity: 0.06;
+  }
+  .scrolly__hint {
+    display: none;
+  }
+  .scrolly__big {
+    font-size: clamp(2rem, 9vw, 3.2rem);
+  }
+  .scrolly__sub {
+    font-size: 1rem;
+  }
+  .scrolly__arrow {
+    font-size: 2rem;
+  }
+  .bridge__title {
+    font-size: clamp(2.5rem, 15vw, 5rem);
+  }
+  .platforms {
+    gap: 1.75rem;
+  }
+  .pito-widget {
+    font-size: 12px;
+    padding: 1.4rem 0.9rem 1rem;
   }
 }
 

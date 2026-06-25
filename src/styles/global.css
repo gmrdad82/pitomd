@@ -52,6 +52,9 @@ html {
   /* the scroll-snap container; proximity (not mandatory) so long sections
      never trap the scroll mid-content */
   scroll-snap-type: y proximity;
+  /* hard stop on horizontal overflow — a single overflowing decor element was
+     expanding the mobile layout viewport (zoom-out, rail nav leaking in) */
+  overflow-x: clip;
   background: var(--bg-root);
   /* slim themed scrollbar (nod to pito) */
   scrollbar-width: thin;
@@ -135,6 +138,9 @@ h3.display {
 
 .pito-blue {
   color: var(--pito-blue);
+}
+.nowrap {
+  white-space: nowrap;
 }
 .accent {
   color: var(--accent-orange);

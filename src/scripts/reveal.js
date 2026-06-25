@@ -75,7 +75,7 @@ function comet(el) {
   }
   el.textContent = "";
   let ci = 0;
-  for (const token of final.split(/(\s+)/)) {
+  for (const token of final.split(/([^\S\u00A0]+)/)) {
     if (token === "") continue;
     if (/^\s+$/.test(token)) {
       el.appendChild(document.createTextNode(token));
