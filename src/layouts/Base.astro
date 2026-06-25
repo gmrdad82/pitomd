@@ -46,24 +46,26 @@ const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
       href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Unbounded:wght@600;800&display=swap"
     />
 
-    {/* Favicon — SVG outranks the .ico fallback in modern browsers. Dev links
-        the synthwave-YELLOW mark so a localhost tab is unmistakable; production
-        links the inverse blue-background mark. The .ico/.png below stay as
-        fallbacks for older browsers. */}
+    {/* Favicon. In DEV we emit ONLY the synthwave-YELLOW SVG — no .ico, no PNGs,
+        no manifest — so nothing blue can win the browser's icon race and a
+        localhost tab is unmistakably yellow. PRODUCTION gets the full set (the
+        inverse blue SVG first, then .ico/.png fallbacks + manifest). */}
     {
       import.meta.env.DEV ? (
-        <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon-dev.svg?v=3" />
+        <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon-dev.svg?v=4" />
       ) : (
-        <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg?v=3" />
+        <>
+          <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg?v=4" />
+          <link rel="icon" href="/favicon.ico?v=4" type="image/x-icon" />
+          <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=4" />
+          <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=4" />
+          <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4" />
+          <link rel="manifest" href="/site.webmanifest" />
+          <meta name="msapplication-TileColor" content="#1a1b26" />
+          <meta name="msapplication-config" content="/browserconfig.xml" />
+        </>
       )
     }
-    <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <meta name="msapplication-TileColor" content="#1a1b26" />
-    <meta name="msapplication-config" content="/browserconfig.xml" />
 
     {/* Open Graph / Twitter */}
     <meta property="og:title" content={title} />
