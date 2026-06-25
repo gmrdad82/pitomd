@@ -22,6 +22,22 @@ const avatars = [
   { file: "@gmrdad82strategist.png", name: "The Strategist" },
   { file: "@gmrdad82survivor.png", name: "The Survivor" },
 ];
+
+// Real game cover art exported from pito (the owner's own catalogue).
+const covers = [
+  { f: "elden-ring", t: "Elden Ring" },
+  { f: "stellar-blade", t: "Stellar Blade" },
+  { f: "cyberpunk-2077", t: "Cyberpunk 2077" },
+  { f: "nioh-3", t: "Nioh 3" },
+  { f: "demon-s-souls", t: "Demon's Souls" },
+  { f: "tekken-7", t: "Tekken 7" },
+  { f: "pragmata", t: "Pragmata" },
+  { f: "elden-ring-nightreign", t: "Elden Ring Nightreign" },
+  { f: "stellar-blade-blood-rain", t: "Stellar Blade: Blood Rain" },
+  { f: "ghosts-n-goblins-resurrection", t: "Ghosts 'n Goblins Resurrection" },
+  { f: "terminator-2d-no-fate", t: "Terminator 2D: No Fate" },
+];
+const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 ---
 
 <Base>
@@ -149,6 +165,33 @@ const avatars = [
       <figure class="split__media" data-reveal="right" data-tilt data-parallax="slow">
         <img src="/media/03-linkage.gif" width="760" alt="Game-to-video linkage in PITO" loading="lazy" />
       </figure>
+    </div>
+  </Section>
+
+  {/* ── 5.5 · LIBRARY — platforms + masonry covers ───────── */}
+  <Section id="library" theme="tokyo-night" label="Your shelf" class="library f-grotesk">
+    <PitoLogo slot="decor" class="logo-accent logo-accent--tl logo-accent--react logo-accent--sm logo-accent--cyan" />
+    <p class="eyebrow" data-reveal="fade">Every platform · every cover</p>
+    <h2 class="display" data-fx="comet">Your shelf, alive.</h2>
+    <p class="lede" data-reveal="rise" style="margin-inline:auto;max-width:44rem">
+      PlayStation, Switch, Steam — PITO knows what you own where, and pulls the
+      real cover art in. Move your mouse through it.
+    </p>
+
+    <div class="platforms" data-reveal="rise" data-stagger>
+      <img class="platform-icon" style="--i:0" src="/platforms/playstation.svg" width="120" height="120" alt="PlayStation" data-magnetic loading="lazy" />
+      <img class="platform-icon" style="--i:1" src="/platforms/switch.svg" width="120" height="120" alt="Nintendo Switch" data-magnetic loading="lazy" />
+      <img class="platform-icon" style="--i:2" src="/platforms/steam.svg" width="120" height="120" alt="Steam" data-magnetic loading="lazy" />
+    </div>
+
+    <div class="cover-wall">
+      {
+        covers.map((c, i) => (
+          <figure class="cover" style={`--d:${depths[i] ?? 8}`} data-reveal="zoom">
+            <img src={`/covers/${c.f}.jpg`} width="374" height="499" alt={c.t} loading="lazy" />
+          </figure>
+        ))
+      }
     </div>
   </Section>
 

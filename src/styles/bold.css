@@ -697,6 +697,83 @@
     filter 0.5s ease;
 }
 
+/* ── Library — platforms + masonry cover wall ──────────────── */
+
+.library .section__inner {
+  text-align: center;
+  width: min(82rem, 100%);
+}
+
+.platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(2rem, 8vw, 6rem);
+  justify-content: center;
+  align-items: center;
+  margin: 2.5rem 0 3.5rem;
+}
+.platform-icon {
+  width: clamp(64px, 11vw, 140px);
+  height: auto;
+  cursor: pointer;
+  /* float via the translate property so data-magnetic's transform composes */
+  animation: logo-drift 6s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.7s);
+  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.45));
+  transition: filter 0.3s ease;
+}
+.platform-icon:hover {
+  filter: drop-shadow(0 0 34px color-mix(in oklab, var(--pito-blue) 75%, transparent));
+}
+
+/* true masonry via CSS columns */
+.cover-wall {
+  columns: 5 168px;
+  column-gap: 14px;
+  margin-top: 2.5rem;
+}
+.cover {
+  margin: 0 0 14px;
+  break-inside: avoid;
+  display: block;
+  /* mouse-parallax depth: each cover drifts by its own --d (pointer.js --par) */
+  translate: calc(var(--par-x, 0) * var(--d, 8) * 1px)
+    calc(var(--par-y, 0) * var(--d, 8) * 1px);
+  transition:
+    translate 0.5s ease-out,
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease;
+}
+.cover img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border-faded);
+  box-shadow: 0 12px 30px -14px rgba(0, 0, 0, 0.75);
+}
+.cover:hover {
+  transform: scale(1.06) translateY(-6px);
+  position: relative;
+  z-index: 3;
+}
+.cover:hover img {
+  border-color: var(--pito-blue);
+  box-shadow: 0 26px 64px -12px color-mix(in oklab, var(--pito-blue) 60%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .platform-icon {
+    animation: none;
+  }
+  .cover {
+    translate: 0 0 !important;
+  }
+}
+@media (max-width: 640px) {
+  .cover-wall {
+    columns: 3 110px;
+  }
+}
+
 /* ── Cast trio (CTA) ───────────────────────────────────────── */
 
 .casts {
