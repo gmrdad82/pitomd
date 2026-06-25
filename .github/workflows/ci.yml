@@ -12,7 +12,8 @@ permissions:
 
 jobs:
   # One job, so a failure produces exactly one Slack message (no double-posting).
-  ci:
+  # Keep the job id `lint-and-audit` — it's the required status check on main.
+  lint-and-audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
