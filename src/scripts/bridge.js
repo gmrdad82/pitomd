@@ -24,24 +24,10 @@ function initBridges() {
     if (glyphs.length < 2) continue;
     const el = b.querySelector(".bridge__letter");
     if (!el) continue;
-    glyphState.set(b, { glyphs, el, idx: -1, frames: 0 });
+    // the flicker pool = the real currencies + extra symbols, for a rich scramble
+    const pool = glyphs.concat(SCRAMBLE_POOL.split(""));
+    glyphState.set(b, { glyphs, pool, el, counter: 0 });
   }
-
-  const scrambleTo = (st, targetIdx) => {
-    st.idx = targetIdx;
-    st.frames = 9; // flicker frames before settling
-    const tick = () => {
-      if (st.frames > 0) {
-        st.el.textContent =
-          SCRAMBLE_POOL[Math.floor((performance.now() * 0.05) % SCRAMBLE_POOL.length)];
-        st.frames--;
-        setTimeout(tick, 32);
-      } else {
-        st.el.textContent = st.glyphs[st.idx];
-      }
-    };
-    tick();
-  };
 
   let ticking = false;
   const update = () => {
@@ -53,11 +39,17 @@ function initBridges() {
       const p = Math.min(1, Math.max(0, -rect.top / Math.max(1, total)));
       b.style.setProperty("--bp", p.toFixed(4));
 
-      // scroll-driven currency scramble
+      // Currency scramble: from the very first scroll into the bridge, while the
+      // letter is still zooming (p < ~0.5), flicker the glyph on every scroll
+      // event. Each move advances the counter, so it scrambles as you scroll.
       const st = glyphState.get(b);
       if (st) {
-        const target = Math.min(st.glyphs.length - 1, Math.floor(p * st.glyphs.length));
-        if (target !== st.idx && st.frames === 0) scrambleTo(st, target);
+        if (p > 0 && p < 0.5) {
+          st.counter++;
+          st.el.textContent = st.pool[st.counter % st.pool.length];
+        } else if (p <= 0) {
+          st.el.textContent = st.glyphs[0];
+        }
       }
     }
   };

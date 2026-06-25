@@ -147,8 +147,13 @@ h3.display {
   min-height: 100vh;
   min-height: 100svh;
   scroll-snap-align: start;
-  display: grid;
-  place-items: center;
+  /* flex (not grid): a grid auto-column sizes to max-content, and the 300-char
+     ScoreBar/TimeToBeat `===` fills blew the column up and shoved the centred
+     content off to the right. Flex keeps the column at container width. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: clamp(4rem, 10vh, 8rem) var(--section-pad-x);
   background: var(--bg-root);
   color: var(--fg-default);

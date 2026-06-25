@@ -145,23 +145,8 @@
   }
 }
 
-/* ── Section pop-in from alternating sides ─────────────────── */
-/* Deterministic: reveal.js sets --sec-pop (±) per section and adds `.sec-in`
-   once it enters — the inner slides in from that side and STAYS centred (no
-   scroll-timeline stranding the content off to one side). */
-
-.js .section__inner {
-  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.js .section:not(.sec-in) .section__inner {
-  transform: translateX(var(--sec-pop, 0));
-}
-@media (prefers-reduced-motion: reduce) {
-  .js .section__inner {
-    transition: none;
-    transform: none !important;
-  }
-}
+/* (Section pop-in removed — the whole-column translate kept stranding content
+   off to one side. Per-element [data-reveal] entrances cover the motion.) */
 
 /* ── Pinned scrollytelling (Voyage) ────────────────────────── */
 
@@ -593,7 +578,10 @@
   pointer-events: none;
   image-rendering: pixelated;
   display: block;
-  filter: drop-shadow(0 8px 24px color-mix(in oklab, var(--accent-yellow) 40%, transparent));
+  /* screen blend drops the gif's dark anti-aliased fringe (the "square") and
+     lets the bright pixel art pop on the dark themed sections */
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 18px color-mix(in oklab, var(--accent-yellow) 35%, transparent));
 }
 .pixel-accent--spin {
   animation: pa-spin 7s linear infinite;

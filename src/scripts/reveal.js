@@ -1,10 +1,9 @@
 // reveal.js — reveal-on-scroll orchestration.
 //
 // Adds `.is-in` to any [data-reveal] element when it enters the viewport (CSS
-// in global.css does the transition). Also drives text fx — scramble and
-// typewriter — declared via [data-fx="scramble"|"typewriter"], fired once on
-// enter. All effects are skipped under prefers-reduced-motion (content shows
-// final state immediately).
+// in global.css does the transition). Also drives text fx — scramble,
+// typewriter, comet — declared via [data-fx="…"], fired once on enter. All
+// effects are skipped under prefers-reduced-motion (content shows final state).
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -65,7 +64,9 @@ function typewriter(el) {
 }
 
 // Comet: each character streaks in from the right with a fading blue glow tail,
-// staggered left-to-right — pito's comet reveal, for a page element.
+// staggered left-to-right. Characters are grouped into non-breaking words so a
+// line only ever wraps at spaces (per-char inline-blocks would otherwise split
+// a word mid-way, e.g. "o\npen").
 function comet(el) {
   const final = el.dataset.fxText || el.textContent || "";
   if (reduceMotion) {
@@ -73,14 +74,24 @@ function comet(el) {
     return;
   }
   el.textContent = "";
-  const chars = Array.from(final);
-  chars.forEach((ch, i) => {
-    const span = document.createElement("span");
-    span.className = "cchar";
-    span.style.setProperty("--i", i);
-    span.textContent = ch === " " ? " " : ch;
-    el.appendChild(span);
-  });
+  let ci = 0;
+  for (const token of final.split(/(\s+)/)) {
+    if (token === "") continue;
+    if (/^\s+$/.test(token)) {
+      el.appendChild(document.createTextNode(token));
+      continue;
+    }
+    const word = document.createElement("span");
+    word.className = "cword";
+    for (const ch of Array.from(token)) {
+      const span = document.createElement("span");
+      span.className = "cchar";
+      span.style.setProperty("--i", ci++);
+      span.textContent = ch;
+      word.appendChild(span);
+    }
+    el.appendChild(word);
+  }
 }
 
 function runFx(el) {
@@ -92,33 +103,7 @@ function runFx(el) {
   else if (kind === "comet") comet(el);
 }
 
-// Section pop-in: each .section slides in from an alternating side and locks
-// centred once it enters (deterministic — no scroll-timeline stranding).
-function initSectionPop() {
-  const sections = Array.from(document.querySelectorAll(".section"));
-  sections.forEach((s, i) => {
-    s.style.setProperty("--sec-pop", i % 2 ? "7vw" : "-7vw");
-  });
-  if (reduceMotion) {
-    sections.forEach((s) => s.classList.add("sec-in"));
-    return;
-  }
-  const io = new IntersectionObserver(
-    (entries, obs) => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          e.target.classList.add("sec-in");
-          obs.unobserve(e.target);
-        }
-      }
-    },
-    { threshold: 0.12 }
-  );
-  sections.forEach((s) => io.observe(s));
-}
-
 function initReveal() {
-  initSectionPop();
   const reveals = document.querySelectorAll("[data-reveal]");
   const fxEls = document.querySelectorAll("[data-fx]");
 

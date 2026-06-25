@@ -7,6 +7,7 @@
 /* ── Buttons ───────────────────────────────────────────────── */
 
 .btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.4em;
@@ -23,6 +24,12 @@
     border-color 0.2s ease,
     color 0.2s ease,
     box-shadow 0.2s ease;
+}
+/* hovered button pops above its neighbour (magnetic owns transform, so we lift
+   with z-index + shadow rather than translate) */
+.btn:hover,
+.btn:focus-visible {
+  z-index: 5;
 }
 .btn--primary {
   background: var(--pito-blue);
@@ -41,8 +48,11 @@
 }
 .btn--ghost:hover,
 .btn--ghost:focus-visible {
-  border-color: var(--pito-blue);
-  color: var(--pito-blue);
+  /* fill solid purple and pop on hover */
+  background: var(--accent-purple);
+  border-color: var(--accent-purple);
+  color: var(--bg-root);
+  box-shadow: 0 10px 34px -8px color-mix(in oklab, var(--accent-purple) 80%, transparent);
   outline: none;
 }
 

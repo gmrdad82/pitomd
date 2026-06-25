@@ -75,10 +75,13 @@ function initPointer() {
       const dx = px - cx;
       const dy = py - cy;
       const dist = Math.hypot(dx, dy);
-      const radius = Math.max(r.width, r.height) * 1.6;
+      const radius = Math.max(r.width, r.height) * 1.2;
       if (dist < radius) {
-        const pull = (1 - dist / radius) * 0.4;
-        el.style.transform = `translate(${dx * pull}px, ${dy * pull}px)`;
+        // gentle pull, capped so neighbouring buttons never collide
+        const pull = (1 - dist / radius) * 0.22;
+        const tx = Math.max(-16, Math.min(16, dx * pull));
+        const ty = Math.max(-16, Math.min(16, dy * pull));
+        el.style.transform = `translate(${tx}px, ${ty}px)`;
       } else {
         el.style.transform = "";
       }
