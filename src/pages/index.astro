@@ -118,16 +118,26 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 
   {/* ── 2 · THE PAIN ─────────────────────────────────────── */}
   <Section id="pain" theme="dracula" label="The pain" class="f-heavy">
+    {/* Layer A — bg watermark: slow, large parallax */}
     <img
       slot="decor"
-      class="logo-accent logo-accent--watermark"
+      class="logo-accent logo-accent--watermark par par--A"
       src="/logo/pito-wordmark-white.png"
       alt=""
       aria-hidden="true"
     />
+    {/* Layer B — existing corner accent + two new mid-section accents */}
     <PitoLogo
       slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--sm logo-accent--react logo-accent--strong logo-accent--orange"
+      class="logo-accent logo-accent--tr logo-accent--sm logo-accent--react logo-accent--strong logo-accent--orange par par--B"
+    />
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--mid-l logo-accent--sm logo-accent--purple par par--B"
+    />
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--low-r logo-accent--sm logo-accent--cyan par par--B"
     />
     <p class="eyebrow" data-reveal="fade">If this is you</p>
     <h2 class="display" data-fx="scramble" data-reveal="skew">
@@ -332,7 +342,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       {
         covers.map((c, i) => (
           <figure
-            class="cover"
+            class={`cover${i === 0 ? " cover--featured" : ""}`}
             style={`--d:${depths[i] ?? 8}`}
             data-reveal="zoom"
           >
@@ -556,19 +566,35 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       ≤9.99→1 · ≤29.99→2 · ≤59.99→3 · ≤79.99→4 · >79.99→5 · free→star. */
   }
   <Section id="price" theme="gruvbox-dark" label="Price" class="f-funk">
+    {/* Layer A — large ascii watermark (this section has no img watermark) */}
     <PitoLogo
       slot="decor"
-      class="logo-accent logo-accent--bl logo-accent--float logo-accent--orange"
+      class="logo-accent logo-accent--bg-logo logo-accent--orange par par--A"
+    />
+    {/* Layer B — existing corner accents + two new mid-section accents */}
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--bl logo-accent--float logo-accent--orange par par--B"
     />
     <PitoLogo
       slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--react logo-accent--sm"
+      class="logo-accent logo-accent--tr logo-accent--react logo-accent--sm par par--B"
     />
-    {/* coins gone feral — big, distorted, spinning pixel art */}
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--mid-l logo-accent--sm logo-accent--cyan par par--B"
+    />
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--low-r logo-accent--sm par par--B"
+    />
+    {
+      /* Layer D — coins gone feral: big, distorted, spinning pixel art. Fastest parallax. */
+    }
     <img
       slot="decor"
       src="/coin/coin.gif"
-      class="pixel-accent pixel-accent--spin"
+      class="pixel-accent pixel-accent--spin par-d-pixel"
       style="top:11%;left:6%;width:130px;height:98px;opacity:.6"
       alt=""
       aria-hidden="true"
@@ -576,7 +602,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     <img
       slot="decor"
       src="/coin/coin.gif"
-      class="pixel-accent pixel-accent--bob"
+      class="pixel-accent pixel-accent--bob par-d-pixel"
       style="bottom:12%;right:7%;width:190px;height:143px;opacity:.5"
       alt=""
       aria-hidden="true"
@@ -584,7 +610,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     <img
       slot="decor"
       src="/coin/coin.gif"
-      class="pixel-accent pixel-accent--squash"
+      class="pixel-accent pixel-accent--squash par-d-pixel"
       style="top:16%;right:13%;width:104px;height:150px;opacity:.4"
       alt=""
       aria-hidden="true"
@@ -592,7 +618,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     <img
       slot="decor"
       src="/coin/coin.gif"
-      class="pixel-accent pixel-accent--react"
+      class="pixel-accent pixel-accent--react par-d-pixel"
       style="bottom:26%;left:12%;width:230px;height:96px;opacity:.45"
       alt=""
       aria-hidden="true"
@@ -692,19 +718,33 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 
   {/* ── 9 · SHINIES ──────────────────────────────────────── */}
   <Section id="shinies" theme="synthwave" label="Shinies" class="f-round">
+    {/* Layer A — large ascii watermark */}
     <PitoLogo
       slot="decor"
-      class="logo-accent logo-accent--bl logo-accent--float logo-accent--purple"
+      class="logo-accent logo-accent--bg-logo logo-accent--purple par par--A"
+    />
+    {/* Layer B — existing corner accents + two new mid-section accents */}
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--bl logo-accent--float logo-accent--purple par par--B"
     />
     <PitoLogo
       slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong logo-accent--cyan logo-accent--sm"
+      class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong logo-accent--cyan logo-accent--sm par par--B"
     />
-    {/* stars — shinies, scaled hard and distorted */}
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--mid-r logo-accent--sm logo-accent--purple par par--B"
+    />
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--low-l logo-accent--sm logo-accent--cyan par par--B"
+    />
+    {/* Layer D — stars, scaled hard and distorted. Fastest parallax. */}
     <img
       slot="decor"
       src="/coin/star.gif"
-      class="pixel-accent pixel-accent--spin"
+      class="pixel-accent pixel-accent--spin par-d-pixel"
       style="top:12%;right:7%;width:150px;height:147px;opacity:.65"
       alt=""
       aria-hidden="true"
@@ -712,7 +752,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     <img
       slot="decor"
       src="/coin/star.gif"
-      class="pixel-accent pixel-accent--squash"
+      class="pixel-accent pixel-accent--squash par-d-pixel"
       style="bottom:13%;left:7%;width:120px;height:172px;opacity:.5"
       alt=""
       aria-hidden="true"
@@ -720,7 +760,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     <img
       slot="decor"
       src="/coin/star.gif"
-      class="pixel-accent pixel-accent--throb"
+      class="pixel-accent pixel-accent--throb par-d-pixel"
       style="top:20%;left:13%;width:92px;height:90px;opacity:.6"
       alt=""
       aria-hidden="true"
@@ -728,7 +768,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     <img
       slot="decor"
       src="/coin/star.gif"
-      class="pixel-accent pixel-accent--react pixel-accent--spin-rev"
+      class="pixel-accent pixel-accent--react pixel-accent--spin-rev par-d-pixel"
       style="bottom:22%;right:15%;width:120px;height:118px;opacity:.5"
       alt=""
       aria-hidden="true"
@@ -946,25 +986,36 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 
   {/* ── 12 · FREE · PRIVATE · READ-ONLY ──────────────────── */}
   <Section id="free" theme="one-dark" label="$0 · private" class="f-serif">
+    {/* Layer A — bg watermark */}
     <img
       slot="decor"
-      class="logo-accent logo-accent--watermark"
+      class="logo-accent logo-accent--watermark par par--A"
       src="/logo/pito-wordmark-white.png"
       alt=""
       aria-hidden="true"
     />
+    {/* Layer B — existing corner accents + two new mid-section accents */}
     <PitoLogo
       slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--float logo-accent--sm logo-accent--green"
+      class="logo-accent logo-accent--tr logo-accent--float logo-accent--sm logo-accent--green par par--B"
     />
     <PitoLogo
       slot="decor"
-      class="logo-accent logo-accent--bl logo-accent--react logo-accent--sm"
+      class="logo-accent logo-accent--bl logo-accent--react logo-accent--sm par par--B"
     />
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--mid-r logo-accent--sm par par--B"
+    />
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--low-l logo-accent--sm logo-accent--green par par--B"
+    />
+    {/* Layer D — star: fastest parallax */}
     <img
       slot="decor"
       src="/coin/star.gif"
-      class="pixel-accent pixel-accent--throb"
+      class="pixel-accent pixel-accent--throb par-d-pixel"
       style="top:16%;left:9%;width:120px;height:118px;opacity:.55"
       alt=""
       aria-hidden="true"

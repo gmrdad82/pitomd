@@ -499,6 +499,56 @@
   rotate: -4deg;
   opacity: 0.045;
 }
+
+/* Secondary logo positions — mid-section slots for Layer B accents */
+.logo-accent--mid-l {
+  top: 35%;
+  left: 8%;
+  width: clamp(80px, 10vw, 150px);
+  rotate: 12deg;
+  opacity: 0.09;
+}
+
+.logo-accent--mid-r {
+  top: 55%;
+  right: 8%;
+  width: clamp(70px, 9vw, 130px);
+  rotate: -10deg;
+  opacity: 0.08;
+}
+
+.logo-accent--low-l {
+  bottom: 30%;
+  left: 14%;
+  width: clamp(60px, 8vw, 110px);
+  rotate: 5deg;
+  opacity: 0.1;
+}
+
+.logo-accent--low-r {
+  bottom: 35%;
+  right: 12%;
+  width: clamp(65px, 8vw, 115px);
+  rotate: -6deg;
+  opacity: 0.08;
+}
+
+/* Large centred PitoLogo (ascii) used as a section background on sections that
+   don't have an img watermark (#price, #shinies). Sits in Layer A. */
+.logo-accent--bg-logo {
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  rotate: -4deg;
+  opacity: 0.04;
+}
+
+/* Boost font-size and lock opacity for the ascii bg-logo variant (the generic
+   .logo-accent.pito-logo rule would otherwise win the opacity cascade). */
+.logo-accent--bg-logo.pito-logo {
+  font-size: clamp(20px, 4vw, 36px);
+  opacity: 0.04;
+}
 .logo-accent img {
   width: 100%;
   height: auto;
@@ -771,9 +821,17 @@
     translate: 0 0 !important;
   }
 }
+/* First cover in the library wall is displayed at a larger feature size. */
+.cover--featured {
+  width: clamp(200px, 26vw, 300px);
+}
+
 @media (max-width: 640px) {
   .cover-wall {
     columns: 3 110px;
+  }
+  .cover--featured {
+    width: clamp(140px, 18vw, 200px);
   }
 }
 
@@ -784,11 +842,19 @@
   .pixel-accent,
   .logo-accent--side,
   .logo-accent--watermark,
-  .logo-accent--strong {
+  .logo-accent--strong,
+  .logo-accent--bg-logo {
     display: none;
   }
   .logo-accent {
     opacity: 0.06;
+  }
+  /* parallax disabled on mobile (coarse pointer + crowded layout) */
+  .par {
+    transform: none;
+  }
+  .par-d-pixel {
+    translate: 0 0;
   }
   .scrolly__hint {
     display: none;
@@ -811,6 +877,80 @@
   .pito-widget {
     font-size: 12px;
     padding: 1.4rem 0.9rem 1rem;
+  }
+}
+
+/* ── Scroll + cursor parallax depth layers ──────────────────── */
+/* parallax.js sets --scroll-p on #pain, #price, #shinies, #free (range -1.5..1.5).
+   pointer.js sets --par-x/--par-y on <body> (-1..1).
+   These two signals combine in ONE transform (or translate) per element.
+   Using two separate CSS properties prevents conflicts with existing animations:
+     · logo-type accents → `transform` (float-drift animation uses `translate`)
+     · pixel-art accents → `translate`  (spin/bob/etc animations use `transform`)
+   --mag   = cursor parallax strength in px
+   --depth = scroll parallax strength in px */
+
+/* ── Layer modifiers: set per-layer custom properties ───────── */
+
+/* Layer A — deepest background (watermarks / large bg logos).
+   Slow, large cursor feel; strong scroll depth to emphasise being "far back". */
+.par--A {
+  --mag: 25px;
+  --depth: 80px;
+  --par-dur: 0.8s;
+}
+
+/* Layer B — secondary accent logos.
+   Medium cursor + scroll; visibly faster than A, clearly slower than D. */
+.par--B {
+  --mag: 45px;
+  --depth: 50px;
+  --par-dur: 0.5s;
+}
+
+/* ── .par: combined transform for logo-type elements ─────────── */
+/* Float-drift keyframes use the `translate` CSS property, so using `transform`
+   here avoids any conflict — both apply and compose independently. */
+
+.par {
+  transform: translate3d(
+    calc(var(--par-x, 0) * var(--mag, 0px)),
+    calc(
+      var(--par-y, 0) * var(--mag, 0px) + var(--scroll-p, 0) * var(--depth, 0px)
+    ),
+    0
+  );
+  transition: transform var(--par-dur, 0.45s) ease-out;
+  will-change: transform;
+}
+
+/* Cancel the standalone `translate` on --react logos so cursor movement comes
+   entirely from the .par transform (no double-dipping). */
+.par.logo-accent--react {
+  translate: 0 0;
+}
+
+/* ── Layer D: foreground pixel art (coins / stars) ───────────── */
+/* Pixel-art animations (spin / bob / squash / throb) use `transform` in their
+   @keyframes, so we use `translate` here — the two compose independently.
+   Layer D is the fastest: largest cursor + scroll magnitudes. */
+
+.par-d-pixel {
+  translate: calc(var(--par-x, 0) * 65px)
+    calc(var(--par-y, 0) * 65px + var(--scroll-p, 0) * 120px);
+  transition: translate 0.28s ease-out;
+}
+
+/* ── Reduced-motion: all layers are static ───────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .par {
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .par-d-pixel {
+    translate: 0 0 !important;
   }
 }
 
