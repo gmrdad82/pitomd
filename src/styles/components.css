@@ -134,6 +134,85 @@
   color: var(--fg-dim);
   margin-top: 0.8rem;
 }
+.maker__channels {
+  color: var(--fg-dim);
+  margin-top: 2rem;
+  font-size: 0.85rem;
+}
+
+/* social link row (CTA) */
+.social {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+.social a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.55em 1em;
+  border: 1px solid var(--border-faded);
+  color: var(--fg-default);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.social a img {
+  width: 1.2em;
+  height: 1.2em;
+}
+.social a:hover,
+.social a:focus-visible {
+  border-color: var(--pito-blue);
+  color: var(--pito-blue);
+  box-shadow: 0 8px 26px -8px color-mix(in oklab, var(--pito-blue) 70%, transparent);
+}
+
+/* persistent left social rail */
+.socialbar {
+  position: fixed;
+  left: clamp(0.6rem, 1.6vw, 1.4rem);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.socialbar a {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border-faded);
+  color: var(--fg-dim);
+  background: color-mix(in oklab, var(--bg-surface) 70%, transparent);
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.socialbar a:hover,
+.socialbar a:focus-visible {
+  color: var(--pito-blue);
+  border-color: var(--pito-blue);
+}
+.socialbar img {
+  width: 17px;
+  height: 17px;
+}
+@media (max-width: 860px) {
+  .socialbar {
+    display: none;
+  }
+}
 .hero__title {
   margin: 0.5em 0 0.3em;
 }

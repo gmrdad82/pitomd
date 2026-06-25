@@ -12,6 +12,8 @@ import PitoLogo from "../components/PitoLogo.astro";
 const GITHUB = "https://github.com/gmrdad82/pito";
 const SPONSOR = "https://github.com/sponsors/gmrdad82";
 const YOUTUBE = "https://www.youtube.com/@gmrdad82";
+const X = "https://x.com/GamerDady82";
+const DISCORD = "https://discord.gg/q947UyDTqJ";
 const INSTALL = "curl -fsSL pitomd.com/install.sh | sh";
 
 const avatars = [
@@ -41,6 +43,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 ---
 
 <Base>
+  {/* Persistent social rail (left) — hidden on mobile. */}
+  <nav class="socialbar" aria-label="Follow Catalin">
+    <a href={YOUTUBE} aria-label="YouTube" data-magnetic><img src="/social/youtube.svg" width="20" height="20" alt="" /></a>
+    <a href={X} aria-label="X" data-magnetic><img src="/social/x.svg" width="17" height="17" alt="" /></a>
+    <a href={DISCORD} aria-label="Discord" data-magnetic><img src="/social/discord.svg" width="20" height="20" alt="" /></a>
+  </nav>
+
   {/* ── 1 · HERO ─────────────────────────────────────────── */}
   <Section id="hero" theme="synthwave" label="Start" class="hero f-grotesk">
     <PitoLogo slot="decor" class="logo-accent logo-accent--tr logo-accent--react logo-accent--sm logo-accent--cyan" />
@@ -535,15 +544,31 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 
     <div class="maker" data-reveal="rise">
       <p class="maker__by mono">
-        Built by <strong>Catalin Ilinca</strong> —
+        Built by <strong>Catalin Ilinca</strong> &mdash;{" "}
         <a href={YOUTUBE} class="pito-blue">@gmrdad82</a>, a 20-yr Rails engineer
         and multi-channel YouTuber who got tired of the tooling and did the math.
-        The math said "build it yourself, you cheapskate."
+        The math said &ldquo;build it yourself, you cheapskate.&rdquo;
       </p>
       <p class="maker__contact mono">
-        Questions, ideas, bug reports — touch
-        <a href={YOUTUBE} class="pito-blue">@gmrdad82</a>.
+        Questions, ideas, bug reports &mdash; find me on{" "}
+        <a href={YOUTUBE} class="pito-blue">YouTube</a>,{" "}
+        <a href={X} class="pito-blue">X</a>, and{" "}
+        <a href={DISCORD} class="pito-blue">Discord</a>.
       </p>
+
+      <ul class="social" aria-label="Catalin's links">
+        <li>
+          <a href={YOUTUBE} data-magnetic><img src="/social/youtube.svg" width="22" height="22" alt="" /> YouTube</a>
+        </li>
+        <li>
+          <a href={X} data-magnetic><img src="/social/x.svg" width="18" height="18" alt="" /> X</a>
+        </li>
+        <li>
+          <a href={DISCORD} data-magnetic><img src="/social/discord.svg" width="22" height="22" alt="" /> Discord</a>
+        </li>
+      </ul>
+
+      <p class="maker__channels mono">The six Gamer Dad channels:</p>
       <ul class="avatars" aria-label="The Gamer Dad channels">
         {
           avatars.map((a) => (
