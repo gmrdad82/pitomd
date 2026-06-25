@@ -97,8 +97,9 @@ docs/claude/           agent working docs (specs/plans) — GITIGNORED, local on
   `main` (project `pito-website`; secrets `CLOUDFLARE_API_TOKEN` +
   `CLOUDFLARE_ACCOUNT_ID` already set). A merge to `main` deploys — no version
   gating.
-- **Pre-push gate**: `npx astro check` + `npm run build` clean; prettier on
-  markdown (CI runs `prettier --check '**/*.md'`).
+- **Pre-push gate** (mirrors CI): `npm run lint` (prettier `--check .` + eslint
+  - stylelint), `npx astro check`, `npm run build` clean. `npm run format`
+    fixes prettier. Commit messages are plain — **no `Co-Authored-By` trailers**.
 - **`site` is canonical.** `https://pitomd.com` drives absolute URLs / `og:` —
   derive from `Astro.site`, don't hardcode the domain in templates.
 - Marketing-page bar: semantic HTML, real `alt` text, no layout shift,
@@ -108,8 +109,10 @@ docs/claude/           agent working docs (specs/plans) — GITIGNORED, local on
 
 ## CI / deploy
 
-- `.github/workflows/ci.yml` — `npm audit` (high gate), `astro check`, build,
-  prettier on `**/*.md`. Every push / PR.
+- `.github/workflows/ci.yml` — `npm audit` (high gate), prettier (`--check .`),
+  eslint (JS islands), stylelint (CSS), `astro check`, build, and a Lighthouse
+  job (a11y/SEO/best-practices gated ≥0.9; performance a non-blocking warning).
+  Every push / PR.
 - `.github/workflows/deploy.yml` — builds + publishes `dist/` to the
   `pito-website` Cloudflare Pages project on push to `main` and manual dispatch.
 - Custom domain + DNS live in the Cloudflare dashboard, not this repo.
