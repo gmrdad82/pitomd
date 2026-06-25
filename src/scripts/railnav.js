@@ -5,7 +5,9 @@
 // smooth-scrolls to a section on dot click. Pure vanilla, no deps.
 
 function initRailNav() {
-  const sections = Array.from(document.querySelectorAll("section[data-nav-label]"));
+  const sections = Array.from(
+    document.querySelectorAll("section[data-nav-label]"),
+  );
   if (sections.length === 0) return;
 
   const nav = document.createElement("nav");
@@ -58,7 +60,7 @@ function initRailNav() {
       }
       if (best) setActive(best);
     },
-    { threshold: [0, 0.25, 0.5, 0.75, 1] }
+    { threshold: [0, 0.25, 0.5, 0.75, 1] },
   );
 
   sections.forEach((s) => io.observe(s));

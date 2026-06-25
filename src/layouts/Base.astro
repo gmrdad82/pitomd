@@ -13,8 +13,7 @@ interface Props {
 
 const {
   title = "PITO — one chatbox. every channel.",
-  description =
-    "PITO is the best YouTube tool for multi-channel creators: one self-hosted chatbox for every channel. Free, private, open source.",
+  description = "PITO is the best YouTube tool for multi-channel creators: one self-hosted chatbox for every channel. Free, private, open source.",
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -25,7 +24,9 @@ const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
 <html lang="en" data-theme="tokyo-night">
   <head>
     <meta charset="utf-8" />
-    {/* JS flag — reveal elements only start hidden when JS can un-hide them. */}
+    {
+      /* JS flag — reveal elements only start hidden when JS can un-hide them. */
+    }
     <script is:inline>
       document.documentElement.classList.add("js");
     </script>
@@ -37,8 +38,10 @@ const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
     <meta name="color-scheme" content="dark light" />
     <link rel="canonical" href={canonical} />
 
-    {/* Webfonts — a varied display palette so each section has its own voice,
-        plus JetBrains Mono for the terminal accents. */}
+    {
+      /* Webfonts — a varied display palette so each section has its own voice,
+        plus JetBrains Mono for the terminal accents. */
+    }
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -46,20 +49,46 @@ const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
       href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Unbounded:wght@600;800&display=swap"
     />
 
-    {/* Favicon. In DEV we emit ONLY the synthwave-YELLOW SVG — no .ico, no PNGs,
+    {
+      /* Favicon. In DEV we emit ONLY the synthwave-YELLOW SVG — no .ico, no PNGs,
         no manifest — so nothing blue can win the browser's icon race and a
         localhost tab is unmistakably yellow. PRODUCTION gets the full set (the
-        inverse blue SVG first, then .ico/.png fallbacks + manifest). */}
+        inverse blue SVG first, then .ico/.png fallbacks + manifest). */
+    }
     {
       import.meta.env.DEV ? (
-        <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon-dev.svg?v=4" />
+        <link
+          rel="icon"
+          type="image/svg+xml"
+          sizes="any"
+          href="/favicon-dev.svg?v=4"
+        />
       ) : (
         <>
-          <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg?v=4" />
+          <link
+            rel="icon"
+            type="image/svg+xml"
+            sizes="any"
+            href="/favicon.svg?v=4"
+          />
           <link rel="icon" href="/favicon.ico?v=4" type="image/x-icon" />
-          <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=4" />
-          <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=4" />
-          <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4" />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png?v=4"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png?v=4"
+          />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png?v=4"
+          />
           <link rel="manifest" href="/site.webmanifest" />
           <meta name="msapplication-TileColor" content="#1a1b26" />
           <meta name="msapplication-config" content="/browserconfig.xml" />
@@ -82,8 +111,10 @@ const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
   <body>
     <slot />
 
-    {/* Dev-only banner pinned to the bottom (synthwave yellow), so a localhost
-        tab is unmistakable next to production — mirrors pito's DEVELOPMENT bar. */}
+    {
+      /* Dev-only banner pinned to the bottom (synthwave yellow), so a localhost
+        tab is unmistakable next to production — mirrors pito's DEVELOPMENT bar. */
+    }
     {import.meta.env.DEV && <div class="dev-banner">DEVELOPMENT</div>}
 
     {/* fx islands — deferred, vanilla, dependency-free. */}

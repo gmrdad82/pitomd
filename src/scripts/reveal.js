@@ -5,7 +5,9 @@
 // typewriter, comet — declared via [data-fx="…"], fired once on enter. All
 // effects are skipped under prefers-reduced-motion (content shows final state).
 
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduceMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+).matches;
 
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*<>/\\|01";
 
@@ -113,7 +115,10 @@ function initReveal() {
   // there's no flash of full text before the effect runs.
   fxEls.forEach((el) => {
     if (!el.dataset.fxText) el.dataset.fxText = el.textContent.trim();
-    if (!reduceMotion && (el.dataset.fx === "typewriter" || el.dataset.fx === "comet"))
+    if (
+      !reduceMotion &&
+      (el.dataset.fx === "typewriter" || el.dataset.fx === "comet")
+    )
       el.textContent = "";
   });
 
@@ -133,7 +138,7 @@ function initReveal() {
         obs.unobserve(el);
       }
     },
-    { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
+    { threshold: 0.2, rootMargin: "0px 0px -10% 0px" },
   );
 
   reveals.forEach((el) => io.observe(el));

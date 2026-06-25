@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # VHS cast working dir (Phase 4) — local only
 /tmp-vhs/
+
+# Lighthouse CI
+.lighthouseci/

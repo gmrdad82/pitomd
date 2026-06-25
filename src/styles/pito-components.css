@@ -448,7 +448,8 @@
   --pito-bar-band: linear-gradient(
     135deg,
     transparent calc(var(--pito-bar-sweep) - 14%),
-    color-mix(in oklch, var(--brand-pito) 72%, transparent) var(--pito-bar-sweep),
+    color-mix(in oklch, var(--brand-pito) 72%, transparent)
+      var(--pito-bar-sweep),
     transparent calc(var(--pito-bar-sweep) + 14%)
   );
   background-size: 100% 100%;

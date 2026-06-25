@@ -16,7 +16,11 @@ const { class: extra = "", reveal = false } = Astro.props;
 const rowAttr = reveal ? { "data-reveal": "rise" } : {};
 ---
 
-<pre class:list={["pito-logo", extra]} aria-label="PITO" role="img" data-stagger>
+<pre
+  class:list={["pito-logo", extra]}
+  aria-label="PITO"
+  role="img"
+  data-stagger>
 <span {...rowAttr} style="--i:0"><span class="b">██████</span><span class="s">╗ </span><span class="b">██</span><span class="s">╗</span><span class="b">████████</span><span class="s">╗ </span><span class="b">██████</span><span class="s">╗ </span></span>
 <span {...rowAttr} style="--i:1"><span class="b">██</span><span class="s">╔══</span><span class="b">██</span><span class="s">╗</span><span class="b">██</span><span class="s">║╚══</span><span class="b">██</span><span class="s">╔══╝</span><span class="b">██</span><span class="s">╔═══</span><span class="b">██</span><span class="s">╗</span></span>
 <span {...rowAttr} style="--i:2"><span class="b">██████</span><span class="s">╔╝</span><span class="b">██</span><span class="s">║   </span><span class="b">██</span><span class="s">║   </span><span class="b">██</span><span class="s">║   </span><span class="b">██</span><span class="s">║</span></span>

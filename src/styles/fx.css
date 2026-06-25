@@ -25,7 +25,8 @@
   background: radial-gradient(
     circle,
     var(--trail-c1, var(--pito-blue)),
-    color-mix(in oklab, var(--trail-c2, var(--accent-purple)) 65%, transparent) 70%,
+    color-mix(in oklab, var(--trail-c2, var(--accent-purple)) 65%, transparent)
+      70%,
     transparent
   );
   opacity: 0;

@@ -8,7 +8,9 @@
 // Under prefers-reduced-motion the steps are simply all shown stacked (the CSS
 // falls back), and this controller no-ops.
 
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduceMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+).matches;
 
 function initScrolly() {
   const blocks = document.querySelectorAll("[data-scrolly]");
@@ -18,7 +20,8 @@ function initScrolly() {
   // comet animation replays each time the slide is (re)activated by scroll.
   const cometize = (el) => {
     if (!el) return;
-    const text = el.dataset.cometText || (el.dataset.cometText = el.textContent.trim());
+    const text =
+      el.dataset.cometText || (el.dataset.cometText = el.textContent.trim());
     el.textContent = "";
     let ci = 0;
     for (const token of text.split(/([^\S\u00A0]+)/)) {
@@ -79,7 +82,7 @@ function initScrolly() {
       if (progressEl) {
         progressEl.style.setProperty("--p", p.toFixed(4));
         progressEl.textContent = `${String(idx + 1).padStart(2, "0")} / ${String(
-          steps.length
+          steps.length,
         ).padStart(2, "0")}`;
       }
     };

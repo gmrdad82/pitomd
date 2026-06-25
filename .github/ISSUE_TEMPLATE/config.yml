@@ -5,8 +5,7 @@ contact_links:
     about: The live site this repo builds.
   - name: Pito — the app this site markets
     url: https://github.com/gmrdad82/pito
-    about:
-      Bugs and feature requests for the actual product go there, not here.
+    about: Bugs and feature requests for the actual product go there, not here.
   - name: README — what this repo is + how to run it
     url: https://github.com/gmrdad82/pitomd#pitomd
     about: Project overview and local setup. Read before opening an issue.

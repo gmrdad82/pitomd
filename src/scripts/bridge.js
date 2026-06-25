@@ -7,7 +7,9 @@
 // driven by scroll position, with a quick random-flicker burst on each change.
 // No-ops under reduced motion (CSS shows a static colour panel).
 
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduceMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+).matches;
 const SCRAMBLE_POOL = "$€£¥₿¢₽₹元₩";
 
 function initBridges() {

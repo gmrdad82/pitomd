@@ -27,7 +27,9 @@ const THEMES = [
   "tomorrow",
 ];
 
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduceMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+).matches;
 
 function initThemeCycle() {
   const stage = document.querySelector("[data-theme-cycle]");
@@ -47,7 +49,8 @@ function initThemeCycle() {
     const slug = THEMES[i];
     stage.setAttribute("data-theme", slug);
     if (nameEl) nameEl.textContent = slug;
-    if (idxEl) idxEl.textContent = `${String(i + 1).padStart(2, "0")} / ${THEMES.length}`;
+    if (idxEl)
+      idxEl.textContent = `${String(i + 1).padStart(2, "0")} / ${THEMES.length}`;
     if (shot) {
       shot.src = `/media/themes/${slug}.png`;
       shot.alt = `PITO in the ${slug} theme`;
@@ -86,7 +89,7 @@ function initThemeCycle() {
         else stop();
       }
     },
-    { threshold: 0.4 }
+    { threshold: 0.4 },
   );
   io.observe(stage);
 

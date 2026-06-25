@@ -43,7 +43,9 @@
   line-height: 1.05;
   white-space: pre;
   display: inline-block;
-  filter: drop-shadow(0 0 24px color-mix(in oklab, var(--pito-blue) 55%, transparent));
+  filter: drop-shadow(
+    0 0 24px color-mix(in oklab, var(--pito-blue) 55%, transparent)
+  );
 }
 .pito-logo .b {
   color: var(--pito-blue);
@@ -420,7 +422,9 @@
 }
 .js .bridge__statement {
   opacity: clamp(0, calc((var(--bp, 0) - 0.64) * 7), 1);
-  transform: translateY(calc((1 - clamp(0, calc((var(--bp, 0) - 0.64) * 7), 1)) * 24px));
+  transform: translateY(
+    calc((1 - clamp(0, calc((var(--bp, 0) - 0.64) * 7), 1)) * 24px)
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -581,7 +585,9 @@
   /* screen blend drops the gif's dark anti-aliased fringe (the "square") and
      lets the bright pixel art pop on the dark themed sections */
   mix-blend-mode: screen;
-  filter: drop-shadow(0 0 18px color-mix(in oklab, var(--accent-yellow) 35%, transparent));
+  filter: drop-shadow(
+    0 0 18px color-mix(in oklab, var(--accent-yellow) 35%, transparent)
+  );
 }
 .pixel-accent--spin {
   animation: pa-spin 7s linear infinite;
@@ -632,11 +638,15 @@
   0%,
   100% {
     transform: scale(1);
-    filter: drop-shadow(0 0 10px color-mix(in oklab, var(--accent-yellow) 40%, transparent));
+    filter: drop-shadow(
+      0 0 10px color-mix(in oklab, var(--accent-yellow) 40%, transparent)
+    );
   }
   50% {
     transform: scale(1.25);
-    filter: drop-shadow(0 0 40px color-mix(in oklab, var(--accent-yellow) 80%, transparent));
+    filter: drop-shadow(
+      0 0 40px color-mix(in oklab, var(--accent-yellow) 80%, transparent)
+    );
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -711,7 +721,9 @@
   transition: filter 0.3s ease;
 }
 .platform-icon:hover {
-  filter: drop-shadow(0 0 34px color-mix(in oklab, var(--pito-blue) 75%, transparent));
+  filter: drop-shadow(
+    0 0 34px color-mix(in oklab, var(--pito-blue) 75%, transparent)
+  );
 }
 
 /* centred grid of uniform covers (all 374×499) — wraps, last row centred */
@@ -748,7 +760,8 @@
 }
 .cover:hover img {
   border-color: var(--pito-blue);
-  box-shadow: 0 26px 64px -12px color-mix(in oklab, var(--pito-blue) 60%, transparent);
+  box-shadow: 0 26px 64px -12px
+    color-mix(in oklab, var(--pito-blue) 60%, transparent);
 }
 @media (prefers-reduced-motion: reduce) {
   .platform-icon {

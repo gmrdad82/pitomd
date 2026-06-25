@@ -38,7 +38,8 @@
 }
 .btn--primary:hover,
 .btn--primary:focus-visible {
-  box-shadow: 0 8px 30px -6px color-mix(in oklab, var(--pito-blue) 80%, transparent);
+  box-shadow: 0 8px 30px -6px
+    color-mix(in oklab, var(--pito-blue) 80%, transparent);
   outline: none;
 }
 .btn--ghost {
@@ -52,7 +53,8 @@
   background: var(--accent-purple);
   border-color: var(--accent-purple);
   color: var(--bg-root);
-  box-shadow: 0 10px 34px -8px color-mix(in oklab, var(--accent-purple) 80%, transparent);
+  box-shadow: 0 10px 34px -8px
+    color-mix(in oklab, var(--accent-purple) 80%, transparent);
   outline: none;
 }
 
@@ -71,7 +73,9 @@
   width: min(560px, 78vw);
   height: auto;
   margin-bottom: 0.4rem;
-  filter: drop-shadow(0 0 40px color-mix(in oklab, var(--pito-blue) 55%, transparent));
+  filter: drop-shadow(
+    0 0 40px color-mix(in oklab, var(--pito-blue) 55%, transparent)
+  );
 }
 
 /* Click-to-copy install command */
@@ -92,7 +96,8 @@
 .copybox:hover,
 .copybox:focus-within {
   border-color: var(--pito-blue);
-  box-shadow: 0 0 30px -8px color-mix(in oklab, var(--pito-blue) 70%, transparent);
+  box-shadow: 0 0 30px -8px
+    color-mix(in oklab, var(--pito-blue) 70%, transparent);
 }
 .copybox__prompt {
   color: var(--accent-green);
@@ -172,7 +177,8 @@
 .social a:focus-visible {
   border-color: var(--pito-blue);
   color: var(--pito-blue);
-  box-shadow: 0 8px 26px -8px color-mix(in oklab, var(--pito-blue) 70%, transparent);
+  box-shadow: 0 8px 26px -8px
+    color-mix(in oklab, var(--pito-blue) 70%, transparent);
 }
 
 /* persistent left social rail */
@@ -291,7 +297,8 @@
 .split__media img {
   width: 100%;
   border: 1px solid var(--border-faded);
-  box-shadow: 0 30px 80px -40px color-mix(in oklab, var(--pito-blue) 60%, transparent);
+  box-shadow: 0 30px 80px -40px
+    color-mix(in oklab, var(--pito-blue) 60%, transparent);
 }
 .split__copy .lede {
   margin-top: 1.2rem;

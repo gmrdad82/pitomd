@@ -12,7 +12,9 @@
 // Everything is disabled under prefers-reduced-motion or on coarse (touch)
 // pointers, where these effects are pointless or janky.
 
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduceMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+).matches;
 const finePointer = window.matchMedia("(pointer: fine)").matches;
 
 function initPointer() {
@@ -28,7 +30,9 @@ function initPointer() {
   // section's glow tracks the real cursor position. When the cursor crosses into
   // a new section we read that theme's accents and retint the cursor trail —
   // the comet takes on each section's own colour as you move down the page.
-  const sections = Array.from(document.querySelectorAll(".section, .bridge, .scrolly"));
+  const sections = Array.from(
+    document.querySelectorAll(".section, .bridge, .scrolly"),
+  );
   let hotId = null;
   const retint = (section) => {
     const cs = getComputedStyle(section);
@@ -46,7 +50,11 @@ function initPointer() {
     body.style.setProperty("--par-y", (py / window.innerHeight - 0.5) * 2);
     for (const s of sections) {
       const r = s.getBoundingClientRect();
-      const inside = py >= r.top && py <= r.bottom && r.top < window.innerHeight && r.bottom > 0;
+      const inside =
+        py >= r.top &&
+        py <= r.bottom &&
+        r.top < window.innerHeight &&
+        r.bottom > 0;
       if (s.classList.contains("section")) {
         s.classList.toggle("is-hot", inside);
         if (inside) {
@@ -126,7 +134,7 @@ function initPointer() {
         requestAnimationFrame(onFrame);
       }
     },
-    { passive: true }
+    { passive: true },
   );
 
   // ── cursor comet trail ───────────────────────────────────

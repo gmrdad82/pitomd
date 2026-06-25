@@ -23,11 +23,39 @@ jobs:
       - name: npm audit (high severity gate)
         run: npm audit --audit-level=high
 
+      - name: Prettier (all source)
+        run: npx prettier --check .
+
+      - name: ESLint (vanilla JS islands)
+        run: npx eslint .
+
+      - name: Stylelint (CSS)
+        run: npx stylelint "src/styles/**/*.css"
+
       - name: Astro check (typing + template lint)
         run: npx astro check
 
       - name: Build verification
         run: npm run build
 
-      - name: Check markdown formatting
-        run: npx --yes prettier@latest --check '**/*.md'
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Lighthouse CI (a11y / SEO / best-practices gated; perf is a warning)
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.json
