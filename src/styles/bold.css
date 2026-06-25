@@ -323,8 +323,8 @@
   gap: 2px;
 }
 .coin-chip .glyphs img {
-  width: 22px;
-  height: 22px;
+  height: 28px;
+  width: auto;
   display: block;
   image-rendering: pixelated;
 }
@@ -580,6 +580,105 @@
   .logo-accent--react {
     translate: 0 0 !important;
   }
+}
+
+/* ── Pixel-art accents (coin.gif / star.gif gone feral) ────── */
+/* Decorative coins & stars, scaled HARD with deliberate distortion (they're
+   pixel art — stretching is a feature). Placed via the decor slot with inline
+   position/size; behaviour comes from the modifier classes. */
+
+.pixel-accent {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  image-rendering: pixelated;
+  display: block;
+  filter: drop-shadow(0 8px 24px color-mix(in oklab, var(--accent-yellow) 40%, transparent));
+}
+.pixel-accent--spin {
+  animation: pa-spin 7s linear infinite;
+}
+.pixel-accent--spin-rev {
+  animation: pa-spin 9s linear infinite reverse;
+}
+.pixel-accent--bob {
+  animation: pa-bob 4.5s ease-in-out infinite;
+}
+.pixel-accent--squash {
+  animation: pa-squash 2.4s ease-in-out infinite;
+}
+.pixel-accent--throb {
+  animation: pa-throb 3s ease-in-out infinite;
+}
+.pixel-accent--react {
+  translate: calc(var(--par-x, 0) * 45px) calc(var(--par-y, 0) * 45px);
+  transition: translate 0.3s ease-out;
+}
+@keyframes pa-spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes pa-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-7deg);
+  }
+  50% {
+    transform: translateY(-28px) rotate(7deg);
+  }
+}
+@keyframes pa-squash {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.4, 0.66);
+  }
+}
+@keyframes pa-throb {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px color-mix(in oklab, var(--accent-yellow) 40%, transparent));
+  }
+  50% {
+    transform: scale(1.25);
+    filter: drop-shadow(0 0 40px color-mix(in oklab, var(--accent-yellow) 80%, transparent));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pixel-accent--spin,
+  .pixel-accent--spin-rev,
+  .pixel-accent--bob,
+  .pixel-accent--squash,
+  .pixel-accent--throb {
+    animation: none;
+  }
+  .pixel-accent--react {
+    translate: 0 0 !important;
+  }
+}
+
+/* coin chips pop on hover (the glyphs scale up) */
+.coin-chip {
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.2s ease;
+}
+.coin-chip:hover {
+  transform: scale(1.08) rotate(-1deg);
+  border-color: var(--accent-yellow);
+}
+.coin-chip:hover .glyphs img {
+  transform: scale(1.25);
+}
+.coin-chip .glyphs img {
+  transition: transform 0.2s ease;
 }
 
 /* ── Crash-zoom reveal (extra creative variant) ────────────── */
