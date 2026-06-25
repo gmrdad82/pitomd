@@ -101,7 +101,7 @@ npx astro check  # type + template check
   `main`. A Slack "Deadpan Butler" posts at most one message per push: a deploy notice
   on success, or a single failure note (no spam).
 
-### Find me / the channels
+### Find me
 
 The gaming side is the **Gamer Dad** / Manfy network — the channels that dragged PITO
 into existence:
@@ -109,10 +109,17 @@ into existence:
 <!-- prettier-ignore -->
 <p align="center"><a href="https://www.youtube.com/@gmrdad82"><img src="public/avatars/@gmrdad82.png" width="72" alt="@gmrdad82"></a> <a href="https://www.youtube.com/@gmrdad82fighter"><img src="public/avatars/@gmrdad82fighter.png" width="72" alt="@gmrdad82fighter"></a> <a href="https://www.youtube.com/@gmrdad82good"><img src="public/avatars/@gmrdad82good.png" width="72" alt="@gmrdad82good"></a> <a href="https://www.youtube.com/@gmrdad82hard"><img src="public/avatars/@gmrdad82hard.png" width="72" alt="@gmrdad82hard"></a> <a href="https://www.youtube.com/@gmrdad82strategist"><img src="public/avatars/@gmrdad82strategist.png" width="72" alt="@gmrdad82strategist"></a> <a href="https://www.youtube.com/@gmrdad82survivor"><img src="public/avatars/@gmrdad82survivor.png" width="72" alt="@gmrdad82survivor"></a></p>
 
-- ▶ **YouTube** — [@gmrdad82](https://www.youtube.com/@gmrdad82) (engineering/personal,
-  where PITO gets its tour)
-- 💬 **Discord** — [discord.gg/q947UyDTqJ](https://discord.gg/q947UyDTqJ)
-- ✖ **X** — [@GamerDady82](https://x.com/GamerDady82)
+Stuck, lost, or just want to report that the cover art _finally_ loaded? There's a
+Discord — pop in, ask away, judgment kept to a minimum
+👉 **[discord.gg/q947UyDTqJ](https://discord.gg/q947UyDTqJ)**
+
+Prefer elsewhere? Find me on X 👉 **[@GamerDady82](https://x.com/GamerDady82)**, or on
+YouTube at **[@gmrdad82](https://www.youtube.com/@gmrdad82)** — my engineering/personal
+channel, where PITO gets its tour. (The gaming side is the **Manfy** network — the
+avatars above.)
+
+No SLA, no ticket queue, no "your call is important to us." Just a channel and a human
+who checks it between renders.
 
 ## License
 
