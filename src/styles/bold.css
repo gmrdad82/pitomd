@@ -1250,7 +1250,7 @@
      washed, cramped mass; scaling preserves each cover's relative size while
      matching desktop's cover-to-viewport ratio. Drift frozen → smoother zoom. */
   .bridge__cover {
-    width: calc(var(--cw, 220px) * 0.34);
+    width: calc(var(--cw, 220px) * 0.5);
     transform: none;
     transition: none;
   }
