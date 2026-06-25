@@ -18,6 +18,41 @@ const {
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
+
+// Structured data — a free, self-hosted SoftwareApplication (PITO) marketed by
+// this site, plus the WebSite node. Helps Google understand + enrich the result.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: "pitomd",
+      url: Astro.site?.href,
+      description,
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "PITO",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Docker (Linux, macOS, Windows)",
+      url: Astro.site?.href,
+      description,
+      offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+      license: "https://www.gnu.org/licenses/agpl-3.0",
+      author: {
+        "@type": "Person",
+        name: "Catalin Ilinca",
+        url: "https://www.youtube.com/@gmrdad82",
+      },
+      sameAs: [
+        "https://github.com/gmrdad82/pito",
+        "https://www.youtube.com/@gmrdad82",
+        "https://x.com/GamerDady82",
+        "https://discord.gg/q947UyDTqJ",
+      ],
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -106,6 +141,9 @@ const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+
+    {/* Structured data (JSON-LD) */}
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
 
   <body>
