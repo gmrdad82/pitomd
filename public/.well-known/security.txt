@@ -1,0 +1,5 @@
+Contact: https://github.com/gmrdad82/pito/security/advisories/new
+Contact: mailto:gmrdad82@gmail.com
+Expires: 2027-06-26T00:00:00.000Z
+Preferred-Languages: en, es
+Canonical: https://pitomd.com/.well-known/security.txt
