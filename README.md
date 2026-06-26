@@ -39,8 +39,8 @@ small scripts.
 ## 2 · What it's selling — PITO
 
 <!-- prettier-ignore -->
-<p align="center"><a href="https://www.youtube.com/@gmrdad82"><img src="public/media/pito-tour-thumb.png" width="760" alt="▶ PITO — a guided tour"></a></p>
-<p align="center"><em>▶ A guided tour of PITO — on <a href="https://www.youtube.com/@gmrdad82">@gmrdad82</a>.</em></p>
+<p align="center"><a href="https://youtu.be/7y3R403XtDE"><img src="public/media/pito-tour-thumb.png" width="760" alt="▶ PITO — a guided tour"></a></p>
+<p align="center"><em>▶ A guided tour of PITO — <a href="https://youtu.be/7y3R403XtDE">watch the tour</a>, on <a href="https://www.youtube.com/@gmrdad82">@gmrdad82</a>.</em></p>
 
 **One chatbox. Every channel.** YouTube Studio manages exactly one channel at a time —
 log out, log in, repeat until your will to live quietly files for unemployment. The
@@ -107,7 +107,7 @@ The gaming side is the **Gamer Dad** / Manfy network — the channels that dragg
 into existence:
 
 <!-- prettier-ignore -->
-<p align="center"><a href="https://www.youtube.com/@gmrdad82"><img src="public/avatars/@gmrdad82.png" width="72" alt="@gmrdad82"></a> <a href="https://www.youtube.com/@gmrdad82fighter"><img src="public/avatars/@gmrdad82fighter.png" width="72" alt="@gmrdad82fighter"></a> <a href="https://www.youtube.com/@gmrdad82good"><img src="public/avatars/@gmrdad82good.png" width="72" alt="@gmrdad82good"></a> <a href="https://www.youtube.com/@gmrdad82hard"><img src="public/avatars/@gmrdad82hard.png" width="72" alt="@gmrdad82hard"></a> <a href="https://www.youtube.com/@gmrdad82strategist"><img src="public/avatars/@gmrdad82strategist.png" width="72" alt="@gmrdad82strategist"></a> <a href="https://www.youtube.com/@gmrdad82survivor"><img src="public/avatars/@gmrdad82survivor.png" width="72" alt="@gmrdad82survivor"></a></p>
+<p align="center"><a href="https://www.youtube.com/@gmrdad82"><img src="public/avatars/@gmrdad82.png" width="72" alt="@gmrdad82"></a> <a href="https://www.youtube.com/@gmrdad82good"><img src="public/avatars/@gmrdad82good.png" width="72" alt="@gmrdad82good"></a> <a href="https://www.youtube.com/@gmrdad82hard"><img src="public/avatars/@gmrdad82hard.png" width="72" alt="@gmrdad82hard"></a> <a href="https://www.youtube.com/@gmrdad82fighter"><img src="public/avatars/@gmrdad82fighter.png" width="72" alt="@gmrdad82fighter"></a> <a href="https://www.youtube.com/@gmrdad82survivor"><img src="public/avatars/@gmrdad82survivor.png" width="72" alt="@gmrdad82survivor"></a> <a href="https://www.youtube.com/@gmrdad82strategist"><img src="public/avatars/@gmrdad82strategist.png" width="72" alt="@gmrdad82strategist"></a></p>
 
 Stuck, lost, or just want to report that the cover art _finally_ loaded? There's a
 Discord — pop in, ask away, judgment kept to a minimum

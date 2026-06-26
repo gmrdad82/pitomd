@@ -12,6 +12,7 @@ import PitoLogo from "../components/PitoLogo.astro";
 const GITHUB = "https://github.com/gmrdad82/pito";
 const SPONSOR = "https://github.com/sponsors/gmrdad82";
 const YOUTUBE = "https://www.youtube.com/@gmrdad82";
+const TOUR_VID = "https://youtu.be/7y3R403XtDE";
 const X = "https://x.com/GamerDady82";
 const DISCORD = "https://discord.gg/q947UyDTqJ";
 const INSTALL = "curl -fsSL pitomd.com/install.sh | sh";
@@ -37,14 +38,14 @@ const avatars = [
     url: `${YT}/@gmrdad82fighter`,
   },
   {
-    file: "@gmrdad82strategist.png",
-    name: "Gamer Dad — The Strategist",
-    url: `${YT}/@gmrdad82strategist`,
-  },
-  {
     file: "@gmrdad82survivor.png",
     name: "Gamer Dad — The Survivor",
     url: `${YT}/@gmrdad82survivor`,
+  },
+  {
+    file: "@gmrdad82strategist.png",
+    name: "Gamer Dad — The Strategist",
+    url: `${YT}/@gmrdad82strategist`,
   },
 ];
 
@@ -122,10 +123,23 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
         <a class="btn btn--primary" href={GITHUB} data-magnetic
           >Get it on GitHub -></a
         >
-        <a class="btn btn--ghost" href={YOUTUBE} data-magnetic
+        <a class="btn btn--ghost" href={TOUR_VID} data-magnetic
           >▶ Watch the tour</a
         >
       </div>
+      <a
+        class="hero__tour"
+        href={TOUR_VID}
+        data-reveal="fade"
+        aria-label="Watch the PITO tour"
+      >
+        <img
+          src="/media/pito-tour-thumb.png"
+          width="760"
+          alt="▶ PITO — a guided tour"
+          loading="lazy"
+        />
+      </a>
       <div
         class="copybox"
         data-copy={INSTALL}
