@@ -4,6 +4,28 @@ Agent guide for **pitomd** — the Astro site for
 [Pito](https://github.com/gmrdad82/pito), served at **pitomd.com** and deployed
 to Cloudflare Pages.
 
+## The log law (non-negotiable; mechanically enforced)
+
+The active working plan in `docs/claude/plan-*.md` is the **single source of
+truth** — every todo, bug, decision, and discussion item the owner raised. NEVER
+hold work in your own memory or the harness todo list. If it isn't in the working
+md, it does not exist.
+
+A `UserPromptSubmit` hook (`.claude/hooks/capture-prompt.sh`) appends every owner
+message verbatim to `docs/claude/INBOX.md` as a `## ⛔ UNPROCESSED` block. **Every
+turn, before anything else:**
+
+1. Read `docs/claude/INBOX.md`.
+2. **Drain** each `⛔ UNPROCESSED` block into the active plan — turn EVERY item
+   into an explicit task/line; split compound messages; lose nothing.
+3. Rewrite the block heading in place to `## ✅ processed — <ts> -> <plan refs>`.
+   Never delete it — the back-reference makes capture auditable.
+
+The `Stop` hook (`.claude/hooks/check-inbox.sh`) refuses to end a turn while any
+`⛔ UNPROCESSED` block remains. `docs/claude/` (INBOX + plans) is gitignored
+(local-only); the hooks + this section are committed so the guard ships with the
+repo.
+
 ## What this is
 
 A **single-page, scroll-driven, over-the-top showcase** of PITO. Two jobs: make
