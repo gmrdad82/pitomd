@@ -70,24 +70,53 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
   {/* Persistent social rail (left) — hidden on mobile. */}
   <nav class="socialbar" aria-label="Follow Catalin">
     <a href={YOUTUBE} aria-label="YouTube" data-magnetic
-      ><img src="/social/youtube.svg" width="20" height="20" alt="" /></a
+      ><img
+        decoding="async"
+        src="/social/youtube.svg"
+        width="20"
+        height="20"
+        alt=""
+      /></a
     >
     <a href={X} aria-label="X" data-magnetic
-      ><img src="/social/x.svg" width="17" height="17" alt="" /></a
+      ><img
+        decoding="async"
+        src="/social/x.svg"
+        width="17"
+        height="17"
+        alt=""
+      /></a
     >
     <a href={DISCORD} aria-label="Discord" data-magnetic
-      ><img src="/social/discord.svg" width="20" height="20" alt="" /></a
+      ><img
+        decoding="async"
+        src="/social/discord.svg"
+        width="20"
+        height="20"
+        alt=""
+      /></a
     >
   </nav>
 
   {/* ── 1 · HERO ─────────────────────────────────────────── */}
-  <Section id="hero" theme="synthwave" label="Start" class="hero f-grotesk">
+  <Section
+    id="hero"
+    theme="synthwave"
+    label="Start"
+    class="hero f-grotesk"
+    data-cursor="glow"
+  >
     <div
       slot="decor"
       class="cover-bed"
       style="--cover:url('/covers/stellar-blade.jpg')"
       aria-hidden="true"
     >
+    </div>
+    <div slot="decor" class="aurora" aria-hidden="true">
+      <i class="aurora__blob aurora__blob--blue"></i>
+      <i class="aurora__blob aurora__blob--purple"></i>
+      <i class="aurora__blob aurora__blob--cyan"></i>
     </div>
     <PitoLogo
       slot="decor"
@@ -99,10 +128,11 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     />
     <div class="hero__stack">
       <img
+        decoding="async"
         class="hero__logo"
         src="/logo/pito-logo-hero.png"
-        width="4140"
-        height="1393"
+        width="1200"
+        height="404"
         alt="PITO"
         fetchpriority="high"
         data-reveal="zoom"
@@ -110,8 +140,11 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       <p class="eyebrow" data-reveal="fade">the best YouTube tool</p>
       <h1 class="display hero__title">
         <span data-fx="typewriter" data-fx-speed="55">one chatbox.</span><br />
-        <span class="pito-blue" data-fx="typewriter" data-fx-speed="55"
-          >every channel.</span
+        <span
+          class="pito-blue"
+          data-fx="typewriter"
+          data-fx-speed="55"
+          data-fx-delay="900">every channel.</span
         >
       </h1>
       <p class="lede hero__lede" data-reveal="rise">
@@ -130,15 +163,24 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       <a
         class="hero__tour"
         href={TOUR_VID}
-        data-reveal="fade"
+        data-reveal="rise-big"
+        data-tilt
         aria-label="Watch the PITO tour"
       >
+        <span class="hero__tour-chrome" aria-hidden="true">
+          <i></i><i></i><i></i>
+          <span class="hero__tour-name mono">pito — the guided tour</span>
+        </span>
         <img
+          decoding="async"
           src="/media/pito-tour-thumb.png"
           width="760"
           alt="▶ PITO — a guided tour"
           loading="lazy"
         />
+        <span class="hero__tour-play" aria-hidden="true"
+          ><span class="hero__tour-play-glyph">▶</span></span
+        >
       </a>
       <div
         class="copybox"
@@ -158,6 +200,28 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
         </button>
       </div>
     </div>
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track">
+        {
+          Array.from({ length: 2 }).map(() => (
+            <span class="ticker__seq">
+              <span class="ticker__cmd">show game 42</span>
+              <span class="ticker__cmd">list vids</span>
+              <span class="ticker__cmd">analyze channel</span>
+              <span class="ticker__cmd">link 17 42</span>
+              <span class="ticker__cmd">price set 42 59.99</span>
+              <span class="ticker__cmd">footage update 42 +2.5</span>
+              <span class="ticker__cmd">schedule 9 slate</span>
+              <span class="ticker__cmd">share</span>
+              <span class="ticker__cmd">import game inception</span>
+              <span class="ticker__cmd">show channel @gmrdad82</span>
+              <span class="ticker__cmd">list games rpg ps5</span>
+              <span class="ticker__cmd">sync vids</span>
+            </span>
+          ))
+        }
+      </div>
+    </div>
   </Section>
 
   {/* ── 2 · THE PAIN ─────────────────────────────────────── */}
@@ -171,6 +235,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     </div>
     {/* Layer A — bg watermark: slow, large parallax */}
     <img
+      decoding="async"
       slot="decor"
       class="logo-accent logo-accent--watermark par par--A"
       src="/logo/pito-wordmark-white.png"
@@ -233,11 +298,12 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       </div>
       <figure
         class="split__media"
-        data-reveal="right"
+        data-reveal="clip"
         data-tilt
         data-parallax="slow"
       >
         <img
+          decoding="async"
           src="/media/01-chat.gif"
           width="760"
           alt="The PITO chatbox in action"
@@ -276,12 +342,12 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
             Which of your channels owns a game?
           </h2>
           <p class="scrolly__sub">
-            Coverage distribution across <em>your</em> channels next to the
-            top-5 it best fits. Studio won't even let a second channel into the
-            same tab.
+            Coverage distribution across <em>your</em> channels next to the top-5
+            it best fits. Studio won't even let a second channel into the same tab.
           </p>
           <figure class="scrolly__shot">
             <img
+              decoding="async"
               src="/media/mkt-02-coverage.png"
               alt="Cross-channel game coverage — distribution and recommendation"
               loading="lazy"
@@ -296,12 +362,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
             PlayStation. Switch. Xbox. Steam.
           </h2>
           <p class="scrolly__sub">
-            Release dates tracked per platform, grouped by date with their
-            logos — and the countdown names <em>which</em> platform lands.
-            Unreleased games re-sync nightly until the date is real.
+            Release dates tracked per platform, grouped by date with their logos
+            — and the countdown names <em>which</em> platform lands. Unreleased games
+            re-sync nightly until the date is real.
           </p>
           <figure class="scrolly__shot">
             <img
+              decoding="async"
               src="/media/mkt-04-releases.png"
               alt="Per-platform release dates with logos"
               loading="lazy"
@@ -321,6 +388,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
           </p>
           <figure class="scrolly__shot">
             <img
+              decoding="async"
               src="/media/mkt-06-game-analytics.png"
               alt="Game-level analytics averages"
               loading="lazy"
@@ -340,6 +408,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
           </p>
           <figure class="scrolly__shot">
             <img
+              decoding="async"
               src="/media/mkt-07-heatmap.png"
               alt="Day-of-week heatmap"
               loading="lazy"
@@ -355,11 +424,12 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
           </h2>
           <p class="scrolly__sub">
             Explicit <code class="kbd">link</code> /
-            <code class="kbd">unlink</code> — the graph everything else runs
-            on, with Voyage keeping similar-games picks warm on the side.
+            <code class="kbd">unlink</code> — the graph everything else runs on, with
+            Voyage keeping similar-games picks warm on the side.
           </p>
           <figure class="scrolly__shot">
             <img
+              decoding="async"
               src="/media/mkt-01-linkage.png"
               alt="Game–video linkage on a card"
               loading="lazy"
@@ -379,6 +449,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
           </p>
           <figure class="scrolly__shot">
             <img
+              decoding="async"
               src="/media/mkt-05-footage.png"
               alt="Footage hours on the time-to-beat bar"
               loading="lazy"
@@ -393,11 +464,12 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
             Know what a slate costs.
           </h2>
           <p class="scrolly__sub">
-            Game prices, tracked as coins on the card. Budget the quarter
-            before you promise it to an audience.
+            Game prices, tracked as coins on the card. Budget the quarter before
+            you promise it to an audience.
           </p>
           <figure class="scrolly__shot">
             <img
+              decoding="async"
               src="/media/mkt-03-price.png"
               alt="Game price coins on the card"
               loading="lazy"
@@ -412,12 +484,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
             A calendar that finds the gap.
           </h2>
           <p class="scrolly__sub">
-            <code class="kbd">schedule … slate</code> lays out what's booked
-            across <em>every</em> channel — releases spread out instead of
-            quietly stacking on a Tuesday.
+            <code class="kbd">schedule … slate</code> lays out what's booked across
+            <em>every</em> channel — releases spread out instead of quietly stacking
+            on a Tuesday.
           </p>
           <figure class="scrolly__shot">
             <img
+              decoding="async"
               src="/media/mkt-08-schedule.png"
               alt="Schedule slate across channels"
               loading="lazy"
@@ -432,12 +505,12 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
             Any message is a link.
           </h2>
           <p class="scrolly__sub">
-            <code class="kbd">share</code> mints a public URL to that exact
-            reply, chart included. Go ahead — try sending someone a Studio
-            screen.
+            <code class="kbd">share</code> mints a public URL to that exact reply,
+            chart included. Go ahead — try sending someone a Studio screen.
           </p>
           <figure class="scrolly__shot">
             <img
+              decoding="async"
               src="/media/mkt-09-share.png"
               alt="A shared PITO message page"
               loading="lazy"
@@ -457,6 +530,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
           </p>
           <figure class="scrolly__shot">
             <img
+              decoding="async"
               src="/media/mkt-10-snapshot.png"
               alt="A conversation keeping its historical numbers"
               loading="lazy"
@@ -476,6 +550,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
           </p>
           <figure class="scrolly__shot">
             <img
+              decoding="async"
               src="/media/mkt-11-mobile.png"
               alt="PITO on a phone"
               loading="lazy"
@@ -488,7 +563,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
   </section>
 
   {/* ── 4 · PLAIN LANGUAGE ───────────────────────────────── */}
-  <Section id="language" theme="nord" label="Plain language" class="f-mono">
+  <Section
+    id="language"
+    theme="nord"
+    label="Plain language"
+    class="f-mono"
+    data-cursor="ripple"
+  >
     <div
       slot="decor"
       class="cover-bed"
@@ -520,11 +601,12 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       </div>
       <figure
         class="split__media"
-        data-reveal="left"
+        data-reveal="blurin"
         data-tilt
         data-parallax="slow"
       >
         <img
+          decoding="async"
           src="/media/02-language.gif"
           width="760"
           alt="Plain-language commands in PITO"
@@ -552,6 +634,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       class="logo-accent logo-accent--bl logo-accent--float logo-accent--sm logo-accent--orange"
     />
     <img
+      decoding="async"
       slot="decor"
       src="/coin/coin.gif"
       class="pixel-accent pixel-accent--spin"
@@ -574,11 +657,12 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       </div>
       <figure
         class="split__media"
-        data-reveal="right"
+        data-reveal="flip"
         data-tilt
         data-parallax="slow"
       >
         <img
+          decoding="async"
           src="/media/03-linkage.gif"
           width="760"
           alt="Game-to-video linkage in PITO"
@@ -594,6 +678,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     theme="ayu-dark"
     label="Your shelf"
     class="library f-grotesk"
+    data-cursor="ripple"
   >
     <PitoLogo
       slot="decor"
@@ -606,12 +691,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       data-reveal="rise"
       style="margin-inline:auto;max-width:44rem"
     >
-      PlayStation, Switch, Steam — PITO knows what you own where, and pulls the
-      real cover art in. Move your mouse through it.
+      PlayStation, Switch, Xbox, and Steam — PITO knows what you own where, and
+      pulls the real cover art in. Move your mouse through it.
     </p>
 
     <div class="platforms" data-reveal="rise" data-stagger>
       <img
+        decoding="async"
         class="platform-icon"
         style="--i:0"
         src="/platforms/playstation.svg"
@@ -622,6 +708,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
         loading="lazy"
       />
       <img
+        decoding="async"
         class="platform-icon"
         style="--i:1"
         src="/platforms/switch.svg"
@@ -632,8 +719,20 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
         loading="lazy"
       />
       <img
+        decoding="async"
         class="platform-icon"
         style="--i:2"
+        src="/platforms/xbox.svg"
+        width="120"
+        height="120"
+        alt="Xbox"
+        data-magnetic
+        loading="lazy"
+      />
+      <img
+        decoding="async"
+        class="platform-icon"
+        style="--i:3"
         src="/platforms/steam.svg"
         width="120"
         height="120"
@@ -652,6 +751,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
             data-reveal="zoom"
           >
             <img
+              decoding="async"
               src={`/covers/${c.f}.jpg`}
               width="374"
               height="499"
@@ -789,7 +889,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
   </section>
 
   {/* ── 7 · FOOTAGE ──────────────────────────────────────── */}
-  <Section id="footage" theme="ayu-dark" label="Footage" class="f-round">
+  <Section
+    id="footage"
+    theme="ayu-dark"
+    label="Footage"
+    class="f-round"
+    data-cursor="ripple"
+  >
     <div
       slot="decor"
       class="cover-bed"
@@ -917,7 +1023,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     /* Coin/star glyphs + tier map are pito's exact spec (Pito::Coin):
       ≤9.99→1 · ≤29.99→2 · ≤59.99→3 · ≤79.99→4 · >79.99→5 · free→star. */
   }
-  <Section id="price" theme="gruvbox-dark" label="Price" class="f-funk">
+  <Section
+    id="price"
+    theme="gruvbox-dark"
+    label="Price"
+    class="f-funk"
+    data-cursor="glow"
+  >
     {/* Layer A — large ascii watermark (this section has no img watermark) */}
     <PitoLogo
       slot="decor"
@@ -944,6 +1056,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       /* Layer D — coins gone feral: big, distorted, spinning pixel art. Fastest parallax. */
     }
     <img
+      decoding="async"
       slot="decor"
       src="/coin/coin.gif"
       class="pixel-accent pixel-accent--spin par-d-pixel"
@@ -952,6 +1065,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       aria-hidden="true"
     />
     <img
+      decoding="async"
       slot="decor"
       src="/coin/coin.gif"
       class="pixel-accent pixel-accent--bob par-d-pixel"
@@ -960,6 +1074,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       aria-hidden="true"
     />
     <img
+      decoding="async"
       slot="decor"
       src="/coin/coin.gif"
       class="pixel-accent pixel-accent--squash par-d-pixel"
@@ -968,6 +1083,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       aria-hidden="true"
     />
     <img
+      decoding="async"
       slot="decor"
       src="/coin/coin.gif"
       class="pixel-accent pixel-accent--react par-d-pixel"
@@ -990,40 +1106,85 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     <div class="coins" data-reveal="rise" data-stagger>
       <span class="coin-chip" style="--i:0">
         <span class="glyphs"
-          ><img src="/coin/coin.gif" alt="" width="64" height="48" /></span
+          ><img
+            decoding="async"
+            src="/coin/coin.gif"
+            alt=""
+            width="64"
+            height="48"
+          /></span
         >
         <span class="num">9.99</span>
       </span>
       <span class="coin-chip" style="--i:1">
         <span class="glyphs"
-          ><img src="/coin/coin.gif" alt="" width="64" height="48" /><img
+          ><img
+            decoding="async"
             src="/coin/coin.gif"
             alt=""
             width="64"
             height="48"
-          /><img src="/coin/coin.gif" alt="" width="64" height="48" /></span
+          /><img
+            decoding="async"
+            src="/coin/coin.gif"
+            alt=""
+            width="64"
+            height="48"
+          /><img
+            decoding="async"
+            src="/coin/coin.gif"
+            alt=""
+            width="64"
+            height="48"
+          /></span
         >
         <span class="num">59.99</span>
       </span>
       <span class="coin-chip" style="--i:2">
         <span class="glyphs"
-          ><img src="/coin/coin.gif" alt="" width="64" height="48" /><img
+          ><img
+            decoding="async"
             src="/coin/coin.gif"
             alt=""
             width="64"
             height="48"
-          /><img src="/coin/coin.gif" alt="" width="64" height="48" /><img
+          /><img
+            decoding="async"
             src="/coin/coin.gif"
             alt=""
             width="64"
             height="48"
-          /><img src="/coin/coin.gif" alt="" width="64" height="48" /></span
+          /><img
+            decoding="async"
+            src="/coin/coin.gif"
+            alt=""
+            width="64"
+            height="48"
+          /><img
+            decoding="async"
+            src="/coin/coin.gif"
+            alt=""
+            width="64"
+            height="48"
+          /><img
+            decoding="async"
+            src="/coin/coin.gif"
+            alt=""
+            width="64"
+            height="48"
+          /></span
         >
         <span class="num">89.99</span>
       </span>
       <span class="coin-chip" style="--i:3">
         <span class="glyphs"
-          ><img src="/coin/star.gif" alt="" width="49" height="48" /></span
+          ><img
+            decoding="async"
+            src="/coin/star.gif"
+            alt=""
+            width="49"
+            height="48"
+          /></span
         >
         <span class="num">0.00</span>
       </span>
@@ -1069,7 +1230,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
   </Section>
 
   {/* ── 9 · SHINIES ──────────────────────────────────────── */}
-  <Section id="shinies" theme="synthwave" label="Shinies" class="f-round">
+  <Section
+    id="shinies"
+    theme="synthwave"
+    label="Shinies"
+    class="f-round"
+    data-cursor="trail"
+  >
     {/* Layer A — large ascii watermark */}
     <PitoLogo
       slot="decor"
@@ -1094,6 +1261,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     />
     {/* Layer D — stars, scaled hard and distorted. Fastest parallax. */}
     <img
+      decoding="async"
       slot="decor"
       src="/coin/star.gif"
       class="pixel-accent pixel-accent--spin par-d-pixel"
@@ -1102,6 +1270,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       aria-hidden="true"
     />
     <img
+      decoding="async"
       slot="decor"
       src="/coin/star.gif"
       class="pixel-accent pixel-accent--squash par-d-pixel"
@@ -1110,6 +1279,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       aria-hidden="true"
     />
     <img
+      decoding="async"
       slot="decor"
       src="/coin/star.gif"
       class="pixel-accent pixel-accent--throb par-d-pixel"
@@ -1118,6 +1288,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       aria-hidden="true"
     />
     <img
+      decoding="async"
       slot="decor"
       src="/coin/star.gif"
       class="pixel-accent pixel-accent--react pixel-accent--spin-rev par-d-pixel"
@@ -1263,11 +1434,12 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       </div>
       <figure
         class="split__media"
-        data-reveal="left"
+        data-reveal="skew"
         data-tilt
         data-parallax="slow"
       >
         <img
+          decoding="async"
           src="/media/04-schedule.gif"
           width="760"
           alt="Cross-channel scheduling in PITO"
@@ -1300,6 +1472,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
         <span class="themestage__index mono" data-theme-index>01 / 19</span>
       </div>
       <img
+        decoding="async"
         class="themestage__shot"
         data-theme-shot
         src="/media/themes/tokyo-night.png"
@@ -1340,6 +1513,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
   <Section id="free" theme="one-dark" label="$0 · private" class="f-serif">
     {/* Layer A — bg watermark */}
     <img
+      decoding="async"
       slot="decor"
       class="logo-accent logo-accent--watermark par par--A"
       src="/logo/pito-wordmark-white.png"
@@ -1365,6 +1539,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     />
     {/* Layer D — star: fastest parallax */}
     <img
+      decoding="async"
       slot="decor"
       src="/coin/star.gif"
       class="pixel-accent pixel-accent--throb par-d-pixel"
@@ -1404,7 +1579,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
   </Section>
 
   {/* ── 13 · GET PITO / CTA / FOOTER ─────────────────────── */}
-  <Section id="get" theme="synthwave" label="Get PITO" class="cta f-grotesk">
+  <Section
+    id="get"
+    theme="synthwave"
+    label="Get PITO"
+    class="cta f-grotesk"
+    data-cursor="glow"
+  >
     <PitoLogo
       slot="decor"
       class="logo-accent logo-accent--side logo-accent--float"
@@ -1451,6 +1632,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     <div class="casts" data-reveal="rise" data-stagger>
       <figure style="--i:0">
         <img
+          decoding="async"
           src="/media/pito-install-cast.gif"
           width="1180"
           height="760"
@@ -1461,6 +1643,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       </figure>
       <figure style="--i:1">
         <img
+          decoding="async"
           src="/media/pito-cli-cast.gif"
           width="1120"
           height="880"
@@ -1471,6 +1654,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       </figure>
       <figure style="--i:2">
         <img
+          decoding="async"
           src="/media/pito-update-cast.gif"
           width="1120"
           height="820"
@@ -1506,17 +1690,35 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       <ul class="social" aria-label="Catalin's links">
         <li>
           <a href={YOUTUBE} data-magnetic
-            ><img src="/social/youtube.svg" width="22" height="22" alt="" /> YouTube</a
+            ><img
+              decoding="async"
+              src="/social/youtube.svg"
+              width="22"
+              height="22"
+              alt=""
+            /> YouTube</a
           >
         </li>
         <li>
           <a href={X} data-magnetic
-            ><img src="/social/x.svg" width="18" height="18" alt="" /> X</a
+            ><img
+              decoding="async"
+              src="/social/x.svg"
+              width="18"
+              height="18"
+              alt=""
+            /> X</a
           >
         </li>
         <li>
           <a href={DISCORD} data-magnetic
-            ><img src="/social/discord.svg" width="22" height="22" alt="" /> Discord</a
+            ><img
+              decoding="async"
+              src="/social/discord.svg"
+              width="22"
+              height="22"
+              alt=""
+            /> Discord</a
           >
         </li>
       </ul>
@@ -1528,6 +1730,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
             <li>
               <a href={a.url} title={a.name}>
                 <img
+                  decoding="async"
                   src={`/avatars/${a.file}`}
                   width="72"
                   height="72"

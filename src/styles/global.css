@@ -17,6 +17,28 @@
 @import "./bold.css";
 @import "./pito-components.css";
 
+/* ── Hero-critical font: self-hosted + preloaded ─────────────
+   Space Grotesk (variable 300-700, latin) ships from /fonts so the hero
+   headline never waits on fonts.gstatic.com; the metric-matched fallback
+   keeps the layout still while it loads (CLS fix). Other families stay on
+   Google Fonts — they paint below the fold. */
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Space Grotesk Fallback";
+  src: local("Arial");
+  size-adjust: 105.5%;
+  ascent-override: 93%;
+  descent-override: 28%;
+  line-gap-override: 0%;
+}
+
+
 /* ── Reset ─────────────────────────────────────────────────── */
 
 *,
@@ -150,6 +172,9 @@ h3.display {
 
 .section {
   position: relative;
+  /* PERF: off-screen slides skip layout/paint entirely (long one-pager win) */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 100vh;
   min-height: 100vh;
   min-height: 100svh;
   scroll-snap-align: start;

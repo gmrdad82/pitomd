@@ -3,25 +3,16 @@
  * Imported by global.css. All effects degrade to nothing under reduced motion.
  */
 
-/* ── Pointer spotlight ─────────────────────────────────────── */
-/* Add class `spotlight` to any element to give it a cursor-following glow. */
-
-.spotlight {
-  position: relative;
-  isolation: isolate;
-}
-.spotlight::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(
-    circle at var(--mx, 50%) var(--my, 50%),
-    color-mix(in oklab, var(--pito-blue) 22%, transparent),
-    transparent 22%
-  );
-  transition: opacity 0.3s ease;
+/* ── Typewriter / comet first-paint reserve ────────────────── */
+/* Hide the finished text AT FIRST PAINT (CSS, not JS — scripts run after the
+   first frame) while keeping its box, so the hero never jumps when typing
+   starts. reveal.js flips visibility the moment each effect begins. The
+   scrolly headings are excluded — scrollytell.js manages those per-step. */
+.js [data-fx="typewriter"]:not(.scrolly__big),
+.js [data-fx="comet"]:not(.scrolly__big) {
+  /* fully hidden — the geometry is reserved by fixed-height containers
+     (e.g. .hero__title min-height), not by ghost text */
+  visibility: hidden;
 }
 
 /* ── Typewriter caret ──────────────────────────────────────── */
@@ -30,9 +21,11 @@
   content: "";
   display: inline-block;
   width: 0.6ch;
-  height: 1.1em;
+  /* must stay UNDER the tightest line-height (hero: 0.95) or the line box
+     inflates while typing and the parallax bed jumps */
+  height: 0.85em;
   margin-left: 0.1em;
-  vertical-align: text-bottom;
+  vertical-align: baseline;
   background: var(--pito-blue);
   animation: caret-blink 1s steps(1) infinite;
 }
@@ -96,6 +89,305 @@
 
 @media (prefers-reduced-motion: reduce) {
   .spotlight::before {
+    display: none;
+  }
+}
+
+/* ── Aurora field ──────────────────────────────────────────────
+   Huge blurred color blobs drifting behind a section's content (decor slot).
+   Pure transform/opacity animation — GPU-cheap despite the drama. */
+.aurora {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+.aurora__blob {
+  position: absolute;
+  width: 55vmax;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  /* PERF: no filter/blend — the radial-gradient fade IS the softness; blur(90px)
+     + mix-blend on 55vmax animated layers was the main jank source */
+  opacity: 0.5;
+  will-change: transform;
+}
+.aurora__blob--blue {
+  top: -20%;
+  left: -15%;
+  background: radial-gradient(circle, var(--pito-blue), transparent 60%);
+  animation: aurora-drift-a 26s ease-in-out infinite alternate;
+}
+.aurora__blob--purple {
+  bottom: -25%;
+  right: -12%;
+  background: radial-gradient(circle, var(--accent-purple), transparent 60%);
+  animation: aurora-drift-b 32s ease-in-out infinite alternate;
+}
+.aurora__blob--cyan {
+  top: 30%;
+  left: 55%;
+  width: 38vmax;
+  background: radial-gradient(
+    circle,
+    var(--accent-cyan, var(--pito-blue)),
+    transparent 60%
+  );
+  opacity: 0.22;
+  animation: aurora-drift-c 22s ease-in-out infinite alternate;
+}
+@keyframes aurora-drift-a {
+  to {
+    transform: translate(12vw, 8vh) scale(1.15) rotate(20deg);
+  }
+}
+@keyframes aurora-drift-b {
+  to {
+    transform: translate(-10vw, -6vh) scale(0.9) rotate(-15deg);
+  }
+}
+@keyframes aurora-drift-c {
+  to {
+    transform: translate(-14vw, 10vh) scale(1.25);
+  }
+}
+
+/* ── Film grain ────────────────────────────────────────────────
+   A static SVG-turbulence tile over everything — the "expensive lens" layer.
+   Sits above content but under nothing interactive (pointer-events: none). */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 9990;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  animation: grain-shift 1.2s steps(3) infinite;
+}
+@keyframes grain-shift {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-2%, 3%);
+  }
+  50% {
+    transform: translate(3%, -2%);
+  }
+  75% {
+    transform: translate(-3%, -3%);
+  }
+  100% {
+    transform: translate(2%, 2%);
+  }
+}
+
+/* ── Command ticker ────────────────────────────────────────────
+   The endless verb ribbon along the hero's bottom edge; two copies of the
+   sequence scroll one full sequence-width for a seamless loop. */
+.ticker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: clip;
+  padding-block: 0.7rem;
+  border-top: 1px solid color-mix(in oklab, var(--pito-blue) 22%, transparent);
+  background: color-mix(in oklab, var(--bg-root) 72%, transparent);
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
+}
+.ticker__track {
+  display: flex;
+  width: max-content;
+  animation: ticker-roll 36s linear infinite;
+}
+.ticker:hover .ticker__track {
+  animation-play-state: paused;
+}
+.ticker__seq {
+  display: flex;
+}
+.ticker__cmd {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--fg-dim);
+  white-space: nowrap;
+}
+.ticker__cmd::before {
+  content: "$";
+  color: var(--accent-green);
+  margin-inline: 1.6rem 0.55rem;
+}
+@keyframes ticker-roll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ── Cursor ring ───────────────────────────────────────────────
+   A difference-blend ring trailing the pointer (cursor.js); it swells over
+   links/buttons. Fine pointers only — hidden on touch. */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1.5px solid var(--pito-blue);
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  transition:
+    scale 0.25s ease,
+    opacity 0.25s ease;
+  opacity: 0;
+}
+.cursor-ring.is-on {
+  opacity: 0.9;
+}
+.cursor-ring.is-link {
+  scale: 1.8;
+}
+@media (pointer: coarse) {
+  .cursor-ring {
+    display: none;
+  }
+  /* PERF on mobile: freeze the grain, drop the ticker's backdrop blur */
+  .grain {
+    animation: none;
+  }
+  .ticker {
+    backdrop-filter: none;
+  }
+}
+
+/* ── Button shine sweep ────────────────────────────────────── */
+.btn--primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    rgb(255 255 255 / 0.35) 50%,
+    transparent 65%
+  );
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+.btn--primary:hover::after {
+  animation: btn-shine 0.7s ease forwards;
+}
+@keyframes btn-shine {
+  to {
+    transform: translateX(130%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora__blob,
+  .grain,
+  .ticker__track,
+  .btn--primary::after {
+    animation: none;
+  }
+  .cursor-ring {
+    display: none;
+  }
+}
+
+/* ── Cursor personalities (data-cursor="…" on a section) ──────
+   glow   — the spotlight follows the cursor on THAT slide only
+   ripple — expanding water rings trail the cursor (cursor.js spawns)
+   trail  — the Windows 3.1/95 mouse-trail ghosts (cursor.js spawns)
+   default (no attribute) — just the global cursor ring. */
+
+.section[data-cursor="glow"] {
+  isolation: isolate;
+}
+.section[data-cursor="glow"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    34rem circle at var(--lx, 50%) var(--ly, 50%),
+    color-mix(in oklab, var(--pito-blue) 16%, transparent),
+    transparent 62%
+  );
+  transition: opacity 0.4s ease;
+}
+.section[data-cursor="glow"].is-hot::before {
+  opacity: 1;
+}
+
+/* water ring — spawned at the cursor; two staggered rings per spawn read
+   as a stick dragged across a pond */
+.fx-ripple {
+  position: absolute;
+  width: 14px;
+  aspect-ratio: 1;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in oklab, var(--pito-blue) 75%, white 12%);
+  box-shadow:
+    0 0 14px color-mix(in oklab, var(--pito-blue) 30%, transparent),
+    inset 0 0 8px color-mix(in oklab, var(--pito-blue) 22%, transparent);
+  pointer-events: none;
+  animation: fx-ripple 1.3s cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
+}
+.fx-ripple--echo {
+  animation-delay: 0.12s;
+  opacity: 0;
+}
+.fx-ripple--splash {
+  animation-duration: 1.9s;
+  border-width: 2px;
+}
+@keyframes fx-ripple {
+  from {
+    transform: scale(0.35);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(9);
+    opacity: 0;
+  }
+}
+
+/* the Win95 ghost arrow — spawned along the pointer path, fades as it falls */
+.fx-trail {
+  position: absolute;
+  width: 15px;
+  height: 22px;
+  pointer-events: none;
+  background: var(--fg-default);
+  clip-path: polygon(0 0, 0 81%, 27% 65%, 41% 100%, 55% 93%, 43% 61%, 70% 59%);
+  filter: drop-shadow(0 0 1px var(--bg-root));
+  animation: fx-trail 0.55s linear forwards;
+}
+@keyframes fx-trail {
+  to {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section[data-cursor="glow"]::before,
+  .fx-ripple,
+  .fx-trail {
     display: none;
   }
 }

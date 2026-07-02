@@ -8,6 +8,9 @@
 
 .btn {
   position: relative;
+  /* the ::after shine sweep parks at translateX(-130%) — clip it or it renders
+     as a grey smear floating LEFT of the button (validation bug #16/#17) */
+  overflow: clip;
   display: inline-flex;
   align-items: center;
   gap: 0.4em;
@@ -62,6 +65,8 @@
 
 .hero .section__inner {
   text-align: center;
+  /* clear the absolute bottom ticker (MKT-BUG2) */
+  padding-bottom: 3.5rem;
 }
 .hero__stack {
   display: flex;
@@ -76,10 +81,144 @@
   filter: drop-shadow(
     0 0 40px color-mix(in oklab, var(--pito-blue) 55%, transparent)
   );
+  animation: logo-breathe 6s ease-in-out infinite alternate;
+}
+@keyframes logo-breathe {
+  from {
+    filter: drop-shadow(
+      0 0 28px color-mix(in oklab, var(--pito-blue) 40%, transparent)
+    );
+  }
+  to {
+    filter: drop-shadow(
+      0 0 56px color-mix(in oklab, var(--pito-blue) 70%, transparent)
+    );
+  }
+}
+
+/* ── Hero tour card — a floating cinema "player" for the tour link ─
+   Terminal chrome bar + the thumb + a pulsing play badge, tilted into
+   perspective and bobbing; data-tilt (pointer.js) adds cursor 3D on top. */
+.hero__tour {
+  position: relative;
+  display: block;
+  width: min(680px, 92%);
+  margin-top: 2.6rem;
+  border: 1px solid color-mix(in oklab, var(--pito-blue) 45%, transparent);
+  background: var(--bg-surface);
+  box-shadow:
+    0 0 50px color-mix(in oklab, var(--pito-blue) 26%, transparent),
+    0 30px 80px rgb(0 0 0 / 0.5);
+  transform: perspective(1200px) rotateX(6deg);
+  transform-origin: 50% 100%;
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.6s ease;
+  animation: tour-bob 7s ease-in-out infinite alternate;
+  overflow: clip;
+}
+.hero__tour:hover,
+.hero__tour:focus-visible {
+  transform: perspective(1200px) rotateX(0deg) scale(1.02);
+  box-shadow:
+    0 0 80px color-mix(in oklab, var(--pito-blue) 42%, transparent),
+    0 34px 90px rgb(0 0 0 / 0.55);
+}
+@keyframes tour-bob {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 -10px;
+  }
+}
+.hero__tour img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hero__tour-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.8rem;
+  background: color-mix(in oklab, var(--bg-root) 72%, transparent);
+  border-bottom: 1px solid
+    color-mix(in oklab, var(--pito-blue) 30%, transparent);
+}
+.hero__tour-chrome i {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--fg-faded);
+  opacity: 0.75;
+}
+.hero__tour-chrome i:nth-child(1) {
+  background: var(--accent-red);
+}
+.hero__tour-chrome i:nth-child(2) {
+  background: var(--accent-yellow, #e0af68);
+}
+.hero__tour-chrome i:nth-child(3) {
+  background: var(--accent-green);
+}
+.hero__tour-name {
+  margin-left: 0.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+.hero__tour-play {
+  position: absolute;
+  inset: 0;
+  top: 2.1rem; /* below the chrome bar */
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.hero__tour-play-glyph {
+  display: grid;
+  place-items: center;
+  width: clamp(3.4rem, 8vw, 4.6rem);
+  aspect-ratio: 1;
+  padding-left: 0.35rem; /* optical centering of ▶ */
+  border-radius: 50%;
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  color: var(--fg-default);
+  background: color-mix(in oklab, var(--bg-root) 55%, transparent);
+  border: 1px solid color-mix(in oklab, var(--pito-blue) 65%, transparent);
+  backdrop-filter: blur(6px);
+  animation: play-ping 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  transition: scale 0.3s ease;
+}
+.hero__tour:hover .hero__tour-play-glyph {
+  scale: 1.12;
+}
+@keyframes play-ping {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--pito-blue) 55%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 26px transparent;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__logo,
+  .hero__tour,
+  .hero__tour-play-glyph {
+    animation: none;
+  }
+  .hero__tour {
+    transform: none;
+  }
 }
 
 /* Click-to-copy install command */
 .copybox {
+  position: relative;
+  overflow: clip; /* comet streaks stay inside the box (MKT-BUG1) */
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
@@ -221,6 +360,11 @@
 }
 .hero__title {
   margin: 0.5em 0 0.3em;
+  /* reserve BOTH lines up front (2 × 0.95 line-height): the typewriter can
+     never change this box, so the hero layout — and the parallax bed behind
+     it — holds perfectly still (owner's fixed-height container fix); 2.1em =
+     two 0.95 lines + headroom for the caret and descenders */
+  min-height: 2.1em;
 }
 .hero__lede {
   max-width: 40rem;
@@ -231,37 +375,6 @@
   gap: 1rem;
   margin-top: 2rem;
   justify-content: center;
-}
-.hero__install {
-  margin-top: 1.6rem;
-  color: var(--fg-dim);
-  font-size: clamp(0.8rem, 1.5vw, 0.95rem);
-  border-left: 2px solid var(--border-faded);
-  padding-left: 0.8rem;
-}
-.hero__prompt {
-  color: var(--accent-green);
-}
-.hero__art img {
-  width: 100%;
-  border: 1px solid var(--border-faded);
-}
-.scroll-hint {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--fg-dim);
-  animation: bob 2s ease-in-out infinite;
-}
-@keyframes bob {
-  50% {
-    transform: translate(-50%, 8px);
-  }
 }
 
 /* ── Prose blocks ──────────────────────────────────────────── */
@@ -458,8 +571,9 @@
   /* the avatar art is circular — round the frame to match (square borders left
      ugly corners around the transparent disc) */
   border-radius: 50%;
-  border: 1px solid var(--border-faded);
-  filter: grayscale(0.3);
+  /* 2px light ring so the discs read against any slide bg (owner 14:4x) */
+  border: 2px solid rgb(255 255 255 / 0.85);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.35);
   transition:
     filter 0.3s ease,
     transform 0.3s ease;
@@ -504,12 +618,8 @@
 /* ── Responsive ────────────────────────────────────────────── */
 
 @media (max-width: 860px) {
-  .hero__grid,
   .split {
     grid-template-columns: 1fr;
-  }
-  .hero__art {
-    order: -1;
   }
   .split--reverse .split__copy {
     order: 0;

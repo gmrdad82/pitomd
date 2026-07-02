@@ -15,7 +15,8 @@
     "lint:css": "stylelint \"src/styles/**/*.css\"",
     "lint:format": "prettier --check .",
     "lint": "npm run lint:format && npm run lint:js && npm run lint:css",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "vitest run"
   },
   "dependencies": {
     "astro": "^7.0.2"
@@ -29,6 +30,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "stylelint": "^17.13.0",
     "stylelint-config-standard": "^40.0.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
   }
 }

@@ -77,11 +77,18 @@ const jsonLd = {
       /* Webfonts — a varied display palette so each section has its own voice,
         plus JetBrains Mono for the terminal accents. */
     }
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="/fonts/space-grotesk-latin.woff2"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&family=Unbounded:wght@600;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@700;800&family=Unbounded:wght@600;800&display=swap"
     />
 
     {
@@ -149,6 +156,10 @@ const jsonLd = {
   <body>
     <slot />
 
+    {/* film grain + cursor ring — full-page fx layers (fx.css / cursor.js) */}
+    <div class="grain" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
+
     {
       /* Dev-only banner pinned to the bottom (synthwave yellow), so a localhost
         tab is unmistakable next to production — mirrors pito's DEVELOPMENT bar. */
@@ -165,5 +176,6 @@ const jsonLd = {
     <script src="../scripts/copy.js"></script>
     <script src="../scripts/bridge.js"></script>
     <script src="../scripts/currency.js"></script>
+    <script src="../scripts/cursor.js"></script>
   </body>
 </html>

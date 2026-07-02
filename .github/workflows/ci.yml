@@ -42,6 +42,9 @@ jobs:
       - name: Astro check (typing + template lint)
         run: npx astro check
 
+      - name: Contract tests (vitest — fx/slide/asset invariants)
+        run: npx vitest run
+
       - name: Build verification
         run: npm run build
 

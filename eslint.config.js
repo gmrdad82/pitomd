@@ -5,7 +5,7 @@ import js from "@eslint/js";
 import globals from "globals";
 
 export default [
-  { ignores: ["dist/", ".astro/", "node_modules/"] },
+  { ignores: ["dist/", ".astro/", "node_modules/", "tools/shots/"] },
   js.configs.recommended,
   {
     files: ["src/**/*.js", "*.mjs", "*.js"],

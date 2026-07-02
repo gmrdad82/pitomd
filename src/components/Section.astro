@@ -16,7 +16,7 @@ interface Props {
   class?: string;
 }
 
-const { id, theme, label, class: extra = "" } = Astro.props;
+const { id, theme, label, class: extra = "", ...rest } = Astro.props;
 ---
 
 <section
@@ -24,6 +24,7 @@ const { id, theme, label, class: extra = "" } = Astro.props;
   class:list={["section", extra]}
   data-theme={theme}
   data-nav-label={label}
+  {...rest}
 >
   {/* decorative layer (logos/watermarks) — sits behind the content column */}
   <slot name="decor" />

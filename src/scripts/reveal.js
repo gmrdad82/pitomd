@@ -100,9 +100,17 @@ function runFx(el) {
   if (el.dataset.fxDone) return;
   el.dataset.fxDone = "1";
   const kind = el.dataset.fx;
-  if (kind === "scramble") scramble(el);
-  else if (kind === "typewriter") typewriter(el);
-  else if (kind === "comet") comet(el);
+  const go = () => {
+    el.style.visibility = "visible"; // beat the CSS first-paint hide
+    if (kind === "scramble") scramble(el);
+    else if (kind === "typewriter") typewriter(el);
+    else if (kind === "comet") comet(el);
+  };
+  // data-fx-delay="ms" staggers an effect (e.g. the hero's second line waits
+  // for the first to finish typing)
+  const delay = Number(el.dataset.fxDelay || 0);
+  if (delay > 0 && !reduceMotion) setTimeout(go, delay);
+  else go();
 }
 
 function initReveal() {
@@ -111,20 +119,19 @@ function initReveal() {
   // not on viewport-enter — exclude them here.
   const fxEls = document.querySelectorAll("[data-fx]:not(.scrolly__big)");
 
-  // Stash original text so fx can restore the final string, and clear it so
-  // there's no flash of full text before the effect runs.
+  // Stash original text so fx can restore the final string. The first-paint
+  // hide lives in CSS (fx.css) with geometry reserved by fixed-height
+  // containers (.hero__title min-height) — no layout jump, no ghost rows.
   fxEls.forEach((el) => {
     if (!el.dataset.fxText) el.dataset.fxText = el.textContent.trim();
-    if (
-      !reduceMotion &&
-      (el.dataset.fx === "typewriter" || el.dataset.fx === "comet")
-    )
-      el.textContent = "";
   });
 
   if (reduceMotion) {
     reveals.forEach((el) => el.classList.add("is-in"));
-    fxEls.forEach((el) => (el.textContent = el.dataset.fxText));
+    fxEls.forEach((el) => {
+      el.textContent = el.dataset.fxText;
+      el.style.visibility = "visible"; // beat the CSS first-paint hide
+    });
     return;
   }
 

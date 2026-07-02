@@ -28,3 +28,8 @@ pnpm-debug.log*
 
 # Lighthouse CI
 .lighthouseci/
+
+# screenshot tooling — venv + the minted session cookie stay local
+tools/shots/.venv/
+tools/shots/auth-state.json
+__pycache__/
