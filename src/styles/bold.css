@@ -246,6 +246,66 @@
   color: var(--accent-purple);
 }
 
+/* ── Scrolly screenshot card + verdict chip (Not-even-Studio) ─
+   Each differentiator step frames its app screenshot in a pito-blue glow;
+   a terminal scanline sweeps across it every time the step (re)activates. */
+.scrolly__big--shot {
+  /* leave vertical room for the shot below the headline */
+  font-size: clamp(1.8rem, 4.5vw, 4rem);
+}
+.scrolly__shot {
+  width: min(44rem, 92%);
+  margin-inline: auto;
+  position: relative;
+  overflow: clip;
+  border: 1px solid color-mix(in oklab, var(--pito-blue) 55%, transparent);
+  box-shadow:
+    0 0 40px color-mix(in oklab, var(--pito-blue) 28%, transparent),
+    0 24px 60px rgb(0 0 0 / 0.45);
+}
+.scrolly__shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 42vh;
+  object-fit: cover;
+  object-position: top;
+}
+.scrolly__shot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    color-mix(in oklab, var(--pito-blue) 30%, transparent) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+.scrolly__step.is-active .scrolly__shot::after {
+  animation: shot-sweep 1.1s ease 0.25s 1 both;
+}
+@keyframes shot-sweep {
+  to {
+    transform: translateX(120%);
+  }
+}
+.scrolly__verdict {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+.scrolly__verdict .no {
+  color: var(--accent-red);
+}
+.scrolly__verdict .yes {
+  color: var(--accent-green);
+}
+
 @media (prefers-reduced-motion: reduce) {
   /* show the sequence as a simple stack */
   .scrolly {
