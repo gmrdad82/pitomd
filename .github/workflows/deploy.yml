@@ -1,15 +1,22 @@
 name: Deploy
 
-# Builds the static site and publishes it to Cloudflare Pages on every push to
-# main (and on manual dispatch). Requires repo secrets CLOUDFLARE_API_TOKEN and
-# CLOUDFLARE_ACCOUNT_ID. SLACK_WEBHOOK (optional) posts a deploy notice.
+# Builds the static site and publishes it to Cloudflare Pages AFTER Website CI
+# passes on main (never on a red CI — owner rule), or on manual dispatch.
+# Requires repo secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
+# SLACK_WEBHOOK (optional) posts a deploy notice.
 on:
-  push:
-    branches: [main]
+  workflow_run:
+    workflows: ["Website CI"]
+    types: [completed]
   workflow_dispatch:
 
 jobs:
   deploy:
+    # gate: only after a SUCCESSFUL Website CI run of MAIN (manual dispatch bypasses)
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
     permissions:
       contents: read
