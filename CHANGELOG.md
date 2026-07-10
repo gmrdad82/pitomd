@@ -6,6 +6,16 @@ format follows [Keep a Changelog](https://keepachangelog.com/); the site aims fo
 only when a `v*.*.*` tag is pushed (pushes to main are CI-validated but do not
 deploy).
 
+## [Unreleased]
+
+### Fixed
+
+- **Tag deploys reach production** — a tag checkout is a detached HEAD, so
+  wrangler filed the deploy as a "head"-branch preview and pitomd.com kept the
+  old build; the deploy now pins `--branch=main`.
+- **Deploys are strictly CI-gated** — the Deploy workflow refuses to ship a
+  tag until that exact commit has a green Website CI run.
+
 ## [1.1.0] — 2026-07-10
 
 ### Added

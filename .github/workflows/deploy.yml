@@ -2,11 +2,16 @@ name: Deploy
 
 # Builds the static site and publishes it to Cloudflare Pages when a version tag
 # (v*.*.*) is pushed — TAG-GATED like pito. Pushes to main are still validated by
-# Website CI but never auto-deploy; a release ships only when a new tag is cut
-# (tag a commit that already went green on main). Also runs on manual dispatch.
-# The build step is the deploy gate — a broken build fails the job and nothing
-# ships. Requires repo secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
-# SLACK_WEBHOOK (optional) posts a deploy notice.
+# Website CI but never auto-deploy; a release ships only when a new tag is cut.
+# Two gates before anything ships:
+#   1. The `gate` job REFUSES to deploy until the tagged commit has a GREEN
+#      "Website CI" run — tagging a red or unvalidated commit cannot ship.
+#   2. The build step — a broken build fails the job and nothing ships.
+# `--branch=main` pins the upload to the project's PRODUCTION branch: a tag
+# checkout is a detached HEAD, and without it wrangler files the deploy as a
+# "head"-branch PREVIEW that never reaches pitomd.com (the v1.1.0 lesson).
+# Also runs on manual dispatch. Requires repo secrets CLOUDFLARE_API_TOKEN and
+# CLOUDFLARE_ACCOUNT_ID. SLACK_WEBHOOK (optional) posts a deploy notice.
 on:
   push:
     tags:
@@ -14,7 +19,42 @@ on:
   workflow_dispatch:
 
 jobs:
+  # Deploy only if the exact commit being deployed is green on Website CI.
+  # Polls (the tag usually lands seconds after the branch push, while CI is
+  # still running) and fails after ~10 minutes or on a red/cancelled run.
+  gate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Require a green Website CI run for this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for i in $(seq 1 40); do
+            conclusion=$(gh run list --repo "$GITHUB_REPOSITORY" \
+              --commit "$GITHUB_SHA" --workflow "Website CI" \
+              --json status,conclusion \
+              --jq '.[0] | if .status == "completed" then .conclusion else "pending" end' \
+              2>/dev/null || echo "none")
+            case "$conclusion" in
+              success)
+                echo "Website CI is green for $GITHUB_SHA — deploying."
+                exit 0 ;;
+              failure|cancelled|timed_out|action_required)
+                echo "Website CI concluded '$conclusion' for $GITHUB_SHA — refusing to deploy."
+                exit 1 ;;
+              *)
+                echo "Website CI not green yet ($conclusion) — attempt $i/40, retrying in 15s."
+                sleep 15 ;;
+            esac
+          done
+          echo "Timed out waiting for a Website CI run on $GITHUB_SHA — refusing to deploy."
+          exit 1
+
   deploy:
+    needs: gate
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -40,7 +80,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=pito-website
+          command: pages deploy dist --project-name=pito-website --branch=main
 
       # Slack only on SUCCESS — the deploy notice. A broken build fails the job
       # and this step is skipped, so no double-posting.
