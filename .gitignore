@@ -33,3 +33,4 @@ pnpm-debug.log*
 tools/shots/.venv/
 tools/shots/auth-state.json
 __pycache__/
+/tmp/

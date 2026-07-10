@@ -26,37 +26,65 @@ function initPointer() {
   // ── spotlight vars ──────────────────────────────────────────
   // Global viewport coords (for the hero) + per-section LOCAL coords so every
   // section's glow tracks the real cursor position.
-  const sections = Array.from(
-    document.querySelectorAll(".section, .bridge, .scrolly"),
-  );
+  // Only .section elements carry the is-hot spotlight; .bridge/.scrolly were
+  // measured then skipped, wasting a getBoundingClientRect each frame.
+  const sections = Array.from(document.querySelectorAll(".section"));
+
+  // Section rects change on scroll/resize, NEVER on a bare pointermove — so
+  // measure them there (rAF-batched) and let updateSpotlight read the cache.
+  // Re-reading every section's getBoundingClientRect on every move frame is a
+  // read storm that the ripple-spawn / fx-canvas DOM churn can turn into a
+  // forced reflow; the cache reads zero layout during pointer movement.
+  let rects = sections.map((s) => [s, s.getBoundingClientRect()]);
+  let remeasureQueued = false;
+  const remeasure = () => {
+    remeasureQueued = false;
+    rects = sections.map((s) => [s, s.getBoundingClientRect()]);
+  };
+  const queueRemeasure = () => {
+    if (remeasureQueued) return;
+    remeasureQueued = true;
+    requestAnimationFrame(remeasure);
+  };
+  window.addEventListener("scroll", queueRemeasure, { passive: true });
+  window.addEventListener("resize", queueRemeasure, { passive: true });
+
   const updateSpotlight = () => {
     body.style.setProperty("--mx", `${(px / window.innerWidth) * 100}%`);
     body.style.setProperty("--my", `${(py / window.innerHeight) * 100}%`);
     // normalized cursor offset from centre (-1..1) → mouse-parallax for logos
     body.style.setProperty("--par-x", (px / window.innerWidth - 0.5) * 2);
     body.style.setProperty("--par-y", (py / window.innerHeight - 0.5) * 2);
-    for (const s of sections) {
-      const r = s.getBoundingClientRect();
+    // rects from the scroll/resize-refreshed cache — no per-frame layout read.
+    for (const [s, r] of rects) {
       const inside =
         py >= r.top &&
         py <= r.bottom &&
         r.top < window.innerHeight &&
         r.bottom > 0;
-      if (s.classList.contains("section")) {
-        s.classList.toggle("is-hot", inside);
-        if (inside) {
-          s.style.setProperty("--lx", `${((px - r.left) / r.width) * 100}%`);
-          s.style.setProperty("--ly", `${((py - r.top) / r.height) * 100}%`);
-        }
+      s.classList.toggle("is-hot", inside);
+      if (inside) {
+        s.style.setProperty("--lx", `${((px - r.left) / r.width) * 100}%`);
+        s.style.setProperty("--ly", `${((py - r.top) / r.height) * 100}%`);
       }
     }
   };
 
   // ── magnetic buttons ─────────────────────────────────────
+  // applyMagnets/applyTilt take PRE-READ rects (see onFrame): reading a rect
+  // after the previous element's transform write forced a style flush PER
+  // ELEMENT — 27 forced reflows a frame across magnets+tilts was the "shelf
+  // lags on mouse move" jank.
   const magnets = Array.from(document.querySelectorAll("[data-magnetic]"));
-  const applyMagnets = () => {
-    for (const el of magnets) {
-      const r = el.getBoundingClientRect();
+  const applyMagnets = (rects) => {
+    for (let i = 0; i < magnets.length; i++) {
+      const el = magnets[i];
+      const r = rects[i];
+      // offscreen — nothing to pull; skip the math and any style write
+      if (r.bottom < -60 || r.top > window.innerHeight + 60) {
+        if (el.style.transform) el.style.transform = "";
+        continue;
+      }
       const cx = r.left + r.width / 2;
       const cy = r.top + r.height / 2;
       const dx = px - cx;
@@ -76,10 +104,24 @@ function initPointer() {
   };
 
   // ── 3D tilt ──────────────────────────────────────────────
-  const tilts = Array.from(document.querySelectorAll("[data-tilt]"));
-  const applyTilt = () => {
-    for (const el of tilts) {
-      const r = el.getBoundingClientRect();
+  // Cached list (cheap per frame — no querySelectorAll in the loop), refreshed
+  // ONLY when a [data-tilt] element is actually inserted/removed (dev hot-reload),
+  // never on the frequent ripple-spawn mutations.
+  let tilts = Array.from(document.querySelectorAll("[data-tilt]"));
+  const touchesTilt = (n) =>
+    n.nodeType === 1 &&
+    (n.matches?.("[data-tilt]") || n.querySelector?.("[data-tilt]"));
+  new MutationObserver((muts) => {
+    if (
+      muts.some((m) => [...m.addedNodes, ...m.removedNodes].some(touchesTilt))
+    ) {
+      tilts = Array.from(document.querySelectorAll("[data-tilt]"));
+    }
+  }).observe(document.body, { childList: true, subtree: true });
+  const applyTilt = (rects) => {
+    for (let i = 0; i < tilts.length; i++) {
+      const el = tilts[i];
+      const r = rects[i];
       if (
         px < r.left - 60 ||
         px > r.right + 60 ||
@@ -96,9 +138,14 @@ function initPointer() {
   };
 
   const onFrame = () => {
+    // PHASE 1 — every layout read, BEFORE any style write this frame: one
+    // clean flush at most, instead of a forced reflow per element.
+    const magnetRects = magnets.map((el) => el.getBoundingClientRect());
+    const tiltRects = tilts.map((el) => el.getBoundingClientRect());
+    // PHASE 2 — style writes only (spotlight vars + transforms).
     updateSpotlight();
-    if (magnets.length) applyMagnets();
-    if (tilts.length) applyTilt();
+    if (magnets.length) applyMagnets(magnetRects);
+    if (tilts.length) applyTilt(tiltRects);
     ticking = false;
   };
 

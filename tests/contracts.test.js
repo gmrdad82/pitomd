@@ -68,15 +68,67 @@ describe("fx vocabulary", () => {
     }
   });
 
-  test("every data-cursor mood is styled and driven", () => {
-    const known = new Set(["glow", "ripple", "trail"]);
-    for (const [, v] of index.matchAll(/data-cursor="([a-z-]+)"/g)) {
-      expect(known.has(v), `unknown data-cursor "${v}"`).toBe(true);
+  test("the cursor-mood randomiser + fx islands are wired", () => {
+    const rnd = read("src/scripts/fx-random.js");
+    const webgl = read("src/scripts/fx-webgl.js");
+    // The randomiser pool = the moods the site implements; keep all three
+    // (fx-random POOL, fx-webgl RENDERERS, this list) in sync.
+    const POOL = [
+      "glow",
+      "ripple",
+      "water",
+      "fluid",
+      "plasma",
+      "metaballs",
+      "halftone",
+      "lens",
+    ];
+    for (const fx of POOL)
+      expect(rnd, `pool missing ${fx}`).toContain(`"${fx}"`);
+    // Every WebGL mood has a renderer factory in the engine.
+    for (const fx of [
+      "water",
+      "fluid",
+      "plasma",
+      "metaballs",
+      "halftone",
+      "lens",
+    ]) {
+      expect(webgl, `renderer missing ${fx}`).toContain(`function ${fx}(`);
     }
+    // Drivers are styled + loaded, and the randomiser runs BEFORE the fx islands.
     expect(css).toContain('[data-cursor="glow"]');
     expect(css).toContain(".fx-ripple");
-    expect(css).toContain(".fx-trail");
+    expect(css).toContain(".fx-canvas");
+    expect(base).toContain("scripts/fx-random.js");
+    expect(base).toContain("scripts/fx-webgl.js");
     expect(base).toContain("scripts/cursor.js");
+    expect(base.indexOf("scripts/fx-random.js")).toBeLessThan(
+      base.indexOf("scripts/fx-webgl.js"),
+    );
+    expect(base.indexOf("scripts/fx-random.js")).toBeLessThan(
+      base.indexOf("scripts/cursor.js"),
+    );
+    // The randomiser owns moods now — no hardcoded data-cursor in the markup.
+    expect(index).not.toContain("data-cursor=");
+    // Steppers are EXCLUDED — a `.scrolly` is multi-viewport tall, so an
+    // fx-canvas sized to it builds a monster canvas that blanks the GPU. And
+    // any section can opt out entirely with `data-fx-none` (e.g. #mcp). Lock
+    // the query to `.section:not([data-fx-none])`; the old `.section, .scrolly`
+    // query stays gone.
+    expect(rnd).toContain('querySelectorAll(".section:not([data-fx-none])")');
+    expect(rnd).not.toContain('querySelectorAll(".section, .scrolly")');
+    // #mcp opts out of a randomised mood — mood-less, ring-zone only.
+    expect(index).toContain("data-fx-none");
+    // The ring shows over steppers, bridges, AND data-fx-none sections.
+    const cursor = read("src/scripts/cursor.js");
+    expect(cursor).toContain(".scrolly, .bridge, [data-fx-none]");
+    // The all-section pointer spotlight (BR3) is gone; the mood-scoped glow
+    // rule in fx.css is untouched and still standalone.
+    expect(read("src/styles/bold.css")).not.toContain(
+      ".section.is-hot::before",
+    );
+    expect(read("src/styles/fx.css")).toContain('[data-cursor="glow"]');
   });
 
   test("the currency scramble stays wired (owner constraint)", () => {

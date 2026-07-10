@@ -1,22 +1,20 @@
 name: Deploy
 
-# Builds the static site and publishes it to Cloudflare Pages AFTER Website CI
-# passes on main (never on a red CI — owner rule), or on manual dispatch.
-# Requires repo secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
+# Builds the static site and publishes it to Cloudflare Pages when a version tag
+# (v*.*.*) is pushed — TAG-GATED like pito. Pushes to main are still validated by
+# Website CI but never auto-deploy; a release ships only when a new tag is cut
+# (tag a commit that already went green on main). Also runs on manual dispatch.
+# The build step is the deploy gate — a broken build fails the job and nothing
+# ships. Requires repo secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
 # SLACK_WEBHOOK (optional) posts a deploy notice.
 on:
-  workflow_run:
-    workflows: ["Website CI"]
-    types: [completed]
+  push:
+    tags:
+      - "v*.*.*"
   workflow_dispatch:
 
 jobs:
   deploy:
-    # gate: only after a SUCCESSFUL Website CI run of MAIN (manual dispatch bypasses)
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      (github.event.workflow_run.conclusion == 'success' &&
-       github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -44,8 +42,8 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=pito-website
 
-      # Slack only on SUCCESS — the deploy notice. A broken build fails CI (which
-      # sends the fail message) and this step is skipped, so no double-posting.
+      # Slack only on SUCCESS — the deploy notice. A broken build fails the job
+      # and this step is skipped, so no double-posting.
       - name: Notify Slack on deploy
         if: success()
         continue-on-error: true

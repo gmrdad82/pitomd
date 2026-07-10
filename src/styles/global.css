@@ -250,6 +250,11 @@ h3.display {
   flex-direction: column;
   gap: 0.9rem;
   align-items: center;
+  /* YT-caption backing plate: the bare 1px ticks vanished over same-tone
+     cover art / WebGL fields (owner smoke) — a translucent strip keeps the
+     rail readable on every background. */
+  background: color-mix(in oklab, var(--bg-root) 62%, transparent);
+  padding: 0.6rem 0.45rem;
 }
 
 .railnav__dot {
@@ -268,10 +273,13 @@ h3.display {
     transform 0.3s ease;
 }
 .railnav__dot::after {
-  /* the section label, revealed on the active dot */
+  /* the section label, revealed on the active dot — carries its own caption
+     chip (see .railnav's plate note), flush against the rail plate's left
+     edge (0.45rem = the plate's inline padding; owner: chip must not
+     overlap the strip). */
   content: attr(data-label);
   position: absolute;
-  right: calc(100% + 0.75rem);
+  right: calc(100% + 0.45rem);
   top: 50%;
   transform: translateY(-50%);
   white-space: nowrap;
@@ -279,7 +287,9 @@ h3.display {
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--fg-dim);
+  color: var(--fg-default);
+  background: color-mix(in oklab, var(--bg-root) 85%, transparent);
+  padding: 0.3em 0.55em;
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -298,6 +308,20 @@ h3.display {
 .railnav__dot.is-active::after,
 .railnav__dot:hover::after {
   opacity: 1;
+}
+/* the ACTIVE section's label matches its filled pito-blue tick (owner) —
+   and counter-scales the dot's 1.35 zoom so every label is the same size,
+   shrinking about its right edge to stay glued to the tick */
+.railnav__dot.is-active::after {
+  color: var(--pito-blue);
+  transform: translateY(-50%) scale(calc(1 / 1.35));
+  transform-origin: 100% 50%;
+}
+/* one label at a time: the chips are taller than the tick pitch, so an
+   active label + a hovered neighbour's label overlap — while the rail is
+   hovered, the active label yields to the hovered tick's */
+.railnav:hover .railnav__dot.is-active:not(:hover)::after {
+  opacity: 0;
 }
 
 /* ── Dev-only banner ───────────────────────────────────────── */

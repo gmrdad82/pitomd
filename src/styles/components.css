@@ -615,6 +615,26 @@
   text-align: left;
 }
 
+/* #shinies + #price + #footage vertical rhythm — the displays sat right on
+   their ledes and the ledes right on the widgets/cards below (owner smoke);
+   open the gaps. */
+#shinies .display,
+#price .display,
+#footage .display {
+  margin-bottom: 1.4rem;
+}
+#shinies .lede,
+#price .lede,
+#footage .lede {
+  margin-bottom: 2.4rem;
+}
+#price .coins {
+  margin-bottom: 2.4rem;
+}
+#shinies .pito-widget + .pito-widget {
+  margin-top: 2rem;
+}
+
 /* ── Responsive ────────────────────────────────────────────── */
 
 @media (max-width: 860px) {

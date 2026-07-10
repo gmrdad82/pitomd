@@ -16,7 +16,7 @@ function initParallax() {
 
   const targets = Array.from(
     document.querySelectorAll(
-      "#pain, #price, #shinies, #free, #hero, #linkage, #language, #footage",
+      "#pain, #price, #shinies, #free, #hero, #linkage, #chatbox, #footage",
     ),
   );
 

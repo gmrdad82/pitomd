@@ -51,6 +51,10 @@ function typewriter(el) {
   }
   const speed = Number(el.dataset.fxSpeed || 45);
   const chars = Array.from(final);
+  // The first-paint CSS hides this element with visibility (not display), so
+  // its final multi-line layout exists right now — pin that height before
+  // clearing, or the copy below jumps down as the lines type in.
+  el.style.minHeight = `${el.offsetHeight}px`;
   el.textContent = "";
   el.classList.add("is-typing");
   let i = 0;

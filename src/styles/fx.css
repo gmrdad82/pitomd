@@ -232,24 +232,61 @@
 }
 
 /* ── Cursor ring ───────────────────────────────────────────────
-   A difference-blend ring trailing the pointer (cursor.js); it swells over
-   links/buttons. Fine pointers only — hidden on touch. */
+   A "neon black hole" trailing the pointer. cursor.js owns the parent's inline
+   transform (its screen position) — never touched here. The glow lives on a
+   masked ::before: a slowly orbiting conic gradient (purple → pito-blue → pink
+   → purple, seam-free) carved by a radial mask into a hollow ring — transparent
+   core, a soft ~8px inward decay, a razor-thin solid rim. drop-shadow (not
+   box-shadow, which the mask would clip) hugs that rim with a pink/purple neon
+   halo plus a tight dark edge, so it reads on pito-blue, near-black, and green
+   backgrounds alike. It swells over links/buttons. Fine pointers only — hidden
+   on touch. */
 .cursor-ring {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 9999;
-  width: 34px;
-  height: 34px;
-  margin: -17px 0 0 -17px;
-  border: 1.5px solid var(--pito-blue);
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
   border-radius: 50%;
   pointer-events: none;
-  mix-blend-mode: difference;
   transition:
     scale 0.25s ease,
     opacity 0.25s ease;
   opacity: 0;
+}
+.cursor-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  /* First and last stop identical (accent-purple) → no seam where the cone
+     wraps. */
+  background: conic-gradient(
+    from 0deg,
+    var(--accent-purple),
+    var(--pito-blue),
+    #ff6ec7,
+    var(--accent-purple)
+  );
+  /* Black-hole profile (percentages are of the 32px radius): hollow core to
+     91%, a smooth ~2px decay 91% → 98%, then a hairline solid rim to 100% —
+     a ~3px band in total (owner-tuned across two smoke passes). */
+  -webkit-mask: radial-gradient(closest-side, transparent 0 91%, #000 98% 100%);
+  mask: radial-gradient(closest-side, transparent 0 91%, #000 98% 100%);
+  /* Halo + separation edge; drop-shadow follows the masked ring, box-shadow
+     would be clipped by the mask. */
+  filter: drop-shadow(
+      0 0 5px color-mix(in oklab, #ff6ec7, var(--accent-purple))
+    )
+    drop-shadow(0 0 1px rgb(0 0 0 / 0.85));
+  animation: cursor-ring-spin 8s linear infinite;
+}
+@keyframes cursor-ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 .cursor-ring.is-on {
   opacity: 0.9;
@@ -308,7 +345,7 @@
 /* ── Cursor personalities (data-cursor="…" on a section) ──────
    glow   — the spotlight follows the cursor on THAT slide only
    ripple — expanding water rings trail the cursor (cursor.js spawns)
-   trail  — the Windows 3.1/95 mouse-trail ghosts (cursor.js spawns)
+   water  — a WebGL water surface ripples the cover image (fx-webgl.js)
    default (no attribute) — just the global cursor ring. */
 
 .section[data-cursor="glow"] {
@@ -322,7 +359,7 @@
   pointer-events: none;
   opacity: 0;
   background: radial-gradient(
-    34rem circle at var(--lx, 50%) var(--ly, 50%),
+    26rem circle at var(--lx, 50%) var(--ly, 50%),
     color-mix(in oklab, var(--pito-blue) 16%, transparent),
     transparent 62%
   );
@@ -332,18 +369,37 @@
   opacity: 1;
 }
 
-/* water ring — spawned at the cursor; two staggered rings per spawn read
-   as a stick dragged across a pond */
+/* water ring — a tiny neon "black hole" spawned at the cursor on pointermove
+   (two staggered rings per spawn read as a stick dragged across a pond). Same
+   seam-free cone as .cursor-ring (purple → pito-blue → pink → purple) carved
+   hollow by a radial mask, but proportioned with a thicker rim so the edge
+   survives being scaled down at spawn (~5px). It keeps its watery soul: one
+   soft pito-blue drop-shadow halo (not box-shadow — the mask clips those). No
+   spin — the scale animation already owns the transform. */
 .fx-ripple {
   position: absolute;
   width: 14px;
   aspect-ratio: 1;
   margin: -7px 0 0 -7px;
   border-radius: 50%;
-  border: 1.5px solid color-mix(in oklab, var(--pito-blue) 75%, white 12%);
-  box-shadow:
-    0 0 14px color-mix(in oklab, var(--pito-blue) 30%, transparent),
-    inset 0 0 8px color-mix(in oklab, var(--pito-blue) 22%, transparent);
+  /* First and last stop identical (accent-purple) → seam-free cone. */
+  background: conic-gradient(
+    from 0deg,
+    var(--accent-purple),
+    var(--pito-blue),
+    #ff6ec7,
+    var(--accent-purple)
+  );
+  /* Thicker rim than the 64px cursor ring: hollow core to 55%, a soft inward
+     decay 55% → 88%, then a solid rim to 100% — so the edge still reads at the
+     0.35 spawn scale (~5px) and stays crisp through mid-expansion. */
+  -webkit-mask: radial-gradient(closest-side, transparent 0 55%, #000 88% 100%);
+  mask: radial-gradient(closest-side, transparent 0 55%, #000 88% 100%);
+  /* Watery halo, kept blue; drop-shadow (not box-shadow, which the mask clips)
+     hugs the ring. One small-radius shadow only — up to ~30 spawn at once. */
+  filter: drop-shadow(
+    0 0 3px color-mix(in oklab, var(--pito-blue) 60%, #ff6ec7)
+  );
   pointer-events: none;
   animation: fx-ripple 1.3s cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
 }
@@ -353,7 +409,10 @@
 }
 .fx-ripple--splash {
   animation-duration: 1.9s;
-  border-width: 2px;
+  /* Fatter band than the base ring — the solid rim starts earlier, replacing
+     the old border-width bump. */
+  -webkit-mask: radial-gradient(closest-side, transparent 0 42%, #000 80% 100%);
+  mask: radial-gradient(closest-side, transparent 0 42%, #000 80% 100%);
 }
 @keyframes fx-ripple {
   from {
@@ -366,28 +425,9 @@
   }
 }
 
-/* the Win95 ghost arrow — spawned along the pointer path, fades as it falls */
-.fx-trail {
-  position: absolute;
-  width: 15px;
-  height: 22px;
-  pointer-events: none;
-  background: var(--fg-default);
-  clip-path: polygon(0 0, 0 81%, 27% 65%, 41% 100%, 55% 93%, 43% 61%, 70% 59%);
-  filter: drop-shadow(0 0 1px var(--bg-root));
-  animation: fx-trail 0.55s linear forwards;
-}
-@keyframes fx-trail {
-  to {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .section[data-cursor="glow"]::before,
-  .fx-ripple,
-  .fx-trail {
+  .fx-ripple {
     display: none;
   }
 }

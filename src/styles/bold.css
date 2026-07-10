@@ -58,27 +58,6 @@
   font-size: clamp(8px, 2.9vw, 22px);
 }
 
-/* ── All-section pointer spotlight ─────────────────────────── */
-/* pointer.js sets --lx/--ly (local %) + .is-hot on the hovered section. */
-
-.section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    circle 420px at var(--lx, 50%) var(--ly, 50%),
-    color-mix(in oklab, var(--pito-blue) 20%, transparent),
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.45s ease;
-}
-.section.is-hot::before {
-  opacity: 1;
-}
-
 /* ── Extra reveal / morph variants ─────────────────────────── */
 
 .js [data-reveal="rise-big"] {
@@ -1118,6 +1097,98 @@
     transform: scale(1.12);
     transition: none;
   }
+}
+
+/* ── WebGL fx island (.fx-canvas) ────────────────────────────── */
+/* Rendered by fx-webgl.js for any [data-cursor="…"] section whose mood is a
+   WebGL renderer (water / fluid / plasma / metaballs / halftone / lens).
+   Sits behind the content, same stacking tier as .cover-bed; the readability
+   veil mirrors .cover-bed::before so text stays legible over the busier
+   abstract fx. Once an instance is live (data-fx-active on the section), the
+   static .cover-bed::before cover hides so the two don't double up. */
+
+.fx-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.fx-canvas__c {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fx-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Readability scrim behind the centred copy. Gentle by default — the
+     cover-sampling fx (water/halftone/lens) want the cover to show through. */
+  background: radial-gradient(
+    ellipse 60% 72% at center,
+    var(--bg-root) 0%,
+    transparent 74%
+  );
+  opacity: 0.5;
+}
+
+/* The bright ABSTRACT fields generate their own vivid colour and drown dim
+   body copy, so darken the centre column hard for them (the effect still shows
+   at the edges). data-fx-active carries the live effect name (fx-webgl.js). */
+[data-fx-active="metaballs"] .fx-canvas::after,
+[data-fx-active="fluid"] .fx-canvas::after,
+[data-fx-active="plasma"] .fx-canvas::after {
+  background: radial-gradient(
+    ellipse 64% 88% at center,
+    var(--bg-root) 0%,
+    var(--bg-root) 46%,
+    transparent 90%
+  );
+  opacity: 0.86;
+}
+
+[data-fx-active] .cover-bed::before {
+  display: none;
+}
+
+/* YouTube-caption plates — the cover-sampling fx draw the art far brighter
+   than the static 0.13 bed, and the mono copy drowns in it (owner smoke,
+   "The pain" over water). Translucent plates behind the copy, a wink at YT
+   captions on a YouTube tool. The attribute flips outside the ±400px
+   observer margin, so the padding never shifts layout in view. */
+[data-fx-active="water"] .section__inner :is(.lede, .eyebrow, .prose p),
+[data-fx-active="halftone"] .section__inner :is(.lede, .eyebrow, .prose p),
+[data-fx-active="lens"] .section__inner :is(.lede, .eyebrow, .prose p) {
+  /* 85% bg (owner-tuned from 74%: "lower the transparency a bit") */
+  background: color-mix(in oklab, var(--bg-root) 85%, transparent);
+  padding: 0.4em 0.65em;
+}
+
+/* The eyebrow is a one-line label — its plate hugs the text, not the column
+   (owner smoke: full-width chip over "Nineteen themes" looked like a bar). */
+[data-fx-active="water"] .section__inner .eyebrow,
+[data-fx-active="halftone"] .section__inner .eyebrow,
+[data-fx-active="lens"] .section__inner .eyebrow {
+  width: fit-content;
+}
+
+/* …and stays centred on the centre-aligned sections (fit-content blocks
+   ignore the parent's text-align). */
+:is(.cta, #themes, #free, #pain)[data-fx-active="water"]
+  .section__inner
+  .eyebrow,
+:is(.cta, #themes, #free, #pain)[data-fx-active="halftone"]
+  .section__inner
+  .eyebrow,
+:is(.cta, #themes, #free, #pain)[data-fx-active="lens"]
+  .section__inner
+  .eyebrow {
+  margin-inline: auto;
 }
 
 /* ── Scrolly-step cover variant (.scrolly__bed) ─────────────── */

@@ -101,13 +101,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
   </nav>
 
   {/* ── 1 · HERO ─────────────────────────────────────────── */}
-  <Section
-    id="hero"
-    theme="synthwave"
-    label="Start"
-    class="hero f-grotesk"
-    data-cursor="glow"
-  >
+  <Section id="hero" theme="synthwave" label="Start" class="hero f-grotesk">
     <div
       slot="decor"
       class="cover-bed"
@@ -263,7 +257,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     </h2>
     <div class="prose" data-reveal="rise">
       <p>
-        YouTube Studio, in its infinite wisdom, manages exactly
+        YouTube Studio, in its infinite wisdom, manages exactly{" "}
         <span class="accent">one channel at a time</span>. Run a handful and
         your day becomes a carousel of sign-outs and sign-ins until your will to
         live quietly files for unemployment.
@@ -278,37 +272,43 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     </div>
   </Section>
 
-  {/* ── 3 · ONE CHATBOX ──────────────────────────────────── */}
-  <Section id="chatbox" theme="tokyo-night" label="One chatbox" class="f-funk">
+  {/* ── 3 · ONE CHATBOX — plain language, no syntax ──────── */}
+  <Section id="chatbox" theme="nord" label="One chatbox" class="f-mono">
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/nioh-3.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     <PitoLogo
       slot="decor"
-      class="logo-accent logo-accent--tl logo-accent--float logo-accent--cyan"
+      class="logo-accent logo-accent--br logo-accent--react"
     />
     <PitoLogo
       slot="decor"
-      class="logo-accent logo-accent--br logo-accent--sm logo-accent--react"
+      class="logo-accent logo-accent--tl logo-accent--float logo-accent--green logo-accent--sm"
     />
     <div class="split">
       <div class="split__copy">
-        <p class="eyebrow" data-reveal="fade">One box to rule them all</p>
-        <h2 class="display" data-fx="comet">Type. It answers.</h2>
+        <p class="eyebrow" data-reveal="fade">One box, no syntax to memorize</p>
+        <h2 class="display" data-fx="typewriter" data-fx-speed="45">
+          Just say what you want.
+        </h2>
         <p class="lede" data-reveal="rise">
-          No dashboards to learn, no menus to hunt. A single chatbox that speaks
-          every one of your channels — see subs · vids · views for all of them
-          in one <code class="kbd">list channels</code>.
+          One chatbox for every channel — no dashboards, no menus, nothing to
+          learn. <code class="kbd">list vids</code>, <code class="kbd"
+            >show game 42</code
+          >, and <code class="kbd">list games rpg</code> filters by genre and platform
+          — natural-ish, case-insensitive. PITO speaks human.
         </p>
       </div>
-      <figure
-        class="split__media"
-        data-reveal="clip"
-        data-tilt
-        data-parallax="slow"
-      >
+      <figure class="split__media" data-reveal="blurin" data-tilt>
         <img
           decoding="async"
-          src="/media/01-chat.gif"
+          src="/media/mkt-language.gif"
           width="760"
-          alt="The PITO chatbox in action"
+          alt="Plain-language commands in the PITO chatbox"
           loading="lazy"
         />
       </figure>
@@ -425,7 +425,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
             Games ↔ videos. Linked, never guessed.
           </h2>
           <p class="scrolly__sub">
-            Explicit <code class="kbd">link</code> /
+            Explicit <code class="kbd">link</code> /{" "}
             <code class="kbd">unlink</code> — the graph everything else runs on, with
             Voyage keeping similar-games picks warm on the side.
           </p>
@@ -564,61 +564,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     </div>
   </section>
 
-  {/* ── 4 · PLAIN LANGUAGE ───────────────────────────────── */}
-  <Section
-    id="language"
-    theme="nord"
-    label="Plain language"
-    class="f-mono"
-    data-cursor="ripple"
-  >
-    <div
-      slot="decor"
-      class="cover-bed"
-      style="--cover:url('/covers/nioh-3.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--br logo-accent--react"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tl logo-accent--float logo-accent--green logo-accent--sm"
-    />
-    <div class="split split--reverse">
-      <div class="split__copy">
-        <p class="eyebrow" data-reveal="fade">No syntax to memorize</p>
-        <h2 class="display" data-fx="typewriter" data-fx-speed="45">
-          Just say what you want.
-        </h2>
-        <p class="lede" data-reveal="rise">
-          <code class="kbd">list vids</code>. <code class="kbd"
-            >show game 42</code
-          >.
-          <code class="kbd">list games rpg</code> filters by genre and platform —
-          natural-ish, case-insensitive. PITO speaks human.
-        </p>
-      </div>
-      <figure
-        class="split__media"
-        data-reveal="blurin"
-        data-tilt
-        data-parallax="slow"
-      >
-        <img
-          decoding="async"
-          src="/media/mkt-language.gif"
-          width="760"
-          alt="Plain-language commands in PITO"
-          loading="lazy"
-        />
-      </figure>
-    </div>
-  </Section>
-
-  {/* ── 5 · LINKAGE ──────────────────────────────────────── */}
+  {/* ── 4 · LINKAGE ──────────────────────────────────────── */}
   <Section id="linkage" theme="gruvbox-dark" label="Linkage" class="f-grotesk">
     <div
       slot="decor"
@@ -657,12 +603,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
           >
         </p>
       </div>
-      <figure
-        class="split__media"
-        data-reveal="flip"
-        data-tilt
-        data-parallax="slow"
-      >
+      <figure class="split__media" data-reveal="flip" data-tilt>
         <img
           decoding="async"
           src="/media/mkt-linkage.gif"
@@ -680,8 +621,14 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     theme="ayu-dark"
     label="Your shelf"
     class="library f-grotesk"
-    data-cursor="ripple"
   >
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/pragmata.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     <PitoLogo
       slot="decor"
       class="logo-accent logo-accent--tl logo-accent--react logo-accent--sm logo-accent--cyan"
@@ -891,13 +838,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
   </section>
 
   {/* ── 7 · FOOTAGE ──────────────────────────────────────── */}
-  <Section
-    id="footage"
-    theme="ayu-dark"
-    label="Footage"
-    class="f-round"
-    data-cursor="ripple"
-  >
+  <Section id="footage" theme="ayu-dark" label="Footage" class="f-round">
     <div
       slot="decor"
       class="cover-bed"
@@ -924,7 +865,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       data-reveal="rise"
       style="margin-inline:auto;max-width:42rem"
     >
-      Recorded-but-unpublished hours per game, kept as a manual
+      Recorded-but-unpublished hours per game, kept as a manual{" "}
       <code class="kbd">footage</code> total, plotted against the game's time-to-beat.
       The time you've sunk is an investment — PITO makes it visible.
     </p>
@@ -1025,13 +966,14 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     /* Coin/star glyphs + tier map are pito's exact spec (Pito::Coin):
       ≤9.99→1 · ≤29.99→2 · ≤59.99→3 · ≤79.99→4 · >79.99→5 · free→star. */
   }
-  <Section
-    id="price"
-    theme="gruvbox-dark"
-    label="Price"
-    class="f-funk"
-    data-cursor="glow"
-  >
+  <Section id="price" theme="gruvbox-dark" label="Price" class="f-funk">
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/stellar-blade-blood-rain.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     {/* Layer A — large ascii watermark (this section has no img watermark) */}
     <PitoLogo
       slot="decor"
@@ -1194,7 +1136,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     <p
       class="lede"
       data-reveal="rise"
-      style="margin:2.5rem auto 0;max-width:42rem"
+      style="margin:2.5rem auto 2.4rem;max-width:42rem"
     >
       Cost is half the story — PITO also scores each game (vote-weighted), so
       you read value at a glance: what you paid against how good it actually is.
@@ -1232,13 +1174,14 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
   </Section>
 
   {/* ── 9 · SHINIES ──────────────────────────────────────── */}
-  <Section
-    id="shinies"
-    theme="synthwave"
-    label="Shinies"
-    class="f-round"
-    data-cursor="trail"
-  >
+  <Section id="shinies" theme="synthwave" label="Shinies" class="f-round">
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/ghosts-n-goblins-resurrection.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     {/* Layer A — large ascii watermark */}
     <PitoLogo
       slot="decor"
@@ -1416,6 +1359,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     label="Scheduling"
     class="f-grotesk"
   >
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/elden-ring-nightreign.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     <PitoLogo
       slot="decor"
       class="logo-accent logo-accent--tl logo-accent--react"
@@ -1434,12 +1384,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
           calendar.
         </p>
       </div>
-      <figure
-        class="split__media"
-        data-reveal="skew"
-        data-tilt
-        data-parallax="slow"
-      >
+      <figure class="split__media" data-reveal="skew" data-tilt>
         <img
           decoding="async"
           src="/media/mkt-schedule.gif"
@@ -1458,6 +1403,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     label="19 themes"
     class="f-funk"
   >
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/nioh-3.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     <PitoLogo
       slot="decor"
       class="logo-accent logo-accent--br logo-accent--float logo-accent--purple"
@@ -1501,6 +1453,55 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     </div>
   </Section>
 
+  {/* ── 11.5 · MCP — CONNECT YOUR AI ─────────────────────── */}
+  <Section id="mcp" theme="nord" label="Your AI" class="f-grotesk" data-fx-none>
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/tekken-7.jpg')"
+      aria-hidden="true"
+    >
+    </div>
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong"
+    />
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--bl logo-accent--float logo-accent--cyan logo-accent--sm"
+    />
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--tl logo-accent--float logo-accent--sm logo-accent--purple"
+    />
+    <div class="split">
+      <div class="split__copy">
+        <p class="eyebrow" data-reveal="fade">Bring your own AI</p>
+        <h2 class="display" data-fx="typewriter" data-fx-speed="45">
+          Your library. Your call.
+        </h2>
+        <p class="lede" data-reveal="rise">
+          PITO speaks <code class="kbd">MCP</code>, so Claude on your phone,
+          ChatGPT, or any MCP client can read your whole library — channels,
+          vids, games, analytics — from wherever you are. <span class="accent"
+            >Read-only, and every connection waits on the consent screen for
+            your TOTP approval.</span
+          > Your data, your control — here's{" "}
+          <a href={GITHUB} class="pito-blue">how</a>.
+        </p>
+      </div>
+      <figure class="split__media" data-reveal="zoom" data-tilt>
+        <img
+          decoding="async"
+          src="/media/mkt-mcp.png"
+          width="760"
+          alt="The PITO OAuth consent screen, approving a new MCP client with a TOTP code"
+          loading="lazy"
+        />
+      </figure>
+    </div>
+  </Section>
+
   {/* ── COLOR BRIDGE → $0 ─────────────────────────────────── */}
   <ColorBridge
     letter="$"
@@ -1513,6 +1514,13 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 
   {/* ── 12 · FREE · PRIVATE · READ-ONLY ──────────────────── */}
   <Section id="free" theme="one-dark" label="$0 · private" class="f-serif">
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/demon-s-souls.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     {/* Layer A — bg watermark */}
     <img
       decoding="async"
@@ -1581,13 +1589,14 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
   </Section>
 
   {/* ── 13 · GET PITO / CTA / FOOTER ─────────────────────── */}
-  <Section
-    id="get"
-    theme="synthwave"
-    label="Get PITO"
-    class="cta f-grotesk"
-    data-cursor="glow"
-  >
+  <Section id="get" theme="synthwave" label="Get PITO" class="cta f-grotesk">
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/stellar-blade.jpg')"
+      aria-hidden="true"
+    >
+    </div>
     <PitoLogo
       slot="decor"
       class="logo-accent logo-accent--side logo-accent--float"
@@ -1632,7 +1641,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 
     {/* The three VHS casts pito ships: install, the CLI, and updates. */}
     <div class="casts" data-reveal="rise" data-stagger>
-      <figure style="--i:0">
+      <figure style="--i:0" data-tilt>
         <img
           decoding="async"
           src="/media/pito-install-cast.gif"
@@ -1643,7 +1652,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
         />
         <figcaption>one-line install</figcaption>
       </figure>
-      <figure style="--i:1">
+      <figure style="--i:1" data-tilt>
         <img
           decoding="async"
           src="/media/pito-cli-cast.gif"
@@ -1654,7 +1663,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
         />
         <figcaption>the pito CLI</figcaption>
       </figure>
-      <figure style="--i:2">
+      <figure style="--i:2" data-tilt>
         <img
           decoding="async"
           src="/media/pito-update-cast.gif"
