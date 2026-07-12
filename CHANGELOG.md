@@ -6,7 +6,23 @@ format follows [Keep a Changelog](https://keepachangelog.com/); the site aims fo
 only when a `v*.*.*` tag is pushed (pushes to main are CI-validated but do not
 deploy).
 
-## [Unreleased]
+## [1.3.0] — 2026-07-12
+
+### Added
+
+- **The terminal slide** — pito-tui 2.0.0 gets its own stop before the
+  finale: a looping capture of the real client (starfield boot, braille
+  analytics blooming in color, the game picker) with the pitch it
+  earns — close the browser, keep the command deck. Rail label
+  "Terminal", between "Free" and "Get PITO".
+
+## [1.2.0] — 2026-07-12
+
+### Added
+
+- **Cover story** — the randomized 66-cover slot system, the AI rail
+  stop, and the reversed-V reveal into "Your shelf" (backfilled entry;
+  the v1.2.0 tag shipped without its changelog heading).
 
 ### Fixed
 

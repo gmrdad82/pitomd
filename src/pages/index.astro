@@ -1656,6 +1656,48 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     </div>
   </Section>
 
+  {/* ── 12b · THE TERMINAL CLIENT ────────────────────────── */}
+  <Section id="tui" theme="tokyo-night" label="Terminal" class="f-grotesk">
+    <div
+      slot="decor"
+      class="cover-bed"
+      data-cover-slot="bed"
+      style="--cover:url('/covers/pragmata.jpg')"
+      aria-hidden="true"
+    >
+    </div>
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--tr logo-accent--float"
+    />
+    <div class="split split--reverse">
+      <div class="split__copy">
+        <p class="eyebrow" data-reveal="fade">no browser required</p>
+        <h2 class="display" data-fx="comet">Close the browser.</h2>
+        <p class="lede" data-reveal="rise">
+          The whole command deck — the chatbox, streaming AI answers, braille
+          charts in real color — living in your terminal. <span class="accent"
+            >brew install, log in, done. Same brain, no tabs.</span
+          >
+        </p>
+        <p class="mono" data-reveal="rise" style="opacity:.75">
+          <a href={TUI} class="pito-blue">pito-tui</a> — a full client, not a wrapper.
+          Star sky included.
+        </p>
+      </div>
+      <figure class="split__media" data-reveal="flip" data-tilt>
+        <img
+          decoding="async"
+          src="/media/pito-tui-loop.gif"
+          width="1200"
+          height="800"
+          alt="pito-tui in a terminal: analytics charts drawn in colored braille, a game picker, and the starfield boot screen"
+          loading="lazy"
+        />
+      </figure>
+    </div>
+  </Section>
+
   {/* ── 13 · GET PITO / CTA / FOOTER ─────────────────────── */}
   <Section id="get" theme="synthwave" label="Get PITO" class="cta f-grotesk">
     <div
