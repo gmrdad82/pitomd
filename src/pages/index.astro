@@ -320,202 +320,205 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
 
   {/* ── 3.2 · AI — @ai · MCP · Voyage, one rail stop ─────── */}
   <section id="ai" data-nav-label="AI">
-  <Section id="ai-chat" theme="synthwave" label="" class="f-grotesk">
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/cyberpunk-2077.jpg')"
-      aria-hidden="true"
+    <Section id="ai-chat" theme="synthwave" label="" class="f-grotesk">
+      <div
+        slot="decor"
+        class="cover-bed"
+        data-cover-slot="bed"
+        style="--cover:url('/covers/cyberpunk-2077.jpg')"
+        aria-hidden="true"
+      >
+      </div>
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong"
+      />
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--bl logo-accent--float logo-accent--purple logo-accent--sm"
+      />
+      <div class="split">
+        <div class="split__copy">
+          <p class="eyebrow" data-reveal="fade">New — the assistant moved in</p>
+          <h2 class="display" data-fx="typewriter" data-fx-speed="45">
+            Ask like a person. Answered like PITO.
+          </h2>
+          <p class="lede" data-reveal="rise">
+            Type <code class="kbd">@ai</code> and just say it — <em
+              >"compare my channels, chart the split"</em
+            >. The assistant reads <span class="accent"
+              >your library through PITO's own tools</span
+            > and answers in PITO's native voice: real tables, braille charts, score
+            bars — streaming in block by block, tables filling row by row. Bring <span
+              class="accent">any model, your key, your call</span
+            > — that answer on the right came from a free one. Every reply signs its
+            work with the model's name and what it actually cost; the web stays out
+            of it unless you say{" "}
+            <code class="kbd">--web</code>.
+          </p>
+        </div>
+        <figure class="split__media" data-reveal="zoom" data-tilt>
+          <img
+            decoding="async"
+            src="/media/mkt-ai.gif"
+            width="760"
+            alt="Asking @ai to compare channels — PITO answers with a real table, a braille bar chart, and the model's ✨ receipt"
+            loading="lazy"
+          />
+        </figure>
+      </div>
+    </Section>
+
+    {/* ── 11.5 · MCP — CONNECT YOUR AI ─────────────────────── */}
+    <Section id="mcp" theme="nord" label="" class="f-grotesk" data-fx-none>
+      <div
+        slot="decor"
+        class="cover-bed"
+        data-cover-slot="bed"
+        style="--cover:url('/covers/tekken-7.jpg')"
+        aria-hidden="true"
+      >
+      </div>
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong"
+      />
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--bl logo-accent--float logo-accent--cyan logo-accent--sm"
+      />
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--tl logo-accent--float logo-accent--sm logo-accent--purple"
+      />
+      <div class="split">
+        <div class="split__copy">
+          <p class="eyebrow" data-reveal="fade">Bring your own AI</p>
+          <h2 class="display" data-fx="typewriter" data-fx-speed="45">
+            Your library. Your call.
+          </h2>
+          <p class="lede" data-reveal="rise">
+            PITO speaks <code class="kbd">MCP</code>, so Claude on your phone,
+            ChatGPT, or any MCP client can read your whole library — channels,
+            vids, games, analytics — from wherever you are. <span class="accent"
+              >Read-only, and every connection waits on the consent screen for
+              your TOTP approval.</span
+            > Your data, your control — here's{" "}
+            <a href={GITHUB} class="pito-blue">how</a>.
+          </p>
+        </div>
+        <figure class="split__media" data-reveal="zoom" data-tilt>
+          <img
+            decoding="async"
+            src="/media/mkt-mcp.png"
+            width="760"
+            alt="The PITO OAuth consent screen, approving a new MCP client with a TOTP code"
+            loading="lazy"
+          />
+        </figure>
+      </div>
+    </Section>
+
+    {/* ── 6 · VOYAGE — pinned scrollytelling ───────────────── */}
+    <section
+      id="voyage"
+      class="scrolly"
+      data-theme="synthwave"
+      data-scrolly
+      style="--steps: 7"
     >
-    </div>
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--bl logo-accent--float logo-accent--purple logo-accent--sm"
-    />
-    <div class="split">
-      <div class="split__copy">
-        <p class="eyebrow" data-reveal="fade">New — the assistant moved in</p>
-        <h2 class="display" data-fx="typewriter" data-fx-speed="45">
-          Ask like a person. Answered like PITO.
-        </h2>
-        <p class="lede" data-reveal="rise">
-          Type <code class="kbd">@ai</code> and just say it — <em
-            >"compare my channels, chart the split"</em
-          >. The assistant reads <span class="accent">your library through
-          PITO's own tools</span> and answers in PITO's native voice: real
-          tables, braille charts, score bars — streaming in block by block,
-          tables filling row by row. Bring <span class="accent">any model,
-          your key, your call</span> — that answer on the right came from a
-          free one. Every reply signs its work with the model's name and what
-          it actually cost; the web stays out of it unless you say{" "}
-          <code class="kbd">--web</code>.
-        </p>
+      <div class="scrolly__stage">
+        <span class="scrolly__hint">Voyage AI · scroll through</span>
+        <div class="scrolly__steps">
+          <div class="scrolly__step" data-scrolly-step>
+            <div
+              class="scrolly__bed"
+              style="--cover:url('/covers/pragmata.jpg')"
+              aria-hidden="true"
+            >
+            </div>
+            <h2 class="scrolly__big" data-fx="comet">You played a game.</h2>
+            <p class="scrolly__sub">
+              Tell PITO once. It pulls genres, themes, devs, and release from
+              IGDB — the game becomes a first-class thing it can reason about.
+            </p>
+          </div>
+          <div class="scrolly__step" data-scrolly-step>
+            <div
+              class="scrolly__bed"
+              style="--cover:url('/covers/tekken-7.jpg')"
+              aria-hidden="true"
+            >
+            </div>
+            <p class="scrolly__arrow">game -></p>
+            <h2 class="scrolly__big pito-blue" data-fx="comet">
+              the channels it fits.
+            </h2>
+            <p class="scrolly__sub">
+              Every game card surfaces the channels it pairs well with. Stop
+              guessing where the footage belongs.
+            </p>
+          </div>
+          <div class="scrolly__step" data-scrolly-step>
+            <h2 class="scrolly__big" data-fx="comet">You run a channel.</h2>
+            <p class="scrolly__sub">
+              A channel is its videos. PITO already knows what you cover.
+            </p>
+          </div>
+          <div class="scrolly__step" data-scrolly-step>
+            <div
+              class="scrolly__bed"
+              style="--cover:url('/covers/elden-ring-nightreign.jpg')"
+              aria-hidden="true"
+            >
+            </div>
+            <p class="scrolly__arrow">channel -></p>
+            <h2 class="scrolly__big pito-blue" data-fx="comet">
+              the games that suit it.
+            </h2>
+            <p class="scrolly__sub">
+              The channel-specific picks are computed from the games you've
+              covered. <span class="accent nowrap">No guesswork, no vibes.</span
+              >
+            </p>
+          </div>
+          <div class="scrolly__step" data-scrolly-step>
+            <div
+              class="scrolly__bed"
+              style="--cover:url('/covers/ghosts-n-goblins-resurrection.jpg')"
+              aria-hidden="true"
+            >
+            </div>
+            <h2 class="scrolly__big" data-fx="comet">
+              Similar games, surfaced.
+            </h2>
+            <p class="scrolly__sub">
+              Curious what to play next? Voyage AI keeps fresh similar-games
+              picks warm in the background.
+            </p>
+          </div>
+          <div class="scrolly__step" data-scrolly-step>
+            <h2 class="scrolly__big" data-fx="comet">
+              It runs on <span class="pito-blue">Voyage&nbsp;AI</span>.
+            </h2>
+            <p class="scrolly__sub">
+              Best-in-class semantic embeddings — the same calibre of model the
+              serious AI shops reach for. No keyword guessing; real meaning.
+            </p>
+          </div>
+          <div class="scrolly__step" data-scrolly-step>
+            <h2 class="scrolly__big" data-fx="comet">
+              The more you publish, the sharper it gets.
+            </h2>
+            <p class="scrolly__sub">
+              Recommendations are recomputed over time from everything you cover
+              — your taste, encoded.
+            </p>
+          </div>
+        </div>
+        <span class="scrolly__counter" data-scrolly-progress>01 / 07</span>
       </div>
-      <figure class="split__media" data-reveal="zoom" data-tilt>
-        <img
-          decoding="async"
-          src="/media/mkt-ai.gif"
-          width="760"
-          alt="Asking @ai to compare channels — PITO answers with a real table, a braille bar chart, and the model's ✨ receipt"
-          loading="lazy"
-        />
-      </figure>
-    </div>
-  </Section>
-
-  {/* ── 11.5 · MCP — CONNECT YOUR AI ─────────────────────── */}
-  <Section id="mcp" theme="nord" label="" class="f-grotesk" data-fx-none>
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/tekken-7.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--bl logo-accent--float logo-accent--cyan logo-accent--sm"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tl logo-accent--float logo-accent--sm logo-accent--purple"
-    />
-    <div class="split">
-      <div class="split__copy">
-        <p class="eyebrow" data-reveal="fade">Bring your own AI</p>
-        <h2 class="display" data-fx="typewriter" data-fx-speed="45">
-          Your library. Your call.
-        </h2>
-        <p class="lede" data-reveal="rise">
-          PITO speaks <code class="kbd">MCP</code>, so Claude on your phone,
-          ChatGPT, or any MCP client can read your whole library — channels,
-          vids, games, analytics — from wherever you are. <span class="accent"
-            >Read-only, and every connection waits on the consent screen for
-            your TOTP approval.</span
-          > Your data, your control — here's{" "}
-          <a href={GITHUB} class="pito-blue">how</a>.
-        </p>
-      </div>
-      <figure class="split__media" data-reveal="zoom" data-tilt>
-        <img
-          decoding="async"
-          src="/media/mkt-mcp.png"
-          width="760"
-          alt="The PITO OAuth consent screen, approving a new MCP client with a TOTP code"
-          loading="lazy"
-        />
-      </figure>
-    </div>
-  </Section>
-
-  {/* ── 6 · VOYAGE — pinned scrollytelling ───────────────── */}
-  <section
-    id="voyage"
-    class="scrolly"
-    data-theme="synthwave"
-    data-scrolly
-    style="--steps: 7"
-  >
-    <div class="scrolly__stage">
-      <span class="scrolly__hint">Voyage AI · scroll through</span>
-      <div class="scrolly__steps">
-        <div class="scrolly__step" data-scrolly-step>
-          <div
-            class="scrolly__bed"
-            style="--cover:url('/covers/pragmata.jpg')"
-            aria-hidden="true"
-          >
-          </div>
-          <h2 class="scrolly__big" data-fx="comet">You played a game.</h2>
-          <p class="scrolly__sub">
-            Tell PITO once. It pulls genres, themes, devs, and release from IGDB
-            — the game becomes a first-class thing it can reason about.
-          </p>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <div
-            class="scrolly__bed"
-            style="--cover:url('/covers/tekken-7.jpg')"
-            aria-hidden="true"
-          >
-          </div>
-          <p class="scrolly__arrow">game -></p>
-          <h2 class="scrolly__big pito-blue" data-fx="comet">
-            the channels it fits.
-          </h2>
-          <p class="scrolly__sub">
-            Every game card surfaces the channels it pairs well with. Stop
-            guessing where the footage belongs.
-          </p>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <h2 class="scrolly__big" data-fx="comet">You run a channel.</h2>
-          <p class="scrolly__sub">
-            A channel is its videos. PITO already knows what you cover.
-          </p>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <div
-            class="scrolly__bed"
-            style="--cover:url('/covers/elden-ring-nightreign.jpg')"
-            aria-hidden="true"
-          >
-          </div>
-          <p class="scrolly__arrow">channel -></p>
-          <h2 class="scrolly__big pito-blue" data-fx="comet">
-            the games that suit it.
-          </h2>
-          <p class="scrolly__sub">
-            The channel-specific picks are computed from the games you've
-            covered. <span class="accent nowrap">No guesswork, no vibes.</span>
-          </p>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <div
-            class="scrolly__bed"
-            style="--cover:url('/covers/ghosts-n-goblins-resurrection.jpg')"
-            aria-hidden="true"
-          >
-          </div>
-          <h2 class="scrolly__big" data-fx="comet">Similar games, surfaced.</h2>
-          <p class="scrolly__sub">
-            Curious what to play next? Voyage AI keeps fresh similar-games picks
-            warm in the background.
-          </p>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <h2 class="scrolly__big" data-fx="comet">
-            It runs on <span class="pito-blue">Voyage&nbsp;AI</span>.
-          </h2>
-          <p class="scrolly__sub">
-            Best-in-class semantic embeddings — the same calibre of model the
-            serious AI shops reach for. No keyword guessing; real meaning.
-          </p>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <h2 class="scrolly__big" data-fx="comet">
-            The more you publish, the sharper it gets.
-          </h2>
-          <p class="scrolly__sub">
-            Recommendations are recomputed over time from everything you cover —
-            your taste, encoded.
-          </p>
-        </div>
-      </div>
-      <span class="scrolly__counter" data-scrolly-progress>01 / 07</span>
-    </div>
-  </section>
-
+    </section>
   </section>
 
   {/* ── COLOR BRIDGE ← Voyage (REVERSED: splash → V-reveal → shelf) ── */}

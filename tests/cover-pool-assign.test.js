@@ -4,7 +4,9 @@ import pool from "../src/data/cover-pool.json";
 
 const seeded = (seed) => () => {
   // xorshift-ish deterministic rand for reproducible draws
-  seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5;
+  seed ^= seed << 13;
+  seed ^= seed >>> 17;
+  seed ^= seed << 5;
   return ((seed >>> 0) % 10000) / 10000;
 };
 
