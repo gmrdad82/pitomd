@@ -28,6 +28,12 @@ interface Props {
    * intentionally gets none.
    */
   covers?: string[];
+  /**
+   * Play the timeline BACKWARDS: enter on the flooded statement, recede
+   * through the letter-mask reveal on the way out. For bridges that CLOSE a
+   * story instead of opening one (the AI rail → Your shelf handoff).
+   */
+  reverse?: boolean;
 }
 
 const {
@@ -40,12 +46,14 @@ const {
   id,
   label,
   covers,
+  reverse = false,
 } = Astro.props;
 ---
 
 <section
   class="bridge"
   data-bridge
+  data-bridge-reverse={reverse || undefined}
   id={id}
   data-nav-label={label}
   data-bridge-glyphs={glyphs}
@@ -58,6 +66,7 @@ const {
         <div class="bridge__covers" aria-hidden="true">
           {covers.map((src, i) => (
             <div
+              data-cover-slot="wall"
               class={`bridge__cover bridge__cover--${i}`}
               style={`--cover-src:url('${src}');--ci:${i}`}
             />

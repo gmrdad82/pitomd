@@ -38,7 +38,10 @@ function initBridges() {
     for (const b of bridges) {
       const rect = b.getBoundingClientRect();
       const total = rect.height - vh;
-      const p = Math.min(1, Math.max(0, -rect.top / Math.max(1, total)));
+      let p = Math.min(1, Math.max(0, -rect.top / Math.max(1, total)));
+      // Reversed bridges (data-bridge-reverse) play the timeline backwards:
+      // enter on the flooded statement, exit through the letter-mask reveal.
+      if (b.hasAttribute("data-bridge-reverse")) p = 1 - p;
       b.style.setProperty("--bp", p.toFixed(4));
 
       // Currency scramble: from the very first scroll into the bridge, while the

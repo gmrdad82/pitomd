@@ -479,6 +479,35 @@
   );
 }
 
+/* Reversed bridges (data-bridge-reverse) EXIT clean (owner): the V keeps
+   squishing until it's gone (scale 0 at --bp 0) and the sticky stage runs
+   opaque → CLEAR, so the handoff leaves no panel between the bridge and the
+   next slide. Entry (bp 1) is unchanged — flooded statement. */
+.js [data-bridge-reverse] .bridge__letter {
+  transform: scale(calc(var(--bp, 0) * 29));
+}
+.js [data-bridge-reverse] .bridge__stage {
+  /* Hold FULLY opaque until the very last moment: only as the V leaves the
+     screen (--bp 0.17 → 0) does the overlay clear, landing on PURE
+     transparent exactly when the V is gone. */
+  background: color-mix(
+    in srgb,
+    var(--bg-root) clamp(0%, calc(var(--bp, 0) * 600%), 100%),
+    transparent
+  );
+}
+
+/* The reveal runs BACKWARDS for the covers too: instead of the normal dim
+   0.2-cap ghosts, they GROW to near-full strength as the flood recedes
+   (--bp → 0) — the exit IS the flying cover wall, transitioning straight
+   into the next slide. */
+.js [data-bridge-reverse] .bridge__cover {
+  /* Hidden through the shrink; blooms over the SAME final stretch the
+     overlay clears in, so the reveal and the V's exit are one moment. */
+  opacity: clamp(0, calc((0.17 - var(--bp, 0)) * 5.5), 0.9);
+  filter: saturate(0.85);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .js .bridge {
     height: auto;

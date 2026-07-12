@@ -23,7 +23,7 @@ const { id, theme, label, class: extra = "", ...rest } = Astro.props;
   id={id}
   class:list={["section", extra]}
   data-theme={theme}
-  data-nav-label={label}
+  data-nav-label={label || undefined}
   {...rest}
 >
   {/* decorative layer (logos/watermarks) — sits behind the content column */}
