@@ -6,6 +6,15 @@ format follows [Keep a Changelog](https://keepachangelog.com/); the site aims fo
 only when a `v*.*.*` tag is pushed (pushes to main are CI-validated but do not
 deploy).
 
+## [1.3.1] — 2026-07-12
+
+### Changed
+
+- **The terminal loop, second take** — re-captured against pito-tui
+  2.1.0: the natural star sky, faster AI chrome, and the unified modal
+  cursor, with the shell-launch frames cut so the loop opens inside
+  the client (18.9s, same anti-flicker encoding).
+
 ## [1.3.0] — 2026-07-12
 
 ### Added
