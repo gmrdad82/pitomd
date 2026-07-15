@@ -21,6 +21,13 @@ prompt=$(printf '%s' "$raw" | ruby -rjson -e 'print((JSON.parse(STDIN.read)["pro
 [ -z "$prompt" ] && prompt="$raw"
 [ -z "$prompt" ] && exit 0
 
+# Best-effort secret masking (owner 2026-07-15): values following secret-y
+# keywords are masked BEFORE the append, so keys/tokens pasted as
+# `key=...` / `token: ...` never reach the ledger verbatim. This is the
+# mechanical layer; CLAUDE.md instructs the model to redact anything
+# semantic the regex can't know. Mask, never drop — capture stays whole.
+prompt=$(printf '%s' "$prompt" | sed -E 's/((api[_-]?key|push[_-]?api[_-]?key|token|secret|password|webhook|bearer)[[:space:]"'"'"':=]+)[A-Za-z0-9_\/+.-]{8,}/\1[redacted]/Ig')
+
 ts=$(date '+%Y-%m-%d %H:%M' 2>/dev/null || echo '?')
 mkdir -p "$DIR/.claude" 2>/dev/null
 {
