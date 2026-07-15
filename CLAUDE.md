@@ -6,23 +6,23 @@ to Cloudflare Pages.
 
 ## The log law (non-negotiable; mechanically enforced)
 
-The active working plan in `docs/claude/plan-*.md` is the **single source of
+The active working plan in `~/Dev/notes/pitomd/` is the **single source of
 truth** — every todo, bug, decision, and discussion item the owner raised. NEVER
 hold work in your own memory or the harness todo list. If it isn't in the working
 md, it does not exist.
 
 A `UserPromptSubmit` hook (`.claude/hooks/capture-prompt.sh`) appends every owner
-message verbatim to `docs/claude/INBOX.md` as a `## ⛔ UNPROCESSED` block. **Every
+message verbatim to `.claude/INBOX.md` as a `## ⛔ UNPROCESSED` block. **Every
 turn, before anything else:**
 
-1. Read `docs/claude/INBOX.md`.
+1. Read `.claude/INBOX.md`.
 2. **Drain** each `⛔ UNPROCESSED` block into the active plan — turn EVERY item
    into an explicit task/line; split compound messages; lose nothing.
 3. Rewrite the block heading in place to `## ✅ processed — <ts> -> <plan refs>`.
    Never delete it — the back-reference makes capture auditable.
 
 The `Stop` hook (`.claude/hooks/check-inbox.sh`) refuses to end a turn while any
-`⛔ UNPROCESSED` block remains. `docs/claude/` (INBOX + plans) is gitignored
+`⛔ UNPROCESSED` block remains. `.claude/INBOX.md` is gitignored; plans live in `~/Dev/notes/pitomd/`
 (local-only); the hooks + this section are committed so the guard ships with the
 repo.
 
@@ -106,7 +106,7 @@ src/
   scripts/             vanilla fx islands (reveal, pointer, parallax, nav, themes)
   styles/              token layer + 19 [data-theme] blocks + global
 public/                static assets served verbatim (favicons, GIFs, PNGs, cast)
-docs/claude/           agent working docs (specs/plans) — GITIGNORED, local only
+~/Dev/notes/pitomd/           agent working docs (specs/plans) — GITIGNORED, local only
 ```
 
 ## Way of working

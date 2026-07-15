@@ -12,7 +12,7 @@
 # as a reminder each turn.
 
 DIR="${CLAUDE_PROJECT_DIR:-.}"
-INBOX="$DIR/docs/claude/INBOX.md"
+INBOX="$DIR/.claude/INBOX.md"
 
 raw=$(cat)
 prompt=$(printf '%s' "$raw" | ruby -rjson -e 'print((JSON.parse(STDIN.read)["prompt"] rescue ""))' 2>/dev/null)
@@ -22,11 +22,11 @@ prompt=$(printf '%s' "$raw" | ruby -rjson -e 'print((JSON.parse(STDIN.read)["pro
 [ -z "$prompt" ] && exit 0
 
 ts=$(date '+%Y-%m-%d %H:%M' 2>/dev/null || echo '?')
-mkdir -p "$DIR/docs/claude" 2>/dev/null
+mkdir -p "$DIR/.claude" 2>/dev/null
 {
   printf '\n## ⛔ UNPROCESSED — %s\n\n' "$ts"
   printf '%s\n' "$prompt"
 } >> "$INBOX" 2>/dev/null
 
-printf 'LOG LAW: a new owner message was captured to docs/claude/INBOX.md. Before acting, DRAIN every UNPROCESSED block into the active working plan (every todo, report, decision, discussion item) and keep checkboxes in sync. The working md is the only source of truth — never internal memory.\n'
+printf 'LOG LAW: a new owner message was captured to .claude/INBOX.md. Before acting, DRAIN every UNPROCESSED block into the active working plan (every todo, report, decision, discussion item) and keep checkboxes in sync. The working md is the only source of truth — never internal memory.\n'
 exit 0
