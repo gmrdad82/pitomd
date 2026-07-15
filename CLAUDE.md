@@ -201,7 +201,7 @@ tools/shots/           screenshot/capture tooling (Python; venv + auth state git
 
 - **Website CI** (`.github/workflows/ci.yml`, single job `lint-and-audit` —
   keep that id, it's the required status check on `main`): `npm audit
-  --audit-level=high`, prettier, eslint, stylelint, `astro check`,
+--audit-level=high`, prettier, eslint, stylelint, `astro check`,
   `vitest run`, `npm run build`, and a Lighthouse pass
   (`lighthouserc.json`: a11y/SEO/best-practices gated ≥0.9, performance ≥0.5
   a non-blocking warning). Runs on every push and PR.
