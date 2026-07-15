@@ -9,7 +9,7 @@
 
 ## The log law (non-negotiable; mechanically enforced)
 
-The active working plan in `~/Dev/notes/pitomd/` is the **single source of
+The active working plan in `~/Dev/dev-notes/pitomd/` is the **single source of
 truth** — what's done, what's next, every bug/feedback/decision/discussion
 item the owner raised. NEVER hold work in your own memory, a scratch
 plan-mode buffer, or the harness todo list. If it isn't in the working md, it
@@ -38,7 +38,7 @@ any `⛔ UNPROCESSED` block remains. `.claude/INBOX.md` is gitignored; plans
 anything the regex can't know (a bare token pasted alone), move the value to
 its proper home (`.env`, config) and REDACT the INBOX occurrence in the same
 turn — the ledger keeps a `[redacted:<what>]` marker, never the value.
-live in `~/Dev/notes/pitomd/` (local-only, gitignored too); the hooks + this
+live in `~/Dev/dev-notes/pitomd/` (local-only, gitignored too); the hooks + this
 section are committed so the guard ships with the repo. All three hooks are
 wired in `.claude/settings.json` (`UserPromptSubmit`, `Stop`, and a
 `PreToolUse` guard on `Agent|Task|Workflow` — see "How we work" below).
@@ -66,13 +66,15 @@ wired in `.claude/settings.json` (`UserPromptSubmit`, `Stop`, and a
   `git push` (nor `stash` / `checkout` / `restore` / `reset`), never picks a
   branch, and never assumes a release or deploy flow — the owner decides
   every git operation, every time, after reviewing the diff.
+- **Never force-push a branch.** When origin has moved, `git pull --rebase`
+  before pushing — remote history is never rewritten.
 
 ## Plan discipline (lean)
 
 A **plan is an atomic-task `.md` file** that tracks the work it describes —
 not freeform prose, not the throwaway plan-mode scratch buffer. Plans and
 other agent/working docs (briefs, checklists, specs) live **gitignored in
-`~/Dev/notes/pitomd/`** (local-only, never checked in). Write nothing — no
+`~/Dev/dev-notes/pitomd/`** (local-only, never checked in). Write nothing — no
 edits or sub-agents — until the owner approves the plan.
 
 **Shape.** `# Title`, a `> Status:` line, a one-paragraph north star, optional
@@ -194,7 +196,7 @@ src/
 public/                static assets served verbatim (favicons, GIFs, PNGs, casts)
 tests/                 vitest contract tests (section ids, fx wiring, media refs)
 tools/shots/           screenshot/capture tooling (Python; venv + auth state gitignored)
-~/Dev/notes/pitomd/    agent working docs (plans/specs) — GITIGNORED, local only
+~/Dev/dev-notes/pitomd/    agent working docs (plans/specs) — GITIGNORED, local only
 ```
 
 ## CI / deploy
