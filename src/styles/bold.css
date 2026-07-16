@@ -130,7 +130,7 @@
 /* (Section pop-in removed — the whole-column translate kept stranding content
    off to one side. Per-element [data-reveal] entrances cover the motion.) */
 
-/* ── Pinned scrollytelling (Voyage) ────────────────────────── */
+/* ── Pinned scrollytelling (the AI scrolly beat) ─────────────── */
 
 .scrolly {
   position: relative;
@@ -1221,7 +1221,8 @@
 }
 
 /* ── Scrolly-step cover variant (.scrolly__bed) ─────────────── */
-/* Used inside individual .scrolly__step elements (voyage section).
+/* Used inside individual .scrolly__step elements (the #voyage section,
+   id kept for the CI contract).
    Fades in/out automatically with the step's opacity transition.
    z-index: -1 keeps it behind the step's in-flow text content;
    isolation: isolate on the step ensures -1 is resolved within the step's
@@ -1294,8 +1295,8 @@
   }
 }
 
-/* ── Voyage bridge cover images (.bridge__cover) ────────────── */
-/* Optional game covers scattered in the background of the Voyage AI
+/* ── AI scrolly bridge cover images (.bridge__cover) ─────────── */
+/* Optional game covers scattered in the background of the AI scrolly beat's
    ColorBridge. Rendered only when JS is active (hidden in no-JS / static
    fallback). A dense scatter of covers at different positions drift at
    different speeds via --spd (from --bp) and cursor (--par-x/--par-y). */

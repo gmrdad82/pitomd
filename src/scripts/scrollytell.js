@@ -3,7 +3,7 @@
 // A [data-scrolly] block is taller than the viewport; inside it a sticky stage
 // stays pinned while you scroll, and one [data-scrolly-step] at a time becomes
 // active based on scroll progress through the block. Big bold messages that
-// swap as you scroll (the Voyage game↔channel narrative).
+// swap as you scroll (the AI scrolly beat's game↔channel narrative).
 //
 // Under prefers-reduced-motion the steps are simply all shown stacked (the CSS
 // falls back), and this controller no-ops.

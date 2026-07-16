@@ -152,6 +152,88 @@ SHOTS = {
   if (row) { row.click(); await sleep(5000); }
 """,
     ),
+    # ── 3.0.0 additions — spec-authored against the DOCUMENTED design (dev-notes
+    #    pito/3.0.0.md, config/pito/tools.yml's `search`/`nl` blocks) since the
+    #    target instance isn't on 3.0.0 yet. No dedicated card class exists for
+    #    search/NL results (they render through the same generic table_heading/
+    #    table_rows card `list` already uses — Pito::Event::SystemComponent, no
+    #    marketing-specific class), so these four target the SAME shared
+    #    .pito-segment fallback every chat-driving shot above resolves through
+    #    (seg_with) rather than a selector nobody can name yet.
+    "mkt-15-search-exact": dict(
+        # `search games for <title>` (config/pito/tools.yml search tool, `for`
+        # clause) — exact ILIKE over games.title/alternative_names, rendered
+        # through the same Game::List card `list games` uses
+        # (lib/pito/chat/handlers/search.rb#build_payload). min_h lowered to
+        # 120 (mirrors mkt-08-schedule's rationale): an exact-title hit list
+        # for one franchise can be as short as 1-3 rows, and the default 250
+        # floor would skip it for an older, taller segment. Nudge: if 3.0.0
+        # ships a dedicated search-results card class, retarget to it instead.
+        steps=[("search games for tekken", 8000)], tag=seg_with(None, min_h=120),
+        viewport=(1280, 1400), pad=14),
+    "mkt-16-search-conversations": dict(
+        # `search conversations for <term>` — the search tool's conversations
+        # noun, lexical branch (lib/pito/chat/handlers/search_conversations.rb
+        # #search_lexical); a generic table_heading/table_rows payload
+        # (Conversation / Snippet / # columns) with no dedicated card yet
+        # (T4.6 in dev-notes/pito/3.0.0.md is still open) — same seg_with
+        # fallback + lowered min_h for the same short-list reason. Nudge:
+        # retarget once the dedicated conversation-hits card/copy lands.
+        steps=[("search conversations for thumbnails", 8000)], tag=seg_with(None, min_h=120),
+        viewport=(1280, 1400), pad=14),
+    "mkt-17-did-you-mean": dict(
+        # A free-text ask the grammar can't parse outright. Per the locked
+        # 3.0.0 NL policy (dev-notes/pito/3.0.0.md L4/T6.8, NOT YET WIRED as
+        # of this writing): below auto_run confidence — or ANY write-capable
+        # tool — always confirms first ("did you mean `<cmd>`?"), never
+        # auto-runs. Nudge: "show me my shooters" sits close to `list`'s own
+        # nl_examples ("list some shooters"), so once the router is live it
+        # may score ABOVE auto_run and skip straight to mkt-18's auto-run
+        # behavior instead of asking — if so on capture day, swap in a more
+        # mumbled phrasing (e.g. "shooter stuff maybe?") to land in the
+        # [suggest, auto_run) confirm band. The confirm text itself is
+        # composed by the cold LLM path (Pito::Nl::Mapper, Qwen3-0.6B
+        # CPU-only completion via the nlmapper sidecar) — wait bumped well
+        # past the read-only chat shots to give it room; tune down/up once
+        # real latency is measured.
+        steps=[("show me my shooters", 18000)], tag=seg_with(None, min_h=120),
+        viewport=(1280, 1400), pad=14),
+    "mkt-18-speak-your-language": dict(
+        # High-confidence, read-only NL utterance — the "Speak your
+        # language" proof shot (pitomd's own headline, src/pages/index.astro
+        # "Speak your language."): once T6.8 lands, pito auto-runs the
+        # mapper's composed command (`ls rpg games`-shaped) and shows it as
+        # attribution ahead of the resulting list. Presumed to render INLINE
+        # in the same reply (mirroring how the existing
+        # grammar.typo_correction note prepends ahead of its own grid) rather
+        # than as a separate preceding segment — unconfirmed since the
+        # wiring isn't shipped; if capture day shows two segments instead of
+        # one, retarget to the LATER (list) segment and shoot the attribution
+        # line separately. Same cold-path wait rationale as mkt-17 (the
+        # Mapper composes the command regardless of which side of auto_run
+        # the router lands on).
+        steps=[("what rpgs do I have", 18000)], tag=seg_with(None, min_h=120),
+        viewport=(1280, 1400), pad=14),
+    # the notifications sidebar, proving an unlinked import's link suggestion
+    "mkt-19-link-suggestion": dict(
+        # Opened the same way mkt-10-snapshot opens the resume sidebar: a
+        # slash command typed into the chatbox (`/notifications`, the
+        # documented slash equivalent of Ctrl+/ —
+        # lib/pito/slash/handlers/notifications.rb) rather than the raw
+        # keydown, since DRIVER's `send()` only types+Enters into the
+        # chatbox. NOT driven via `url=` (mkt-09-share's pattern): GET
+        # /notifications only renders the sidebar on the turbo_stream format
+        # a live SPA request carries — a fresh full-page load hits the
+        # controller's `format.html { redirect_to root_path }` branch and
+        # never shows the panel at all (app/controllers/
+        # notifications_controller.rb). Full-viewport, uncropped, same as
+        # mkt-10 — no dedicated sidebar-crop precedent exists to target
+        # instead. EXPECTS a recent unlinked video import to have already
+        # fired Pito::Notifications::Source::LinkSuggestion on dev (Phase 5,
+        # dev-notes/pito/3.0.0.md) — if the panel comes up empty on capture
+        # day, run a manual game/vid import first so a real suggestion row
+        # exists to shoot.
+        steps=[("/notifications", 3500)], tag=None, viewport=(1280, 960)),
 }
 
 

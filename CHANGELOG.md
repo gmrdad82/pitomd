@@ -6,6 +6,48 @@ format follows [Keep a Changelog](https://keepachangelog.com/); the site aims fo
 only when a `v*.*.*` tag is pushed (pushes to main are CI-validated but do not
 deploy).
 
+## [Unreleased]
+
+## [1.4.0] — 2026-07-16
+
+### Added
+
+- **Search shows up in the wild** — `search games for tekken` and
+  `search conversations for tekken combos` join the command ticker;
+  `search games like tekken` becomes the worked example in the one-chatbox
+  copy.
+- **FPS chip (F9)** — the same perf-toggle key pito web and pito-tui already
+  use, now on the landing site. Nothing exists in the DOM and no rAF loop
+  runs until the first press; a second press stops the loop and hides the
+  chip. Reads the active theme's tokens so it fits whatever section sits
+  under it at toggle time.
+
+### Changed
+
+- **Voyage retires from the pitch — "It runs on your box."** — the pinned
+  scrollytelling beat, the "V" ColorBridge splash (now "local AI" / "your
+  box. your data. no bill."), the README's stack blurb, and every internal
+  comment that named Voyage all retext around a 300-million-parameter
+  embedding model that ships inside the stack: no API key, no per-call
+  bill, no data leaving the server.
+- **"It does the homework. You sign it."** — the games ↔ videos beat drops
+  the pure explicit-link framing for suggest-then-confirm: a new vid's
+  title gets read the way you would (an MK2 vid stays an MK2 vid, not
+  MK1), PITO proposes the link, one confirm wires it — it still never
+  links on its own.
+- **"Speak your language."** replaces "Just say what you want." — the
+  one-chatbox slide's copy now covers the confirm-first behavior: when
+  PITO is sure, it answers and shows the command it understood; when it
+  isn't, it asks first.
+- **One channel, not six** — consolidated to the single **@gmrdad82**
+  ("Gamer Dad - Stories"): the retired sub-channel avatars and links are
+  gone from the README and the site's channel row, and the ColorBridge
+  splash glyph is now **"AI"** (was the leftover "V").
+- **The shelf wall shows 15 covers** (was 11) — a wider random draw from
+  the cover pool.
+- **Footer social buttons pick up the CTA hover** — YouTube / X / Discord
+  now fill solid purple with the same glow as the "Watch the tour" button.
+
 ## [1.3.1] — 2026-07-12
 
 ### Changed

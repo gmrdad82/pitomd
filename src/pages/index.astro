@@ -19,36 +19,10 @@ const X = "https://x.com/GamerDady82";
 const DISCORD = "https://discord.gg/q947UyDTqJ";
 const INSTALL = "curl -fsSL pitomd.com/install.sh | sh";
 
-// The six channels — each avatar links to its own channel (handles per
-// ~/Dev/gmrdad82/README.md), not the shared main one.
+// The one channel — the avatar links to it (per ~/Dev/gmrdad82/README.md).
 const YT = "https://www.youtube.com";
 const avatars = [
-  { file: "@gmrdad82.png", name: "Catalin Ilinca", url: `${YT}/@gmrdad82` },
-  {
-    file: "@gmrdad82good.png",
-    name: "Gamer Dad — The Good Ones",
-    url: `${YT}/@gmrdad82good`,
-  },
-  {
-    file: "@gmrdad82hard.png",
-    name: "Gamer Dad — The Hard Ones",
-    url: `${YT}/@gmrdad82hard`,
-  },
-  {
-    file: "@gmrdad82fighter.png",
-    name: "Gamer Dad — The Fighter",
-    url: `${YT}/@gmrdad82fighter`,
-  },
-  {
-    file: "@gmrdad82survivor.png",
-    name: "Gamer Dad — The Survivor",
-    url: `${YT}/@gmrdad82survivor`,
-  },
-  {
-    file: "@gmrdad82strategist.png",
-    name: "Gamer Dad — The Strategist",
-    url: `${YT}/@gmrdad82strategist`,
-  },
+  { file: "@gmrdad82.png", name: "Gamer Dad - Stories", url: `${YT}/@gmrdad82` },
 ];
 
 // Real game cover art exported from pito (the owner's own catalogue).
@@ -64,8 +38,12 @@ const covers = [
   { f: "stellar-blade-blood-rain", t: "Stellar Blade: Blood Rain" },
   { f: "ghosts-n-goblins-resurrection", t: "Ghosts 'n Goblins Resurrection" },
   { f: "terminator-2d-no-fate", t: "Terminator 2D: No Fate" },
+  { f: "pool/hades-ii", t: "Hades II" },
+  { f: "pool/lies-of-p", t: "Lies of P" },
+  { f: "pool/clair-obscur-expedition-33", t: "Clair Obscur: Expedition 33" },
+  { f: "pool/silent-hill-townfall", t: "Silent Hill: Townfall" },
 ];
-const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
+const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8, 15, 3, 9, 6];
 ---
 
 <Base>
@@ -208,11 +186,15 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
               <span class="ticker__cmd">link 17 42</span>
               <span class="ticker__cmd">price set 42 59.99</span>
               <span class="ticker__cmd">footage update 42 +2.5</span>
+              <span class="ticker__cmd">search games for tekken</span>
               <span class="ticker__cmd">schedule 9 slate</span>
               <span class="ticker__cmd">share</span>
               <span class="ticker__cmd">import game inception</span>
               <span class="ticker__cmd">show channel @gmrdad82</span>
               <span class="ticker__cmd">list games rpg</span>
+              <span class="ticker__cmd">
+                search conversations for tekken combos
+              </span>
               <span class="ticker__cmd">sync vids</span>
             </span>
           ))
@@ -296,14 +278,18 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       <div class="split__copy">
         <p class="eyebrow" data-reveal="fade">One box, no syntax to memorize</p>
         <h2 class="display" data-fx="typewriter" data-fx-speed="45">
-          Just say what you want.
+          Speak your language.
         </h2>
         <p class="lede" data-reveal="rise">
           One chatbox for every channel — no dashboards, no menus, nothing to
           learn. <code class="kbd">list vids</code>, <code class="kbd"
             >show game 42</code
-          >, and <code class="kbd">list games rpg</code> filters by genre and platform
-          — natural-ish, case-insensitive. PITO speaks human.
+          >, <code class="kbd">search games like tekken</code>, and <code
+            class="kbd">list games rpg</code
+          > filters by genre and platform — or skip the syntax and just say what you
+          mean. When PITO is sure, it answers and shows you the command it understood,
+          so you pick up the fast path as you go; when it isn't, it asks first. Nothing
+          runs without being shown.
         </p>
       </div>
       <figure class="split__media" data-reveal="blurin" data-tilt>
@@ -428,7 +414,7 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
       style="--steps: 7"
     >
       <div class="scrolly__stage">
-        <span class="scrolly__hint">Voyage AI · scroll through</span>
+        <span class="scrolly__hint">local AI · scroll through</span>
         <div class="scrolly__steps">
           <div class="scrolly__step" data-scrolly-step>
             <div
@@ -493,17 +479,19 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
               Similar games, surfaced.
             </h2>
             <p class="scrolly__sub">
-              Curious what to play next? Voyage AI keeps fresh similar-games
-              picks warm in the background.
+              Curious what to play next? PITO keeps fresh similar-games picks
+              warm, computed at home.
             </p>
           </div>
           <div class="scrolly__step" data-scrolly-step>
             <h2 class="scrolly__big" data-fx="comet">
-              It runs on <span class="pito-blue">Voyage&nbsp;AI</span>.
+              It runs on <span class="pito-blue">your&nbsp;box</span>.
             </h2>
             <p class="scrolly__sub">
-              Best-in-class semantic embeddings — the same calibre of model the
-              serious AI shops reach for. No keyword guessing; real meaning.
+              The intelligence is local now. A 300-million-parameter embedding
+              model lives inside your PITO stack — no API key, no per-call bill,
+              no data leaving the server. Meaning-based search that works the
+              same on day 1 and day 1000: free.
             </p>
           </div>
           <div class="scrolly__step" data-scrolly-step>
@@ -521,14 +509,14 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
     </section>
   </section>
 
-  {/* ── COLOR BRIDGE ← Voyage (REVERSED: splash → V-reveal → shelf) ── */}
+  {/* ── COLOR BRIDGE ← local AI (REVERSED: splash → AI-reveal → shelf) ── */}
   <ColorBridge
     reverse
-    letter="V"
+    letter="AI"
     color="#5170ff"
     ink="#0a0a12"
-    text="Voyage AI"
-    sub="game <-> channel. both ways."
+    text="local AI"
+    sub="your box. your data. no bill."
     covers={[
       "/covers/terminator-2d-no-fate.jpg",
       "/covers/stellar-blade-blood-rain.jpg",
@@ -754,12 +742,14 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
             <span class="no">studio ✗</span> · <span class="yes">pito ✓</span>
           </p>
           <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
-            Games ↔ videos. Linked, never guessed.
+            It does the homework. You sign it.
           </h2>
           <p class="scrolly__sub">
-            Explicit <code class="kbd">link</code> /{" "}
-            <code class="kbd">unlink</code> — the graph everything else runs on, with
-            Voyage keeping similar-games picks warm on the side.
+            A new vid lands and PITO reads the title the way you would —
+            <em>"Mortal Kombat 2: Was it really that good?"</em> is an MK2 vid, not
+            MK1 — then suggests the link. One confirm and it's wired. It never links
+            on its own — the same built-in embedder keeps similar-games picks warm
+            on the side.
           </p>
           <figure class="scrolly__shot">
             <img
@@ -932,7 +922,8 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
         <p class="lede" data-reveal="rise">
           <code class="kbd">import game</code> grabs genres, themes, devs, and release
           from IGDB. <code class="kbd">link</code> ties a video to a game — <span
-            class="accent">PITO never guesses from titles, you tell it.</span
+            class="accent"
+            >PITO suggests from titles — you confirm, it never links on its own.</span
           >
         </p>
       </div>
@@ -1859,8 +1850,8 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8];
         </li>
       </ul>
 
-      <p class="maker__channels mono">The six Gamer Dad channels:</p>
-      <ul class="avatars" aria-label="The Gamer Dad channels">
+      <p class="maker__channels mono">Gamer Dad - Stories:</p>
+      <ul class="avatars" aria-label="Gamer Dad - Stories">
         {
           avatars.map((a) => (
             <li>

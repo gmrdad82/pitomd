@@ -304,6 +304,7 @@
   font-family: var(--font-mono);
   font-size: 0.9rem;
   transition:
+    background-color 0.2s ease,
     border-color 0.2s ease,
     color 0.2s ease,
     box-shadow 0.2s ease;
@@ -314,10 +315,12 @@
 }
 .social a:hover,
 .social a:focus-visible {
-  border-color: var(--pito-blue);
-  color: var(--pito-blue);
-  box-shadow: 0 8px 26px -8px
-    color-mix(in oklab, var(--pito-blue) 70%, transparent);
+  background: var(--accent-purple);
+  border-color: var(--accent-purple);
+  color: var(--bg-root);
+  box-shadow: 0 10px 34px -8px
+    color-mix(in oklab, var(--accent-purple) 80%, transparent);
+  outline: none;
 }
 
 /* persistent left social rail */

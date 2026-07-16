@@ -347,6 +347,33 @@ h3.display {
   user-select: none;
 }
 
+/* ── FPS chip (F9) ─────────────────────────────────────────── */
+/* Created + toggled by fps.js — nothing exists in the DOM (and the rAF
+   counter never runs) until the first F9 press. Reads the active theme
+   tokens (unlike .dev-banner above, which hardcodes on purpose) so it fits
+   whichever section theme sits under <body> at toggle time. */
+
+.fps-chip {
+  display: none;
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 10000;
+  padding: 0.2em 0.5em;
+  background: var(--bg-elevated);
+  color: var(--accent-green);
+  border: 1px solid var(--border-faded);
+  border-radius: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  user-select: none;
+}
+.fps-chip.is-on {
+  display: block;
+}
+
 /* ── Reveal primitives (fx islands toggle .is-in) ──────────── */
 
 /* Only hide reveal elements when JS is present to un-hide them (the inline

@@ -20,10 +20,11 @@ lives next door.
 `pitomd` is one long, glamorous scroll. It doesn't document PITO — it **sells** it.
 Each section re-themes itself (all 19 of PITO's editor palettes), big display type
 carries the message, and the terminal fx — typewriter, scramble, comet, cursor-trail —
-are reimagined as scroll-triggered spectacle. There's a pinned **Voyage AI**
-scrollytelling beat, a masonry wall of real game covers, magnetic buttons, and a
-colour-flood transition between frames. Spectacle in the framing, clarity in the
-message.
+are reimagined as scroll-triggered spectacle. There's a pinned **local-AI**
+scrollytelling beat — _"It runs on your box."_ A 300M-parameter embedding model
+ships inside the stack, no API key, no bill — plus a masonry wall of real game
+covers, magnetic buttons, and a colour-flood transition between frames.
+Spectacle in the framing, clarity in the message.
 
 **Stack:** [Astro](https://astro.build) (static output) + CSS-first scroll animations +
 tiny vanilla-JS islands — no framework, no SSR, no tracking. Built to `dist/` and
@@ -49,8 +50,9 @@ So PITO got built: a self-hosted command deck where you type plain English and i
 answers — across every channel at once.
 
 - **Plain language** — `list vids`, `show game 42`, `list games rpg ps5`.
-- **Smart linkage** — games ↔ videos ↔ channels, with **Voyage AI** embeddings
-  surfacing what to play next and which channel a game fits.
+- **Smart linkage** — games ↔ videos ↔ channels, with a built-in **local embedder**
+  surfacing what to play next and which channel a game fits, right after import —
+  PITO suggests, you confirm.
 - **Footage, price, scores** — track recorded hours, what you paid to acquire a game,
   and vote-weighted scores, all in one card.
 - **Scheduling** across channels, **19 themes**, **achievements** ("shinies").
@@ -103,20 +105,18 @@ npx astro check  # type + template check
 
 ### Find me
 
-The gaming side is the **Gamer Dad** / Manfy network — the channels that dragged PITO
-into existence:
+**Gamer Dad - Stories** is the channel that dragged PITO into existence:
 
 <!-- prettier-ignore -->
-<p align="center"><a href="https://www.youtube.com/@gmrdad82"><img src="public/avatars/@gmrdad82.png" width="72" alt="@gmrdad82"></a> <a href="https://www.youtube.com/@gmrdad82good"><img src="public/avatars/@gmrdad82good.png" width="72" alt="@gmrdad82good"></a> <a href="https://www.youtube.com/@gmrdad82hard"><img src="public/avatars/@gmrdad82hard.png" width="72" alt="@gmrdad82hard"></a> <a href="https://www.youtube.com/@gmrdad82fighter"><img src="public/avatars/@gmrdad82fighter.png" width="72" alt="@gmrdad82fighter"></a> <a href="https://www.youtube.com/@gmrdad82survivor"><img src="public/avatars/@gmrdad82survivor.png" width="72" alt="@gmrdad82survivor"></a> <a href="https://www.youtube.com/@gmrdad82strategist"><img src="public/avatars/@gmrdad82strategist.png" width="72" alt="@gmrdad82strategist"></a></p>
+<p align="center"><a href="https://www.youtube.com/@gmrdad82"><img src="public/avatars/@gmrdad82.png" width="72" alt="@gmrdad82"></a></p>
 
 Stuck, lost, or just want to report that the cover art _finally_ loaded? There's a
 Discord — pop in, ask away, judgment kept to a minimum
 👉 **[discord.gg/q947UyDTqJ](https://discord.gg/q947UyDTqJ)**
 
 Prefer elsewhere? Find me on X 👉 **[@GamerDady82](https://x.com/GamerDady82)**, or on
-YouTube at **[@gmrdad82](https://www.youtube.com/@gmrdad82)** — my engineering/personal
-channel, where PITO gets its tour. (The gaming side is the **Manfy** network — the
-avatars above.)
+YouTube at **[@gmrdad82](https://www.youtube.com/@gmrdad82)** — Gamer Dad - Stories,
+where PITO gets its tour.
 
 No SLA, no ticket queue, no "your call is important to us." Just a channel and a human
 who checks it between renders.
