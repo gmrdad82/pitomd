@@ -8,6 +8,15 @@ deploy).
 
 ## [Unreleased]
 
+### Changed
+
+- **The last "Voyage" comments retext to "local AI"** — three comments the
+  3.0.0 sweep missed (`src/pages/index.astro`'s AI-rail-stop and
+  pinned-scrollytelling section markers, `src/styles/bold.css`'s
+  scrolly-cover-variant note) now describe the local AI section instead of
+  the retired vendor name; `id="voyage"` itself is untouched (load-bearing
+  for the CI contract).
+
 ## [3.0.0] — 2026-07-16
 
 ### Added
@@ -26,10 +35,11 @@ deploy).
 
 - **Voyage retires from the pitch — "It runs on your box."** — the pinned
   scrollytelling beat, the "V" ColorBridge splash (now "local AI" / "your
-  box. your data. no bill."), the README's stack blurb, and every internal
-  comment that named Voyage all retext around a 300-million-parameter
+  box. your data. no bill."), the README's stack blurb, and most internal
+  comments that named Voyage retext around a 300-million-parameter
   embedding model that ships inside the stack: no API key, no per-call
-  bill, no data leaving the server.
+  bill, no data leaving the server. (A handful of leftover comments
+  survived this sweep — see [Unreleased].)
 - **"It does the homework. You sign it."** — the games ↔ videos beat drops
   the pure explicit-link framing for suggest-then-confirm: a new vid's
   title gets read the way you would (an MK2 vid stays an MK2 vid, not

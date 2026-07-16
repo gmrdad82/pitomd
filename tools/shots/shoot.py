@@ -152,9 +152,9 @@ SHOTS = {
   if (row) { row.click(); await sleep(5000); }
 """,
     ),
-    # ── 3.0.0 additions — spec-authored against the DOCUMENTED design (dev-notes
-    #    pito/3.0.0.md, config/pito/tools.yml's `search`/`nl` blocks) since the
-    #    target instance isn't on 3.0.0 yet. No dedicated card class exists for
+    # ── 3.0.0 additions — spec-authored against the DOCUMENTED design (the
+    #    3.0.0 planning spec, config/pito/tools.yml's `search`/`nl` blocks)
+    #    since the target instance isn't on 3.0.0 yet. No dedicated card class exists for
     #    search/NL results (they render through the same generic table_heading/
     #    table_rows card `list` already uses — Pito::Event::SystemComponent, no
     #    marketing-specific class), so these four target the SAME shared
@@ -176,14 +176,14 @@ SHOTS = {
         # noun, lexical branch (lib/pito/chat/handlers/search_conversations.rb
         # #search_lexical); a generic table_heading/table_rows payload
         # (Conversation / Snippet / # columns) with no dedicated card yet
-        # (T4.6 in dev-notes/pito/3.0.0.md is still open) — same seg_with
+        # (T4.6 in the 3.0.0 planning spec is still open) — same seg_with
         # fallback + lowered min_h for the same short-list reason. Nudge:
         # retarget once the dedicated conversation-hits card/copy lands.
         steps=[("search conversations for thumbnails", 8000)], tag=seg_with(None, min_h=120),
         viewport=(1280, 1400), pad=14),
     "mkt-17-did-you-mean": dict(
         # A free-text ask the grammar can't parse outright. Per the locked
-        # 3.0.0 NL policy (dev-notes/pito/3.0.0.md L4/T6.8, NOT YET WIRED as
+        # 3.0.0 NL policy (the 3.0.0 planning spec L4/T6.8, NOT YET WIRED as
         # of this writing): below auto_run confidence — or ANY write-capable
         # tool — always confirms first ("did you mean `<cmd>`?"), never
         # auto-runs. Nudge: "show me my shooters" sits close to `list`'s own
@@ -229,8 +229,8 @@ SHOTS = {
         # notifications_controller.rb). Full-viewport, uncropped, same as
         # mkt-10 — no dedicated sidebar-crop precedent exists to target
         # instead. EXPECTS a recent unlinked video import to have already
-        # fired Pito::Notifications::Source::LinkSuggestion on dev (Phase 5,
-        # dev-notes/pito/3.0.0.md) — if the panel comes up empty on capture
+        # fired Pito::Notifications::Source::LinkSuggestion on dev (Phase 5 of
+        # the 3.0.0 plan) — if the panel comes up empty on capture
         # day, run a manual game/vid import first so a real suggestion row
         # exists to shoot.
         steps=[("/notifications", 3500)], tag=None, viewport=(1280, 960)),
