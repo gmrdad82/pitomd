@@ -302,20 +302,18 @@ h3.display {
 .railnav__dot.is-active {
   background: var(--pito-blue);
   border-color: var(--pito-blue);
-  transform: scale(1.35);
   box-shadow: 0 0 0 4px color-mix(in oklab, var(--pito-blue) 25%, transparent);
 }
 .railnav__dot.is-active::after,
 .railnav__dot:hover::after {
   opacity: 1;
 }
-/* the ACTIVE section's label matches its filled pito-blue tick (owner) —
-   and counter-scales the dot's 1.35 zoom so every label is the same size,
-   shrinking about its right edge to stay glued to the tick */
+/* the ACTIVE section's label matches its filled pito-blue tick (owner) — the
+   dot itself no longer scales, so it stays the same --size as the hover
+   outline and kisses the rail identically; fill vs outline (not size) is the
+   only visual delta between active and hover (owner smoke) */
 .railnav__dot.is-active::after {
   color: var(--pito-blue);
-  transform: translateY(-50%) scale(calc(1 / 1.35));
-  transform-origin: 100% 50%;
 }
 /* one label at a time: the chips are taller than the tick pitch, so an
    active label + a hovered neighbour's label overlap — while the rail is
