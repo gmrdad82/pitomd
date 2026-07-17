@@ -66,8 +66,8 @@ function initCursor() {
   // over a .scrolly/.bridge/[data-fx-none]; slides use their data-cursor mood
   // instead. (The ring is a single 64px fixed div moved by a transform —
   // cheap; it has nothing to do with the WebGL canvas that blew up to
-  // 16000px on those steppers.) Shared by the pointermove handler (cheap
-  // e.target) and the scroll listener below (elementFromPoint, since the
+  // 16000px on those steppers.) Shared by the per-frame pointer step below
+  // (recorded e.target) and the scroll listener (elementFromPoint, since the
   // page is scroll-snap driven and content can slide under a stationary
   // pointer without a pointermove ever firing).
   const updateRing = (target) => {
@@ -87,22 +87,39 @@ function initCursor() {
     }
   };
 
+  // Gaming mice report pointermove at up to 1000Hz — far above paint rate.
+  // The handler ONLY records the latest position + hit target; the ring
+  // toggles, closest() hit-tests and ripple spawns run at most once per
+  // frame in onMove, scheduled on demand and naturally idle when the
+  // pointer is still (same pattern as pointer.js's rAF gate).
+  let pointerTarget = null;
+  let moveQueued = false;
+
+  const onMove = () => {
+    moveQueued = false;
+
+    updateRing(pointerTarget);
+
+    // ripple mood — slides only (steppers carry no data-cursor)
+    const holder = pointerTarget?.closest?.("[data-cursor='ripple']");
+    const now = performance.now();
+    if (holder && now - lastRipple > 90) {
+      lastRipple = now;
+      spawn(holder, "fx-ripple", tx, ty);
+      spawn(holder, "fx-ripple fx-ripple--echo", tx, ty);
+    }
+  };
+
   window.addEventListener(
     "pointermove",
     (e) => {
       tx = e.clientX;
       ty = e.clientY;
+      pointerTarget = e.target;
       hasPointer = true;
-
-      updateRing(e.target);
-
-      // ripple mood — slides only (steppers carry no data-cursor)
-      const holder = e.target.closest?.("[data-cursor='ripple']");
-      const now = performance.now();
-      if (holder && now - lastRipple > 90) {
-        lastRipple = now;
-        spawn(holder, "fx-ripple", e.clientX, e.clientY);
-        spawn(holder, "fx-ripple fx-ripple--echo", e.clientX, e.clientY);
+      if (!moveQueued) {
+        moveQueued = true;
+        requestAnimationFrame(onMove);
       }
     },
     { passive: true },

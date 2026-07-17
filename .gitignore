@@ -20,9 +20,6 @@ pnpm-debug.log*
 .vscode/
 .idea/
 
-# Agent working docs (plans/specs/briefs) — local only
-/.claude/INBOX.md
-
 # VHS cast working dir (Phase 4) — local only
 /tmp-vhs/
 
