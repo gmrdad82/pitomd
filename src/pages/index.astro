@@ -513,6 +513,103 @@ const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8, 15, 3, 9, 6];
     </section>
   </section>
 
+  {/* ── 7 · SEMANTIC SEARCH — two slides, one rail stop ────── */}
+  <section id="search" data-nav-label="Search">
+    {/* ── 6.5 · SEMANTIC SEARCH — type how it feels ──────────── */}
+    <Section id="search-type" theme="tokyo-night" label="" class="f-grotesk">
+      <div
+        slot="decor"
+        class="cover-bed"
+        data-cover-slot="bed"
+        style="--cover:url('/covers/demon-s-souls.jpg')"
+        aria-hidden="true"
+      >
+      </div>
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--tr logo-accent--react"
+      />
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--bl logo-accent--float logo-accent--sm logo-accent--cyan"
+      />
+      <div class="split">
+        <div class="split__copy">
+          <p class="eyebrow" data-reveal="fade">No keywords, no syntax</p>
+          <h2 class="display" data-fx="typewriter" data-fx-speed="45">
+            Type how it feels.
+          </h2>
+          <p class="lede" data-reveal="rise">
+            <code class="kbd">search games with a good story</code>, or just say <em
+              >"something brutal but worth every second."</em
+            > PITO reads the meaning, not the words. <span class="accent"
+              >Every game carries a curated trait vocabulary</span
+            > — difficulty, story, pace, and more — so the search actually knows what
+            "brutal" means. Typo and all, it still finds it — and it's honest when
+            nothing in your library is close, instead of padding the list to fill
+            it.
+          </p>
+        </div>
+        <figure class="split__media" data-reveal="zoom" data-tilt>
+          <img
+            decoding="async"
+            src="/media/mkt-semantic-search.png"
+            width="760"
+            alt="Searching games by feel — 'search games with a good story' returning a ranked list, no keywords required"
+            loading="lazy"
+          />
+        </figure>
+      </div>
+    </Section>
+
+    {/* slide 2 — the vibe query: same rail stop, different fx. */}
+    <Section id="search-vibe" theme="dracula" label="" class="f-grotesk">
+      <div
+        slot="decor"
+        class="cover-bed"
+        data-cover-slot="bed"
+        style="--cover:url('/covers/ghosts-n-goblins-resurrection.jpg')"
+        aria-hidden="true"
+      >
+      </div>
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--tl logo-accent--float"
+      />
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--br logo-accent--react logo-accent--sm logo-accent--cyan"
+      />
+      <div class="split split--reverse">
+        <div class="split__copy">
+          <p class="eyebrow" data-reveal="blurin">Ask for a feeling</p>
+          <h2 class="display" data-fx="scramble" data-reveal="skew">
+            "Brutal but worth every second."
+          </h2>
+          <p class="lede" data-reveal="rise">
+            <code class="kbd"
+              >search games about brutal but worth every second</code
+            >
+            surfaces the punishing-but-loved shelf — closest match first at <span
+              class="accent">100</span
+            >, a pager for the rest. And when nothing in your library genuinely
+            fits, PITO says so instead of padding the page: an honest empty
+            beats a flattering wrong answer.
+          </p>
+        </div>
+        <figure class="split__media" data-reveal="flip" data-tilt>
+          <img
+            decoding="async"
+            src="/media/mkt-vibe-search.png"
+            width="760"
+            alt="search games about brutal but worth every second — the punishing-but-loved shelf ranked by meaning, closest match at 100, pager below"
+            loading="lazy"
+          />
+        </figure>
+      </div>
+    </Section>
+  </section>
+
   {/* ── COLOR BRIDGE ← local AI (REVERSED: splash → AI-reveal → shelf) ── */}
   <ColorBridge
     reverse
