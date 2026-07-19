@@ -40,6 +40,7 @@ function initPointer() {
   const remeasure = () => {
     remeasureQueued = false;
     rects = sections.map((s) => [s, s.getBoundingClientRect()]);
+    refreshElementRects();
   };
   const queueRemeasure = () => {
     if (remeasureQueued) return;
@@ -116,6 +117,7 @@ function initPointer() {
       muts.some((m) => [...m.addedNodes, ...m.removedNodes].some(touchesTilt))
     ) {
       tilts = Array.from(document.querySelectorAll("[data-tilt]"));
+      refreshElementRects();
     }
   }).observe(document.body, { childList: true, subtree: true });
   const applyTilt = (rects) => {
@@ -137,12 +139,44 @@ function initPointer() {
     }
   };
 
-  const onFrame = () => {
-    // PHASE 1 — every layout read, BEFORE any style write this frame: one
-    // clean flush at most, instead of a forced reflow per element.
-    const magnetRects = magnets.map((el) => el.getBoundingClientRect());
-    const tiltRects = tilts.map((el) => el.getBoundingClientRect());
-    // PHASE 2 — style writes only (spotlight vars + transforms).
+  // Work was uncapped — onFrame ran on every rAF (display refresh, up to
+  // 120fps on high-refresh gaming displays), re-reading every magnet/tilt
+  // rect and rewriting the spotlight vars that often. The glow/pull/tilt
+  // read fine lagging a frame or two, so cap the WORK itself to ~30fps: a
+  // min-interval check inside the rAF callback that skips + re-queues when
+  // early. px/py keep updating on every qualifying pointermove regardless,
+  // so the frame that finally runs still paints the latest position.
+  const POINTER_WORK_MIN_MS = 33; // was: uncapped (ran every rAF)
+  let lastWorkTime = 0;
+
+  // Gaming mice report pointermove at up to 1000Hz, most of it sub-pixel
+  // jitter no spotlight/magnet/tilt update could ever show — drop it before
+  // it even reaches the rAF gate.
+  const POINTER_MOVE_MIN_DELTA_PX = 2; // was: every move queued a frame
+
+  // Magnet/tilt rects ride the SAME scroll/resize cache as the section
+  // rects above (2026-07-20, owner smoke: re-reading them per work frame
+  // was a forced reflow 30×/s — the dominant main-thread cost while the
+  // mouse moved). The cache deliberately ignores the elements' own
+  // transform displacement (≤16px magnet pull / tilt rotation): the
+  // untransformed anchor is the CORRECT reference — the old per-frame
+  // read fed the pull its own output.
+  let magnetRects = [];
+  let tiltRects = [];
+  function refreshElementRects() {
+    magnetRects = magnets.map((el) => el.getBoundingClientRect());
+    tiltRects = tilts.map((el) => el.getBoundingClientRect());
+  }
+  refreshElementRects();
+
+  const onFrame = (now) => {
+    if (now - lastWorkTime < POINTER_WORK_MIN_MS) {
+      requestAnimationFrame(onFrame);
+      return;
+    }
+    lastWorkTime = now;
+    // Style writes only — every layout read now comes from the
+    // scroll/resize-refreshed caches; a move frame forces zero reflow.
     updateSpotlight();
     if (magnets.length) applyMagnets(magnetRects);
     if (tilts.length) applyTilt(tiltRects);
@@ -152,6 +186,13 @@ function initPointer() {
   window.addEventListener(
     "pointermove",
     (e) => {
+      const dx = e.clientX - px;
+      const dy = e.clientY - py;
+      if (
+        dx * dx + dy * dy <
+        POINTER_MOVE_MIN_DELTA_PX * POINTER_MOVE_MIN_DELTA_PX
+      )
+        return;
       px = e.clientX;
       py = e.clientY;
       if (!ticking) {

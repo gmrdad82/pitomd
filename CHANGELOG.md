@@ -6,9 +6,48 @@ format follows [Keep a Changelog](https://keepachangelog.com/); the site aims fo
 only when a `v*.*.*` tag is pushed (pushes to main are CI-validated but do not
 deploy).
 
-## [Unreleased]
+## [3.1.0] — 2026-07-20
 
 ### Changed
+
+- **The fx go on a performance diet (~50%, owner-authorized)** — plasma's
+  per-pixel fbm storm drops from 25 octave-units to 12 (3 fbm calls ×
+  `OCTAVES = 4`, was 5 × 5 — a 52% cut that keeps the domain-warped soul
+  and the cursor pull); fluid's stable-fluids sim shrinks to a 96-grid
+  with 7 pressure-Jacobi iterations (was 128/14 — 63-66% less grid work
+  per frame, splats and all); metaballs orbit 4 satellites instead of 6.
+  Every tuned constant carries its old value in a comment, and
+  `tests/contracts.test.js` now pins the budgets as source assertions —
+  re-inflating plasma past `calls × octaves ≤ 12` or fluid past half its
+  old grid-work fails the suite. Water was already owner-tuned and
+  idle-freezing; halftone and lens were already cheap; all three
+  untouched.
+- **Pointer work samples at ~30fps, not your monitor's refresh** — the
+  spotlight/magnetic/tilt handler (`pointer.js`) and the cursor-ring
+  handler (`cursor.js`) each gain a 33ms work gate plus a 2px
+  min-distance gate, so a 120Hz display (or a 1000Hz mouse) no longer
+  buys 4× the style writes. The final position always lands (the
+  trailing update survives the gate); presses and leaves stay instant;
+  the WebGL engine's own pointer was already 30fps by construction.
+- **The move path stops paying layout rent** (owner smoke, same evening) —
+  the magnet/tilt rects were still re-read via `getBoundingClientRect`
+  every work frame, a forced reflow 30×/second that dominated the
+  main-thread cost while the mouse moved; they now ride the same
+  scroll/resize cache the section rects already used (the untransformed
+  anchor is also the _correct_ reference — the old per-frame read fed the
+  magnet pull its own output). Ripples calm down too: 140ms cadence
+  (was 90), at most 6 live nodes per section, and each pair shares one
+  layout read instead of forcing two more.
+
+### Fixed
+
+- **Two following circles can no longer meet at a scroll boundary**
+  (owner smoke) — the mood randomiser skipped scrolly steppers entirely,
+  so a `lens` section (a following magnifier circle) could land right
+  against a stepper carrying the global cursor ring (a following circle).
+  Ring zones now join the adjacency walk as an implicit "ring" mood and
+  lens may neither follow nor precede one — the rule is pinned in the
+  contract tests.
 
 - **The last "Voyage" comments retext to "local AI"** — three comments the
   3.0.0 sweep missed (`src/pages/index.astro`'s AI-rail-stop and

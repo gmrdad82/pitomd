@@ -45,17 +45,39 @@
 
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-  // `.section` only — NOT `.scrolly` (see the header note: a stepper is
-  // multi-viewport-tall and would build a monster canvas) — AND excluding any
-  // `[data-fx-none]` section that opts out of a randomised mood entirely.
-  const steps = Array.from(
-    document.querySelectorAll(".section:not([data-fx-none])"),
-  );
-  let prev = null;
-  for (const step of steps) {
+  // Moods that read as a "FOLLOWING CIRCLE" — perceptually the same effect
+  // as the global cursor ring that scrolly steppers and [data-fx-none]
+  // sections carry. The old walk skipped ring zones entirely, so a lens
+  // section could sit right against a stepper and the viewer scrolled from
+  // one following circle into another (owner, 2026-07-20: "this should not
+  // happen"). Ring zones now participate in adjacency as an implicit
+  // "ring" mood, and the clash is checked BOTH ways (a lens can neither
+  // follow a ring zone nor immediately precede one).
+  const RING_CLASH = new Set(["lens"]);
+  const isRingZone = (el) =>
+    el.classList.contains("scrolly") || el.hasAttribute("data-fx-none");
+
+  // Walk EVERY fx-bearing surface in document order — moody `.section`s AND
+  // the ring-carrying surfaces (steppers, opt-outs) — so adjacency means
+  // what the viewer sees while scrolling. Steppers still never get a mood
+  // stamped (the monster-canvas rule in the header stands); they only
+  // contribute their implicit ring to the neighbours' constraint.
+  const surfaces = Array.from(document.querySelectorAll(".section, .scrolly"));
+  let prev = null; // previous surface's perceived mood ("ring" for ring zones)
+  for (let i = 0; i < surfaces.length; i++) {
+    const step = surfaces[i];
+    if (isRingZone(step)) {
+      prev = "ring";
+      continue;
+    }
+    const next = surfaces[i + 1];
+    const nextIsRing = !!next && isRingZone(next);
     const hasCover = !!step.querySelector(".cover-bed");
     const eligible = POOL.filter(
-      (fx) => fx !== prev && (hasCover || !NEEDS_COVER.has(fx)),
+      (fx) =>
+        fx !== prev &&
+        !((prev === "ring" || nextIsRing) && RING_CLASH.has(fx)) &&
+        (hasCover || !NEEDS_COVER.has(fx)),
     );
     const fx = pick(eligible);
     step.setAttribute("data-cursor", fx);

@@ -96,6 +96,17 @@ describe("fx vocabulary", () => {
     ]) {
       expect(webgl, `renderer missing ${fx}`).toContain(`function ${fx}(`);
     }
+    // The following-circle clash rule (2026-07-20): ring zones (steppers /
+    // opt-outs) join the adjacency walk as an implicit "ring" mood, and
+    // lens — the only pool mood that reads as a following circle — may
+    // neither follow nor precede one. Pin the pieces so a refactor can't
+    // silently drop the rule.
+    expect(rnd).toContain("RING_CLASH");
+    expect(rnd).toContain('"lens"');
+    expect(rnd).toContain("nextIsRing");
+    expect(rnd, "ring zones must join the walk").toContain(
+      '".section, .scrolly"',
+    );
     // Drivers are styled + loaded, and the randomiser runs BEFORE the fx islands.
     expect(css).toContain('[data-cursor="glow"]');
     expect(css).toContain(".fx-ripple");
@@ -111,13 +122,17 @@ describe("fx vocabulary", () => {
     );
     // The randomiser owns moods now — no hardcoded data-cursor in the markup.
     expect(index).not.toContain("data-cursor=");
-    // Steppers are EXCLUDED — a `.scrolly` is multi-viewport tall, so an
-    // fx-canvas sized to it builds a monster canvas that blanks the GPU. And
-    // any section can opt out entirely with `data-fx-none` (e.g. #mcp). Lock
-    // the query to `.section:not([data-fx-none])`; the old `.section, .scrolly`
-    // query stays gone.
-    expect(rnd).toContain('querySelectorAll(".section:not([data-fx-none])")');
-    expect(rnd).not.toContain('querySelectorAll(".section, .scrolly")');
+    // Steppers and [data-fx-none] opt-outs are RING ZONES: since 2026-07-20
+    // they JOIN the adjacency walk (the following-circle clash needs to see
+    // them) but are skipped BEFORE any mood is stamped — the real invariant
+    // was never the selector, it's that a `.scrolly` NEVER gets a mood: a
+    // stepper is multi-viewport tall, and an fx-canvas sized to it builds a
+    // monster canvas that blanks the GPU. Pin the walk AND the skip.
+    expect(rnd).toContain('querySelectorAll(".section, .scrolly")');
+    expect(rnd).toContain("isRingZone(step)");
+    expect(rnd, "ring zones must skip BEFORE the stamp").toMatch(
+      /isRingZone\(step\)\)\s*\{\s*prev = "ring";\s*continue;/,
+    );
     // #mcp opts out of a randomised mood — mood-less, ring-zone only.
     expect(index).toContain("data-fx-none");
     // The ring shows over steppers, bridges, AND data-fx-none sections.
@@ -174,5 +189,98 @@ describe("script islands", () => {
         `${f} not wired in Base.astro`,
       ).toBe(true);
     }
+  });
+});
+
+describe("fx perf budgets", () => {
+  test("plasma's fbm octave x call-site product stays within budget (owner: halved plasma's per-pixel cost, 2026-07-19)", () => {
+    const webgl = read("src/scripts/fx-webgl.js");
+    const fragStart =
+      webgl.indexOf("`", webgl.indexOf("const PLASMA_FRAG")) + 1;
+    const plasma = webgl.slice(fragStart, webgl.indexOf("`;", fragStart));
+
+    // Octave loop bound comes from a documented `const int OCTAVES = N;`
+    // feeding `for (int i = 0; i < OCTAVES; i++)` (was a bare `< 5`).
+    expect(plasma).toContain("for (int i = 0; i < OCTAVES; i++)");
+    const octaves = Number(plasma.match(/const int OCTAVES = (\d+);/)?.[1]);
+    expect(octaves, "OCTAVES const not found").toBeGreaterThan(0);
+
+    // Every `fbm(` in the frag shader is either the one function
+    // definition (`float fbm(vec2 p) {`) or a per-pixel call site.
+    const fbmMentions = (plasma.match(/\bfbm\(/g) || []).length;
+    const fbmCallSites = fbmMentions - 1;
+    expect(fbmCallSites).toBeGreaterThan(0);
+
+    // Budget: (call sites * OCTAVES) <= 12 octave-units/pixel — was 5 fbm
+    // calls (q.x, q.y, r.x, r.y, n) * 5 octaves = 25. A future edit that
+    // re-inflates either factor past this product regresses the perf work;
+    // fix the arithmetic or re-raise the budget with the owner's OK.
+    expect(fbmCallSites * octaves).toBeLessThanOrEqual(12);
+  });
+});
+
+describe("fluid + metaballs perf budgets", () => {
+  test("fluid's SIM_MAX and PRESSURE_ITERS stay within budget (owner: ~50%+ less grid work, 2026-07-19)", () => {
+    const webgl = read("src/scripts/fx-webgl.js");
+    const fnStart = webgl.indexOf("function fluid(gl, canvas, section) {");
+    const fnEnd = webgl.indexOf("/* ══ plasma — domain-warped fbm", fnStart);
+    const fluidSrc = webgl.slice(fnStart, fnEnd);
+
+    const simMax = Number(fluidSrc.match(/const SIM_MAX = (\d+);/)?.[1]);
+    const pressureIters = Number(
+      fluidSrc.match(/const PRESSURE_ITERS = (\d+);/)?.[1],
+    );
+    expect(simMax, "SIM_MAX const not found").toBeGreaterThan(0);
+    expect(pressureIters, "PRESSURE_ITERS const not found").toBeGreaterThan(0);
+
+    // Budget: 6 fixed full-grid passes + PRESSURE_ITERS Jacobi passes, each
+    // touching simW*simH ~ SIM_MAX^2 cells. old = 128^2 * (6+14) = 327,680
+    // cell-ops; the budget below is the same formula, so a future edit that
+    // re-inflates SIM_MAX or PRESSURE_ITERS past it regresses the perf work
+    // (fix the arithmetic or re-raise the budget with the owner's OK).
+    const cellOps = simMax * simMax * (6 + pressureIters);
+    expect(cellOps).toBeLessThanOrEqual(327680 * 0.5);
+  });
+
+  test("metaballs' orbiting blob loop stays within budget (owner: 6->4 blobs, 2026-07-19)", () => {
+    const webgl = read("src/scripts/fx-webgl.js");
+    const fnStart = webgl.indexOf("/* ══ metaballs — gooey blob field");
+    const fnEnd = webgl.indexOf(
+      "function metaballs(gl, canvas, section)",
+      fnStart,
+    );
+    const metaballsSrc = webgl.slice(fnStart, fnEnd);
+
+    const blobs = Number(
+      metaballsSrc.match(/for \(int i = 0; i < (\d+); i\+\+\)/)?.[1],
+    );
+    expect(blobs, "orbiting blob loop bound not found").toBeGreaterThan(0);
+    // Was 6 (7 blobs total w/ cursor). Budget stays at or under 4 (5 total).
+    expect(blobs).toBeLessThanOrEqual(4);
+  });
+});
+
+describe("pointer + cursor work gates", () => {
+  test("pointer.js and cursor.js cap rAF work + gate micro-movement (owner: sample the mouse less aggressively, 2026-07-19)", () => {
+    const pointer = read("src/scripts/pointer.js");
+    const cursor = read("src/scripts/cursor.js");
+
+    // Work-rate gate: onFrame/onMove used to run on every rAF (display
+    // refresh, up to 120fps) — both now check a named min-interval const,
+    // skipping + re-queueing when early, before any layout read / hit-test
+    // / style write.
+    expect(pointer).toContain("const POINTER_WORK_MIN_MS =");
+    expect(cursor).toContain("const CURSOR_WORK_MIN_MS =");
+
+    // Distance gate: sub-pixel gaming-mouse jitter (up to 1000Hz) is
+    // dropped in the pointermove handler itself, before it can queue a
+    // frame at all.
+    expect(pointer).toContain("const POINTER_MOVE_MIN_DELTA_PX =");
+    expect(cursor).toContain("const CURSOR_MOVE_MIN_DELTA_PX =");
+
+    // Discrete events (pointerdown splash, pointerleave ring-hide) stay
+    // instant — gating applies only to the high-frequency move stream.
+    expect(cursor).toContain('"pointerdown"');
+    expect(cursor).toContain('"pointerleave"');
   });
 });

@@ -49,9 +49,12 @@ function initCursor() {
     }
   };
 
-  // spawn a personality node inside `host` at viewport coords (cx, cy)
-  const spawn = (host, cls, cx, cy) => {
-    const r = host.getBoundingClientRect();
+  // spawn a personality node inside `host` at viewport coords (cx, cy).
+  // `hostRect` lets a caller spawning SIBLINGS share one layout read —
+  // spawn's own getBoundingClientRect lands right after style writes, so
+  // each un-shared call is a forced reflow (2026-07-20 owner smoke).
+  const spawn = (host, cls, cx, cy, hostRect = null) => {
+    const r = hostRect || host.getBoundingClientRect();
     const el = document.createElement("i");
     el.className = cls;
     el.style.left = `${cx - r.left}px`;
@@ -95,7 +98,24 @@ function initCursor() {
   let pointerTarget = null;
   let moveQueued = false;
 
-  const onMove = () => {
+  // Work was uncapped — onMove ran on every rAF (display refresh, up to
+  // 120fps). A ring hit-test/toggle can lag a few ms unnoticed, so cap the
+  // WORK to ~30fps: min-interval check inside the rAF callback, skip +
+  // re-queue when early (same pattern as pointer.js). The 90ms ripple
+  // throttle below is untouched — a separate, coarser gate on top.
+  const CURSOR_WORK_MIN_MS = 33; // was: uncapped (ran every rAF)
+  let lastWorkTime = 0;
+
+  // Sub-pixel gaming-mouse jitter can't move the ring or flip a hit-test —
+  // drop it before it reaches the rAF gate.
+  const CURSOR_MOVE_MIN_DELTA_PX = 2; // was: every move queued a frame
+
+  const onMove = (frameTime) => {
+    if (frameTime - lastWorkTime < CURSOR_WORK_MIN_MS) {
+      requestAnimationFrame(onMove);
+      return;
+    }
+    lastWorkTime = frameTime;
     moveQueued = false;
 
     updateRing(pointerTarget);
@@ -103,16 +123,31 @@ function initCursor() {
     // ripple mood — slides only (steppers carry no data-cursor)
     const holder = pointerTarget?.closest?.("[data-cursor='ripple']");
     const now = performance.now();
-    if (holder && now - lastRipple > 90) {
+    // 140ms (was 90) + a live-node cap: each ripple pair is two animated,
+    // blurred DOM nodes — under a fast sweep the old cadence stacked
+    // enough of them to matter on the paint bill (2026-07-20 owner smoke).
+    if (
+      holder &&
+      now - lastRipple > 140 &&
+      holder.querySelectorAll(".fx-ripple").length < 6
+    ) {
       lastRipple = now;
-      spawn(holder, "fx-ripple", tx, ty);
-      spawn(holder, "fx-ripple fx-ripple--echo", tx, ty);
+      const holderRect = holder.getBoundingClientRect();
+      spawn(holder, "fx-ripple", tx, ty, holderRect);
+      spawn(holder, "fx-ripple fx-ripple--echo", tx, ty, holderRect);
     }
   };
 
   window.addEventListener(
     "pointermove",
     (e) => {
+      const dx = e.clientX - tx;
+      const dy = e.clientY - ty;
+      if (
+        dx * dx + dy * dy <
+        CURSOR_MOVE_MIN_DELTA_PX * CURSOR_MOVE_MIN_DELTA_PX
+      )
+        return;
       tx = e.clientX;
       ty = e.clientY;
       pointerTarget = e.target;

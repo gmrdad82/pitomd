@@ -570,8 +570,16 @@ function fluid(gl, canvas, section) {
     throw new Error("fx-webgl: fluid needs EXT_color_buffer_float");
   }
 
-  const SIM_MAX = 128; // was 160
-  const PRESSURE_ITERS = 14; // was 20 — the pressure solve is 8 of the frame's passes; 14 still reads as incompressible
+  // Perf budget (owner: ~50%+ less per-frame grid work). Each frame runs 6
+  // fixed full-grid passes (advectVel, splatVel, splatDye, divergence,
+  // gradientSubtract, advectDye) plus PRESSURE_ITERS Jacobi passes, each
+  // touching simW*simH cells (~SIM_MAX^2, since simH scales with SIM_MAX
+  // too — the ratio holds at any aspect):
+  //   old: 128^2 cells * (6 + 14) passes = 16,384 * 20 = 327,680 cell-ops
+  //   new:  96^2 cells * (6 +  7) passes =  9,216 * 13 = 119,808 cell-ops
+  //   119,808 / 327,680 = 36.6% of old -> 63.4% less grid work per frame
+  const SIM_MAX = 96; // was 128 (before that: 160) — (96/128)^2 = 56% of grid cells
+  const PRESSURE_ITERS = 7; // was 14 (before that: 20) — the Jacobi loop is the dominant cost; 7 still reads as incompressible
   const VEL_DISSIPATION = 0.992;
   const DYE_DISSIPATION = 0.996;
   const VEL_RADIUS = 0.0028;
@@ -927,10 +935,16 @@ float noise(vec2 p) {
   return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
 }
 
+// Octave count per fbm call — was 5. Perf budget (owner: halve plasma's
+// per-pixel cost): main() below issues 3 fbm calls/pixel (was 5 — the old
+// "r" re-warp pair collapsed into reusing q, see below), so
+// 3 calls * OCTAVES(4) = 12 octave-units/pixel (was 5 calls * 5 octaves = 25).
+const int OCTAVES = 4;
+
 float fbm(vec2 p) {
   float sum = 0.0;
   float amp = 0.5;
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < OCTAVES; i++) {
     sum += amp * noise(p);
     p *= 2.02;
     amp *= 0.5;
@@ -955,11 +969,11 @@ void main() {
   float pull = exp(-dist * 2.2);
   warped = mix(warped, mouseUv, pull * 0.5);
 
-  vec2 r = vec2(
-    fbm(warped * 1.6 + 4.0 + u_time * 0.03),
-    fbm(warped * 1.6 - 4.0 - u_time * 0.03)
-  );
-  float n = fbm(warped * 1.2 + r * 1.4);
+  // re-warp: reuse q instead of a second fbm-pair "r" field (previously 2
+  // more fbm calls: r.x/r.y from warped, phase +/-4.0, at 0.03 * u_time) —
+  // folds the same warp field back in, still reads as a domain-warped
+  // re-warp for 2 fewer fbm calls per pixel.
+  float n = fbm(warped * 1.2 + q * 1.4);
 
   vec3 dark = vec3(0.02, 0.02, 0.04);
   vec3 blue = vec3(0.318, 0.439, 1.0);
@@ -1047,8 +1061,9 @@ void main() {
     field += 0.022 / (dot(d, d) + 0.0009);
   }
 
-  // six drifting blobs, each on its own lissajous-ish orbit
-  for (int i = 0; i < 6; i++) {
+  // four drifting blobs, each on its own lissajous-ish orbit (was 6 — 1
+  // cursor + 4 orbiting = 5 blobs total, was 7; ~29% less field math/pixel)
+  for (int i = 0; i < 4; i++) {
     float fi = float(i);
     float speed = 0.35 + fi * 0.08;
     float radius = 0.5 + fi * 0.15;
