@@ -21,6 +21,21 @@ deploy).
   installer actually prints. The `pito-tui-loop.gif` terminal reel is
   unchanged and gets re-captured separately.
 - Upgraded Astro 7.0.7 → 7.1.3.
+- Dev tooling bumped: eslint 10.5.0 → 10.7.0, prettier 3.8.4 → 3.9.6,
+  stylelint 17.13.0 → 17.14.1, vitest 4.1.9 → 4.1.10; CI and deploy now
+  use `actions/setup-node@v7`.
+
+### Security
+
+- **Cleared every open npm advisory — 10 findings (6 high) — that had
+  been failing Website CI since 2026-07-21.** All were transitive, so
+  only the lockfile moved: `brace-expansion` (DoS via exponential
+  expansion), `fast-uri` (two host-confusion advisories), `js-yaml`
+  (quadratic CPU on merge-key chains), `postcss` (path traversal via
+  `sourceMappingURL`), `sharp` (inherited libvips CVEs), `svgo`
+  (`removeScripts` leaving executable scripts intact) and the
+  `yaml` → `yaml-language-server` → `@astrojs/language-server` chain.
+  `npm audit --audit-level=high` now reports zero.
 
 ## [3.1.0] — 2026-07-20
 
