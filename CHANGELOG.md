@@ -6,6 +6,22 @@ format follows [Keep a Changelog](https://keepachangelog.com/); the site aims fo
 only when a `v*.*.*` tag is pushed (pushes to main are CI-validated but do not
 deploy).
 
+## [5.0.0] — 2026-07-24
+
+### Changed
+
+- **The terminal client is "pito" now, not "pito-tui"** — the runnable
+  binary got renamed upstream (the GitHub repo stays
+  `gmrdad82/pito-tui`); the terminal slide's link text and image alt now
+  read "pito" to match. Install command and repo URL are untouched.
+- **The three CLI casts were re-recorded** — `pito-install-cast`,
+  `pito-cli-cast` and `pito-update-cast` showed the old `./pito` operator
+  CLI, which is now `pito-cli`. All three were regenerated upstream and
+  re-copied here, so the GIFs on the self-host slides match what the
+  installer actually prints. The `pito-tui-loop.gif` terminal reel is
+  unchanged and gets re-captured separately.
+- Upgraded Astro 7.0.7 → 7.1.3.
+
 ## [3.1.0] — 2026-07-20
 
 ### Changed
