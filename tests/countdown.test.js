@@ -302,8 +302,7 @@ describe("formatCountdown / formatCountdownParts — dd:hh:mm:ss:zzz (owner rule
   });
 
   it("computes each unit correctly for a multi-day value", () => {
-    const ms =
-      2 * DAY_MS + 3 * HOUR_MS + 4 * MINUTE_MS + 5 * SECOND_MS + 6;
+    const ms = 2 * DAY_MS + 3 * HOUR_MS + 4 * MINUTE_MS + 5 * SECOND_MS + 6;
     expect(formatCountdown(ms)).toBe("02:03:04:05:006");
   });
 
@@ -335,9 +334,9 @@ describe("rectsIntersect — bounce geometry (owner rule 4)", () => {
   const rect = { x: 100, y: 100, width: 50, height: 30 };
 
   it("true when rects overlap", () => {
-    expect(rectsIntersect(rect, { x: 120, y: 110, width: 10, height: 10 })).toBe(
-      true,
-    );
+    expect(
+      rectsIntersect(rect, { x: 120, y: 110, width: 10, height: 10 }),
+    ).toBe(true);
   });
 
   it("false when rects are disjoint", () => {

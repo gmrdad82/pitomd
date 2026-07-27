@@ -300,7 +300,14 @@ export function circleRectCollision(cx, cy, r, rect) {
 // in [-jitter, jitter] radians. jitter=0 is a perfect mirror; the owner asked
 // for the opposite ("not a perfect mirror — they are butterflies, add
 // jitter"), so callers should always pass a nonzero jitter in production.
-export function reflectVelocity(vx, vy, nx, ny, jitter = 0, rand = Math.random) {
+export function reflectVelocity(
+  vx,
+  vy,
+  nx,
+  ny,
+  jitter = 0,
+  rand = Math.random,
+) {
   const dot = vx * nx + vy * ny;
   let rx = vx - 2 * dot * nx;
   let ry = vy - 2 * dot * ny;
@@ -338,6 +345,13 @@ export function resolveBounce(
   const clear = hit.penetration + 0.01; // nudge past the boundary, never on it
   const x = cx + hit.nx * clear;
   const y = cy + hit.ny * clear;
-  const { vx: rvx, vy: rvy } = reflectVelocity(vx, vy, hit.nx, hit.ny, jitter, rand);
+  const { vx: rvx, vy: rvy } = reflectVelocity(
+    vx,
+    vy,
+    hit.nx,
+    hit.ny,
+    jitter,
+    rand,
+  );
   return { x, y, vx: rvx, vy: rvy, collided: true };
 }

@@ -25,7 +25,10 @@ interface Props {
 const { href, label, position = "top-right", variant = "quiet" } = Astro.props;
 ---
 
-<nav class={`crossnav crossnav--${position} crossnav--${variant}`} aria-label="Pito sites">
+<nav
+  class={`crossnav crossnav--${position} crossnav--${variant}`}
+  aria-label="Pito sites"
+>
   <a class="crossnav__link mono" href={href} data-magnetic>{label}</a>
 </nav>
 
@@ -119,11 +122,24 @@ const { href, label, position = "top-right", variant = "quiet" } = Astro.props;
       inset 0 0 12px rgb(255 255 255 / 25%);
   }
   @keyframes crossnav-breathe {
-    0%, 100% { box-shadow: 0 0 14px rgb(255 110 199 / 60%), 0 0 42px rgb(187 154 247 / 35%), inset 0 0 10px rgb(255 255 255 / 18%); }
-    50%      { box-shadow: 0 0 24px rgb(255 110 199 / 90%), 0 0 60px rgb(187 154 247 / 55%), inset 0 0 12px rgb(255 255 255 / 28%); }
+    0%,
+    100% {
+      box-shadow:
+        0 0 14px rgb(255 110 199 / 60%),
+        0 0 42px rgb(187 154 247 / 35%),
+        inset 0 0 10px rgb(255 255 255 / 18%);
+    }
+    50% {
+      box-shadow:
+        0 0 24px rgb(255 110 199 / 90%),
+        0 0 60px rgb(187 154 247 / 55%),
+        inset 0 0 12px rgb(255 255 255 / 28%);
+    }
   }
   @media (prefers-reduced-motion: reduce) {
-    .crossnav--seller .crossnav__link { animation: none; }
+    .crossnav--seller .crossnav__link {
+      animation: none;
+    }
   }
 
   .crossnav__link:focus-visible {
