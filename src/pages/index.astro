@@ -105,23 +105,18 @@ import CrossNav from "../components/CrossNav.astro";
   } from "../lib/countdown.js";
   import { initSkyFlock } from "../lib/sky-flock.js";
 
+  // Standalone consts (not an object) on purpose: astro check runs the
+  // script through TypeScript, and narrowing from the guard below only
+  // survives into the closures for const BINDINGS, never for object
+  // properties.
   const button = document.getElementById("countdown");
-  const groups = {
-    dd: document.getElementById("countdown-dd"),
-    hh: document.getElementById("countdown-hh"),
-    mm: document.getElementById("countdown-mm"),
-    ss: document.getElementById("countdown-ss"),
-    zzz: document.getElementById("countdown-zzz"),
-  };
+  const dd = document.getElementById("countdown-dd");
+  const hh = document.getElementById("countdown-hh");
+  const mm = document.getElementById("countdown-mm");
+  const ss = document.getElementById("countdown-ss");
+  const zzz = document.getElementById("countdown-zzz");
 
-  if (
-    button &&
-    groups.dd &&
-    groups.hh &&
-    groups.mm &&
-    groups.ss &&
-    groups.zzz
-  ) {
+  if (button && dd && hh && mm && ss && zzz) {
     // RELATIVE TIME (owner): the deadline is real — parsed in the
     // visitor's local time — and the display is elastic around it.
     const deadlineMs = new Date(REAL_DEADLINE_ISO).getTime();
@@ -129,25 +124,25 @@ import CrossNav from "../components/CrossNav.astro";
 
     const render = () => {
       const parts = formatCountdownParts(state.displayMs);
-      groups.dd.textContent = parts.dd;
-      groups.hh.textContent = parts.hh;
-      groups.mm.textContent = parts.mm;
-      groups.ss.textContent = parts.ss;
-      groups.zzz.textContent = parts.zzz;
+      dd.textContent = parts.dd;
+      hh.textContent = parts.hh;
+      mm.textContent = parts.mm;
+      ss.textContent = parts.ss;
+      zzz.textContent = parts.zzz;
     };
     render();
 
     // A cheap on-brand acknowledgement for the TAP RESET only (owner:
     // over-flight deltas must not pulsate the box — "it's already in a
     // hover state", and at one delta per second the pulse would strobe).
-    let pulseTimer = null;
+    let pulseTimer: ReturnType<typeof setTimeout> | null = null;
     const pulse = () => {
       button.classList.remove("countdown--pulse");
       // Force a reflow so re-adding the class restarts the animation even
       // on back-to-back adds.
       void button.offsetWidth;
       button.classList.add("countdown--pulse");
-      clearTimeout(pulseTimer);
+      if (pulseTimer !== null) clearTimeout(pulseTimer);
       pulseTimer = setTimeout(
         () => button.classList.remove("countdown--pulse"),
         420,

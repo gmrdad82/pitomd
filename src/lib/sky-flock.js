@@ -652,6 +652,14 @@ function enforceMinSeparation(flock) {
 // No dominance, no enforcers, no cable-push: this page has exactly one fx
 // pass (the sky + its flock), always on. Respects prefers-reduced-motion
 // (one static frame), document.hidden (pauses the clock), and resize/DPR.
+/**
+ * @param {HTMLCanvasElement} canvas
+ * @param {{
+ *   obstacle?: (() => { x: number, y: number, width: number, height: number } | null) | null,
+ *   onCollide?: (() => void) | null,
+ *   onHover?: ((active: boolean) => void) | null,
+ * }} [options]
+ */
 export function initSkyFlock(
   canvas,
   {
