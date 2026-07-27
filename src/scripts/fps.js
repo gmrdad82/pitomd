@@ -1,7 +1,7 @@
 // fps.js — Ctrl+F9 toggles a floating FPS chip (deliberately Ctrl-only and
 // undocumented: unmodified F9 is reserved for the operator's own tooling).
 //
-// The Ctrl+F9 combo matches pito web and pito-tui; this site
+// The Ctrl+F9 combo matches pito's own web app; this site
 // mirrors it. Nothing exists until the first press: no chip in the DOM, no
 // rAF loop running — genuinely zero cost until someone asks. Pressing F9
 // again stops the loop entirely (not just hides it) and hides the chip.

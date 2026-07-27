@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Development-only favicon: the PITO "P" in the synthwave YELLOW token
+<!-- Development-only favicon: the Pito "P" in the synthwave YELLOW token
      (#ffe066) on the synthwave dark background, so a localhost tab is never
      mistaken for production. Linked from Base.astro head only when
      import.meta.env.DEV. SVG favicons outrank /favicon.ico in modern browsers. -->

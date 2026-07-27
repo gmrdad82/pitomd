@@ -1,4 +1,4 @@
-// parallax.js — scroll-driven depth layers for #pain, #price, #shinies, #free.
+// parallax.js — scroll-driven depth layers for the decor-heavy sections.
 //
 // On each scroll frame, reads how far each target section's centre sits from the
 // viewport centre (--scroll-p, range roughly -1.5..1.5) and writes it as a CSS
@@ -16,7 +16,7 @@ function initParallax() {
 
   const targets = Array.from(
     document.querySelectorAll(
-      "#pain, #price, #shinies, #free, #hero, #linkage, #chatbox, #footage",
+      "#price, #shinies, #free, #hero, #linkage, #chatbox, #footage",
     ),
   );
 

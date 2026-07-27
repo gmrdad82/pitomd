@@ -1,0 +1,1088 @@
+---
+import Base from "../layouts/Base.astro";
+import Section from "../components/Section.astro";
+import ColorBridge from "../components/ColorBridge.astro";
+import PitoLogo from "../components/PitoLogo.astro";
+import CrossNav from "../components/CrossNav.astro";
+
+// pitomd.com/studio — the Pito Studio showcase (5.0.0, PART H3).
+//
+// Its own layout and copy: where `/` sells The Free Chat deck, this page
+// sells the PAID half — the local video pipeline that turns a night of OBS
+// recordings into a reviewed supercut. Same house voice, same text fx
+// (typewriter / scramble / comet), but its own fx contract: PLASMA and
+// DUOTONE as section moods (author-pinned data-cursor, stable keys — never
+// a random draw) and the FOLLOWING CIRCLE on the multi-sub-step rail stops
+// (the .scrolly steppers are ring zones, cursor.js). Every user-visible
+// price is the fixed pair €89 / $99 (H3b) and the copy says UPDATES —
+// deliberately never the s-word (P13).
+//
+// Studio vocabulary: the owner's material is RECORDINGS (owner ruling T27
+// territory — never "footage" on this page; that word belongs to the chat
+// feature of the same name).
+//
+// NO SCREENSHOTS OR GIFS YET — captures are a separate phase (PART L).
+// Every visual that needs one is a clearly-marked .shot-todo placeholder;
+// the full capture list lives at the bottom of this comment:
+//   1. hero        — Studio home: project open, pipeline steps ticking.
+//   2. review      — the Review screen: bursts queued, 1/2/3 verdicts.
+//   3. thumbnail   — the composer with YouTube safe zones visible.
+//   4. search      — a transcript search hit jumping into mpv.
+//   5. outro       — the outro composer: clip + music + caption.
+//   6. og-card     — a 1200×630 social card for THIS route (og:image
+//                    currently borrows the hero logo PNG).
+
+const CHAT = "/";
+const YOUTUBE = "https://www.youtube.com/@gmrdad82";
+const X = "https://x.com/GamerDady82";
+const DISCORD = "https://discord.gg/q947UyDTqJ";
+// The public artifacts repo for binaries + the update manifest (PART J3).
+// WORKING NAME — the owner may rename it before creating it; keep it this
+// one constant so the rename is a one-line edit.
+const RELEASES = "https://github.com/gmrdad82/pito-releases";
+
+const TITLE = "Pito Studio — your recordings, reviewed, rendered";
+const DESCRIPTION =
+  "Pito Studio turns a night of OBS recordings into a reviewed supercut on your own machine. Local Whisper, you approve every cut, NVENC render. Linux + NVIDIA. €89 / $99 once — every 5.x update included.";
+
+// Structured data for the /studio route: a PAID, Linux-only
+// SoftwareApplication with the two fixed prices. Replaces Base.astro's
+// default free-chat graph (H4 — each route describes its own product).
+// Trailing slash on purpose: Astro's directory-style build makes the page's
+// canonical URL https://pitomd.com/studio/ — the JSON-LD and the sitemap
+// must say exactly the same string, or crawlers see two URLs for one page.
+const studioUrl = new URL("/studio/", Astro.site).href;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      name: TITLE,
+      url: studioUrl,
+      description: DESCRIPTION,
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "Pito Studio",
+      applicationCategory: "MultimediaApplication",
+      operatingSystem: "Linux (64-bit, NVIDIA GPU required)",
+      url: studioUrl,
+      description: DESCRIPTION,
+      offers: [
+        { "@type": "Offer", price: "89", priceCurrency: "EUR" },
+        { "@type": "Offer", price: "99", priceCurrency: "USD" },
+      ],
+      author: {
+        "@type": "Person",
+        name: "Catalin Ilinca",
+        url: YOUTUBE,
+      },
+      sameAs: [YOUTUBE, X, DISCORD],
+    },
+  ],
+};
+---
+
+<Base
+  title={TITLE}
+  description={DESCRIPTION}
+  ogImage="/logo/pito-logo-hero.png"
+  jsonLd={jsonLd}
+>
+  {
+    /* The way back — fixed top-right pill (the top-left corner belongs to
+      the fps chip and, on `/`, the "Studio is here!" sign). */
+  }
+  <CrossNav href={CHAT} label="Pito chat <-" />
+
+  {/* ── 1 · HERO ─────────────────────────────────────────── */}
+  <Section
+    id="hero"
+    theme="synthwave"
+    label="Start"
+    class="hero f-grotesk"
+    data-cursor="plasma"
+  >
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--tr logo-accent--react logo-accent--sm logo-accent--cyan"
+    />
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--bl logo-accent--float logo-accent--sm logo-accent--purple"
+    />
+    <div class="hero__stack">
+      <p class="eyebrow" data-reveal="fade">Pito Studio — new in 5.0</p>
+      <h1 class="display hero__title">
+        <span data-fx="typewriter" data-fx-speed="55">your recordings.</span><br
+        />
+        <span
+          class="pito-blue"
+          data-fx="typewriter"
+          data-fx-speed="55"
+          data-fx-delay="900">your supercut.</span
+        >
+      </h1>
+      <p class="lede hero__lede" data-reveal="rise">
+        A local video pipeline for the multi&#8209;channel creator. Point it at
+        a night of OBS recordings; it listens, watches and proposes the cuts —
+        <span class="accent">you approve every single one</span> — then it renders
+        the film on your own GPU. No cloud, no upload, no subscription.
+      </p>
+      <div class="hero__cta" data-reveal="rise">
+        <a class="btn btn--primary" href="#pipeline" data-magnetic
+          >See it work -></a
+        >
+        <a class="btn btn--ghost" href="#price" data-magnetic
+          >€89 / $99 — once</a
+        >
+      </div>
+      {
+        /* PLACEHOLDER (capture 1): Studio home cast — project open,
+          pipeline steps ticking, render queue live. */
+      }
+      <div class="shot-todo mono" data-reveal="rise" data-capture="studio-home">
+        <span class="shot-todo__tag">capture pending</span>
+        <p>
+          Studio home: a project open, the pipeline steps ticking over, the
+          render queue doing its one-job-at-a-time thing.
+        </p>
+      </div>
+    </div>
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track">
+        {
+          Array.from({ length: 2 }).map(() => (
+            <span class="ticker__seq">
+              <span class="ticker__cmd">probe</span>
+              <span class="ticker__cmd">extract</span>
+              <span class="ticker__cmd">whisper</span>
+              <span class="ticker__cmd">index</span>
+              <span class="ticker__cmd">energy</span>
+              <span class="ticker__cmd">scenes</span>
+              <span class="ticker__cmd">coalesce</span>
+              <span class="ticker__cmd">review</span>
+              <span class="ticker__cmd">snap</span>
+              <span class="ticker__cmd">outro</span>
+              <span class="ticker__cmd">assemble</span>
+              <span class="ticker__cmd">encode</span>
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  {/* ── 2 · THE PIPELINE — pinned scrollytelling (following circle) ── */}
+  <section
+    id="pipeline"
+    class="scrolly"
+    data-theme="tokyo-night"
+    data-nav-label="The pipeline"
+    data-scrolly
+    style="--steps: 7"
+  >
+    <div class="scrolly__stage">
+      <span class="scrolly__hint">the pipeline · scroll through</span>
+      <div class="scrolly__steps">
+        <div class="scrolly__step" data-scrolly-step>
+          <h2 class="scrolly__big" data-fx="comet">A night of recordings.</h2>
+          <p class="scrolly__sub">
+            Point Studio at the session — gameplay and commentary, two tracks,
+            exactly as OBS wrote them. Import hashes every file on the way in;
+            from that moment the originals are never written again.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <p class="scrolly__arrow">listen -></p>
+          <h2 class="scrolly__big pito-blue" data-fx="comet">
+            It hears every word.
+          </h2>
+          <p class="scrolly__sub">
+            Whisper transcribes the commentary on your GPU, locally. The
+            transcript is searchable the moment it lands — and it never leaves
+            the machine.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <p class="scrolly__arrow">watch -></p>
+          <h2 class="scrolly__big" data-fx="comet">It watches the energy.</h2>
+          <p class="scrolly__sub">
+            Audio energy and scene changes mark the moments worth keeping, then
+            the bursts are coalesced into a proposed cut. Proposals — not
+            verdicts.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <h2 class="scrolly__big pito-blue" data-fx="comet">
+            You call every cut.
+          </h2>
+          <p class="scrolly__sub">
+            The bursts line up for review: <code class="kbd">1</code> keep ·
+            <code class="kbd">2</code> mute · <code class="kbd">3</code> drop. Nothing
+            reaches the film without your verdict.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <h2 class="scrolly__big" data-fx="comet">It renders the film.</h2>
+          <p class="scrolly__sub">
+            Every kept cut conformed to one format, commentary ducked under
+            gameplay, crossfades, two-pass loudness — and your 20-second outro
+            appended. Upload-ready.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <p class="scrolly__arrow">or -></p>
+          <h2 class="scrolly__big" data-fx="comet">Or hands you clips.</h2>
+          <p class="scrolly__sub">
+            Prefer your own editor? The clips output writes the same cuts as
+            numbered files with gameplay and commentary kept as
+            <em>two separate audio tracks</em> — unmixed, in order, ready for a DaVinci
+            timeline.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <h2 class="scrolly__big" data-fx="comet">
+            Pull the plug. It resumes.
+          </h2>
+          <p class="scrolly__sub">
+            Every step writes a manifest before it works, so a crash — even a
+            hard kill — resumes at exactly the step that died. Unchanged work is
+            never redone.
+          </p>
+        </div>
+      </div>
+      <span class="scrolly__counter" data-scrolly-progress>01 / 07</span>
+    </div>
+  </section>
+
+  {/* ── 3 · SACRED RECORDINGS — one rail stop, two sub-slides ── */}
+  <section id="sacred" data-nav-label="Recordings are sacred">
+    <Section
+      id="masters"
+      theme="dracula"
+      label=""
+      class="f-heavy"
+      data-cursor="duotone"
+    >
+      <div
+        slot="decor"
+        class="cover-bed"
+        style="--cover:url('/covers/elden-ring.jpg')"
+        aria-hidden="true"
+      >
+      </div>
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--tr logo-accent--react logo-accent--sm logo-accent--purple"
+      />
+      <p class="eyebrow" data-reveal="fade">The one rule above all others</p>
+      <h2 class="display" data-fx="scramble" data-reveal="skew">
+        Recordings are sacred.
+      </h2>
+      <div class="prose" data-reveal="rise">
+        <p>
+          The files you import are <span class="accent"
+            >the only copy of that session</span
+          >, so the pipeline is forbidden to touch them. No step ever writes,
+          renames or deletes an original — a guard checks every declared output <em
+            >before</em
+          > a step is allowed to start, and a step aimed at your recordings simply
+          refuses to run.
+        </p>
+        <p>
+          And if a recording ever stops matching the hash taken at import, the
+          run <span class="accent">halts</span> rather than quietly render from a
+          corrupt master. The one thing that may ever remove a recording from a project
+          is you — an explicit, two-step act in the UI, never a pipeline step.
+        </p>
+      </div>
+    </Section>
+
+    <Section
+      id="honest-frames"
+      theme="nord"
+      label=""
+      class="f-grotesk"
+      data-cursor="plasma"
+    >
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--bl logo-accent--float logo-accent--sm logo-accent--cyan"
+      />
+      <div class="split">
+        <div class="split__copy">
+          <p class="eyebrow" data-reveal="fade">No funny business, ever</p>
+          <h2 class="display" data-fx="typewriter" data-fx-speed="45">
+            Frame-honest. Voice-honest.
+          </h2>
+          <p class="lede" data-reveal="rise">
+            Mix 1080p, 1440p and 4K at 29.97, 30 or 60 fps in one project —
+            every cut is conformed to your chosen output as it's extracted:
+            Lanczos scaling, aspect preserved with padding, <span class="accent"
+              >never stretched, never silently cropped</span
+            >. 29.97 is carried as the exact rational 30000/1001 so a multi-hour
+            session never drifts. No motion interpolation ever runs, and audio
+            is never speed-changed.
+          </p>
+        </div>
+        <div class="split__media">
+          {/* PLACEHOLDER (capture 2): the Review screen. */}
+          <div class="shot-todo mono" data-capture="studio-review">
+            <span class="shot-todo__tag">capture pending</span>
+            <p>
+              The Review screen: bursts queued with their transcript lines,
+              verdicts landing on <code class="kbd">1</code> /
+              <code class="kbd">2</code> / <code class="kbd">3</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Section>
+  </section>
+
+  {/* ── 4 · NOBODY ELSE — pinned scrollytelling (following circle) ── */}
+  <section
+    id="nobody-else"
+    class="scrolly"
+    data-theme="dracula"
+    data-nav-label="Nobody else"
+    data-scrolly
+    style="--steps: 6"
+  >
+    <div class="scrolly__stage">
+      <span class="scrolly__hint">nobody else · scroll the receipts</span>
+      <div class="scrolly__steps">
+        <div class="scrolly__step" data-scrolly-step>
+          <p class="scrolly__arrow">the alternatives…</p>
+          <h2 class="scrolly__big" data-fx="comet">Not better. Absent.</h2>
+          <p class="scrolly__sub">
+            Everything in the next screens happens on your box, against
+            terabytes, without an upload dialog in sight. The tools that could
+            do it don't run here; the tools that run here don't do it.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <p class="scrolly__verdict">
+            <span class="no">cloud ✗</span> · <span class="yes">Studio ✓</span>
+          </p>
+          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
+            Upload four terabytes first?
+          </h2>
+          <p class="scrolly__sub">
+            A Studio project is 1 to 100+ recordings at 100 MB to 100 GB each —
+            several terabytes is a normal night, not an edge case. Cloud editors
+            want all of it uploaded before the first cut. Studio walks over to
+            the files.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <p class="scrolly__verdict">
+            <span class="no">auto-cutters ✗</span> · <span class="yes"
+              >Studio ✓</span
+            >
+          </p>
+          <h2 class="scrolly__big scrolly__big--shot pito-blue" data-fx="comet">
+            A supercut you actually reviewed.
+          </h2>
+          <p class="scrolly__sub">
+            Silence-strippers commit their guess straight to the render. Studio
+            proposes, you dispose — keep, mute or drop every burst before a
+            single frame is cut.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <p class="scrolly__verdict">
+            <span class="no">baked-in mixes ✗</span> · <span class="yes"
+              >Studio ✓</span
+            >
+          </p>
+          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
+            The mix stays un-mixed.
+          </h2>
+          <p class="scrolly__sub">
+            Choose clips output and every cut carries gameplay and commentary as
+            two separate tracks, exactly as recorded. Mixing is destructive — so
+            it stays your editor's decision, not a fait accompli.
+          </p>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <p class="scrolly__verdict">
+            <span class="no">guesswork ✗</span> · <span class="yes"
+              >Studio ✓</span
+            >
+          </p>
+          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
+            Thumbnails under the 2 MB line.
+          </h2>
+          <p class="scrolly__sub">
+            Composed at 1920×1080 with YouTube's safe zones on screen, then
+            stepped down until the file clears the API's 2 MB cap. Keep several
+            finished candidates and run your A/B test with files that are
+            already legal.
+          </p>
+          {/* PLACEHOLDER (capture 3): thumbnail composer with safe zones. */}
+          <div class="shot-todo mono" data-capture="studio-thumbnail">
+            <span class="shot-todo__tag">capture pending</span>
+            <p>The thumbnail composer, safe zones visible.</p>
+          </div>
+        </div>
+        <div class="scrolly__step" data-scrolly-step>
+          <p class="scrolly__verdict">
+            <span class="yes">optional, yours ✓</span>
+          </p>
+          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
+            The upload is yours too.
+          </h2>
+          <p class="scrolly__sub">
+            Optional and credential-gated: with your own YouTube credentials, a
+            resumable upload that survives a dropped connection — title,
+            description, schedule and disclosure flags read from the project
+            file. Or skip it; the finished file is right there.
+          </p>
+        </div>
+      </div>
+      <span class="scrolly__counter" data-scrolly-progress>01 / 06</span>
+    </div>
+  </section>
+
+  {/* ── 5 · LOCAL AI — one rail stop, two sub-slides ─────── */}
+  <section id="local-ai" data-nav-label="Local AI">
+    <Section
+      id="ask"
+      theme="tokyo-night"
+      label=""
+      class="f-grotesk"
+      data-cursor="duotone"
+    >
+      <div
+        slot="decor"
+        class="cover-bed"
+        style="--cover:url('/covers/cyberpunk-2077.jpg')"
+        aria-hidden="true"
+      >
+      </div>
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong"
+      />
+      <div class="split">
+        <div class="split__copy">
+          <p class="eyebrow" data-reveal="fade">The AI moved in here too</p>
+          <h2 class="display" data-fx="typewriter" data-fx-speed="45">
+            Ask your recordings.
+          </h2>
+          <p class="lede" data-reveal="rise">
+            <em>"that boss where I kept whispering"</em> — keyword and meaning searched
+            together over every transcript, and <code class="kbd">enter</code> opens
+            mpv <span class="accent">at that exact second</span>. The index
+            lives with your projects, so archived sessions stay searchable. The
+            embedding model sits on your disk: no key, no per-call bill, nothing
+            leaves the machine.
+          </p>
+        </div>
+        <div class="split__media">
+          {/* PLACEHOLDER (capture 4): search hit jumping into mpv. */}
+          <div class="shot-todo mono" data-capture="studio-search">
+            <span class="shot-todo__tag">capture pending</span>
+            <p>
+              A transcript search: typed phrase, ranked hits, mpv opening at the
+              matched second.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Section>
+
+    <Section
+      id="outro"
+      theme="ayu-mirage"
+      label=""
+      class="f-round"
+      data-cursor="plasma"
+    >
+      <PitoLogo
+        slot="decor"
+        class="logo-accent logo-accent--br logo-accent--float logo-accent--sm logo-accent--orange"
+      />
+      <div class="split split--reverse">
+        <div class="split__copy">
+          <p class="eyebrow" data-reveal="fade">The sign-off</p>
+          <h2 class="display" data-fx="comet">Twenty seconds of goodbye.</h2>
+          <p class="lede" data-reveal="rise">
+            Compose your outro the way you'd pick a thumbnail font: <span
+              class="accent">this clip, this music, this caption</span
+            > — or any of them alone, or none at all. Save it as a recipe, change
+            your mind later. It closes the stitched film and rides along as the last
+            numbered clip.
+          </p>
+        </div>
+        <div class="split__media">
+          {/* PLACEHOLDER (capture 5): outro composer. */}
+          <div class="shot-todo mono" data-capture="studio-outro">
+            <span class="shot-todo__tag">capture pending</span>
+            <p>The outro composer: clip, music and caption being chosen.</p>
+          </div>
+        </div>
+      </div>
+    </Section>
+  </section>
+
+  {/* ── 6 · LINUX + NVIDIA — requirements as a strength ──── */}
+  <Section
+    id="stack"
+    theme="one-dark"
+    label="Linux + NVIDIA"
+    class="f-grotesk"
+    data-cursor="plasma"
+  >
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--tl logo-accent--react logo-accent--sm logo-accent--green"
+    />
+    <p class="eyebrow" data-reveal="fade">Requirements, stated proudly</p>
+    <h2 class="display" data-fx="comet">
+      Built for one stack. Fast because of it.
+    </h2>
+    <p
+      class="lede"
+      data-reveal="rise"
+      style="margin-inline:auto;max-width:44rem"
+    >
+      Pito Studio requires <span class="accent"
+        >64-bit Linux and an NVIDIA GPU</span
+      > — not as fine print, as the design. One encoder (NVENC HEVC), Whisper on CUDA,
+      and exactly one GPU job at a time, so the card is always saturated and never
+      fought over. No fallback paths means the fast path is the only path — and if
+      your ffmpeg can't do it, Studio fetches one that can.
+    </p>
+    <div class="brand-row" data-reveal="rise" data-stagger>
+      <figure class="brand-badge" style="--i:0">
+        <img
+          decoding="async"
+          src="/brands/tux.svg"
+          width="120"
+          height="142"
+          alt="Tux, the Linux mascot"
+          data-magnetic
+          loading="lazy"
+        />
+        <figcaption class="mono">Linux, 64-bit</figcaption>
+      </figure>
+      <figure class="brand-badge" style="--i:1">
+        <img
+          decoding="async"
+          src="/brands/nvidia.svg"
+          width="220"
+          height="41"
+          alt="NVIDIA"
+          data-magnetic
+          loading="lazy"
+        />
+        <figcaption class="mono">any NVENC-capable GPU</figcaption>
+      </figure>
+    </div>
+    <ul class="req-list mono" data-reveal="rise">
+      <li>64-bit Linux — the OS your recording rig already runs</li>
+      <li>an NVIDIA GPU with NVENC — the same card OBS encodes on</li>
+      <li>
+        recordings in any mix of 1080p / 1440p / 4K at 29.97, 30 or 60 fps —
+        conformed automatically (10-bit sources are refused honestly, not
+        guessed at)
+      </li>
+    </ul>
+    <p class="brand-note mono" data-reveal="fade">
+      Tux by Larry Ewing (lewing@isc.tamu.edu), made with The GIMP — used with
+      the requested credit. NVIDIA is a trademark of NVIDIA Corporation, named
+      here to state a hardware requirement; no endorsement implied.
+    </p>
+  </Section>
+
+  {/* ── 7 · ONCE. — the Studio answer to chat's Zero. (H3a) ── */}
+  <ColorBridge
+    id="once"
+    label="Once."
+    letter="1"
+    color="#5170ff"
+    ink="#0a0a12"
+    text="Once."
+    sub="one price · every 5.x update · yours forever · no subscription"
+  />
+
+  {/* ── 8 · THE PRICE, STATED PLAINLY (H3b) ──────────────── */}
+  <Section
+    id="price"
+    theme="gruvbox-dark"
+    label="The price"
+    class="f-funk"
+    data-cursor="duotone"
+  >
+    <div
+      slot="decor"
+      class="cover-bed"
+      style="--cover:url('/covers/stellar-blade.jpg')"
+      aria-hidden="true"
+    >
+    </div>
+    <img
+      decoding="async"
+      slot="decor"
+      src="/coin/coin.gif"
+      class="pixel-accent pixel-accent--spin"
+      style="top:12%;right:8%;width:120px;height:90px;opacity:.5"
+      alt=""
+      aria-hidden="true"
+    />
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--bl logo-accent--float logo-accent--sm logo-accent--orange"
+    />
+    <p class="eyebrow" data-reveal="fade">
+      No tiers, no meters, no monthly anything
+    </p>
+    <h2 class="display" data-fx="scramble">One payment. Every 5.x. Forever.</h2>
+    <div class="price-row" data-reveal="rise" data-stagger>
+      <div class="price-tag" style="--i:0">
+        <span class="price-tag__num display">€89</span>
+        <span class="price-tag__cur mono">EUR · fixed</span>
+      </div>
+      <div class="price-tag" style="--i:1">
+        <span class="price-tag__num display">$99</span>
+        <span class="price-tag__cur mono">USD · fixed</span>
+      </div>
+    </div>
+    <p
+      class="lede"
+      data-reveal="rise"
+      style="margin-inline:auto;max-width:44rem"
+    >
+      Those two numbers never move — they're fixed prices, not conversions. Pay
+      in another currency and the conversion happens at checkout while the round
+      numbers stay round. Tax is handled there too.
+    </p>
+    <div class="cards" data-stagger data-reveal="rise">
+      <div class="card" style="--i:0">
+        <h3 class="display card__h">One payment</h3>
+        <p>
+          Buy it once, it's yours. The licence is an offline key the binary
+          verifies itself — no activation server, no phone-home, no network.
+          Ever.
+        </p>
+      </div>
+      <div class="card" style="--i:1">
+        <h3 class="display card__h">Every 5.x update</h3>
+        <p>
+          The key covers every 5.x release, forever: new pipeline steps, new
+          screens, new fixes — you get updates, not promises. If a 6.0 someday
+          exists, 5.x keeps working.
+        </p>
+      </div>
+      <div class="card" style="--i:2">
+        <h3 class="display card__h">Linux + NVIDIA</h3>
+        <p>
+          Required, and stated right here rather than in a footnote: 64-bit
+          Linux and an NVIDIA GPU. That pairing is why a two-hour session
+          doesn't take two hours.
+        </p>
+      </div>
+    </div>
+    {
+      /* PLACEHOLDER: the Stripe payment link lands here when checkout goes
+        live (owner sets up Stripe — E6). Until then this is a marked,
+        non-navigating stand-in; the price it shows is already the real one. */
+    }
+    <div class="buy-soon" data-reveal="fade">
+      <span class="btn btn--primary buy-soon__btn" aria-disabled="true"
+        >Buy Pito Studio — €89 / $99</span
+      >
+      <p class="buy-soon__note mono">
+        checkout opens with the 5.0 release — the button will charge exactly
+        what it says
+      </p>
+    </div>
+  </Section>
+
+  {
+    /* ── 8b · YOUTUBE UPLOAD, OPTIONAL — the E7 walkthrough ──
+      The download page is one of the three surfaces that must explain how
+      to configure YouTube upload, saying the same thing as `pito --help`
+      and the doctor row. SOURCE OF TRUTH: Pito Studio's own
+      internal/studio/youtube/setup.go (SetupSteps / SetupPlainText) — the
+      sentences below mirror it verbatim; change them THERE first, then
+      re-mirror here. Two knowing deviations, both because this is a web
+      page and not the TUI: step 6 says "the two boxes in Studio's doctor"
+      where the TUI says "here", and the closing pointer replaces HelpText's
+      press-? instruction. Calm by design: data-fx-none (no mood, ring only)
+      so a setup walkthrough reads neutral. */
+  }
+  <Section
+    id="youtube-setup"
+    theme="github-dark"
+    label="YouTube, optional"
+    class="f-mono"
+    data-fx-none
+  >
+    <p class="eyebrow" data-reveal="fade">If you want the upload too</p>
+    <h2 class="display" data-fx="typewriter" data-fx-speed="45">
+      YouTube upload, optional.
+    </h2>
+    <p
+      class="lede"
+      data-reveal="rise"
+      style="margin-inline:auto;max-width:44rem"
+    >
+      Uploading to YouTube is optional. Everything else in Studio works without
+      it, and Pito never contacts YouTube until you set it up.
+    </p>
+    <p class="yt-why mono" data-reveal="rise">
+      Why your own project? YouTube gives each project 10000 units of upload
+      allowance a day, and one video costs 1600 of them — about 6 videos. If
+      Pito shipped with one shared account, the first few people to upload each
+      day would spend everyone else's allowance. Your own project means your
+      allowance is yours, and your videos never queue behind a stranger's.
+    </p>
+    <ol class="yt-steps" data-reveal="rise">
+      <li>
+        <strong>Sign in to Google Cloud.</strong> Open the
+        <a href="https://console.cloud.google.com/" class="pito-blue"
+          >Google Cloud console</a
+        > and sign in with the Google account that owns your YouTube channel. It is
+        free, and you are not signing up for anything — the console is just where
+        Google keeps the settings that let a program talk to your account.
+      </li>
+      <li>
+        <strong>Make a project.</strong> At the top of the page there is a project
+        picker. Open it, choose
+        <a
+          href="https://console.cloud.google.com/projectcreate"
+          class="pito-blue">New Project</a
+        >, give it any name ("Pito" does fine) and create it. Wait for the
+        picker to switch to your new project before going on.
+      </li>
+      <li>
+        <strong>Turn on YouTube Data API v3.</strong> Open
+        <a
+          href="https://console.cloud.google.com/apis/library/youtube.googleapis.com"
+          class="pito-blue">the API page</a
+        >, make sure your new project is the one selected at the top, and press
+        Enable. This is the switch that lets anything upload on your behalf.
+        Nothing is charged for it.
+      </li>
+      <li>
+        <strong>Fill in the consent screen.</strong> Google asks who is asking for
+        access. On
+        <a
+          href="https://console.cloud.google.com/apis/credentials/consent"
+          class="pito-blue">the consent screen</a
+        >, choose External, put your own name and email in the boxes it marks
+        required, and save. Then find "Test users" and add your own Google
+        address. While the app is in testing only the accounts you list here can
+        sign in — which is exactly what you want, because the only account that
+        will ever use it is yours.
+      </li>
+      <li>
+        <strong>Create the credentials.</strong> Go to
+        <a
+          href="https://console.cloud.google.com/apis/credentials"
+          class="pito-blue">Credentials</a
+        >, press Create Credentials, choose OAuth client ID, and pick Desktop
+        app as the type. Google then shows you a client ID and a client secret.
+        Leave that page open.
+      </li>
+      <li>
+        <strong>Paste them into Pito.</strong> Copy the client ID and the client secret
+        from that page into the two boxes in Studio's doctor. They are stored on this
+        machine only, readable by you alone, and you can remove them at any time.
+      </li>
+      <li>
+        <strong>Sign in once.</strong> Pito opens a Google sign-in page and asks for
+        permission to upload videos — nothing else. Google will warn that the app
+        is not verified, because it is yours and nobody has reviewed it; choose Advanced
+        and continue. After that you are done, and Pito will not ask again.
+      </li>
+    </ol>
+    <p class="yt-note mono" data-reveal="fade">
+      Studio walks you through the same steps with the exact links — the YouTube
+      row in the doctor has them ready to copy.
+    </p>
+  </Section>
+
+  {/* ── 9 · GET STUDIO / FOOTER ──────────────────────────── */}
+  <Section
+    id="get"
+    theme="synthwave"
+    label="Get Studio"
+    class="cta f-grotesk"
+    data-cursor="plasma"
+  >
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--side logo-accent--float"
+    />
+    <PitoLogo
+      slot="decor"
+      class="logo-accent logo-accent--tl logo-accent--react logo-accent--sm logo-accent--cyan"
+    />
+    <p class="eyebrow" data-reveal="fade">Three steps, one binary</p>
+    <h2 class="display" data-fx="comet">Get Pito Studio.</h2>
+    <p
+      class="lede"
+      data-reveal="rise"
+      style="margin-inline:auto;max-width:42rem"
+    >
+      Studio ships inside the <code class="kbd">pito</code> binary — the same one
+      that carries The Free Chat client. Download it, add the key from your purchase
+      mail, and you're editing:
+    </p>
+    <ol class="get-steps mono" data-reveal="rise">
+      <li>
+        grab the binary from <a href={RELEASES} class="pito-blue"
+          >the releases repo</a
+        >
+      </li>
+      <li>
+        <code class="kbd">pito licence add &lt;your-key&gt;</code> — offline, instant
+      </li>
+      <li>
+        <code class="kbd">pito</code> — Studio opens first; your chat instance is
+        one <code class="kbd">shift+tab</code> away
+      </li>
+    </ol>
+    <div
+      class="copybox copybox--center"
+      data-copy="pito licence add "
+      data-reveal="fade"
+      title="Click to copy"
+    >
+      <span class="copybox__prompt mono">$</span>
+      <code class="copybox__cmd mono" data-fx="comet">pito licence add …</code>
+      <button
+        type="button"
+        class="copybox__btn mono"
+        data-copy-btn
+        aria-label="Copy the licence command"
+      >
+        <span data-copy-label>⧉ copy</span>
+      </button>
+    </div>
+
+    <div class="maker" data-reveal="rise">
+      <p class="maker__by mono">
+        Built by <strong>Catalin Ilinca</strong> &mdash;{" "}
+        <a href={YOUTUBE} class="pito-blue">@gmrdad82</a>, a 20-yr Rails
+        engineer and multi&#8209;channel YouTuber who edited one supercut too
+        many by hand. The free chat side of Pito lives at{" "}
+        <a href={CHAT} class="pito-blue">pitomd.com</a>.
+      </p>
+    </div>
+
+    <footer class="footer">
+      <a href={CHAT}>Pito chat</a>
+      <a href={YOUTUBE}>YouTube</a>
+      <a href={X}>X</a>
+      <a href={DISCORD}>Discord</a>
+    </footer>
+  </Section>
+</Base>
+
+<style>
+  /* ── /studio-only furniture ─────────────────────────────────
+     Page-scoped on purpose: nothing here leaks into `/`, and the shared
+     stylesheets stay untouched for the concurrent index work. */
+
+  /* capture placeholders — loud, unmistakable, impossible to ship blind */
+  .shot-todo {
+    max-width: 34rem;
+    margin: 1.6rem auto 0;
+    padding: 1.1rem 1.3rem;
+    border: 2px dashed color-mix(in oklch, #5170ff 65%, transparent);
+    border-radius: 10px;
+    background: color-mix(in oklch, var(--bg-elevated, #14142a) 82%, #5170ff);
+    text-align: left;
+  }
+
+  .shot-todo p {
+    margin: 0.4rem 0 0;
+    font-size: 0.82rem;
+    opacity: 0.85;
+    line-height: 1.5;
+  }
+
+  .shot-todo__tag {
+    display: inline-block;
+    padding: 0.15em 0.6em;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #0a0a12;
+    background: #ffe066;
+    border-radius: 3px;
+  }
+
+  /* brand badges (Linux / NVIDIA) */
+  .brand-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    margin: 2.4rem auto 1.4rem;
+  }
+
+  .brand-badge {
+    display: grid;
+    justify-items: center;
+    gap: 0.8rem;
+    margin: 0;
+  }
+
+  .brand-badge img {
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 6px 24px rgb(0 0 0 / 45%));
+  }
+
+  .brand-badge figcaption {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    opacity: 0.75;
+  }
+
+  .brand-note {
+    max-width: 44rem;
+    margin: 2rem auto 0;
+    font-size: 0.68rem;
+    line-height: 1.6;
+    opacity: 0.55;
+  }
+
+  .req-list {
+    max-width: 40rem;
+    margin: 1.4rem auto 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+    font-size: 0.86rem;
+    line-height: 1.7;
+  }
+
+  .req-list li {
+    padding-left: 1.4em;
+    position: relative;
+  }
+
+  .req-list li::before {
+    content: "->";
+    position: absolute;
+    left: 0;
+    color: #5170ff;
+  }
+
+  /* the fixed price pair */
+  .price-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.4rem;
+    margin: 2.2rem auto 1.6rem;
+  }
+
+  .price-tag {
+    display: grid;
+    justify-items: center;
+    gap: 0.3rem;
+    padding: 1.4rem 2.6rem;
+    border: 1px solid var(--border-faded, rgb(255 255 255 / 18%));
+    border-radius: 14px;
+    background: color-mix(
+      in oklch,
+      var(--bg-elevated, #14142a) 86%,
+      transparent
+    );
+  }
+
+  .price-tag__num {
+    font-size: clamp(3rem, 8vw, 5.2rem);
+    line-height: 1;
+    color: #5170ff;
+  }
+
+  .price-tag__cur {
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  /* the marked buy stand-in */
+  .buy-soon {
+    margin-top: 2.6rem;
+    display: grid;
+    justify-items: center;
+    gap: 0.7rem;
+  }
+
+  .buy-soon__btn {
+    cursor: default;
+    opacity: 0.75;
+  }
+
+  .buy-soon__note {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    opacity: 0.6;
+  }
+
+  /* the E7 YouTube walkthrough */
+  .yt-why {
+    max-width: 44rem;
+    margin: 1.6rem auto 0;
+    font-size: 0.8rem;
+    line-height: 1.7;
+    opacity: 0.75;
+    text-align: left;
+  }
+
+  .yt-steps {
+    max-width: 44rem;
+    margin: 1.8rem auto 0;
+    padding-left: 1.4rem;
+    text-align: left;
+    font-size: 0.86rem;
+    line-height: 1.75;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .yt-steps strong {
+    color: #5170ff;
+  }
+
+  .yt-note {
+    max-width: 44rem;
+    margin: 1.8rem auto 0;
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    opacity: 0.6;
+  }
+
+  /* the three get-steps */
+  .get-steps {
+    max-width: 36rem;
+    margin: 1.6rem auto 0;
+    padding-left: 1.4rem;
+    text-align: left;
+    font-size: 0.88rem;
+    line-height: 2;
+  }
+
+  @media (max-width: 860px) {
+    .brand-row {
+      gap: 1.8rem;
+    }
+
+    .price-tag {
+      padding: 1rem 1.8rem;
+    }
+  }
+</style>

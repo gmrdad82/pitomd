@@ -425,6 +425,7 @@
   border: 1px solid var(--border-faded);
   padding: 0.1em 0.4em;
   color: var(--accent-cyan);
+  white-space: nowrap; /* a chord or flag is one token — never breaks (owner, freeze QA) */
 }
 
 /* ── Cards ─────────────────────────────────────────────────── */
@@ -448,50 +449,6 @@
 .card p {
   color: var(--fg-dim);
   line-height: 1.55;
-}
-
-/* ── Theme stage (section 7) ───────────────────────────────── */
-
-.themestage {
-  margin-top: 2.5rem;
-  max-width: 48rem;
-  margin-inline: auto;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-faded);
-  transition:
-    background-color 0.5s ease,
-    border-color 0.5s ease;
-}
-.themestage__bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.7rem 1rem;
-  border-bottom: 1px solid var(--border-default);
-  background: var(--bg-elevated);
-}
-.themestage__name {
-  color: var(--accent-orange);
-  font-weight: 700;
-}
-.themestage__index {
-  color: var(--fg-dim);
-}
-.themestage__shot {
-  width: 100%;
-  display: block;
-}
-.themestage__controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.8rem 1rem;
-  border-top: 1px solid var(--border-default);
-}
-.themestage__hint {
-  color: var(--fg-dim);
-  font-size: 0.75rem;
 }
 
 /* ── Install cast (section 9) ──────────────────────────────── */
@@ -605,17 +562,11 @@
 /* ── Centered sections ─────────────────────────────────────── */
 
 .cta .section__inner,
-#themes .section__inner,
-#free .section__inner,
-#pain .section__inner {
+#free .section__inner {
   text-align: center;
 }
-#pain .prose,
 .cards {
   margin-inline: auto;
-}
-#pain .prose {
-  text-align: left;
 }
 
 /* #shinies + #price + #footage vertical rhythm — the displays sat right on

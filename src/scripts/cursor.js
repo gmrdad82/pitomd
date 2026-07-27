@@ -1,10 +1,11 @@
 // cursor.js — per-slide cursor personalities + the ring-zone ring.
 //
-// Two disjoint zones, each with exactly ONE cursor fx:
-//   • Slides (.section) carry a mood via data-cursor: "glow" (the slide's
-//     spotlight follows the cursor — CSS reads pointer.js's --lx/--ly + .is-hot),
-//     "ripple" (water rings spread from the pointer; pointerdown drops a bigger
-//     splash), or a WebGL background (fx-webgl.js). The ring is suppressed here.
+// Two disjoint zones, each with exactly ONE cursor fx (the 5.0.0 cull's
+// three keepers: water, the following circle, circle ripples):
+//   • Slides (.section) carry a mood via data-cursor, stamped statically in
+//     the markup: "ripple" (water rings spread from the pointer; pointerdown
+//     drops a bigger splash) or "water" (the WebGL background, fx-webgl.js).
+//     The ring is suppressed here.
 //   • Ring zones — `.scrolly` steppers, `.bridge` color-bridges, and any
 //     `[data-fx-none]` section (opted out of a mood) — carry NO mood: the
 //     neon ring (.cursor-ring) is their ONLY fx, trailing the pointer and

@@ -1,11 +1,14 @@
 // pointer.js — pointer reactivity (the advanced.team / cuberto feel).
 //
 // Three cooperating effects, all driven by a single rAF-throttled pointermove:
-//   • Global spotlight   — CSS vars --mx/--my (viewport %) on <body> let any
-//     element paint a glow that follows the cursor.
+//   • Mouse parallax      — CSS vars --par-x/--par-y (-1..1) on <body> drive
+//     the decor-layer drift (logo accents, pixel coins).
 //   • Magnetic buttons    — [data-magnetic] elements ease toward the pointer
 //     when it's near, springing back on leave.
 //   • 3D tilt cards        — [data-tilt] elements rotate toward the pointer.
+//
+// (The per-section spotlight — the hot-class + local cursor vars — went with
+// the 5.0.0 fx cull; the "glow" cursor mood was its only consumer.)
 //
 // Everything is disabled under prefers-reduced-motion or on coarse (touch)
 // pointers, where these effects are pointless or janky.
@@ -23,23 +26,14 @@ function initPointer() {
   let py = window.innerHeight / 2;
   let ticking = false;
 
-  // ── spotlight vars ──────────────────────────────────────────
-  // Global viewport coords (for the hero) + per-section LOCAL coords so every
-  // section's glow tracks the real cursor position.
-  // Only .section elements carry the is-hot spotlight; .bridge/.scrolly were
-  // measured then skipped, wasting a getBoundingClientRect each frame.
-  const sections = Array.from(document.querySelectorAll(".section"));
-
-  // Section rects change on scroll/resize, NEVER on a bare pointermove — so
-  // measure them there (rAF-batched) and let updateSpotlight read the cache.
-  // Re-reading every section's getBoundingClientRect on every move frame is a
-  // read storm that the ripple-spawn / fx-canvas DOM churn can turn into a
-  // forced reflow; the cache reads zero layout during pointer movement.
-  let rects = sections.map((s) => [s, s.getBoundingClientRect()]);
+  // ── mouse parallax vars ─────────────────────────────────────
+  // Magnet/tilt rects change on scroll/resize, NEVER on a bare pointermove —
+  // measure them there (rAF-batched) and let the frame read the cache. A
+  // per-move getBoundingClientRect is a read storm the ripple-spawn DOM churn
+  // can turn into a forced reflow.
   let remeasureQueued = false;
   const remeasure = () => {
     remeasureQueued = false;
-    rects = sections.map((s) => [s, s.getBoundingClientRect()]);
     refreshElementRects();
   };
   const queueRemeasure = () => {
@@ -50,25 +44,10 @@ function initPointer() {
   window.addEventListener("scroll", queueRemeasure, { passive: true });
   window.addEventListener("resize", queueRemeasure, { passive: true });
 
-  const updateSpotlight = () => {
-    body.style.setProperty("--mx", `${(px / window.innerWidth) * 100}%`);
-    body.style.setProperty("--my", `${(py / window.innerHeight) * 100}%`);
+  const updateParallaxVars = () => {
     // normalized cursor offset from centre (-1..1) → mouse-parallax for logos
     body.style.setProperty("--par-x", (px / window.innerWidth - 0.5) * 2);
     body.style.setProperty("--par-y", (py / window.innerHeight - 0.5) * 2);
-    // rects from the scroll/resize-refreshed cache — no per-frame layout read.
-    for (const [s, r] of rects) {
-      const inside =
-        py >= r.top &&
-        py <= r.bottom &&
-        r.top < window.innerHeight &&
-        r.bottom > 0;
-      s.classList.toggle("is-hot", inside);
-      if (inside) {
-        s.style.setProperty("--lx", `${((px - r.left) / r.width) * 100}%`);
-        s.style.setProperty("--ly", `${((py - r.top) / r.height) * 100}%`);
-      }
-    }
   };
 
   // ── magnetic buttons ─────────────────────────────────────
@@ -177,7 +156,7 @@ function initPointer() {
     lastWorkTime = now;
     // Style writes only — every layout read now comes from the
     // scroll/resize-refreshed caches; a move frame forces zero reflow.
-    updateSpotlight();
+    updateParallaxVars();
     if (magnets.length) applyMagnets(magnetRects);
     if (tilts.length) applyTilt(tiltRects);
     ticking = false;

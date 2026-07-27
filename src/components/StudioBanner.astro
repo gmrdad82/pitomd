@@ -1,0 +1,188 @@
+---
+// StudioBanner.astro — the "Studio is here!" launch sign (5.0.0).
+//
+// A miniature RETRO NEON SIGN pinned top-left: white-hot tube letters over a
+// synthwave plate, magenta ("STUDIO") + cyan ("is here!") glows, a one-shot
+// flicker-on and then a slow hum. Links to /studio; the × dismisses into
+// localStorage. Ships hidden so a dismissed visitor never sees a flash —
+// the script reveals it only when no dismissal is stored (pito's app-banner
+// pattern, ported). Mounted from Base.astro on every page EXCEPT /studio
+// itself (no sign pointing at the room you are standing in).
+//
+// The neon hues are hardcoded on purpose (same rationale as .dev-banner's
+// synthwave yellow): the sign must read as the SAME sign on every section
+// theme, and survive the 5.0.0 theme diet untouched. Only the plate mixes in
+// the live --bg-root so it never clashes with the section behind it.
+---
+
+<aside
+  class="studio-banner"
+  hidden
+  data-studio-banner
+  aria-label="Pito Studio announcement"
+>
+  <a class="studio-banner__link" href="/studio">
+    <span class="studio-banner__word">Studio</span>
+    <span class="studio-banner__rest">is here!</span>
+  </a>
+  <button
+    class="studio-banner__dismiss"
+    type="button"
+    aria-label="Dismiss — don't show this again">×</button
+  >
+</aside>
+
+<script>
+  const KEY = "pitomd:studio-banner-dismissed";
+  const sign = document.querySelector("[data-studio-banner]");
+  if (sign instanceof HTMLElement) {
+    let dismissed = false;
+    try {
+      dismissed = Boolean(localStorage.getItem(KEY));
+    } catch {
+      /* storage blocked → show the sign, skip persistence */
+    }
+    if (!dismissed) sign.hidden = false;
+    sign.querySelector("button")?.addEventListener("click", () => {
+      try {
+        localStorage.setItem(KEY, "1");
+      } catch {
+        /* best effort — the sign still hides for this page view */
+      }
+      sign.hidden = true;
+    });
+  }
+</script>
+
+<style>
+  .studio-banner {
+    position: fixed;
+    top: 0.85rem;
+    left: 0.85rem;
+    /* above the rails (50), below the dev banner (100) */
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.42rem 0.7rem 0.42rem 0.8rem;
+    background: color-mix(in oklab, var(--bg-root, #1a0b2e) 55%, #140a24);
+    border: 1px solid #ff3ec8;
+    border-radius: 0;
+    box-shadow:
+      0 0 10px color-mix(in oklab, #ff3ec8 55%, transparent),
+      0 0 30px color-mix(in oklab, #ff3ec8 25%, transparent),
+      inset 0 0 12px color-mix(in oklab, #29e6ff 12%, transparent);
+    animation:
+      studio-banner-flicker 1.1s steps(1, end) 1,
+      studio-banner-hum 3.8s ease-in-out 1.1s infinite alternate;
+  }
+  /* author rule so the pre-reveal / dismissed states beat the display: flex */
+  .studio-banner[hidden] {
+    display: none;
+  }
+
+  .studio-banner__link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  /* STUDIO — the big tube: Unbounded 800, white-hot core, magenta halo */
+  .studio-banner__word {
+    font-family: "Unbounded", var(--font-display, system-ui), sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff0fb;
+    text-shadow:
+      0 0 4px #ff3ec8,
+      0 0 11px #ff3ec8,
+      0 0 26px color-mix(in oklab, #ff3ec8 65%, transparent);
+  }
+  /* is here! — the small tube: mono, cyan, lowercase, the diner-script foil */
+  .studio-banner__rest {
+    font-family: var(--font-mono, monospace);
+    font-weight: 700;
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    color: #eafdff;
+    text-shadow:
+      0 0 4px #29e6ff,
+      0 0 12px #29e6ff,
+      0 0 24px color-mix(in oklab, #29e6ff 60%, transparent);
+  }
+
+  .studio-banner__dismiss {
+    padding: 0 0.15rem;
+    border: 0;
+    background: transparent;
+    color: color-mix(in oklab, #ff3ec8 45%, #ffffff 30%);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  .studio-banner__dismiss:hover,
+  .studio-banner__dismiss:focus-visible {
+    color: #fff0fb;
+    outline: none;
+  }
+
+  /* the tube warming up: dark → sputter → steady (ends at full — the global
+     reduced-motion rule collapses this to the final frame) */
+  @keyframes studio-banner-flicker {
+    0% {
+      opacity: 0;
+    }
+    18% {
+      opacity: 1;
+    }
+    24% {
+      opacity: 0.25;
+    }
+    32% {
+      opacity: 1;
+    }
+    41% {
+      opacity: 0.4;
+    }
+    48%,
+    100% {
+      opacity: 1;
+    }
+  }
+  /* the steady-state hum — the halo breathes, the letters do not move */
+  @keyframes studio-banner-hum {
+    from {
+      box-shadow:
+        0 0 10px color-mix(in oklab, #ff3ec8 55%, transparent),
+        0 0 30px color-mix(in oklab, #ff3ec8 25%, transparent),
+        inset 0 0 12px color-mix(in oklab, #29e6ff 12%, transparent);
+    }
+    to {
+      box-shadow:
+        0 0 14px color-mix(in oklab, #ff3ec8 70%, transparent),
+        0 0 40px color-mix(in oklab, #ff3ec8 38%, transparent),
+        inset 0 0 16px color-mix(in oklab, #29e6ff 20%, transparent);
+    }
+  }
+
+  /* phones: same sign, a notch tighter, still clear of the edges */
+  @media (max-width: 480px) {
+    .studio-banner {
+      top: 0.6rem;
+      left: 0.6rem;
+      gap: 0.5rem;
+      padding: 0.35rem 0.55rem 0.35rem 0.65rem;
+    }
+    .studio-banner__word {
+      font-size: 0.72rem;
+    }
+    .studio-banner__rest {
+      font-size: 0.68rem;
+    }
+  }
+</style>

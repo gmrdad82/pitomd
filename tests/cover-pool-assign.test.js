@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { assignCovers } from "../src/lib/cover-pool-assign.js";
+import { assignCovers, seededRand } from "../src/lib/cover-pool-assign.js";
 import pool from "../src/data/cover-pool.json";
 
 const seeded = (seed) => () => {
@@ -36,5 +36,34 @@ describe("assignCovers — the no-duplicate deal", () => {
 
   it("the real pool is large enough for every slot on the page (39)", () => {
     expect(pool.length).toBeGreaterThanOrEqual(39);
+  });
+});
+
+describe("seededRand — the stable-key PRNG (P24)", () => {
+  it("same key, same sequence — every visitor, every reload", () => {
+    const a = seededRand("covers:2026-07-26");
+    const b = seededRand("covers:2026-07-26");
+    for (let i = 0; i < 100; i++) expect(a()).toBe(b());
+  });
+
+  it("same day key deals the SAME covers (the cache win)", () => {
+    const a = assignCovers(pool, 39, seededRand("covers:2026-07-26"));
+    const b = assignCovers(pool, 39, seededRand("covers:2026-07-26"));
+    expect(a).toEqual(b);
+  });
+
+  it("a different day key rotates the deal (freshness survives)", () => {
+    const a = assignCovers(pool, 39, seededRand("covers:2026-07-26"));
+    const b = assignCovers(pool, 39, seededRand("covers:2026-07-27"));
+    expect(a.map((c) => c.f)).not.toEqual(b.map((c) => c.f));
+  });
+
+  it("emits floats in [0, 1) so the Fisher–Yates index math stays in range", () => {
+    const r = seededRand("range-check");
+    for (let i = 0; i < 1000; i++) {
+      const v = r();
+      expect(v).toBeGreaterThanOrEqual(0);
+      expect(v).toBeLessThan(1);
+    }
   });
 });

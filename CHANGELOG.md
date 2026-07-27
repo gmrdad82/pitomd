@@ -6,9 +6,41 @@ format follows [Keep a Changelog](https://keepachangelog.com/); the site aims fo
 only when a `v*.*.*` tag is pushed (pushes to main are CI-validated but do not
 deploy).
 
-## [5.0.0] — 2026-07-24
+## [5.0.0] — 2026-07-27
+
+> The estate-freeze release. The `v5.0.0` tag was re-cut onto this commit
+> (delete-and-recreate), so the 2026-07-24 cut and the freeze ship as one
+> release — both are documented here.
+
+### Added
+
+- **The countdown teaser at `/` — "Pito Studio is coming in..."** A
+  countdown over ELASTIC TIME: the deadline is real (August 10, the
+  visitor's local time) but the display bends — every butterfly that
+  bumps the box adds or subtracts a gentle random amount, a touch resets
+  the display to something random, and the tick simply runs faster or
+  slower so the counter lands on zero exactly on the date no matter what
+  happened to it. `dd:hh:mm:ss:zzz`, the milliseconds riding superscript,
+  labels right-aligned under their groups. Behind it, the sky ported from
+  Pito's own web app as a self-contained canvas, with a three-body
+  butterfly flock over it — a yellow, red and green body at
+  0.5x/0.9x/1.9x size (and mass), orbiting each other and the box on load
+  before it all dissolves into chaotic wander, bouncing off the box and
+  off each other by mass along the way, never sticking to anything.
+  A small pill in the bottom-right corner points at the free chat.
+  Respects reduced motion; the countdown still ticks when the sky stands
+  still.
+- A top-left "Pito Studio" pill on `/chat` pointing back to `/` — dressed
+  as the seller: bold on a purple-to-blue gradient with a breathing glow
+  (calm under reduced motion).
 
 ### Changed
+
+- **The chat showcase lives at `/chat` now** — the whole restructured
+  page (the fat cut, the new copy, the fx cull) moved from the root.
+- Titles, meta descriptions, canonicals and the sitemap re-aimed: `/` is
+  the teaser, `/chat` is the chat showcase. Nothing else is routed.
+- Keyboard chips no longer break mid-token (`--web` stays whole).
 
 - **The terminal client is "pito" now, not "pito-tui"** — the runnable
   binary got renamed upstream (the GitHub repo stays
@@ -24,6 +56,15 @@ deploy).
 - Dev tooling bumped: eslint 10.5.0 → 10.7.0, prettier 3.8.4 → 3.9.6,
   stylelint 17.13.0 → 17.14.1, vitest 4.1.9 → 4.1.10; CI and deploy now
   use `actions/setup-node@v7`.
+
+### Removed
+
+- Every pito-tui reference: the terminal-client section, its loop GIF,
+  and all repo links. The site sells the free self-hosted chat — and
+  teases exactly one unexplained countdown.
+- The "Studio is here!" launch sign, everywhere.
+- `/studio` is unrouted: the built page parks at `src/parked/` for a
+  future launch. Nothing links to it and nothing claims it.
 
 ### Security
 
@@ -113,11 +154,11 @@ deploy).
 - **"It does the homework. You sign it."** — the games ↔ videos beat drops
   the pure explicit-link framing for suggest-then-confirm: a new vid's
   title gets read the way you would (an MK2 vid stays an MK2 vid, not
-  MK1), PITO proposes the link, one confirm wires it — it still never
+  MK1), Pito proposes the link, one confirm wires it — it still never
   links on its own.
 - **"Speak your language."** replaces "Just say what you want." — the
   one-chatbox slide's copy now covers the confirm-first behavior: when
-  PITO is sure, it answers and shows the command it understood; when it
+  Pito is sure, it answers and shows the command it understood; when it
   isn't, it asks first.
 - **One channel, not six** — consolidated to the single **@gmrdad82**
   ("Gamer Dad - Stories"): the retired sub-channel avatars and links are
@@ -145,7 +186,7 @@ deploy).
   finale: a looping capture of the real client (starfield boot, braille
   analytics blooming in color, the game picker) with the pitch it
   earns — close the browser, keep the command deck. Rail label
-  "Terminal", between "Free" and "Get PITO".
+  "Terminal", between "Free" and "Get Pito".
 
 ## [1.2.0] — 2026-07-12
 
@@ -167,7 +208,7 @@ deploy).
 
 ### Added
 
-- **"Your AI" (MCP) slide** — introduces PITO's read-only MCP connector: point an
+- **"Your AI" (MCP) slide** — introduces Pito's read-only MCP connector: point an
   AI chat client (Claude on your phone, ChatGPT, any MCP client) at your instance
   and it reads your library, approved by your TOTP code. Shows the OAuth consent
   screen; links to GitHub for setup.
@@ -227,4 +268,4 @@ deploy).
 
 ## [1.0.0] — 2026-06-25
 
-- Initial public launch of pitomd.com — the scroll-driven PITO showcase.
+- Initial public launch of pitomd.com — the scroll-driven Pito showcase.

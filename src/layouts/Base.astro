@@ -1,5 +1,5 @@
 ---
-// Base layout for pitomd.com — the over-the-top PITO showcase.
+// Base layout for pitomd.com — the over-the-top Pito showcase.
 //
 // <head> (favicons + meta + OG + fonts) and a <body> slot. The fx islands
 // (railnav, reveal, pointer, themes) load here, deferred, once per page.
@@ -9,19 +9,31 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  /** Open Graph / Twitter card image path (site-relative). Every route
+   *  passes its own so distinct routes carry distinct social cards. */
+  ogImage?: string;
+  /** JSON-LD override. Each route describes itself — the default below is
+   *  a bare WebSite node for the root teaser; /chat passes its own free
+   *  SoftwareApplication graph. */
+  jsonLd?: object;
 }
 
+// GOAL-1 estate freeze (F4): `/` is now the countdown teaser (the chat
+// showcase moved to `/chat`, which passes its own title/description/jsonLd)
+// — these defaults describe the teaser, the route that actually uses them.
 const {
-  title = "PITO — one chatbox. every channel.",
-  description = "PITO is the best YouTube tool for multi-channel creators: one self-hosted chatbox for every channel. Free, private, open source.",
+  title = "pitomd.com",
+  description = "Something is counting. Touch it.",
+  ogImage: ogImagePath = "/media/pito-tour-thumb.png",
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL("/media/pito-tour-thumb.png", Astro.site);
+const ogImage = new URL(ogImagePath, Astro.site);
 
-// Structured data — a free, self-hosted SoftwareApplication (PITO) marketed by
-// this site, plus the WebSite node. Helps Google understand + enrich the result.
-const jsonLd = {
+// Bare WebSite node — no product claims, no SoftwareApplication (F4: "no
+// product claims about what is coming"). Routes that DO sell something
+// (`/chat` today) pass their own richer jsonLd graph via the prop above.
+const defaultJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -30,29 +42,10 @@ const jsonLd = {
       url: Astro.site?.href,
       description,
     },
-    {
-      "@type": "SoftwareApplication",
-      name: "PITO",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Docker (Linux, macOS, Windows)",
-      url: Astro.site?.href,
-      description,
-      offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
-      license: "https://www.gnu.org/licenses/agpl-3.0",
-      author: {
-        "@type": "Person",
-        name: "Catalin Ilinca",
-        url: "https://www.youtube.com/@gmrdad82",
-      },
-      sameAs: [
-        "https://github.com/gmrdad82/pito",
-        "https://www.youtube.com/@gmrdad82",
-        "https://x.com/GamerDady82",
-        "https://discord.gg/q947UyDTqJ",
-      ],
-    },
   ],
 };
+
+const jsonLd = Astro.props.jsonLd ?? defaultJsonLd;
 ---
 
 <!doctype html>
@@ -67,7 +60,7 @@ const jsonLd = {
     </script>
     <title>{title}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="application-name" content="PITO" />
+    <meta name="application-name" content="Pito" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#1a1b26" />
     <meta name="color-scheme" content="dark light" />
@@ -161,19 +154,29 @@ const jsonLd = {
     <div class="cursor-ring" aria-hidden="true"></div>
 
     {
+      /* The "Studio is here!" neon sign (5.0.0) is UNMOUNTED (F4, GOAL 1):
+        /studio is parked (src/parked/studio.astro, unrouted) until it
+        ships, so nothing on this site points at it right now. The
+        component file itself stays — StudioBanner.astro — for when Studio
+        actually launches. */
+    }
+
+    {
       /* Dev-only banner pinned to the bottom (synthwave yellow), so a localhost
         tab is unmistakable next to production — mirrors pito's DEVELOPMENT bar. */
     }
     {import.meta.env.DEV && <div class="dev-banner">DEVELOPMENT</div>}
 
-    {/* fx islands — deferred, vanilla, dependency-free. */}
-    <script src="../scripts/fx-random.js"></script>
+    {
+      /* fx islands — deferred, vanilla, dependency-free. Since the 5.0.0 fx
+        cull there is no runtime randomiser: cursor moods are stamped in the
+        markup (stable keys), so the islands only ever READ them. */
+    }
     <script src="../scripts/railnav.js"></script>
     <script src="../scripts/reveal.js"></script>
     <script src="../scripts/pointer.js"></script>
     <script src="../scripts/fx-webgl.js"></script>
     <script src="../scripts/parallax.js"></script>
-    <script src="../scripts/themes.js"></script>
     <script src="../scripts/scrollytell.js"></script>
     <script src="../scripts/copy.js"></script>
     <script src="../scripts/bridge.js"></script>

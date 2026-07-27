@@ -1,4 +1,5 @@
-// cover-slots.js — per-VISIT random covers, picked eagerly, loaded lazily.
+// cover-slots.js — per-DAY deterministic covers, picked eagerly, loaded
+// lazily.
 //
 // Every cover surface is a [data-cover-slot] (imgs in YOUR SHELF, the slide
 // cover-beds, the bridge's parallax wall). On load, ONE shuffled draw from
@@ -9,8 +10,14 @@
 //   bed/wall   — the CSS var is applied by an IntersectionObserver two
 //                viewports ahead, so backgrounds fetch as you scroll near.
 // No-JS keeps the curated server-rendered covers.
+//
+// STABLE KEY, NOT A RANDOM DRAW (5.0.0 / P24): the deal is seeded by the UTC
+// calendar day, so within a day every visitor and every reload deals the
+// SAME arrangement — cover fetches hit the browser/CDN cache instead of
+// pulling a fresh random subset per visit — while the shelf still rotates
+// day to day. The old per-visit unseeded draw is gone.
 import pool from "../data/cover-pool.json";
-import { assignCovers } from "../lib/cover-pool-assign.js";
+import { assignCovers, seededRand } from "../lib/cover-pool-assign.js";
 
 const VAR_BY_KIND = { bed: "--cover", wall: "--cover-src" };
 
@@ -20,7 +27,8 @@ function init() {
 
   let deal;
   try {
-    deal = assignCovers(pool, slots.length);
+    const dayKey = new Date().toISOString().slice(0, 10); // e.g. "2026-07-26"
+    deal = assignCovers(pool, slots.length, seededRand(`covers:${dayKey}`));
   } catch {
     return; // pool smaller than the page — keep the curated defaults
   }

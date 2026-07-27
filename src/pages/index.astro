@@ -1,1983 +1,459 @@
 ---
 import Base from "../layouts/Base.astro";
-import Section from "../components/Section.astro";
-import ColorBridge from "../components/ColorBridge.astro";
-import PitoLogo from "../components/PitoLogo.astro";
+import CrossNav from "../components/CrossNav.astro";
 
-// pitomd.com — the over-the-top, scroll-driven PITO showcase. One long page,
-// a distinct theme + font + entrance per section, fx ported (in spirit) from
-// pito. Sells and wows; every "how/where" resolves to GitHub. Copy is pito's
-// house voice (dry, witty), much of it adapted from the app's own strings.
-
-const GITHUB = "https://github.com/gmrdad82/pito";
-const ANDROID = "https://github.com/gmrdad82/pito-android";
-const TUI = "https://github.com/gmrdad82/pito-tui";
-const SPONSOR = "https://github.com/sponsors/gmrdad82";
-const YOUTUBE = "https://www.youtube.com/@gmrdad82";
-const TOUR_VID = "https://youtu.be/7y3R403XtDE";
-const X = "https://x.com/GamerDady82";
-const DISCORD = "https://discord.gg/q947UyDTqJ";
-const INSTALL = "curl -fsSL pitomd.com/install.sh | sh";
-
-// The one channel — the avatar links to it (per ~/Dev/gmrdad82/README.md).
-const YT = "https://www.youtube.com";
-const avatars = [
-  {
-    file: "@gmrdad82.png",
-    name: "Gamer Dad - Stories",
-    url: `${YT}/@gmrdad82`,
-  },
-];
-
-// Real game cover art exported from pito (the owner's own catalogue).
-const covers = [
-  { f: "elden-ring", t: "Elden Ring" },
-  { f: "stellar-blade", t: "Stellar Blade" },
-  { f: "cyberpunk-2077", t: "Cyberpunk 2077" },
-  { f: "nioh-3", t: "Nioh 3" },
-  { f: "demon-s-souls", t: "Demon's Souls" },
-  { f: "tekken-7", t: "Tekken 7" },
-  { f: "pragmata", t: "Pragmata" },
-  { f: "elden-ring-nightreign", t: "Elden Ring Nightreign" },
-  { f: "stellar-blade-blood-rain", t: "Stellar Blade: Blood Rain" },
-  { f: "ghosts-n-goblins-resurrection", t: "Ghosts 'n Goblins Resurrection" },
-  { f: "terminator-2d-no-fate", t: "Terminator 2D: No Fate" },
-  { f: "pool/hades-ii", t: "Hades II" },
-  { f: "pool/lies-of-p", t: "Lies of P" },
-  { f: "pool/clair-obscur-expedition-33", t: "Clair Obscur: Expedition 33" },
-  { f: "pool/silent-hill-townfall", t: "Silent Hill: Townfall" },
-];
-const depths = [12, 5, 9, 14, 6, 11, 4, 13, 7, 10, 8, 15, 3, 9, 6];
+// pitomd.com/ — the COUNTDOWN TEASER (F4, GOAL 1 estate freeze; owner spec
+// I8, verbatim in the plan appendix). This replaced the chat showcase, which
+// moved to `/chat` (src/pages/chat.astro).
+//
+// COUNTDOWN v2 (owner ruling, verbatim, superseding the original
+// ever-growing-digit-count mechanic), plus the v3 amendments:
+//   1. dd:hh:mm:ss:zzz format.
+//   2. a butterfly colliding with the countdown adds a gentle random amount
+//      of time (seconds/minutes/hours/rarely days, capped).
+//   3. two rows: big dd:hh:mm:ss:zzz, smaller Days/Hours/Minutes/Seconds
+//      labels beneath — no Milliseconds label (owner), each label
+//      right-aligned to its group's rightmost digit.
+//   4. butterflies bounce off the box as a solid obstacle; they never pass
+//      beneath/behind it. (SUPERSEDED by amendment 8+: the box is a
+//      fly-over zone — bodies cross it, surging on their own random
+//      accelerations, and the display takes signed gentle deltas at a
+//      cadence stacked by how many bodies overlap; the owner later ruled
+//      the counter LAYER sits above the flock, so they visually pass
+//      beneath the box while the physics overlap does the work.)
+//   5. (amendment) a tap/click/Enter/Space RESETS the countdown to a fresh
+//      random remaining time — "something random every time, not just make
+//      it bigger and bigger". Only collisions bend it gently.
+//   6. (amendment — RELATIVE TIME) the deadline is REAL: 2026-08-10, the
+//      visitor's local time. The display is elastic around it — butterflies
+//      add OR subtract display time, taps re-roll it, and the tick burns
+//      display-ms at rate = display / real-remaining, so the counter hits
+//      zero exactly on the date no matter what happened to it. "no matter
+//      how many days ... we display we count them faster or slower ...
+//      the duration will remain the same."
+//   7. (amendment — THE REVEAL) the box says what it counts to now:
+//      "Pito Studio is coming in..." above the digits.
+//
+// All state math + the bounce geometry are pure and vitest-covered
+// (tests/countdown.test.js) — this script only wires them to the DOM/canvas.
+//
+// Background: the sky + butterfly flock, ported from pito (Rails)'s
+// app/javascript/fx/{sky,attractor,butterfly_trail}.js into a self-contained
+// vanilla-JS canvas module (src/lib/sky-flock.js) — no Rails deps, no
+// ActionCable, no Stimulus. sky-flock.js treats the countdown box as the
+// FLY-OVER ZONE (amendment 8): every frame it asks this page for the box's
+// current bounding rect, and any body over it surges and bends the time.
+//
+// A small bottom-right banner points at `/chat` ("The Free Chat") — minimal,
+// intriguing, no claims about what the countdown itself is for. No SEO
+// promises either: this route's title/description (Base.astro's defaults)
+// are deliberately bare.
+//
+// prefers-reduced-motion: the sky renders one static frame (sky-flock.js),
+// which also means no flock movement -> no collisions -> no time added.
+// The countdown's own tick loop is NOT gated behind that media query (a
+// ticking number is not the kind of motion that rule targets, and per the
+// owner, reduced-motion visitors get "a pure countdown" — it can reach
+// zero, and that's fine).
 ---
 
 <Base>
-  {/* Persistent social rail (left) — hidden on mobile. */}
-  <nav class="socialbar" aria-label="Follow Catalin">
-    <a href={YOUTUBE} aria-label="YouTube" data-magnetic
-      ><img
-        decoding="async"
-        src="/social/youtube.svg"
-        width="20"
-        height="20"
-        alt=""
-      /></a
-    >
-    <a href={X} aria-label="X" data-magnetic
-      ><img
-        decoding="async"
-        src="/social/x.svg"
-        width="17"
-        height="17"
-        alt=""
-      /></a
-    >
-    <a href={DISCORD} aria-label="Discord" data-magnetic
-      ><img
-        decoding="async"
-        src="/social/discord.svg"
-        width="20"
-        height="20"
-        alt=""
-      /></a
-    >
-  </nav>
+  <div class="teaser">
+    <canvas id="sky-flock" class="teaser__canvas" aria-hidden="true"></canvas>
 
-  {/* ── 1 · HERO ─────────────────────────────────────────── */}
-  <Section id="hero" theme="synthwave" label="Start" class="hero f-grotesk">
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/stellar-blade.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    <div slot="decor" class="aurora" aria-hidden="true">
-      <i class="aurora__blob aurora__blob--blue"></i>
-      <i class="aurora__blob aurora__blob--purple"></i>
-      <i class="aurora__blob aurora__blob--cyan"></i>
-    </div>
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--react logo-accent--sm logo-accent--cyan"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--bl logo-accent--float logo-accent--sm logo-accent--purple"
-    />
-    <div class="hero__stack">
-      <img
-        decoding="async"
-        class="hero__logo"
-        src="/logo/pito-logo-hero.png"
-        width="1200"
-        height="404"
-        alt="PITO"
-        fetchpriority="high"
-        data-reveal="zoom"
-      />
-      <p class="eyebrow" data-reveal="fade">the best YouTube tool</p>
-      <h1 class="display hero__title">
-        <span data-fx="typewriter" data-fx-speed="55">one chatbox.</span><br />
-        <span
-          class="pito-blue"
-          data-fx="typewriter"
-          data-fx-speed="55"
-          data-fx-delay="900">every channel.</span
-        >
-      </h1>
-      <p class="lede hero__lede" data-reveal="rise">
-        A self-hosted command deck for the multi&#8209;channel creator. Type
-        plain English, it answers. No tabs, no logging out, no{" "}
-        <span class="nowrap"><span data-cur>$</span>50-a-month ransom.</span>
-      </p>
-      <div class="hero__cta" data-reveal="rise">
-        <a class="btn btn--primary" href={GITHUB} data-magnetic
-          >Get it on GitHub -></a
-        >
-        <a class="btn btn--ghost" href={TOUR_VID} data-magnetic
-          >▶ Watch the tour</a
-        >
-      </div>
-      <a
-        class="hero__tour"
-        href={TOUR_VID}
-        data-reveal="rise-big"
-        data-tilt
-        aria-label="Watch the PITO tour"
-      >
-        <span class="hero__tour-chrome" aria-hidden="true">
-          <i></i><i></i><i></i>
-          <span class="hero__tour-name mono">pito — the guided tour</span>
-        </span>
-        <img
-          decoding="async"
-          src="/media/pito-tour-thumb.png"
-          width="760"
-          alt="▶ PITO — a guided tour"
-          loading="lazy"
-        />
-        <span class="hero__tour-play" aria-hidden="true"
-          ><span class="hero__tour-play-glyph">▶</span></span
-        >
-      </a>
-      <div
-        class="copybox"
-        data-copy={INSTALL}
-        data-reveal="fade"
-        title="Click to copy"
-      >
-        <span class="copybox__prompt mono">$</span>
-        <code class="copybox__cmd mono" data-fx="comet">{INSTALL}</code>
-        <button
-          type="button"
-          class="copybox__btn mono"
-          data-copy-btn
-          aria-label="Copy install command"
-        >
-          <span data-copy-label>⧉ copy</span>
-        </button>
-      </div>
-    </div>
-    <div class="ticker" aria-hidden="true">
-      <div class="ticker__track">
-        {
-          Array.from({ length: 2 }).map(() => (
-            <span class="ticker__seq">
-              <span class="ticker__cmd">show game 42</span>
-              <span class="ticker__cmd">list vids</span>
-              <span class="ticker__cmd">analyze channel</span>
-              <span class="ticker__cmd">link 17 42</span>
-              <span class="ticker__cmd">price set 42 59.99</span>
-              <span class="ticker__cmd">footage update 42 +2.5</span>
-              <span class="ticker__cmd">search games for tekken</span>
-              <span class="ticker__cmd">schedule 9 slate</span>
-              <span class="ticker__cmd">share</span>
-              <span class="ticker__cmd">import game inception</span>
-              <span class="ticker__cmd">show channel @gmrdad82</span>
-              <span class="ticker__cmd">list games rpg</span>
-              <span class="ticker__cmd">
-                search conversations for tekken combos
-              </span>
-              <span class="ticker__cmd">sync vids</span>
-            </span>
-          ))
-        }
-      </div>
-    </div>
-  </Section>
-
-  {/* ── 2 · THE PAIN ─────────────────────────────────────── */}
-  <Section id="pain" theme="dracula" label="The pain" class="f-heavy">
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/demon-s-souls.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    {/* Layer A — bg watermark: slow, large parallax */}
-    <img
-      decoding="async"
-      slot="decor"
-      class="logo-accent logo-accent--watermark par par--A"
-      src="/logo/pito-wordmark-white.png"
-      alt=""
-      aria-hidden="true"
-    />
-    {/* Layer B — existing corner accent + two new mid-section accents */}
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--sm logo-accent--react logo-accent--strong logo-accent--orange par par--B"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--mid-l logo-accent--sm logo-accent--purple par par--B"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--low-r logo-accent--sm logo-accent--cyan par par--B"
-    />
-    <p class="eyebrow" data-reveal="fade">If this is you</p>
-    <h2 class="display" data-fx="scramble" data-reveal="skew">
-      Log out. Log in. Repeat. Forever.
-    </h2>
-    <div class="prose" data-reveal="rise">
-      <p>
-        YouTube Studio, in its infinite wisdom, manages exactly{" "}
-        <span class="accent">one channel at a time</span>. Run a handful and
-        your day becomes a carousel of sign-outs and sign-ins until your will to
-        live quietly files for unemployment.
-      </p>
-      <p>
-        The paid tools? Social Blade, vidIQ, TubeBuddy — tried them, paid them,
-        and not one did the specific things a real multi&#8209;channel creator
-        needs. They'd love <span class="accent"
-          ><span data-cur>$</span>50+ a month</span
-        >, please, forever, amen, for the privilege of <em>almost</em> fitting.
-      </p>
-    </div>
-  </Section>
-
-  {/* ── 3 · ONE CHATBOX — plain language, no syntax ──────── */}
-  <Section id="chatbox" theme="nord" label="One chatbox" class="f-mono">
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/nioh-3.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--br logo-accent--react"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tl logo-accent--float logo-accent--green logo-accent--sm"
-    />
-    <div class="split">
-      <div class="split__copy">
-        <p class="eyebrow" data-reveal="fade">One box, no syntax to memorize</p>
-        <h2 class="display" data-fx="typewriter" data-fx-speed="45">
-          Speak your language.
-        </h2>
-        <p class="lede" data-reveal="rise">
-          One chatbox for every channel — no dashboards, no menus, nothing to
-          learn. <code class="kbd">list vids</code>, <code class="kbd"
-            >show game 42</code
-          >, <code class="kbd">search games like tekken</code>, and <code
-            class="kbd">list games rpg</code
-          > filters by genre and platform — or skip the syntax and just say what you
-          mean. When PITO is sure, it answers and shows you the command it understood,
-          so you pick up the fast path as you go; when it isn't, it asks first. Nothing
-          runs without being shown.
-        </p>
-      </div>
-      <figure class="split__media" data-reveal="blurin" data-tilt>
-        <img
-          decoding="async"
-          src="/media/mkt-language.gif"
-          width="760"
-          alt="Plain-language commands in the PITO chatbox"
-          loading="lazy"
-        />
-      </figure>
-    </div>
-  </Section>
-
-  {/* ── 3.2 · AI — @ai · MCP · local AI, one rail stop ─────── */}
-  <section id="ai" data-nav-label="AI">
-    <Section id="ai-chat" theme="synthwave" label="" class="f-grotesk">
-      <div
-        slot="decor"
-        class="cover-bed"
-        data-cover-slot="bed"
-        style="--cover:url('/covers/cyberpunk-2077.jpg')"
-        aria-hidden="true"
-      >
-      </div>
-      <PitoLogo
-        slot="decor"
-        class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong"
-      />
-      <PitoLogo
-        slot="decor"
-        class="logo-accent logo-accent--bl logo-accent--float logo-accent--purple logo-accent--sm"
-      />
-      <div class="split">
-        <div class="split__copy">
-          <p class="eyebrow" data-reveal="fade">New — the assistant moved in</p>
-          <h2 class="display" data-fx="typewriter" data-fx-speed="45">
-            Ask like a person. Answered like PITO.
-          </h2>
-          <p class="lede" data-reveal="rise">
-            Type <code class="kbd">@ai</code> and just say it — <em
-              >"compare my channels, chart the split"</em
-            >. The assistant reads <span class="accent"
-              >your library through PITO's own tools</span
-            > and answers in PITO's native voice: real tables, braille charts, score
-            bars — streaming in block by block, tables filling row by row. Bring <span
-              class="accent">any model, your key, your call</span
-            > — that answer on the right came from a free one. Every reply signs its
-            work with the model's name and what it actually cost; the web stays out
-            of it unless you say{" "}
-            <code class="kbd">--web</code>.
-          </p>
-        </div>
-        <figure class="split__media" data-reveal="zoom" data-tilt>
-          <img
-            decoding="async"
-            src="/media/mkt-ai.gif"
-            width="760"
-            alt="Asking @ai to compare channels — PITO answers with a real table, a braille bar chart, and the model's ✨ receipt"
-            loading="lazy"
-          />
-        </figure>
-      </div>
-    </Section>
-
-    {/* ── 11.5 · MCP — CONNECT YOUR AI ─────────────────────── */}
-    <Section id="mcp" theme="nord" label="" class="f-grotesk" data-fx-none>
-      <div
-        slot="decor"
-        class="cover-bed"
-        data-cover-slot="bed"
-        style="--cover:url('/covers/tekken-7.jpg')"
-        aria-hidden="true"
-      >
-      </div>
-      <PitoLogo
-        slot="decor"
-        class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong"
-      />
-      <PitoLogo
-        slot="decor"
-        class="logo-accent logo-accent--bl logo-accent--float logo-accent--cyan logo-accent--sm"
-      />
-      <PitoLogo
-        slot="decor"
-        class="logo-accent logo-accent--tl logo-accent--float logo-accent--sm logo-accent--purple"
-      />
-      <div class="split">
-        <div class="split__copy">
-          <p class="eyebrow" data-reveal="fade">Bring your own AI</p>
-          <h2 class="display" data-fx="typewriter" data-fx-speed="45">
-            Your library. Your call.
-          </h2>
-          <p class="lede" data-reveal="rise">
-            PITO speaks <code class="kbd">MCP</code>, so Claude on your phone,
-            ChatGPT, or any MCP client can read your whole library — channels,
-            vids, games, analytics — from wherever you are. <span class="accent"
-              >Read-only, and every connection waits on the consent screen for
-              your TOTP approval.</span
-            > Your data, your control — here's{" "}
-            <a href={GITHUB} class="pito-blue">how</a>.
-          </p>
-        </div>
-        <figure class="split__media" data-reveal="zoom" data-tilt>
-          <img
-            decoding="async"
-            src="/media/mkt-mcp.png"
-            width="760"
-            alt="The PITO OAuth consent screen, approving a new MCP client with a TOTP code"
-            loading="lazy"
-          />
-        </figure>
-      </div>
-    </Section>
-
-    {/* ── 6 · LOCAL AI — pinned scrollytelling ───────────────── */}
-    <section
-      id="voyage"
-      class="scrolly"
-      data-theme="synthwave"
-      data-scrolly
-      style="--steps: 7"
-    >
-      <div class="scrolly__stage">
-        <span class="scrolly__hint">local AI · scroll through</span>
-        <div class="scrolly__steps">
-          <div class="scrolly__step" data-scrolly-step>
-            <div
-              class="scrolly__bed"
-              style="--cover:url('/covers/pragmata.jpg')"
-              aria-hidden="true"
-            >
-            </div>
-            <h2 class="scrolly__big" data-fx="comet">You played a game.</h2>
-            <p class="scrolly__sub">
-              Tell PITO once. It pulls genres, themes, devs, and release from
-              IGDB — the game becomes a first-class thing it can reason about.
-            </p>
-          </div>
-          <div class="scrolly__step" data-scrolly-step>
-            <div
-              class="scrolly__bed"
-              style="--cover:url('/covers/tekken-7.jpg')"
-              aria-hidden="true"
-            >
-            </div>
-            <p class="scrolly__arrow">game -></p>
-            <h2 class="scrolly__big pito-blue" data-fx="comet">
-              the channels it fits.
-            </h2>
-            <p class="scrolly__sub">
-              Every game card surfaces the channels it pairs well with. Stop
-              guessing where the footage belongs.
-            </p>
-          </div>
-          <div class="scrolly__step" data-scrolly-step>
-            <h2 class="scrolly__big" data-fx="comet">You run a channel.</h2>
-            <p class="scrolly__sub">
-              A channel is its videos. PITO already knows what you cover.
-            </p>
-          </div>
-          <div class="scrolly__step" data-scrolly-step>
-            <div
-              class="scrolly__bed"
-              style="--cover:url('/covers/elden-ring-nightreign.jpg')"
-              aria-hidden="true"
-            >
-            </div>
-            <p class="scrolly__arrow">channel -></p>
-            <h2 class="scrolly__big pito-blue" data-fx="comet">
-              the games that suit it.
-            </h2>
-            <p class="scrolly__sub">
-              The channel-specific picks are computed from the games you've
-              covered. <span class="accent nowrap">No guesswork, no vibes.</span
-              >
-            </p>
-          </div>
-          <div class="scrolly__step" data-scrolly-step>
-            <div
-              class="scrolly__bed"
-              style="--cover:url('/covers/ghosts-n-goblins-resurrection.jpg')"
-              aria-hidden="true"
-            >
-            </div>
-            <h2 class="scrolly__big" data-fx="comet">
-              Similar games, surfaced.
-            </h2>
-            <p class="scrolly__sub">
-              Curious what to play next? PITO keeps fresh similar-games picks
-              warm, computed at home.
-            </p>
-          </div>
-          <div class="scrolly__step" data-scrolly-step>
-            <h2 class="scrolly__big" data-fx="comet">
-              It runs on <span class="pito-blue">your&nbsp;box</span>.
-            </h2>
-            <p class="scrolly__sub">
-              The intelligence is local now. A 300-million-parameter embedding
-              model lives inside your PITO stack — no API key, no per-call bill,
-              no data leaving the server. Meaning-based search that works the
-              same on day 1 and day 1000: free.
-            </p>
-          </div>
-          <div class="scrolly__step" data-scrolly-step>
-            <h2 class="scrolly__big" data-fx="comet">
-              The more you publish, the sharper it gets.
-            </h2>
-            <p class="scrolly__sub">
-              Recommendations are recomputed over time from everything you cover
-              — your taste, encoded.
-            </p>
-          </div>
-        </div>
-        <span class="scrolly__counter" data-scrolly-progress>01 / 07</span>
-      </div>
-    </section>
-  </section>
-
-  {/* ── 7 · SEMANTIC SEARCH — two slides, one rail stop ────── */}
-  <section id="search" data-nav-label="Search">
-    {/* ── 6.5 · SEMANTIC SEARCH — type how it feels ──────────── */}
-    <Section id="search-type" theme="tokyo-night" label="" class="f-grotesk">
-      <div
-        slot="decor"
-        class="cover-bed"
-        data-cover-slot="bed"
-        style="--cover:url('/covers/demon-s-souls.jpg')"
-        aria-hidden="true"
-      >
-      </div>
-      <PitoLogo
-        slot="decor"
-        class="logo-accent logo-accent--tr logo-accent--react"
-      />
-      <PitoLogo
-        slot="decor"
-        class="logo-accent logo-accent--bl logo-accent--float logo-accent--sm logo-accent--cyan"
-      />
-      <div class="split">
-        <div class="split__copy">
-          <p class="eyebrow" data-reveal="fade">No keywords, no syntax</p>
-          <h2 class="display" data-fx="typewriter" data-fx-speed="45">
-            Type how it feels.
-          </h2>
-          <p class="lede" data-reveal="rise">
-            <code class="kbd">search games with a good story</code>, or just say <em
-              >"something brutal but worth every second."</em
-            > PITO reads the meaning, not the words. <span class="accent"
-              >Every game carries a curated trait vocabulary</span
-            > — difficulty, story, pace, and more — so the search actually knows what
-            "brutal" means. Typo and all, it still finds it — and it's honest when
-            nothing in your library is close, instead of padding the list to fill
-            it.
-          </p>
-        </div>
-        <figure class="split__media" data-reveal="zoom" data-tilt>
-          <img
-            decoding="async"
-            src="/media/mkt-semantic-search.png"
-            width="760"
-            alt="Searching games by feel — 'search games with a good story' returning a ranked list, no keywords required"
-            loading="lazy"
-          />
-        </figure>
-      </div>
-    </Section>
-
-    {/* slide 2 — the vibe query: same rail stop, different fx. */}
-    <Section id="search-vibe" theme="dracula" label="" class="f-grotesk">
-      <div
-        slot="decor"
-        class="cover-bed"
-        data-cover-slot="bed"
-        style="--cover:url('/covers/ghosts-n-goblins-resurrection.jpg')"
-        aria-hidden="true"
-      >
-      </div>
-      <PitoLogo
-        slot="decor"
-        class="logo-accent logo-accent--tl logo-accent--float"
-      />
-      <PitoLogo
-        slot="decor"
-        class="logo-accent logo-accent--br logo-accent--react logo-accent--sm logo-accent--cyan"
-      />
-      <div class="split split--reverse">
-        <div class="split__copy">
-          <p class="eyebrow" data-reveal="blurin">Ask for a feeling</p>
-          <h2 class="display" data-fx="scramble" data-reveal="skew">
-            "Brutal but worth every second."
-          </h2>
-          <p class="lede" data-reveal="rise">
-            <code class="kbd"
-              >search games about brutal but worth every second</code
-            >
-            surfaces the punishing-but-loved shelf — closest match first at <span
-              class="accent">100</span
-            >, a pager for the rest. And when nothing in your library genuinely
-            fits, PITO says so instead of padding the page: an honest empty
-            beats a flattering wrong answer.
-          </p>
-        </div>
-        <figure class="split__media" data-reveal="flip" data-tilt>
-          <img
-            decoding="async"
-            src="/media/mkt-vibe-search.png"
-            width="760"
-            alt="search games about brutal but worth every second — the punishing-but-loved shelf ranked by meaning, closest match at 100, pager below"
-            loading="lazy"
-          />
-        </figure>
-      </div>
-    </Section>
-  </section>
-
-  {/* ── COLOR BRIDGE ← local AI (REVERSED: splash → AI-reveal → shelf) ── */}
-  <ColorBridge
-    reverse
-    letter="AI"
-    color="#5170ff"
-    ink="#0a0a12"
-    text="local AI"
-    sub="your box. your data. no bill."
-    covers={[
-      "/covers/terminator-2d-no-fate.jpg",
-      "/covers/stellar-blade-blood-rain.jpg",
-      "/covers/demon-s-souls.jpg",
-      "/covers/cyberpunk-2077.jpg",
-      "/covers/elden-ring.jpg",
-      "/covers/nioh-3.jpg",
-      "/covers/tekken-7.jpg",
-      "/covers/pragmata.jpg",
-      "/covers/elden-ring-nightreign.jpg",
-      "/covers/ghosts-n-goblins-resurrection.jpg",
-      "/covers/stellar-blade.jpg",
-      "/covers/elden-ring.jpg",
-      "/covers/cyberpunk-2077.jpg",
-      "/covers/demon-s-souls.jpg",
-    ]}
-  />
-
-  {/* ── 5.5 · LIBRARY — platforms + masonry covers ───────── */}
-  <Section
-    id="library"
-    theme="ayu-dark"
-    label="Your shelf"
-    class="library f-grotesk"
-  >
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/pragmata.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tl logo-accent--react logo-accent--sm logo-accent--cyan"
-    />
-    <p class="eyebrow" data-reveal="fade">Every platform · every cover</p>
-    <h2 class="display" data-fx="comet">Your shelf, alive.</h2>
-    <p
-      class="lede"
-      data-reveal="rise"
-      style="margin-inline:auto;max-width:44rem"
-    >
-      PlayStation, Switch, Xbox, and Steam — PITO knows what you own where, and
-      pulls the real cover art in. Move your mouse through it.
-    </p>
-
-    <div class="platforms" data-reveal="rise" data-stagger>
-      <img
-        decoding="async"
-        class="platform-icon"
-        style="--i:0"
-        src="/platforms/playstation.svg"
-        width="120"
-        height="120"
-        alt="PlayStation"
-        data-magnetic
-        loading="lazy"
-      />
-      <img
-        decoding="async"
-        class="platform-icon"
-        style="--i:1"
-        src="/platforms/switch.svg"
-        width="120"
-        height="120"
-        alt="Nintendo Switch"
-        data-magnetic
-        loading="lazy"
-      />
-      <img
-        decoding="async"
-        class="platform-icon"
-        style="--i:2"
-        src="/platforms/xbox.svg"
-        width="120"
-        height="120"
-        alt="Xbox"
-        data-magnetic
-        loading="lazy"
-      />
-      <img
-        decoding="async"
-        class="platform-icon"
-        style="--i:3"
-        src="/platforms/steam.svg"
-        width="120"
-        height="120"
-        alt="Steam"
-        data-magnetic
-        loading="lazy"
-      />
-    </div>
-
-    <div class="cover-wall">
-      {
-        covers.map((c, i) => (
-          <figure
-            class="cover"
-            style={`--d:${depths[i] ?? 8}`}
-            data-reveal="zoom"
-          >
-            <img
-              decoding="async"
-              data-cover-slot="img"
-              src={`/covers/${c.f}.jpg`}
-              width="374"
-              height="499"
-              alt={c.t}
-              loading="lazy"
-            />
-          </figure>
-        ))
-      }
-    </div>
-  </Section>
-
-  {/* ── 3.5 · NOT EVEN STUDIO — pinned scrollytelling ────── */}
-  <section
-    id="different"
-    class="scrolly"
-    data-theme="dracula"
-    data-nav-label="Not even Studio"
-    data-scrolly
-    style="--steps: 12"
-  >
-    <div class="scrolly__stage">
-      <span class="scrolly__hint">Not even Studio · scroll the loot</span>
-      <div class="scrolly__steps">
-        <div class="scrolly__step" data-scrolly-step>
-          <p class="scrolly__arrow">studio has everything…</p>
-          <h2 class="scrolly__big" data-fx="comet">Not better. Absent.</h2>
-          <p class="scrolly__sub">
-            Everything in the next eleven screens exists in PITO and simply
-            doesn't — not in YouTube Studio, not in TubeBuddy, not in vidIQ.
-            Stuff Studio doesn't want you to have. Scroll on.
-          </p>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <p class="scrolly__verdict">
-            <span class="no">studio ✗</span> · <span class="yes">pito ✓</span>
-          </p>
-          <h2 class="scrolly__big scrolly__big--shot pito-blue" data-fx="comet">
-            Which of your channels owns a game?
-          </h2>
-          <p class="scrolly__sub">
-            Coverage distribution across <em>your</em> channels next to the top-5
-            it best fits. Studio won't even let a second channel into the same tab.
-          </p>
-          <figure class="scrolly__shot">
-            <img
-              decoding="async"
-              src="/media/mkt-02-coverage.png"
-              alt="Cross-channel game coverage — distribution and recommendation"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <p class="scrolly__verdict">
-            <span class="no">studio ✗</span> · <span class="yes">pito ✓</span>
-          </p>
-          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
-            PlayStation. Switch. Xbox. Steam.
-          </h2>
-          <p class="scrolly__sub">
-            Release dates tracked per platform, grouped by date with their logos
-            — and the countdown names <em>which</em> platform lands. Unreleased games
-            re-sync nightly until the date is real.
-          </p>
-          <figure class="scrolly__shot">
-            <img
-              decoding="async"
-              src="/media/mkt-04-releases.png"
-              alt="Per-platform release dates with logos"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <p class="scrolly__verdict">
-            <span class="no">studio ✗</span> · <span class="yes">pito ✓</span>
-          </p>
-          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
-            Analyze the game, not the video.
-          </h2>
-          <p class="scrolly__sub">
-            Avg % viewed, retention, avg view duration — aggregated across a
-            game's linked vids. Studio does these strictly one video at a time.
-          </p>
-          <figure class="scrolly__shot">
-            <img
-              decoding="async"
-              src="/media/mkt-06-game-analytics.png"
-              alt="Game-level analytics averages"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <p class="scrolly__verdict">
-            <span class="no">studio ✗</span> · <span class="yes">pito ✓</span>
-          </p>
-          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
-            Your busiest day, computed.
-          </h2>
-          <p class="scrolly__sub">
-            A Mon→Sun heatmap from your daily views. The YouTube API doesn't
-            even offer this dimension — PITO does the math itself.
-          </p>
-          <figure class="scrolly__shot">
-            <img
-              decoding="async"
-              src="/media/mkt-07-heatmap.png"
-              alt="Day-of-week heatmap"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <p class="scrolly__verdict">
-            <span class="no">studio ✗</span> · <span class="yes">pito ✓</span>
-          </p>
-          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
-            It does the homework. You sign it.
-          </h2>
-          <p class="scrolly__sub">
-            A new vid lands and PITO reads the title the way you would —
-            <em>"Mortal Kombat 2: Was it really that good?"</em> is an MK2 vid, not
-            MK1 — then suggests the link. One confirm and it's wired. It never links
-            on its own — the same built-in embedder keeps similar-games picks warm
-            on the side.
-          </p>
-          <figure class="scrolly__shot">
-            <img
-              decoding="async"
-              src="/media/mkt-01-linkage.png"
-              alt="Game–video linkage on a card"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <p class="scrolly__verdict">
-            <span class="no">studio ✗</span> · <span class="yes">pito ✓</span>
-          </p>
-          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
-            Enough footage? Glance.
-          </h2>
-          <p class="scrolly__sub">
-            Your recorded hours per game sit right on the time-to-beat bar —
-            material vs. game length, one look.
-          </p>
-          <figure class="scrolly__shot">
-            <img
-              decoding="async"
-              src="/media/mkt-05-footage.png"
-              alt="Footage hours on the time-to-beat bar"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <p class="scrolly__verdict">
-            <span class="no">studio ✗</span> · <span class="yes">pito ✓</span>
-          </p>
-          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
-            Know what a slate costs.
-          </h2>
-          <p class="scrolly__sub">
-            Game prices, tracked as coins on the card. Budget the quarter before
-            you promise it to an audience.
-          </p>
-          <figure class="scrolly__shot">
-            <img
-              decoding="async"
-              src="/media/mkt-03-price.png"
-              alt="Game price coins on the card"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <p class="scrolly__verdict">
-            <span class="no">studio ✗</span> · <span class="yes">pito ✓</span>
-          </p>
-          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
-            A calendar that finds the gap.
-          </h2>
-          <p class="scrolly__sub">
-            <code class="kbd">schedule … slate</code> lays out what's booked across
-            <em>every</em> channel — releases spread out instead of quietly stacking
-            on a Tuesday.
-          </p>
-          <figure class="scrolly__shot">
-            <img
-              decoding="async"
-              src="/media/mkt-08-schedule.png"
-              alt="Schedule slate across channels"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <p class="scrolly__verdict">
-            <span class="no">studio ✗</span> · <span class="yes">pito ✓</span>
-          </p>
-          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
-            Any message is a link.
-          </h2>
-          <p class="scrolly__sub">
-            <code class="kbd">share</code> mints a public URL to that exact reply,
-            chart included. Go ahead — try sending someone a Studio screen.
-          </p>
-          <figure class="scrolly__shot">
-            <img
-              decoding="async"
-              src="/media/mkt-09-share.png"
-              alt="A shared PITO message page"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <p class="scrolly__verdict">
-            <span class="no">studio ✗</span> · <span class="yes">pito ✓</span>
-          </p>
-          <h2 class="scrolly__big scrolly__big--shot" data-fx="comet">
-            Conversations remember.
-          </h2>
-          <p class="scrolly__sub">
-            An old conversation still shows your numbers <em>as they were</em>
-            — a point-in-time snapshot no dashboard gives you.
-          </p>
-          <figure class="scrolly__shot">
-            <img
-              decoding="async"
-              src="/media/mkt-10-snapshot.png"
-              alt="A conversation keeping its historical numbers"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-        <div class="scrolly__step" data-scrolly-step>
-          <p class="scrolly__verdict">
-            <span class="no">studio ✗</span> · <span class="yes">pito ✓</span>
-          </p>
-          <h2 class="scrolly__big scrolly__big--shot pito-blue" data-fx="comet">
-            All of it. One chatbox. On your phone.
-          </h2>
-          <p class="scrolly__sub">
-            Keyboard-first terminal UX that's happily mobile — with Shinies
-            unlocking as you grow. Studio can keep the upload button.
-          </p>
-          <figure class="scrolly__shot">
-            <img
-              decoding="async"
-              src="/media/mkt-11-mobile.png"
-              alt="PITO on a phone"
-              loading="lazy"
-            />
-          </figure>
-        </div>
-      </div>
-      <span class="scrolly__counter" data-scrolly-progress>01 / 12</span>
-    </div>
-  </section>
-
-  {/* ── 4 · LINKAGE ──────────────────────────────────────── */}
-  <Section id="linkage" theme="gruvbox-dark" label="Linkage" class="f-grotesk">
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/cyberpunk-2077.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--react"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--bl logo-accent--float logo-accent--sm logo-accent--orange"
-    />
-    <img
-      decoding="async"
-      slot="decor"
-      src="/coin/coin.gif"
-      class="pixel-accent pixel-accent--spin"
-      style="top:14%;right:9%;width:120px;height:90px;opacity:.5"
-      alt=""
-      aria-hidden="true"
-    />
-    <div class="split">
-      <div class="split__copy">
-        <p class="eyebrow" data-reveal="fade">You tell it, it remembers</p>
-        <h2 class="display" data-fx="comet">
-          Games &lt;-> Videos &lt;-> Channels.
-        </h2>
-        <p class="lede" data-reveal="rise">
-          <code class="kbd">import game</code> grabs genres, themes, devs, and release
-          from IGDB. <code class="kbd">link</code> ties a video to a game — <span
-            class="accent"
-            >PITO suggests from titles — you confirm, it never links on its own.</span
-          >
-        </p>
-      </div>
-      <figure class="split__media" data-reveal="flip" data-tilt>
-        <img
-          decoding="async"
-          src="/media/mkt-linkage.gif"
-          width="760"
-          alt="Game-to-video linkage in PITO"
-          loading="lazy"
-        />
-      </figure>
-    </div>
-  </Section>
-
-  {/* ── 7 · FOOTAGE ──────────────────────────────────────── */}
-  <Section id="footage" theme="ayu-dark" label="Footage" class="f-round">
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/elden-ring.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--bl logo-accent--float logo-accent--cyan logo-accent--sm"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tl logo-accent--float logo-accent--sm"
-    />
-    <p class="eyebrow" data-reveal="fade">Time is the real budget</p>
-    <h2 class="display" data-fx="comet">Track the footage.</h2>
-    <p
-      class="lede"
-      data-reveal="rise"
-      style="margin-inline:auto;max-width:42rem"
-    >
-      Recorded-but-unpublished hours per game, kept as a manual{" "}
-      <code class="kbd">footage</code> total, plotted against the game's time-to-beat.
-      The time you've sunk is an investment — PITO makes it visible.
-    </p>
-    {
-      /* Real Pito::TimeToBeatComponent — heat-mapped fuel gauge with the footage
-        tick, rendered from pito. Per-game adaptive gradient (inline). */
-    }
-    <div class="pito-widget" data-reveal="rise" data-tilt>
-      <div class="pito-ttb" data-component="time-to-beat">
-        <span class="pito-ttb__label">Time spend</span>
-        <div class="pito-ttb__body">
-          <div class="pito-ttb__values pito-ttb__values--top">
-            <div
-              class="pito-ttb__footage-bubble ttb-label--at-start"
-              data-accent="footage"
-              style="left: 8.75%;"
-            >
-              <span class="pito-ttb__footage-bubble-num">12h</span>
-              <span class="pito-ttb__footage-bubble-arrow">&#9660;</span>
-            </div>
-          </div>
-          <div class="pito-ttb__bar-row">
-            <span class="pito-ttb__bar">
-              <span class="pito-ttb__track">
-                <span class="pito-ttb__bracket">[</span>
-                <span
-                  class="pito-ttb__fill pito-bar-shimmer pito-shimmer-d10"
-                  style="background-image: var(--pito-bar-band, linear-gradient(transparent, transparent)), linear-gradient(to right in oklch, color-mix(in oklch, var(--accent-green) 70%, var(--fg-default)) 0.0%, color-mix(in oklch, color-mix(in oklch, var(--accent-green), var(--accent-yellow)) 58%, var(--fg-default)) 8.06%, color-mix(in oklch, color-mix(in oklch, var(--accent-orange) 60%, var(--accent-yellow)) 58%, var(--fg-default)) 32.26%, color-mix(in oklch, var(--accent-red), var(--accent-purple)) 80.65%, color-mix(in oklch, var(--accent-red), var(--accent-purple)) 100%);"
-                  >============================================================================================================================================================================================================================================================================================================</span
-                >
-                <span class="pito-ttb__bracket">]</span>
-              </span>
-              <span
-                class="pito-ttb__tick ttb-tick--main"
-                data-accent="main"
-                style="left: 26.25%;">|</span
-              >
-              <span
-                class="pito-ttb__tick ttb-tick--extras"
-                data-accent="extras"
-                style="left: 56.25%;">|</span
-              >
-              <span
-                class="pito-ttb__tick ttb-tick--completionist"
-                data-accent="completionist"
-                style="left: 98.75%;">|</span
-              >
-              <span
-                class="pito-ttb__tick ttb-tick--footage"
-                data-accent="footage"
-                style="left: 8.75%;">|</span
-              >
-            </span>
-          </div>
-          <div class="pito-ttb__values pito-ttb__values--bottom">
-            <span
-              class="pito-ttb__value pito-ttb__value--pillar ttb-label--centered"
-              data-pillar="main"
-              style="left: 26.25%;">31h</span
-            >
-            <span
-              class="pito-ttb__value pito-ttb__value--pillar ttb-label--centered"
-              data-pillar="extras"
-              style="left: 56.25%;">71h</span
-            >
-            <span
-              class="pito-ttb__value pito-ttb__value--pillar ttb-label--at-end"
-              data-pillar="completionist"
-              style="left: 98.75%;">124h</span
-            >
-          </div>
-          <div class="pito-ttb__legend">
-            <span class="pito-ttb__legend-item"
-              ><span class="pito-ttb__legend-tick" data-accent="main">|</span
-              ><span class="pito-ttb__legend-label">main</span></span
-            >
-            <span class="pito-ttb__legend-item"
-              ><span class="pito-ttb__legend-tick" data-accent="extras">|</span
-              ><span class="pito-ttb__legend-label">extras</span></span
-            >
-            <span class="pito-ttb__legend-item"
-              ><span class="pito-ttb__legend-tick" data-accent="completionist"
-                >|</span
-              ><span class="pito-ttb__legend-label">completionist</span></span
-            >
-            <span class="pito-ttb__legend-item"
-              ><span class="pito-ttb__legend-tick" data-accent="footage">|</span
-              ><span class="pito-ttb__legend-label">footage</span></span
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-  </Section>
-
-  {/* ── 8 · PRICE / COINS ────────────────────────────────── */}
-  {
-    /* Coin/star glyphs + tier map are pito's exact spec (Pito::Coin):
-      ≤9.99→1 · ≤29.99→2 · ≤59.99→3 · ≤79.99→4 · >79.99→5 · free→star. */
-  }
-  <Section id="price" theme="gruvbox-dark" label="Price" class="f-funk">
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/stellar-blade-blood-rain.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    {/* Layer A — large ascii watermark (this section has no img watermark) */}
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--bg-logo logo-accent--orange par par--A"
-    />
-    {/* Layer B — existing corner accents + two new mid-section accents */}
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--bl logo-accent--float logo-accent--orange par par--B"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--react logo-accent--sm par par--B"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--mid-l logo-accent--sm logo-accent--cyan par par--B"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--low-r logo-accent--sm par par--B"
-    />
-    {
-      /* Layer D — coins gone feral: big, distorted, spinning pixel art. Fastest parallax. */
-    }
-    <img
-      decoding="async"
-      slot="decor"
-      src="/coin/coin.gif"
-      class="pixel-accent pixel-accent--spin par-d-pixel"
-      style="top:11%;left:6%;width:130px;height:98px;opacity:.6"
-      alt=""
-      aria-hidden="true"
-    />
-    <img
-      decoding="async"
-      slot="decor"
-      src="/coin/coin.gif"
-      class="pixel-accent pixel-accent--bob par-d-pixel"
-      style="bottom:12%;right:7%;width:190px;height:143px;opacity:.5"
-      alt=""
-      aria-hidden="true"
-    />
-    <img
-      decoding="async"
-      slot="decor"
-      src="/coin/coin.gif"
-      class="pixel-accent pixel-accent--squash par-d-pixel"
-      style="top:16%;right:13%;width:104px;height:150px;opacity:.4"
-      alt=""
-      aria-hidden="true"
-    />
-    <img
-      decoding="async"
-      slot="decor"
-      src="/coin/coin.gif"
-      class="pixel-accent pixel-accent--react par-d-pixel"
-      style="bottom:26%;left:12%;width:230px;height:96px;opacity:.45"
-      alt=""
-      aria-hidden="true"
-    />
-    <p class="eyebrow" data-reveal="fade">Value per coin</p>
-    <h2 class="display" data-fx="scramble">What did it cost you?</h2>
-    <p
-      class="lede"
-      data-reveal="rise"
-      style="margin-inline:auto;max-width:42rem"
-    >
-      <code class="kbd">price set 42 59.99</code> records what{" "}
-      <span class="accent">you</span> paid to acquire the game — your money, your
-      number. The coins read that spend at a glance — one for budget, five for collector
-      — and the <span class="accent">star</span> means you got it free.
-    </p>
-    <div class="coins" data-reveal="rise" data-stagger>
-      <span class="coin-chip" style="--i:0">
-        <span class="glyphs"
-          ><img
-            decoding="async"
-            src="/coin/coin.gif"
-            alt=""
-            width="64"
-            height="48"
-          /></span
-        >
-        <span class="num">9.99</span>
-      </span>
-      <span class="coin-chip" style="--i:1">
-        <span class="glyphs"
-          ><img
-            decoding="async"
-            src="/coin/coin.gif"
-            alt=""
-            width="64"
-            height="48"
-          /><img
-            decoding="async"
-            src="/coin/coin.gif"
-            alt=""
-            width="64"
-            height="48"
-          /><img
-            decoding="async"
-            src="/coin/coin.gif"
-            alt=""
-            width="64"
-            height="48"
-          /></span
-        >
-        <span class="num">59.99</span>
-      </span>
-      <span class="coin-chip" style="--i:2">
-        <span class="glyphs"
-          ><img
-            decoding="async"
-            src="/coin/coin.gif"
-            alt=""
-            width="64"
-            height="48"
-          /><img
-            decoding="async"
-            src="/coin/coin.gif"
-            alt=""
-            width="64"
-            height="48"
-          /><img
-            decoding="async"
-            src="/coin/coin.gif"
-            alt=""
-            width="64"
-            height="48"
-          /><img
-            decoding="async"
-            src="/coin/coin.gif"
-            alt=""
-            width="64"
-            height="48"
-          /><img
-            decoding="async"
-            src="/coin/coin.gif"
-            alt=""
-            width="64"
-            height="48"
-          /></span
-        >
-        <span class="num">89.99</span>
-      </span>
-      <span class="coin-chip" style="--i:3">
-        <span class="glyphs"
-          ><img
-            decoding="async"
-            src="/coin/star.gif"
-            alt=""
-            width="49"
-            height="48"
-          /></span
-        >
-        <span class="num">0.00</span>
-      </span>
-    </div>
-    <p
-      class="lede"
-      data-reveal="rise"
-      style="margin:2.5rem auto 2.4rem;max-width:42rem"
-    >
-      Cost is half the story — PITO also scores each game (vote-weighted), so
-      you read value at a glance: what you paid against how good it actually is.
-    </p>
-    {/* Real Pito::ScoreBarComponent — red→green heat bar + score bubble. */}
-    <div class="pito-widget" data-reveal="rise" data-tilt>
-      <span
-        class="pito-score-bar"
-        data-score="81"
-        data-tier="good"
-        data-resyncing="no"
-      >
-        <span class="pito-score-bar__track">
-          <span class="pito-score-bar__bracket">[</span>
-          <span class="pito-score-bar__fill pito-bar-shimmer pito-shimmer-d13"
-            >============================================================================================================================================================================================================================================================================================================</span
-          >
-          <span class="pito-score-bar__bracket">]</span>
-          <span
-            class="pito-score-bar__bubble pito-score-bar__overlay--centered"
-            data-accent="score"
-            style="left: 81.0%;"
-          >
-            <span class="pito-score-bar__bubble-num">81</span>
-            <span class="pito-score-bar__bubble-arrow">&#9660;</span>
-          </span>
-          <span
-            class="pito-score-bar__tick pito-score-bar__overlay--centered"
-            data-accent="score"
-            style="left: 81.0%;">|</span
-          >
-        </span>
-      </span>
-    </div>
-  </Section>
-
-  {/* ── 9 · SHINIES ──────────────────────────────────────── */}
-  <Section id="shinies" theme="synthwave" label="Shinies" class="f-round">
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/ghosts-n-goblins-resurrection.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    {/* Layer A — large ascii watermark */}
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--bg-logo logo-accent--purple par par--A"
-    />
-    {/* Layer B — existing corner accents + two new mid-section accents */}
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--bl logo-accent--float logo-accent--purple par par--B"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--react logo-accent--strong logo-accent--cyan logo-accent--sm par par--B"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--mid-r logo-accent--sm logo-accent--purple par par--B"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--low-l logo-accent--sm logo-accent--cyan par par--B"
-    />
-    {/* Layer D — stars, scaled hard and distorted. Fastest parallax. */}
-    <img
-      decoding="async"
-      slot="decor"
-      src="/coin/star.gif"
-      class="pixel-accent pixel-accent--spin par-d-pixel"
-      style="top:12%;right:7%;width:150px;height:147px;opacity:.65"
-      alt=""
-      aria-hidden="true"
-    />
-    <img
-      decoding="async"
-      slot="decor"
-      src="/coin/star.gif"
-      class="pixel-accent pixel-accent--squash par-d-pixel"
-      style="bottom:13%;left:7%;width:120px;height:172px;opacity:.5"
-      alt=""
-      aria-hidden="true"
-    />
-    <img
-      decoding="async"
-      slot="decor"
-      src="/coin/star.gif"
-      class="pixel-accent pixel-accent--throb par-d-pixel"
-      style="top:20%;left:13%;width:92px;height:90px;opacity:.6"
-      alt=""
-      aria-hidden="true"
-    />
-    <img
-      decoding="async"
-      slot="decor"
-      src="/coin/star.gif"
-      class="pixel-accent pixel-accent--react pixel-accent--spin-rev par-d-pixel"
-      style="bottom:22%;right:15%;width:120px;height:118px;opacity:.5"
-      alt=""
-      aria-hidden="true"
-    />
-    <p class="eyebrow" data-reveal="fade">Achievements, but honest</p>
-    <h2 class="display" data-fx="comet">We call them shinies.</h2>
-    <p
-      class="lede"
-      data-reveal="rise"
-      style="margin-inline:auto;max-width:42rem"
-    >
-      They unlock as your subs, views, and watch time grow — a 22-step milestone
-      series (1 -> 10M) that shimmers up through the tier colours. This is
-      PITO's real progress track, live:
-    </p>
-    {
-      /* Real Pito::Achievement::TrackComponent markup, rendered from pito via
-        bin/rails runner. The reached run shimmers in the next tier's colour. */
-    }
-    <div class="pito-widget" data-reveal="rise" data-tilt>
-      <span class="pito-achievement-track"
-        ><span class="pito-achievement-track__label">Subs</span><span
-          class="pito-achievement-track__rail"
-          ><span class="pito-achievement-track__cell"
-            ><span
-              class="pito-achievement-track__dot pito-achievement-track__dot--reached pito-shimmer-d4"
-              data-accent="blue">●</span
-            ><span class="pito-achievement-track__value">1</span></span
-          ><span
-            class="pito-achievement-track__ellipsis pito-achievement-track__ellipsis--reached pito-shimmer-d1"
-            data-accent="blue"
-            >──────────────────────────────···──────────────────────────────</span
-          ><span class="pito-achievement-track__cell"
-            ><span
-              class="pito-achievement-track__dot pito-achievement-track__dot--reached pito-shimmer-d3"
-              data-accent="blue">●</span
-            ><span class="pito-achievement-track__value">500</span></span
-          ><span
-            class="pito-achievement-track__connector pito-achievement-track__connector--reached pito-shimmer-d13"
-            data-accent="blue"
-            >────────────────────────────────────────────────────────────</span
-          ><span class="pito-achievement-track__cell"
-            ><span
-              class="pito-achievement-track__dot pito-achievement-track__dot--reached pito-shimmer-d5"
-              data-accent="blue">◉</span
-            ><span class="pito-achievement-track__value">1K</span></span
-          ><span
-            class="pito-achievement-track__connector pito-achievement-track__connector--reached pito-shimmer-d11"
-            data-accent="blue"
-            >────────────────────────────────────────────────────────────</span
-          ><span class="pito-achievement-track__cell"
-            ><span
-              class="pito-achievement-track__dot pito-achievement-track__dot--upcoming"
-              >○</span
-            ><span class="pito-achievement-track__value">2K</span></span
-          ><span class="pito-achievement-track__ellipsis"
-            >──────────────────────────────···──────────────────────────────</span
-          ><span class="pito-achievement-track__cell"
-            ><span
-              class="pito-achievement-track__dot pito-achievement-track__dot--upcoming"
-              >○</span
-            ><span class="pito-achievement-track__value">10M</span></span
-          ></span
-        ></span
-      >
-    </div>
-    <div class="pito-widget" data-reveal="rise" data-tilt>
-      <span class="pito-achievement-track"
-        ><span class="pito-achievement-track__label">Views</span><span
-          class="pito-achievement-track__rail"
-          ><span class="pito-achievement-track__cell"
-            ><span
-              class="pito-achievement-track__dot pito-achievement-track__dot--reached pito-shimmer-d4"
-              data-accent="orange">●</span
-            ><span class="pito-achievement-track__value">1</span></span
-          ><span
-            class="pito-achievement-track__ellipsis pito-achievement-track__ellipsis--reached pito-shimmer-d7"
-            data-accent="orange"
-            >──────────────────────────────···──────────────────────────────</span
-          ><span class="pito-achievement-track__cell"
-            ><span
-              class="pito-achievement-track__dot pito-achievement-track__dot--reached pito-shimmer-d7"
-              data-accent="orange">●</span
-            ><span class="pito-achievement-track__value">100K</span></span
-          ><span
-            class="pito-achievement-track__connector pito-achievement-track__connector--reached pito-shimmer-d0"
-            data-accent="orange"
-            >────────────────────────────────────────────────────────────</span
-          ><span class="pito-achievement-track__cell"
-            ><span
-              class="pito-achievement-track__dot pito-achievement-track__dot--reached pito-shimmer-d9"
-              data-accent="orange">◉</span
-            ><span class="pito-achievement-track__value">200K</span></span
-          ><span
-            class="pito-achievement-track__connector pito-achievement-track__connector--reached pito-shimmer-d16"
-            data-accent="orange"
-            >────────────────────────────────────────────────────────────</span
-          ><span class="pito-achievement-track__cell"
-            ><span
-              class="pito-achievement-track__dot pito-achievement-track__dot--upcoming"
-              >○</span
-            ><span class="pito-achievement-track__value">500K</span></span
-          ><span class="pito-achievement-track__ellipsis"
-            >──────────────────────────────···──────────────────────────────</span
-          ><span class="pito-achievement-track__cell"
-            ><span
-              class="pito-achievement-track__dot pito-achievement-track__dot--upcoming"
-              >○</span
-            ><span class="pito-achievement-track__value">10M</span></span
-          ></span
-        ></span
-      >
-    </div>
-  </Section>
-
-  {/* ── 10 · SCHEDULING ──────────────────────────────────── */}
-  <Section
-    id="schedule"
-    theme="ayu-mirage"
-    label="Scheduling"
-    class="f-grotesk"
-  >
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/elden-ring-nightreign.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tl logo-accent--react"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--br logo-accent--float logo-accent--orange logo-accent--sm"
-    />
-    <div class="split split--reverse">
-      <div class="split__copy">
-        <p class="eyebrow" data-reveal="fade">A calendar that gets it</p>
-        <h2 class="display" data-fx="comet">Find the open slot.</h2>
-        <p class="lede" data-reveal="rise">
-          See every channel's cadence at once and drop the next upload where it
-          actually fits. Consistency is a personality trait you can fake with a
-          calendar.
-        </p>
-      </div>
-      <figure class="split__media" data-reveal="skew" data-tilt>
-        <img
-          decoding="async"
-          src="/media/mkt-schedule.gif"
-          width="760"
-          alt="Cross-channel scheduling in PITO"
-          loading="lazy"
-        />
-      </figure>
-    </div>
-  </Section>
-
-  {/* ── 11 · THEMES SHOWCASE ─────────────────────────────── */}
-  <Section
-    id="themes"
-    theme="catppuccin-mocha"
-    label="19 themes"
-    class="f-funk"
-  >
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/nioh-3.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--br logo-accent--float logo-accent--purple"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tl logo-accent--react logo-accent--cyan logo-accent--sm"
-    />
-    <p class="eyebrow" data-reveal="fade">Dress it how you like</p>
-    <h2 class="display" data-fx="scramble">Nineteen themes. Pick a vibe.</h2>
-    <div class="themestage glow" data-theme-cycle data-tilt>
-      <div class="themestage__bar">
-        <span class="themestage__name mono" data-theme-name>tokyo-night</span>
-        <span class="themestage__index mono" data-theme-index>01 / 19</span>
-      </div>
-      <img
-        decoding="async"
-        class="themestage__shot"
-        data-theme-shot
-        src="/media/themes/tokyo-night.png"
-        width="760"
-        height="714"
-        alt="PITO in the tokyo-night theme"
-        loading="lazy"
-      />
-      <div class="themestage__controls">
-        <button
-          type="button"
-          class="btn btn--ghost"
-          data-theme-prev
-          aria-label="Previous theme">&lt;</button
-        >
-        <span class="themestage__hint mono">auto-cycling · hover to pause</span>
-        <button
-          type="button"
-          class="btn btn--ghost"
-          data-theme-next
-          aria-label="Next theme">&gt;</button
-        >
-      </div>
-    </div>
-  </Section>
-
-  {/* ── COLOR BRIDGE → $0 ─────────────────────────────────── */}
-  <ColorBridge
-    letter="$"
-    glyphs="$ € £ ¥"
-    color="#9ece6a"
-    ink="#0a0a12"
-    text="Zero."
-    sub="no subscription. no ransom. forever."
-  />
-
-  {/* ── 12 · FREE · PRIVATE · READ-ONLY ──────────────────── */}
-  <Section id="free" theme="one-dark" label="$0 · private" class="f-serif">
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/demon-s-souls.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    {/* Layer A — bg watermark */}
-    <img
-      decoding="async"
-      slot="decor"
-      class="logo-accent logo-accent--watermark par par--A"
-      src="/logo/pito-wordmark-white.png"
-      alt=""
-      aria-hidden="true"
-    />
-    {/* Layer B — existing corner accents + two new mid-section accents */}
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--float logo-accent--sm logo-accent--green par par--B"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--bl logo-accent--react logo-accent--sm par par--B"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--mid-r logo-accent--sm par par--B"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--low-l logo-accent--sm logo-accent--green par par--B"
-    />
-    {/* Layer D — star: fastest parallax */}
-    <img
-      decoding="async"
-      slot="decor"
-      src="/coin/star.gif"
-      class="pixel-accent pixel-accent--throb par-d-pixel"
-      style="top:16%;left:9%;width:120px;height:118px;opacity:.55"
-      alt=""
-      aria-hidden="true"
-    />
-    <p class="eyebrow" data-reveal="fade">The price, the privacy, the trust</p>
-    <h2 class="display" data-reveal="rise">
-      <span class="pito-blue"><span data-cur>$</span>0.</span> Your laptop, your data.
-    </h2>
-    <div class="cards" data-stagger data-reveal="rise">
-      <div class="card" style="--i:0">
-        <h3 class="display card__h">Free, full stop</h3>
-        <p>
-          No subscription. No "starter plan." No quarterly ransom. <span
-            data-cur>$</span
-          >0, forever.
-        </p>
-      </div>
-      <div class="card" style="--i:1">
-        <h3 class="display card__h">Self-hosted</h3>
-        <p>
-          Runs on your machine. Your data never leaves it. Nothing phones home.
-        </p>
-      </div>
-      <div class="card" style="--i:2">
-        <h3 class="display card__h">Read-only by default</h3>
-        <p>
-          The only writes PITO makes to YouTube: <code class="kbd">publish</code
-          >,
-          <code class="kbd">unlist</code>, <code class="kbd">schedule</code>,
-          <code class="kbd">delete</code>. Everything else is read-only.
-        </p>
-      </div>
-    </div>
-  </Section>
-
-  {/* ── 12b · THE TERMINAL CLIENT ────────────────────────── */}
-  <Section id="tui" theme="tokyo-night" label="Terminal" class="f-grotesk">
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/pragmata.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tr logo-accent--float"
-    />
-    <div class="split split--reverse">
-      <div class="split__copy">
-        <p class="eyebrow" data-reveal="fade">no browser required</p>
-        <h2 class="display" data-fx="comet">Close the browser.</h2>
-        <p class="lede" data-reveal="rise">
-          The whole command deck — the chatbox, streaming AI answers, braille
-          charts in real color — living in your terminal. <span class="accent"
-            >brew install, log in, done. Same brain, no tabs.</span
-          >
-        </p>
-        <p class="mono" data-reveal="rise" style="opacity:.75">
-          <a href={TUI} class="pito-blue">pito</a> — a full client, not a wrapper.
-          Star sky included.
-        </p>
-      </div>
-      <figure class="split__media" data-reveal="flip" data-tilt>
-        <img
-          decoding="async"
-          src="/media/pito-tui-loop.gif"
-          width="1200"
-          height="800"
-          alt="pito in a terminal: analytics charts drawn in colored braille, a game picker, and the starfield boot screen"
-          loading="lazy"
-        />
-      </figure>
-    </div>
-  </Section>
-
-  {/* ── 13 · GET PITO / CTA / FOOTER ─────────────────────── */}
-  <Section id="get" theme="synthwave" label="Get PITO" class="cta f-grotesk">
-    <div
-      slot="decor"
-      class="cover-bed"
-      data-cover-slot="bed"
-      style="--cover:url('/covers/stellar-blade.jpg')"
-      aria-hidden="true"
-    >
-    </div>
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--side logo-accent--float"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--tl logo-accent--react logo-accent--sm logo-accent--cyan"
-    />
-    <PitoLogo
-      slot="decor"
-      class="logo-accent logo-accent--br logo-accent--float logo-accent--sm logo-accent--purple"
-    />
-    <p class="eyebrow" data-reveal="fade">One line and you're running</p>
-    <h2 class="display" data-fx="comet">Get PITO.</h2>
-    <p
-      class="lede"
-      data-reveal="rise"
-      style="margin-inline:auto;max-width:40rem"
-    >
-      One command fetches a small install, generates your own secrets, pulls the
-      prebuilt image, and walks you through a login. The real steps live on
-      GitHub — here's the one line.
-    </p>
-
-    <div
-      class="copybox copybox--center"
-      data-copy={INSTALL}
-      data-reveal="fade"
-      title="Click to copy"
-    >
-      <span class="copybox__prompt mono">$</span>
-      <code class="copybox__cmd mono" data-fx="comet">{INSTALL}</code>
+    <div class="teaser__stage">
       <button
         type="button"
-        class="copybox__btn mono"
-        data-copy-btn
-        aria-label="Copy install command"
+        id="countdown"
+        class="countdown"
+        aria-label="A countdown to Pito Studio. Butterflies fly over it and bend its time — touch it to reset the display. The real date does not move."
       >
-        <span data-copy-label>⧉ copy</span>
+        <span class="countdown__title">Pito Studio is coming in...</span>
+        <span class="countdown__digits" aria-hidden="true">
+          <span class="countdown__group" id="countdown-dd">00</span>
+          <span class="countdown__colon">:</span>
+          <span class="countdown__group" id="countdown-hh">00</span>
+          <span class="countdown__colon">:</span>
+          <span class="countdown__group" id="countdown-mm">00</span>
+          <span class="countdown__colon">:</span>
+          <span class="countdown__group" id="countdown-ss">00</span>
+          <span class="countdown__colon countdown__colon--ms">:</span>
+          <span class="countdown__group countdown__group--ms" id="countdown-zzz"
+            >000</span
+          >
+          <span class="countdown__label countdown__label--dd">Days</span>
+          <span class="countdown__label countdown__label--hh">Hours</span>
+          <span class="countdown__label countdown__label--mm">Minutes</span>
+          <span class="countdown__label countdown__label--ss">Seconds</span>
+        </span>
       </button>
     </div>
 
-    {/* The three VHS casts pito ships: install, the CLI, and updates. */}
-    <div class="casts" data-reveal="rise" data-stagger>
-      <figure style="--i:0" data-tilt>
-        <img
-          decoding="async"
-          src="/media/pito-install-cast.gif"
-          width="1180"
-          height="760"
-          alt="curl | sh installing PITO"
-          loading="lazy"
-        />
-        <figcaption>one-line install</figcaption>
-      </figure>
-      <figure style="--i:1" data-tilt>
-        <img
-          decoding="async"
-          src="/media/pito-cli-cast.gif"
-          width="1120"
-          height="880"
-          alt="The pito CLI in action"
-          loading="lazy"
-        />
-        <figcaption>the pito CLI</figcaption>
-      </figure>
-      <figure style="--i:2" data-tilt>
-        <img
-          decoding="async"
-          src="/media/pito-update-cast.gif"
-          width="1120"
-          height="820"
-          alt="pito update — stable or edge"
-          loading="lazy"
-        />
-        <figcaption>stable &lt;-> edge updates</figcaption>
-      </figure>
-    </div>
-
-    <div class="hero__cta" data-reveal="rise">
-      <a class="btn btn--primary" href={GITHUB} data-magnetic
-        >Get it on GitHub -></a
-      >
-      <a class="btn btn--ghost" href={SPONSOR} data-magnetic>❤ Sponsor</a>
-    </div>
-
-    {
-      /* Mention, not promotion: the two thin clients around your own instance. */
-    }
-    <p
-      class="mono"
-      data-reveal="fade"
-      style="margin-inline:auto;max-width:40rem"
-    >
-      Your instance also fits elsewhere: a native{" "}
-      <a href={ANDROID} class="pito-blue">Android app</a> and a{" "}
-      <a href={TUI} class="pito-blue">terminal client</a> — thin windows onto the
-      same UI and chatbox.
-    </p>
-
-    <div class="maker" data-reveal="rise">
-      <p class="maker__by mono">
-        Built by <strong>Catalin Ilinca</strong> &mdash;{" "}
-        <a href={YOUTUBE} class="pito-blue">@gmrdad82</a>, a 20-yr Rails
-        engineer and multi&#8209;channel YouTuber who got tired of the tooling
-        and did the math. The math said &ldquo;build it yourself, you
-        cheapskate.&rdquo;
-      </p>
-      <p class="maker__contact mono">
-        Questions, ideas, bug reports &mdash; find me on{" "}
-        <a href={YOUTUBE} class="pito-blue">YouTube</a>,{" "}
-        <a href={X} class="pito-blue">X</a>, and{" "}
-        <a href={DISCORD} class="pito-blue">Discord</a>.
-      </p>
-
-      <ul class="social" aria-label="Catalin's links">
-        <li>
-          <a href={YOUTUBE} data-magnetic
-            ><img
-              decoding="async"
-              src="/social/youtube.svg"
-              width="22"
-              height="22"
-              alt=""
-            /> YouTube</a
-          >
-        </li>
-        <li>
-          <a href={X} data-magnetic
-            ><img
-              decoding="async"
-              src="/social/x.svg"
-              width="18"
-              height="18"
-              alt=""
-            /> X</a
-          >
-        </li>
-        <li>
-          <a href={DISCORD} data-magnetic
-            ><img
-              decoding="async"
-              src="/social/discord.svg"
-              width="22"
-              height="22"
-              alt=""
-            /> Discord</a
-          >
-        </li>
-      </ul>
-
-      <p class="maker__channels mono">Gamer Dad - Stories:</p>
-      <ul class="avatars" aria-label="Gamer Dad - Stories">
-        {
-          avatars.map((a) => (
-            <li>
-              <a href={a.url} title={a.name}>
-                <img
-                  decoding="async"
-                  src={`/avatars/${a.file}`}
-                  width="72"
-                  height="72"
-                  alt={a.name}
-                  loading="lazy"
-                />
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-
-    <footer class="footer">
-      <a href={GITHUB}>GitHub</a>
-      <a href={ANDROID}>Android</a>
-      <a href={TUI}>TUI</a>
-      <a href="https://www.gnu.org/licenses/agpl-3.0">AGPL-3.0</a>
-      <a href={SPONSOR}>Sponsor</a>
-    </footer>
-  </Section>
+    <CrossNav href="/chat" label="The Free Chat ->" position="bottom-right" />
+  </div>
 </Base>
+
+<script>
+  import {
+    REAL_DEADLINE_ISO,
+    createElasticState,
+    tickElastic,
+    pickGentleDeltaMs,
+    applyElasticDelta,
+    resetElastic,
+    formatCountdownParts,
+  } from "../lib/countdown.js";
+  import { initSkyFlock } from "../lib/sky-flock.js";
+
+  const button = document.getElementById("countdown");
+  const groups = {
+    dd: document.getElementById("countdown-dd"),
+    hh: document.getElementById("countdown-hh"),
+    mm: document.getElementById("countdown-mm"),
+    ss: document.getElementById("countdown-ss"),
+    zzz: document.getElementById("countdown-zzz"),
+  };
+
+  if (
+    button &&
+    groups.dd &&
+    groups.hh &&
+    groups.mm &&
+    groups.ss &&
+    groups.zzz
+  ) {
+    // RELATIVE TIME (owner): the deadline is real — parsed in the
+    // visitor's local time — and the display is elastic around it.
+    const deadlineMs = new Date(REAL_DEADLINE_ISO).getTime();
+    let state = createElasticState(Date.now(), deadlineMs);
+
+    const render = () => {
+      const parts = formatCountdownParts(state.displayMs);
+      groups.dd.textContent = parts.dd;
+      groups.hh.textContent = parts.hh;
+      groups.mm.textContent = parts.mm;
+      groups.ss.textContent = parts.ss;
+      groups.zzz.textContent = parts.zzz;
+    };
+    render();
+
+    // A cheap on-brand acknowledgement for the TAP RESET only (owner:
+    // over-flight deltas must not pulsate the box — "it's already in a
+    // hover state", and at one delta per second the pulse would strobe).
+    let pulseTimer = null;
+    const pulse = () => {
+      button.classList.remove("countdown--pulse");
+      // Force a reflow so re-adding the class restarts the animation even
+      // on back-to-back adds.
+      void button.offsetWidth;
+      button.classList.add("countdown--pulse");
+      clearTimeout(pulseTimer);
+      pulseTimer = setTimeout(
+        () => button.classList.remove("countdown--pulse"),
+        420,
+      );
+    };
+
+    // A butterfly over the box bends the display: adds OR subtracts a
+    // gentle amount (amendment 5), once per second of over-flight — which
+    // only changes how fast the elastic tick burns. The deadline never
+    // moves, and (owner) NO pulse here: the numbers just change hands.
+    const grantTime = () => {
+      state = applyElasticDelta(state, pickGentleDeltaMs(), Date.now());
+    };
+
+    // Tap/click/Enter/Space = RESET (owner amendment): a fresh random
+    // display, every time — the rate absorbs it, the date holds.
+    // Rendered immediately so the jump lands this frame, not next tick.
+    const resetCountdown = () => {
+      state = resetElastic(state, Date.now());
+      render();
+      pulse();
+    };
+
+    // The countdown's own tick loop — elastic time (owner amendment 5):
+    // display-milliseconds burn at rate = display / real-remaining, so the
+    // counter reaches zero exactly at the real deadline no matter what the
+    // butterflies did to it. Wall-clock (Date.now) on purpose: a laptop
+    // waking from sleep must land at the honest position, not resume where
+    // it dozed off. Deliberately NOT gated behind prefers-reduced-motion
+    // (see the header comment): reduced-motion visitors get no collisions
+    // (sky-flock.js skips its wander step) but still get a ticking counter.
+    let lastWall = Date.now();
+    const tick = () => {
+      const nowWall = Date.now();
+      state = tickElastic(state, lastWall, nowWall);
+      lastWall = nowWall;
+      render();
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    // A tap on the box RESETS the countdown to something random (owner
+    // amendment — collisions add, taps reset). click covers both mouse and
+    // touch activation (touchstart would double-fire alongside the
+    // synthesized click on most browsers).
+    button.addEventListener("click", resetCountdown);
+    button.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        resetCountdown();
+      }
+    });
+
+    const canvas = document.getElementById("sky-flock");
+    if (canvas instanceof HTMLCanvasElement) {
+      initSkyFlock(canvas, {
+        // The countdown box as the fly-over zone (amendment 8): read its
+        // live bounding rect each frame; while any body is over it, the
+        // flock calls onCollide once per second (the signed gentle delta).
+        // The canvas is `position: fixed; inset: 0`, so viewport/client
+        // coordinates ARE canvas coordinates — no conversion needed.
+        obstacle: () => button.getBoundingClientRect(),
+        onCollide: grantTime,
+        // While any body is over the box, the counter wears its hover
+        // look (owner: "make the counter look like this") — same styling
+        // as :hover, driven by the flock instead of the mouse.
+        onHover: (active) =>
+          button.classList.toggle("countdown--flyover", active),
+      });
+    }
+  } else {
+    // Degrade gracefully: no countdown markup found, still run the
+    // background on its own (no obstacle to bounce off of).
+    const canvas = document.getElementById("sky-flock");
+    if (canvas instanceof HTMLCanvasElement) initSkyFlock(canvas);
+  }
+</script>
+
+<style>
+  .teaser {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #0e0a1a;
+  }
+
+  /* Under the stage (owner tune: "Z-index counter layer over the
+     butterflies") — the trio and its trails slide BENEATH the counter;
+     pointer-events off regardless, so taps always land on the countdown. */
+  .teaser__canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .teaser__stage {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+  }
+
+  .countdown {
+    appearance: none;
+    display: grid;
+    justify-items: center;
+    row-gap: clamp(0.6rem, 2.2vw, 1.1rem);
+    border: 1px solid color-mix(in oklch, var(--pito-blue) 45%, transparent);
+    background: color-mix(in oklch, #0e0a1a 55%, transparent);
+    border-radius: 1.25rem;
+    padding: clamp(1.25rem, 5vw, 2.5rem) clamp(1.5rem, 7vw, 4rem);
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+    box-shadow:
+      0 0 24px color-mix(in oklch, var(--pito-blue) 35%, transparent),
+      0 0 60px color-mix(in oklch, #bb9af7 20%, transparent);
+  }
+
+  /* .countdown--flyover: the same look, worn while a butterfly is over
+     the box (owner amendment 9 — toggled by sky-flock's onHover). */
+  .countdown:hover,
+  .countdown--flyover,
+  .countdown:focus-visible {
+    transform: scale(1.02);
+    border-color: color-mix(in oklch, var(--pito-blue) 80%, transparent);
+    box-shadow:
+      0 0 32px color-mix(in oklch, var(--pito-blue) 55%, transparent),
+      0 0 90px color-mix(in oklch, #bb9af7 35%, transparent);
+  }
+
+  .countdown:active {
+    transform: scale(0.98);
+  }
+
+  .countdown:focus-visible {
+    outline: 2px solid var(--pito-blue);
+    outline-offset: 4px;
+  }
+
+  /* The reveal (owner amendment): a sentence, not a shout — Title Case
+     only where the name is (copy-case law I21). */
+  .countdown__title {
+    font-family: var(--font-display);
+    font-size: clamp(0.85rem, 2.4vw, 1.3rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-align: center;
+    color: color-mix(in oklch, #eaf0ff 80%, transparent);
+    text-shadow: 0 0 14px color-mix(in oklch, var(--pito-blue) 45%, transparent);
+  }
+
+  /* Two rows (owner rule 3): a 9-column grid — the 5 digit groups in row 1
+     with the 4 colons as their OWN cells (a colon glued inside a group is
+     exactly how the ms group once grew a trailing colon, and it would skew
+     the label alignment below). Row 2: each label is pinned to its group's
+     column and right-aligned to the digits' rightmost edge (owner
+     amendment; no Milliseconds label). Default (stretch) row alignment on
+     purpose: the smaller ms digits — and THEIR colon — ride high against
+     the big digits' top, superscript-style (owner: keep the ms "in an
+     upper position", the colon with it). */
+  .countdown__digits {
+    /* one knob for the digit scale — the label nudge below derives from it */
+    --digit-size: clamp(1.6rem, 8vw, 4.6rem);
+    --ms-size: clamp(1rem, 5vw, 2.6rem);
+    display: grid;
+    grid-template-columns: repeat(9, max-content);
+    column-gap: clamp(0.18rem, 0.9vw, 0.5rem);
+    row-gap: clamp(0.35rem, 1.5vw, 0.6rem);
+    justify-content: center;
+    max-width: min(94vw, 64rem);
+  }
+
+  .countdown__group {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: var(--digit-size);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    /* neon in the brand purple/blue family — never a rainbow ramp */
+    color: #eaf0ff;
+    text-shadow:
+      0 0 8px var(--pito-blue),
+      0 0 22px var(--pito-blue),
+      0 0 44px #bb9af7;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .countdown__colon {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: var(--digit-size);
+    line-height: 1;
+    color: #eaf0ff;
+    text-shadow:
+      0 0 8px var(--pito-blue),
+      0 0 22px var(--pito-blue),
+      0 0 44px #bb9af7;
+    opacity: 0.6;
+  }
+
+  /* the ms colon belongs to the ms group (owner): same smaller size, same
+     raised position — it separates seconds FROM the superscript, so it
+     rides with the superscript */
+  .countdown__colon--ms {
+    font-size: var(--ms-size);
+    opacity: 0.5;
+  }
+
+  .countdown__group--ms {
+    font-size: var(--ms-size);
+    opacity: 0.85;
+  }
+
+  .countdown__label {
+    grid-row: 2;
+    justify-self: end;
+    /* tabular digits carry ~0.07em of empty advance after their ink; pull
+       the label back by the same amount so its right edge meets the DIGIT
+       ink, not the invisible box edge (owner: "labels are a bit to the
+       right") */
+    padding-inline-end: calc(var(--digit-size) * 0.07);
+    font-size: clamp(0.55rem, 2vw, 0.85rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in oklch, #eaf0ff 55%, transparent);
+  }
+
+  /* Phones: the 9-cell row at 8vw digits is wider than a 390px viewport
+     (the ms group fell clean off the screen) — step the whole row down so
+     dd:hh:mm:ss:zzz always fits, labels and all. */
+  @media (max-width: 520px) {
+    .countdown {
+      padding: 1rem 1.1rem;
+    }
+
+    .countdown__digits {
+      --digit-size: clamp(1rem, 5.6vw, 1.8rem);
+      --ms-size: clamp(0.7rem, 3.5vw, 1.15rem);
+      column-gap: 0.15rem;
+    }
+  }
+
+  .countdown__label--dd {
+    grid-column: 1;
+  }
+  .countdown__label--hh {
+    grid-column: 3;
+  }
+  .countdown__label--mm {
+    grid-column: 5;
+  }
+  .countdown__label--ss {
+    grid-column: 7;
+  }
+
+  /* A cheap, on-brand pulse whenever a butterfly collision or a tap adds
+     time (owner: "a small visual pulse on the box ... is welcome"). */
+  @keyframes countdown-pulse {
+    0% {
+      transform: scale(1);
+      box-shadow:
+        0 0 24px color-mix(in oklch, var(--pito-blue) 35%, transparent),
+        0 0 60px color-mix(in oklch, #bb9af7 20%, transparent);
+    }
+    35% {
+      transform: scale(1.035);
+      box-shadow:
+        0 0 46px color-mix(in oklch, var(--pito-blue) 75%, transparent),
+        0 0 110px color-mix(in oklch, #bb9af7 55%, transparent);
+    }
+    100% {
+      transform: scale(1);
+      box-shadow:
+        0 0 24px color-mix(in oklch, var(--pito-blue) 35%, transparent),
+        0 0 60px color-mix(in oklch, #bb9af7 20%, transparent);
+    }
+  }
+
+  .countdown--pulse {
+    animation: countdown-pulse 420ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* the sky freezes to a single frame (sky-flock.js) and no collisions
+       ever fire (nothing is moving to bump the box), but the counter still
+       ticks down on its own — a pure countdown for these visitors. */
+    .countdown {
+      transition: none;
+    }
+
+    .countdown--pulse {
+      animation: none;
+    }
+  }
+</style>

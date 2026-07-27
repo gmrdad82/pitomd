@@ -35,7 +35,7 @@
   line-height: 1.02;
 }
 
-/* ── PITO ASCII wordmark ───────────────────────────────────── */
+/* ── Pito ASCII wordmark ───────────────────────────────────── */
 
 .pito-logo {
   margin: 0;
@@ -528,7 +528,7 @@
   }
 }
 
-/* ── Scattered PITO logo accents ───────────────────────────── */
+/* ── Scattered Pito logo accents ───────────────────────────── */
 /* Decorative marks placed via Section's `decor` slot; sit behind the content
    column (.section__inner is z-index 1). */
 
@@ -954,7 +954,7 @@
 }
 
 /* ── Scroll + cursor parallax depth layers ──────────────────── */
-/* parallax.js sets --scroll-p on #pain, #price, #shinies, #free (range -1.5..1.5).
+/* parallax.js sets --scroll-p on the decor-heavy sections (range -1.5..1.5).
    pointer.js sets --par-x/--par-y on <body> (-1..1).
    These two signals combine in ONE transform (or translate) per element.
    Using two separate CSS properties prevents conflicts with existing animations:
@@ -1130,7 +1130,7 @@
 
 /* ── WebGL fx island (.fx-canvas) ────────────────────────────── */
 /* Rendered by fx-webgl.js for any [data-cursor="…"] section whose mood is a
-   WebGL renderer (water / fluid / plasma / metaballs / halftone / lens).
+   WebGL renderer (water on the index; plasma survives for /studio only).
    Sits behind the content, same stacking tier as .cover-bed; the readability
    veil mirrors .cover-bed::before so text stays legible over the busier
    abstract fx. Once an instance is live (data-fx-active on the section), the
@@ -1157,7 +1157,7 @@
   position: absolute;
   inset: 0;
   /* Readability scrim behind the centred copy. Gentle by default — the
-     cover-sampling fx (water/halftone/lens) want the cover to show through. */
+     cover-sampling water wants the cover to show through. */
   background: radial-gradient(
     ellipse 60% 72% at center,
     var(--bg-root) 0%,
@@ -1168,9 +1168,8 @@
 
 /* The bright ABSTRACT fields generate their own vivid colour and drown dim
    body copy, so darken the centre column hard for them (the effect still shows
-   at the edges). data-fx-active carries the live effect name (fx-webgl.js). */
-[data-fx-active="metaballs"] .fx-canvas::after,
-[data-fx-active="fluid"] .fx-canvas::after,
+   at the edges). data-fx-active carries the live effect name (fx-webgl.js).
+   plasma is /studio's mood — the rule stays for that route. */
 [data-fx-active="plasma"] .fx-canvas::after {
   background: radial-gradient(
     ellipse 64% 88% at center,
@@ -1185,38 +1184,26 @@
   display: none;
 }
 
-/* YouTube-caption plates — the cover-sampling fx draw the art far brighter
-   than the static 0.13 bed, and the mono copy drowns in it (owner smoke,
-   "The pain" over water). Translucent plates behind the copy, a wink at YT
-   captions on a YouTube tool. The attribute flips outside the ±400px
-   observer margin, so the padding never shifts layout in view. */
-[data-fx-active="water"] .section__inner :is(.lede, .eyebrow, .prose p),
-[data-fx-active="halftone"] .section__inner :is(.lede, .eyebrow, .prose p),
-[data-fx-active="lens"] .section__inner :is(.lede, .eyebrow, .prose p) {
+/* YouTube-caption plates — water draws the art far brighter than the static
+   0.13 bed, and the mono copy drowns in it (owner smoke). Translucent plates
+   behind the copy, a wink at YT captions on a YouTube tool. The attribute
+   flips outside the ±400px observer margin, so the padding never shifts
+   layout in view. */
+[data-fx-active="water"] .section__inner :is(.lede, .eyebrow, .prose p) {
   /* 85% bg (owner-tuned from 74%: "lower the transparency a bit") */
   background: color-mix(in oklab, var(--bg-root) 85%, transparent);
   padding: 0.4em 0.65em;
 }
 
 /* The eyebrow is a one-line label — its plate hugs the text, not the column
-   (owner smoke: full-width chip over "Nineteen themes" looked like a bar). */
-[data-fx-active="water"] .section__inner .eyebrow,
-[data-fx-active="halftone"] .section__inner .eyebrow,
-[data-fx-active="lens"] .section__inner .eyebrow {
+   (owner smoke: a full-width chip read as a bar). */
+[data-fx-active="water"] .section__inner .eyebrow {
   width: fit-content;
 }
 
 /* …and stays centred on the centre-aligned sections (fit-content blocks
    ignore the parent's text-align). */
-:is(.cta, #themes, #free, #pain)[data-fx-active="water"]
-  .section__inner
-  .eyebrow,
-:is(.cta, #themes, #free, #pain)[data-fx-active="halftone"]
-  .section__inner
-  .eyebrow,
-:is(.cta, #themes, #free, #pain)[data-fx-active="lens"]
-  .section__inner
-  .eyebrow {
+:is(.cta, #free)[data-fx-active="water"] .section__inner .eyebrow {
   margin-inline: auto;
 }
 

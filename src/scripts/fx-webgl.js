@@ -1,19 +1,18 @@
 // fx-webgl.js — the lazy-managed WebGL fx engine for [data-cursor="…"]
-// sections that fx-random.js assigns an abstract/GPU mood to.
+// sections whose mood is a GPU renderer. Since the 5.0.0 fx cull the mood is
+// STAMPED IN THE MARKUP (a stable key per section, index.astro) — there is no
+// runtime randomiser any more; variation derives from the section's identity,
+// never from a draw at render.
 //
-// Six cursor-reactive WebGL2 backgrounds live here, one per RENDERERS key:
+// Two cursor-reactive WebGL2 backgrounds live here, one per RENDERERS key:
 //   water      — height-field ripple sim, refracts the section's cover image
 //                (ported from water.js verbatim; water.js itself is retired —
 //                this file is its only remaining caller path).
-//   fluid      — stable-fluids dye advection (tmp/fx1-fluid.html, verbatim)
 //   plasma     — domain-warped fbm noise, warp pulled toward the cursor
-//                (tmp/fx2-plasma.html, verbatim)
-//   metaballs  — gooey metaball field, one blob pinned to the cursor
-//                (tmp/fx3-metaballs.html, verbatim)
-//   halftone   — halftone dot-grid of the cover image, sharpens near the
-//                cursor (tmp/fx4-halftone.html, verbatim)
-//   lens       — chromatic-refraction lens over the cover image, follows the
-//                cursor (tmp/fx5-lens.html, verbatim)
+//                (tmp/fx2-plasma.html, verbatim). NOT used by the index —
+//                kept because /studio's fx contract is plasma / following
+//                circle / duotone.
+// The 5.0.0 cull deleted fluid, metaballs, halftone and lens outright.
 //
 // Every renderer is a factory `RENDERERS[key](gl, canvas, section)` that
 // returns `{ frame(nowMs, mouse), resize(), destroy() }`. Only the GLSL is
@@ -32,12 +31,11 @@
 // rAF, timer or listener.
 //
 // Degrade chain: prefers-reduced-motion or no WebGL2 → the whole engine
-// no-ops (fx-random.js already leaves glow/ripple + the static .cover-bed
-// covering everything). Per-section: water/fluid need EXT_color_buffer_float
-// for their float FBOs — missing it, that section is skipped (static cover
-// stays); water/halftone/lens need a .cover-bed — missing it, that section is
-// skipped too (fx-random.js already guarantees this never happens, but the
-// manager guards it regardless of the randomizer's promise).
+// no-ops (the static .cover-bed keeps covering everything). Per-section:
+// water needs EXT_color_buffer_float for its float FBOs — missing it, that
+// section is skipped (static cover stays); water also needs a .cover-bed —
+// missing it, that section is skipped too (the markup only stamps water on
+// cover-bearing sections, but the manager guards it regardless).
 
 const reduceMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
@@ -166,7 +164,7 @@ function queueRemeasure() {
 window.addEventListener("scroll", queueRemeasure, { passive: true });
 window.addEventListener("resize", queueRemeasure, { passive: true });
 
-/* ── shared cover-image helpers (water / halftone / lens) ──────
+/* ── shared cover-image helpers (water) ────────────────────────
    coverPath ported verbatim from water.js; the texture upload is the same
    flip-Y + linear + clamp setup water.js and the fx4/fx5 demos each did
    inline. */
@@ -426,481 +424,6 @@ function water(gl, canvas, section) {
   return { frame, resize, destroy };
 }
 
-/* ══ fluid — stable-fluids dye advection (tmp/fx1-fluid.html, verbatim) ══ */
-
-const FLUID_VERT = `#version 300 es
-in vec2 p;
-out vec2 vUv;
-void main() {
-  vUv = p * 0.5 + 0.5;
-  gl_Position = vec4(p, 0.0, 1.0);
-}`;
-
-const FLUID_ADVECT_VEL_FRAG = `#version 300 es
-precision highp float;
-uniform sampler2D u_velocity;
-uniform float u_dt;
-uniform float u_dissipation;
-in vec2 vUv;
-out vec4 outColor;
-void main() {
-  vec2 coord = vUv - u_dt * texture(u_velocity, vUv).xy;
-  vec2 vel = texture(u_velocity, coord).xy;
-  outColor = vec4(vel * u_dissipation, 0.0, 1.0);
-}`;
-
-const FLUID_ADVECT_DYE_FRAG = `#version 300 es
-precision highp float;
-uniform sampler2D u_velocity;
-uniform sampler2D u_dye;
-uniform float u_dt;
-uniform float u_dissipation;
-in vec2 vUv;
-out vec4 outColor;
-void main() {
-  vec2 coord = vUv - u_dt * texture(u_velocity, vUv).xy;
-  vec3 col = texture(u_dye, coord).rgb;
-  outColor = vec4(col * u_dissipation, 1.0);
-}`;
-
-const FLUID_SPLAT_VEL_FRAG = `#version 300 es
-precision highp float;
-uniform sampler2D u_velocity;
-uniform vec2 u_point;
-uniform vec2 u_force;
-uniform float u_radius;
-uniform float u_aspect;
-in vec2 vUv;
-out vec4 outColor;
-void main() {
-  vec2 base = texture(u_velocity, vUv).xy;
-  vec2 d = vUv - u_point;
-  d.x *= u_aspect;
-  float g = exp(-dot(d, d) / u_radius);
-  outColor = vec4(base + u_force * g, 0.0, 1.0);
-}`;
-
-const FLUID_SPLAT_DYE_FRAG = `#version 300 es
-precision highp float;
-uniform sampler2D u_dye;
-uniform vec2 u_point;
-uniform vec3 u_color;
-uniform float u_radius;
-uniform float u_aspect;
-in vec2 vUv;
-out vec4 outColor;
-void main() {
-  vec3 base = texture(u_dye, vUv).rgb;
-  vec2 d = vUv - u_point;
-  d.x *= u_aspect;
-  float g = exp(-dot(d, d) / u_radius);
-  outColor = vec4(base + u_color * g, 1.0);
-}`;
-
-const FLUID_DIVERGENCE_FRAG = `#version 300 es
-precision highp float;
-uniform sampler2D u_velocity;
-uniform vec2 u_texel;
-in vec2 vUv;
-out vec4 outColor;
-void main() {
-  float l = texture(u_velocity, vUv - vec2(u_texel.x, 0.0)).x;
-  float r = texture(u_velocity, vUv + vec2(u_texel.x, 0.0)).x;
-  float b = texture(u_velocity, vUv - vec2(0.0, u_texel.y)).y;
-  float t = texture(u_velocity, vUv + vec2(0.0, u_texel.y)).y;
-  float div = 0.5 * (r - l + t - b);
-  outColor = vec4(div, 0.0, 0.0, 1.0);
-}`;
-
-const FLUID_PRESSURE_FRAG = `#version 300 es
-precision highp float;
-uniform sampler2D u_pressure;
-uniform sampler2D u_divergence;
-uniform vec2 u_texel;
-in vec2 vUv;
-out vec4 outColor;
-void main() {
-  float l = texture(u_pressure, vUv - vec2(u_texel.x, 0.0)).x;
-  float r = texture(u_pressure, vUv + vec2(u_texel.x, 0.0)).x;
-  float b = texture(u_pressure, vUv - vec2(0.0, u_texel.y)).x;
-  float t = texture(u_pressure, vUv + vec2(0.0, u_texel.y)).x;
-  float div = texture(u_divergence, vUv).x;
-  float p = (l + r + b + t - div) * 0.25;
-  outColor = vec4(p, 0.0, 0.0, 1.0);
-}`;
-
-const FLUID_GRADIENT_SUBTRACT_FRAG = `#version 300 es
-precision highp float;
-uniform sampler2D u_pressure;
-uniform sampler2D u_velocity;
-uniform vec2 u_texel;
-in vec2 vUv;
-out vec4 outColor;
-void main() {
-  float l = texture(u_pressure, vUv - vec2(u_texel.x, 0.0)).x;
-  float r = texture(u_pressure, vUv + vec2(u_texel.x, 0.0)).x;
-  float b = texture(u_pressure, vUv - vec2(0.0, u_texel.y)).x;
-  float t = texture(u_pressure, vUv + vec2(0.0, u_texel.y)).x;
-  vec2 vel = texture(u_velocity, vUv).xy;
-  vel -= 0.5 * vec2(r - l, t - b);
-  outColor = vec4(vel, 0.0, 1.0);
-}`;
-
-const FLUID_DISPLAY_FRAG = `#version 300 es
-precision highp float;
-uniform sampler2D u_dye;
-uniform vec2 u_res;
-uniform vec2 u_mouse;
-uniform float u_time;
-in vec2 vUv;
-out vec4 outColor;
-void main() {
-  vec3 dye = texture(u_dye, vUv).rgb;
-  vec3 bg = vec3(0.039, 0.039, 0.071);
-  vec2 mouseUv = u_mouse / u_res;
-  float d = distance(vUv, mouseUv);
-  float glow = exp(-d * d * 140.0) * 0.05;
-  vec3 col = bg + dye + glow * vec3(0.318, 0.439, 1.0);
-  col = 1.0 - exp(-col * 1.4);
-  outColor = vec4(col, 1.0);
-}`;
-
-function fluid(gl, canvas, section) {
-  if (!gl.getExtension("EXT_color_buffer_float")) {
-    throw new Error("fx-webgl: fluid needs EXT_color_buffer_float");
-  }
-
-  // Perf budget (owner: ~50%+ less per-frame grid work). Each frame runs 6
-  // fixed full-grid passes (advectVel, splatVel, splatDye, divergence,
-  // gradientSubtract, advectDye) plus PRESSURE_ITERS Jacobi passes, each
-  // touching simW*simH cells (~SIM_MAX^2, since simH scales with SIM_MAX
-  // too — the ratio holds at any aspect):
-  //   old: 128^2 cells * (6 + 14) passes = 16,384 * 20 = 327,680 cell-ops
-  //   new:  96^2 cells * (6 +  7) passes =  9,216 * 13 = 119,808 cell-ops
-  //   119,808 / 327,680 = 36.6% of old -> 63.4% less grid work per frame
-  const SIM_MAX = 96; // was 128 (before that: 160) — (96/128)^2 = 56% of grid cells
-  const PRESSURE_ITERS = 7; // was 14 (before that: 20) — the Jacobi loop is the dominant cost; 7 still reads as incompressible
-  const VEL_DISSIPATION = 0.992;
-  const DYE_DISSIPATION = 0.996;
-  const VEL_RADIUS = 0.0028;
-  const DYE_RADIUS = 0.0042;
-  const FORCE_SCALE = 9.0;
-  const MAX_FORCE = 3.5;
-  const MAX_DT = 1 / 30;
-
-  const advectVelProg = linkProgram(gl, FLUID_VERT, FLUID_ADVECT_VEL_FRAG);
-  const advectDyeProg = linkProgram(gl, FLUID_VERT, FLUID_ADVECT_DYE_FRAG);
-  const splatVelProg = linkProgram(gl, FLUID_VERT, FLUID_SPLAT_VEL_FRAG);
-  const splatDyeProg = linkProgram(gl, FLUID_VERT, FLUID_SPLAT_DYE_FRAG);
-  const divergenceProg = linkProgram(gl, FLUID_VERT, FLUID_DIVERGENCE_FRAG);
-  const pressureProg = linkProgram(gl, FLUID_VERT, FLUID_PRESSURE_FRAG);
-  const gradientSubtractProg = linkProgram(
-    gl,
-    FLUID_VERT,
-    FLUID_GRADIENT_SUBTRACT_FRAG,
-  );
-  const displayProg = linkProgram(gl, FLUID_VERT, FLUID_DISPLAY_FRAG);
-
-  const allPrograms = [
-    advectVelProg,
-    advectDyeProg,
-    splatVelProg,
-    splatDyeProg,
-    divergenceProg,
-    pressureProg,
-    gradientSubtractProg,
-    displayProg,
-  ];
-  const vao = bindFullscreenTriangle(gl, allPrograms);
-
-  const uAdvectVel = uniformLocations(gl, advectVelProg, [
-    "u_velocity",
-    "u_dt",
-    "u_dissipation",
-  ]);
-  const uAdvectDye = uniformLocations(gl, advectDyeProg, [
-    "u_velocity",
-    "u_dye",
-    "u_dt",
-    "u_dissipation",
-  ]);
-  const uSplatVel = uniformLocations(gl, splatVelProg, [
-    "u_velocity",
-    "u_point",
-    "u_force",
-    "u_radius",
-    "u_aspect",
-  ]);
-  const uSplatDye = uniformLocations(gl, splatDyeProg, [
-    "u_dye",
-    "u_point",
-    "u_color",
-    "u_radius",
-    "u_aspect",
-  ]);
-  const uDivergence = uniformLocations(gl, divergenceProg, [
-    "u_velocity",
-    "u_texel",
-  ]);
-  const uPressure = uniformLocations(gl, pressureProg, [
-    "u_pressure",
-    "u_divergence",
-    "u_texel",
-  ]);
-  const uGradSub = uniformLocations(gl, gradientSubtractProg, [
-    "u_pressure",
-    "u_velocity",
-    "u_texel",
-  ]);
-  const uDisplay = uniformLocations(gl, displayProg, [
-    "u_dye",
-    "u_res",
-    "u_mouse",
-    "u_time",
-  ]);
-
-  function makePingPong(w, h, internalFormat, format, type) {
-    function makeTex() {
-      const tex = gl.createTexture();
-      gl.bindTexture(gl.TEXTURE_2D, tex);
-      gl.texImage2D(
-        gl.TEXTURE_2D,
-        0,
-        internalFormat,
-        w,
-        h,
-        0,
-        format,
-        type,
-        null,
-      );
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-      return tex;
-    }
-    function makeFbo(tex) {
-      const fb = gl.createFramebuffer();
-      gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
-      gl.framebufferTexture2D(
-        gl.FRAMEBUFFER,
-        gl.COLOR_ATTACHMENT0,
-        gl.TEXTURE_2D,
-        tex,
-        0,
-      );
-      return fb;
-    }
-    const tex = [makeTex(), makeTex()];
-    const fbo = [makeFbo(tex[0]), makeFbo(tex[1])];
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    return {
-      tex,
-      fbo,
-      cur: 0,
-      read() {
-        return this.tex[this.cur];
-      },
-      writeFbo() {
-        return this.fbo[1 - this.cur];
-      },
-      swap() {
-        this.cur = 1 - this.cur;
-      },
-    };
-  }
-
-  function simSize(rect) {
-    const aspect = rect.height > 0 ? rect.width / rect.height : 1;
-    if (aspect >= 1) {
-      return [SIM_MAX, Math.max(16, Math.round(SIM_MAX / aspect))];
-    }
-    return [Math.max(16, Math.round(SIM_MAX * aspect)), SIM_MAX];
-  }
-
-  syncCanvasSize(canvas, section);
-  const [simW, simH] = simSize(section.getBoundingClientRect());
-  const simAspect = simW / simH;
-
-  const velocity = makePingPong(simW, simH, gl.RG16F, gl.RG, gl.HALF_FLOAT);
-  const dye = makePingPong(simW, simH, gl.RGBA16F, gl.RGBA, gl.HALF_FLOAT);
-  const pressure = makePingPong(simW, simH, gl.R16F, gl.RED, gl.HALF_FLOAT);
-
-  const divTex = (function () {
-    const tex = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, tex);
-    gl.texImage2D(
-      gl.TEXTURE_2D,
-      0,
-      gl.R16F,
-      simW,
-      simH,
-      0,
-      gl.RED,
-      gl.HALF_FLOAT,
-      null,
-    );
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    const fb = gl.createFramebuffer();
-    gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
-    gl.framebufferTexture2D(
-      gl.FRAMEBUFFER,
-      gl.COLOR_ATTACHMENT0,
-      gl.TEXTURE_2D,
-      tex,
-      0,
-    );
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    return { tex, fbo: fb };
-  })();
-
-  function pass(prog, targetFbo, w, h, bind) {
-    gl.useProgram(prog);
-    gl.bindVertexArray(vao);
-    gl.bindFramebuffer(gl.FRAMEBUFFER, targetFbo);
-    gl.viewport(0, 0, w, h);
-    bind();
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-  }
-
-  gl.viewport(0, 0, canvas.width, canvas.height);
-
-  let destroyed = false;
-  let t0 = null;
-  let lastElapsed = 0;
-  // pointerUv held between frames — force is the delta since the last
-  // sample, same convention as the demo's event-driven lastPointerUv, just
-  // resampled once per shared rAF tick instead of per pointermove event.
-  let lastUv = [0.5, 0.5];
-
-  function frame(now, mouse) {
-    if (destroyed) return;
-    if (t0 === null) t0 = now;
-    const elapsed = (now - t0) / 1000;
-    const dt = Math.min(Math.max(elapsed - lastElapsed, 0), MAX_DT);
-    lastElapsed = elapsed;
-
-    pass(advectVelProg, velocity.writeFbo(), simW, simH, () => {
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, velocity.read());
-      gl.uniform1i(uAdvectVel.u_velocity, 0);
-      gl.uniform1f(uAdvectVel.u_dt, dt);
-      gl.uniform1f(uAdvectVel.u_dissipation, VEL_DISSIPATION);
-    });
-    velocity.swap();
-
-    const uv = localMouseUv(section, mouse);
-    if (uv && uv[0] >= 0 && uv[0] <= 1 && uv[1] >= 0 && uv[1] <= 1) {
-      const dx = (uv[0] - lastUv[0]) * FORCE_SCALE;
-      const dy = (uv[1] - lastUv[1]) * FORCE_SCALE;
-      const mag = Math.hypot(dx, dy);
-      const clampScale = mag > MAX_FORCE ? MAX_FORCE / mag : 1;
-      const force = [dx * clampScale, dy * clampScale];
-      const phase = 0.5 + 0.5 * Math.sin(elapsed * 0.7);
-      const color = [
-        0.318 + (0.541 - 0.318) * phase,
-        0.439 + (0.424 - 0.439) * phase,
-        1.0,
-      ];
-
-      pass(splatVelProg, velocity.writeFbo(), simW, simH, () => {
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, velocity.read());
-        gl.uniform1i(uSplatVel.u_velocity, 0);
-        gl.uniform2f(uSplatVel.u_point, uv[0], uv[1]);
-        gl.uniform2f(uSplatVel.u_force, force[0], force[1]);
-        gl.uniform1f(uSplatVel.u_radius, VEL_RADIUS);
-        gl.uniform1f(uSplatVel.u_aspect, simAspect);
-      });
-      velocity.swap();
-
-      pass(splatDyeProg, dye.writeFbo(), simW, simH, () => {
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, dye.read());
-        gl.uniform1i(uSplatDye.u_dye, 0);
-        gl.uniform2f(uSplatDye.u_point, uv[0], uv[1]);
-        gl.uniform3f(uSplatDye.u_color, color[0], color[1], color[2]);
-        gl.uniform1f(uSplatDye.u_radius, DYE_RADIUS);
-        gl.uniform1f(uSplatDye.u_aspect, simAspect);
-      });
-      dye.swap();
-
-      lastUv = uv;
-    }
-
-    pass(divergenceProg, divTex.fbo, simW, simH, () => {
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, velocity.read());
-      gl.uniform1i(uDivergence.u_velocity, 0);
-      gl.uniform2f(uDivergence.u_texel, 1 / simW, 1 / simH);
-    });
-
-    for (let i = 0; i < PRESSURE_ITERS; i++) {
-      pass(pressureProg, pressure.writeFbo(), simW, simH, () => {
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, pressure.read());
-        gl.uniform1i(uPressure.u_pressure, 0);
-        gl.activeTexture(gl.TEXTURE1);
-        gl.bindTexture(gl.TEXTURE_2D, divTex.tex);
-        gl.uniform1i(uPressure.u_divergence, 1);
-        gl.uniform2f(uPressure.u_texel, 1 / simW, 1 / simH);
-      });
-      pressure.swap();
-    }
-
-    pass(gradientSubtractProg, velocity.writeFbo(), simW, simH, () => {
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, pressure.read());
-      gl.uniform1i(uGradSub.u_pressure, 0);
-      gl.activeTexture(gl.TEXTURE1);
-      gl.bindTexture(gl.TEXTURE_2D, velocity.read());
-      gl.uniform1i(uGradSub.u_velocity, 1);
-      gl.uniform2f(uGradSub.u_texel, 1 / simW, 1 / simH);
-    });
-    velocity.swap();
-
-    pass(advectDyeProg, dye.writeFbo(), simW, simH, () => {
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, velocity.read());
-      gl.uniform1i(uAdvectDye.u_velocity, 0);
-      gl.activeTexture(gl.TEXTURE1);
-      gl.bindTexture(gl.TEXTURE_2D, dye.read());
-      gl.uniform1i(uAdvectDye.u_dye, 1);
-      gl.uniform1f(uAdvectDye.u_dt, dt);
-      gl.uniform1f(uAdvectDye.u_dissipation, DYE_DISSIPATION);
-    });
-    dye.swap();
-
-    pass(displayProg, null, canvas.width, canvas.height, () => {
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, dye.read());
-      gl.uniform1i(uDisplay.u_dye, 0);
-      gl.uniform2f(uDisplay.u_res, canvas.width, canvas.height);
-      gl.uniform2f(
-        uDisplay.u_mouse,
-        lastUv[0] * canvas.width,
-        lastUv[1] * canvas.height,
-      );
-      gl.uniform1f(uDisplay.u_time, elapsed);
-    });
-  }
-
-  function resize() {
-    syncCanvasSize(canvas, section);
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
-
-  function destroy() {
-    destroyed = true;
-  }
-
-  return { frame, resize, destroy };
-}
-
 /* ══ plasma — domain-warped fbm (tmp/fx2-plasma.html, verbatim) ══ */
 
 const PLASMA_VERT = `#version 300 es
@@ -1031,118 +554,23 @@ function plasma(gl, canvas, section) {
   return { frame, resize, destroy };
 }
 
-/* ══ metaballs — gooey blob field (tmp/fx3-metaballs.html, verbatim) ══ */
+/* ══ duotone — dual-tone dot grid of the cover (/studio only) ══
+   "duotone" is the owner's name for the dual-tone halftone dot grid: the
+   halftone renderer this file used to ship, carrying the owner-tuned
+   purple→pito-blue diagonal (the same effect pito's now-retired fx registry
+   shipped as `duotone`, ported FROM here in the first place). The 5.0.0 cull
+   removed halftone from the index; the effect returns under the owner's own
+   name because /studio's fx contract (H3) is plasma / following circle /
+   duotone. Only /studio's author-pinned data-cursor="duotone" sections
+   reach it — the index markup never stamps this key. */
 
-const METABALLS_VERT = `#version 300 es
+const DUOTONE_VERT = `#version 300 es
 in vec2 p;
 void main() {
   gl_Position = vec4(p, 0.0, 1.0);
 }`;
 
-const METABALLS_FRAG = `#version 300 es
-precision highp float;
-
-uniform vec2 u_res;
-uniform float u_time;
-uniform vec2 u_mouse;
-
-out vec4 outColor;
-
-void main() {
-  float shortSide = min(u_res.x, u_res.y);
-  vec2 uv = (gl_FragCoord.xy - 0.5 * u_res) / shortSide;
-  vec2 mouseUv = (u_mouse - 0.5 * u_res) / shortSide;
-
-  float field = 0.0;
-
-  // the blob pinned to the cursor
-  {
-    vec2 d = uv - mouseUv;
-    field += 0.022 / (dot(d, d) + 0.0009);
-  }
-
-  // four drifting blobs, each on its own lissajous-ish orbit (was 6 — 1
-  // cursor + 4 orbiting = 5 blobs total, was 7; ~29% less field math/pixel)
-  for (int i = 0; i < 4; i++) {
-    float fi = float(i);
-    float speed = 0.35 + fi * 0.08;
-    float radius = 0.5 + fi * 0.15;
-    vec2 pos = vec2(
-      cos(u_time * speed + fi * 2.1) * radius * 0.55,
-      sin(u_time * speed * 0.8 + fi * 1.7) * radius * 0.4
-    );
-    vec2 d = uv - pos;
-    float strength = 0.013 + 0.004 * sin(fi * 1.3);
-    field += strength / (dot(d, d) + 0.0012);
-  }
-
-  float edge = smoothstep(0.9, 1.15, field);
-  float rim = smoothstep(0.7, 0.95, field) - edge;
-
-  vec3 bg = vec3(0.039, 0.039, 0.071);
-  vec3 blue = vec3(0.318, 0.439, 1.0);
-  vec3 purple = vec3(0.541, 0.424, 1.0);
-
-  vec3 col = bg;
-  col = mix(col, blue, edge);
-  col += max(rim, 0.0) * purple * 0.9;
-  col += edge * blue * (0.15 + 0.1 * sin(u_time * 2.0 + field * 3.0));
-
-  outColor = vec4(col, 1.0);
-}`;
-
-function metaballs(gl, canvas, section) {
-  const prog = linkProgram(gl, METABALLS_VERT, METABALLS_FRAG);
-  const vao = bindFullscreenTriangle(gl, [prog]);
-  const u = uniformLocations(gl, prog, ["u_res", "u_time", "u_mouse"]);
-
-  syncCanvasSize(canvas, section);
-  gl.viewport(0, 0, canvas.width, canvas.height);
-
-  let destroyed = false;
-  let t0 = null;
-  let lastUv = [0.5, 0.5];
-
-  function frame(now, mouse) {
-    if (destroyed) return;
-    if (t0 === null) t0 = now;
-    const elapsed = (now - t0) / 1000;
-    const uv = localMouseUv(section, mouse);
-    if (uv) lastUv = uv;
-
-    gl.useProgram(prog);
-    gl.bindVertexArray(vao);
-    gl.uniform2f(u.u_res, canvas.width, canvas.height);
-    gl.uniform1f(u.u_time, elapsed);
-    gl.uniform2f(
-      u.u_mouse,
-      lastUv[0] * canvas.width,
-      lastUv[1] * canvas.height,
-    );
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-  }
-
-  function resize() {
-    syncCanvasSize(canvas, section);
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
-
-  function destroy() {
-    destroyed = true;
-  }
-
-  return { frame, resize, destroy };
-}
-
-/* ══ halftone — dot-grid of the cover (tmp/fx4-halftone.html, verbatim) ══ */
-
-const HALFTONE_VERT = `#version 300 es
-in vec2 p;
-void main() {
-  gl_Position = vec4(p, 0.0, 1.0);
-}`;
-
-const HALFTONE_FRAG = `#version 300 es
+const DUOTONE_FRAG = `#version 300 es
 precision highp float;
 
 uniform sampler2D u_image;
@@ -1187,8 +615,8 @@ void main() {
   outColor = vec4(col, 1.0);
 }`;
 
-function halftone(gl, canvas, section) {
-  const prog = linkProgram(gl, HALFTONE_VERT, HALFTONE_FRAG);
+function duotone(gl, canvas, section) {
+  const prog = linkProgram(gl, DUOTONE_VERT, DUOTONE_FRAG);
   const vao = bindFullscreenTriangle(gl, [prog]);
   const u = uniformLocations(gl, prog, [
     "u_image",
@@ -1206,10 +634,9 @@ function halftone(gl, canvas, section) {
   let texture = null;
   let imgSize = [1, 1];
 
-  // guard: RENDERERS that sample a cover need a .cover-bed. fx-random.js
-  // already only assigns this key to sections that have one, but the
-  // manager itself also checks before ever calling this factory — this is
-  // pure defense-in-depth, kept cheap (a no-op frame(), never drawing).
+  // guard: renderers that sample a cover need a .cover-bed. The manager
+  // checks NEEDS_COVER before ever calling this factory — this is pure
+  // defense-in-depth, kept cheap (a no-op frame(), never drawing).
   const path = coverPath(section);
   if (path) {
     const img = new Image();
@@ -1264,172 +691,23 @@ function halftone(gl, canvas, section) {
   return { frame, resize, destroy };
 }
 
-/* ══ lens — chromatic refraction lens (tmp/fx5-lens.html, verbatim) ══ */
+/* ── the registry ───────────────────────────────────────────────
+   The 5.0.0 fx cull (owner ruling): the index keeps exactly three fx —
+   WATER (this engine), the FOLLOWING CIRCLE (the cursor ring, cursor.js)
+   and CIRCLE RIPPLES (the ripple mood, cursor.js). fluid, metaballs,
+   halftone and lens are deleted. PLASMA's and DUOTONE's renderers survive
+   here because /studio's fx contract is plasma / following circle / duotone
+   — the index markup never assigns them, only /studio's author-pinned
+   sections do. */
 
-const LENS_VERT = `#version 300 es
-in vec2 p;
-void main() {
-  gl_Position = vec4(p, 0.0, 1.0);
-}`;
-
-const LENS_FRAG = `#version 300 es
-precision highp float;
-
-uniform sampler2D u_image;
-uniform vec2 u_res;
-uniform vec2 u_imgSize;
-uniform vec2 u_mouse;
-uniform float u_time;
-
-out vec4 outColor;
-
-vec2 coverUv(vec2 px) {
-  float scale = max(u_res.x / u_imgSize.x, u_res.y / u_imgSize.y);
-  vec2 dispSize = u_imgSize * scale;
-  vec2 offset = (u_res - dispSize) * 0.5;
-  return (px - offset) / dispSize;
-}
-
-void main() {
-  vec2 uv = clamp(coverUv(gl_FragCoord.xy), 0.0, 1.0);
-  vec3 baseColor = texture(u_image, uv).rgb;
-  float lum = dot(baseColor, vec3(0.299, 0.587, 0.114));
-  vec3 dimmed = mix(vec3(lum), baseColor, 0.3) * 0.4;
-
-  float lensRadius = 200.0;
-  vec2 toMouse = gl_FragCoord.xy - u_mouse;
-  float dist = length(toMouse);
-  vec2 dir = toMouse / max(dist, 0.0001);
-  float inLens = 1.0 - smoothstep(lensRadius * 0.82, lensRadius, dist);
-
-  float mag = 0.55;
-  vec2 magnifiedPx = u_mouse + toMouse * mag;
-  float curve = smoothstep(0.0, lensRadius, dist);
-  vec2 refractPx = dir * curve * 10.0;
-  vec2 lensUv = clamp(coverUv(magnifiedPx + refractPx), 0.0, 1.0);
-
-  float shortSide = min(u_res.x, u_res.y);
-  float aberration = (dist / lensRadius) * 7.0;
-  vec2 aberrUv = dir * aberration / shortSide;
-
-  float rC = texture(u_image, clamp(lensUv + aberrUv, 0.0, 1.0)).r;
-  float gC = texture(u_image, lensUv).g;
-  float bC = texture(u_image, clamp(lensUv - aberrUv, 0.0, 1.0)).b;
-  vec3 lensColor = vec3(rC, gC, bC);
-
-  vec3 col = mix(dimmed, lensColor, inLens);
-
-  // Rim profile in PIXEL units (thin at any radius): a bright edge at the
-  // boundary, anti-aliased ~1px outward, decaying smoothly to zero ~2px
-  // inward — so beyond the falloff the refracted art is completely untouched.
-  // (Owner-tuned across two smoke passes, from 2/10px down to a ~3px band.)
-  float edgeDist = dist - lensRadius;
-  float rimOuter = 1.0 - smoothstep(0.0, 1.0, edgeDist);
-  float rimInner = smoothstep(-2.0, 0.0, edgeDist);
-  float rim = rimInner * rimOuter;
-
-  // Neon gradient around the circumference: cyclic cosine-lobe blend of
-  // purple -> pito-blue -> pink (three lobes 120deg apart wrap seamlessly at
-  // +/-pi); u_time slowly rotates it at ~0.3 rad/s.
-  float rimAngle = atan(toMouse.y, toMouse.x) + u_time * 0.3;
-  vec3 rimPurple = vec3(0.545, 0.361, 0.965);
-  vec3 rimBlue = vec3(0.318, 0.439, 1.0);
-  vec3 rimPink = vec3(1.0, 0.431, 0.780);
-  float wPurple = 0.5 + 0.5 * cos(rimAngle);
-  float wBlue = 0.5 + 0.5 * cos(rimAngle - 2.0943951);
-  float wPink = 0.5 + 0.5 * cos(rimAngle - 4.1887902);
-  vec3 neon =
-      (rimPurple * wPurple + rimBlue * wBlue + rimPink * wPink) /
-      (wPurple + wBlue + wPink);
-
-  col += rim * neon;
-
-  outColor = vec4(col, 1.0);
-}`;
-
-function lens(gl, canvas, section) {
-  const prog = linkProgram(gl, LENS_VERT, LENS_FRAG);
-  const vao = bindFullscreenTriangle(gl, [prog]);
-  const u = uniformLocations(gl, prog, [
-    "u_image",
-    "u_res",
-    "u_imgSize",
-    "u_mouse",
-    "u_time",
-  ]);
-
-  syncCanvasSize(canvas, section);
-  gl.viewport(0, 0, canvas.width, canvas.height);
-
-  let destroyed = false;
-  let ready = false;
-  let texture = null;
-  let imgSize = [1, 1];
-
-  const path = coverPath(section);
-  if (path) {
-    const img = new Image();
-    img.addEventListener(
-      "load",
-      () => {
-        if (destroyed) return;
-        texture = uploadCoverTexture(gl, img);
-        imgSize = [img.naturalWidth || 1, img.naturalHeight || 1];
-        ready = true;
-      },
-      { once: true },
-    );
-    img.src = path;
-  }
-
-  let t0 = null;
-  let lastUv = [0.5, 0.5];
-
-  function frame(now, mouse) {
-    if (destroyed || !ready) return;
-    if (t0 === null) t0 = now;
-    const elapsed = (now - t0) / 1000;
-    const uv = localMouseUv(section, mouse);
-    if (uv) lastUv = uv;
-
-    gl.useProgram(prog);
-    gl.bindVertexArray(vao);
-    gl.uniform2f(u.u_res, canvas.width, canvas.height);
-    gl.uniform1f(u.u_time, elapsed);
-    gl.uniform2f(
-      u.u_mouse,
-      lastUv[0] * canvas.width,
-      lastUv[1] * canvas.height,
-    );
-    gl.uniform2f(u.u_imgSize, imgSize[0], imgSize[1]);
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.uniform1i(u.u_image, 0);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-  }
-
-  function resize() {
-    syncCanvasSize(canvas, section);
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
-
-  function destroy() {
-    destroyed = true;
-  }
-
-  return { frame, resize, destroy };
-}
-
-/* ── the registry — keep in sync with fx-random.js's POOL/NEEDS_COVER ── */
-
-const RENDERERS = { water, fluid, plasma, metaballs, halftone, lens };
+const RENDERERS = { water, plasma, duotone };
 
 // image-sampling renderers need a .cover-bed on the section; float-FBO
 // renderers need EXT_color_buffer_float. Both are checked by the manager
 // BEFORE a factory ever runs, so a section that can't support its assigned
 // mood just never gets an fx instance — its static .cover-bed stays put.
-const NEEDS_COVER = new Set(["water", "halftone", "lens"]);
-const NEEDS_FLOAT = new Set(["water", "fluid"]);
+const NEEDS_COVER = new Set(["water", "duotone"]);
+const NEEDS_FLOAT = new Set(["water"]);
 
 /* ── lazy manager ───────────────────────────────────────────────
    `active` maps a live section to its { key, gl, canvas, wrapper, instance }
@@ -1522,7 +800,7 @@ const proximityObserver = new IntersectionObserver(
 let mouse = null;
 
 // Touch has no cursor, so pointermove never fires and the cursor-reactive
-// moods (water's ripples, the lens position, halftone) sit frozen at their
+// moods (water's ripples, plasma's warp pull) sit frozen at their
 // default — the page feels dead there. On coarse pointers we stand in a
 // slow autonomous Lissajous drift for `mouse` instead of real events.
 const coarsePointer = !window.matchMedia("(pointer: fine)").matches;

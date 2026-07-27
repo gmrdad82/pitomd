@@ -343,31 +343,11 @@
 }
 
 /* ── Cursor personalities (data-cursor="…" on a section) ──────
-   glow   — the spotlight follows the cursor on THAT slide only
+   The 5.0.0 fx cull keeps exactly two moods, stamped statically in the
+   markup (stable keys, no runtime randomiser):
    ripple — expanding water rings trail the cursor (cursor.js spawns)
    water  — a WebGL water surface ripples the cover image (fx-webgl.js)
    default (no attribute) — just the global cursor ring. */
-
-.section[data-cursor="glow"] {
-  isolation: isolate;
-}
-.section[data-cursor="glow"]::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0;
-  background: radial-gradient(
-    26rem circle at var(--lx, 50%) var(--ly, 50%),
-    color-mix(in oklab, var(--pito-blue) 16%, transparent),
-    transparent 62%
-  );
-  transition: opacity 0.4s ease;
-}
-.section[data-cursor="glow"].is-hot::before {
-  opacity: 1;
-}
 
 /* water ring — a tiny neon "black hole" spawned at the cursor on pointermove
    (two staggered rings per spawn read as a stick dragged across a pond). Same
@@ -426,7 +406,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .section[data-cursor="glow"]::before,
   .fx-ripple {
     display: none;
   }

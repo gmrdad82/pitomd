@@ -1,0 +1,149 @@
+---
+// CrossNav.astro — the fixed cross-link pill used across pitomd's routes.
+//
+// A minimal, crawlable <a> (no JS, no canvas text) pinned to a corner.
+// Originally the chat<->Studio pill (top-right, H4) — 5.0.0's estate freeze
+// (F4) repurposed it for the countdown teaser's `position="bottom-right"`
+// banner (/ -> /chat) and /chat's `position="top-left"` banner (/chat -> /),
+// so both routes carry a small way back without inventing a second
+// component. Default stays "top-right" (the parked /studio page's own
+// usage, content preserved as-is).
+
+interface Props {
+  /** destination path */
+  href: string;
+  /** visible label, e.g. "Pito Studio ->" */
+  label: string;
+  /** corner to pin to */
+  position?: "top-right" | "top-left" | "bottom-right";
+  /** "seller" makes the pill a neon come-hither, not a quiet way back
+   *  (owner, freeze QA: "this is our seller… it should sell not 'just
+   *  be present'"). */
+  variant?: "quiet" | "seller";
+}
+
+const { href, label, position = "top-right", variant = "quiet" } = Astro.props;
+---
+
+<nav class={`crossnav crossnav--${position} crossnav--${variant}`} aria-label="Pito sites">
+  <a class="crossnav__link mono" href={href} data-magnetic>{label}</a>
+</nav>
+
+<style>
+  .crossnav {
+    position: fixed;
+    z-index: 90; /* above sections, below the dev banner (100) */
+  }
+
+  .crossnav--top-right {
+    top: 14px;
+    right: 16px;
+  }
+
+  .crossnav--top-left {
+    top: 14px;
+    left: 16px;
+  }
+
+  .crossnav--bottom-right {
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .crossnav__link {
+    display: inline-block;
+    padding: 0.45em 0.9em;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    color: var(--fg-default, #e6e6f0);
+    background: color-mix(
+      in oklch,
+      var(--bg-elevated, #14142a) 78%,
+      transparent
+    );
+    border: 1px solid var(--border-faded, rgb(255 255 255 / 18%));
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    transition:
+      color 160ms ease,
+      border-color 160ms ease,
+      background 160ms ease;
+  }
+
+  .crossnav__link:hover,
+  .crossnav__link:focus-visible {
+    color: #5170ff; /* pito-blue, constant across all themes */
+    border-color: #5170ff;
+    background: color-mix(in oklch, var(--bg-elevated, #14142a) 92%, #5170ff);
+  }
+
+  /* ── the seller ─────────────────────────────────────────────────────
+     Neon, breathing, unmissable — the one pill that sells. Brand ramp
+     only (purple → pito-blue), never rainbow. */
+  .crossnav--seller .crossnav__link {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.6em 1.25em;
+    border: 1px solid #8083fb;
+    background:
+      linear-gradient(120deg,
+        rgb(128 131 251 / 22%),
+        rgb(81 112 255 / 30%),
+        rgb(128 131 251 / 22%));
+    box-shadow:
+      0 0 14px rgb(128 131 251 / 55%),
+      0 0 42px rgb(81 112 255 / 30%),
+      inset 0 0 10px rgb(128 131 251 / 25%);
+    text-shadow: 0 0 8px rgb(128 131 251 / 85%);
+    animation: crossnav-breathe 2.6s ease-in-out infinite;
+  }
+  .crossnav--seller .crossnav__link:hover,
+  .crossnav--seller .crossnav__link:focus-visible {
+    color: #fff;
+    border-color: #b3b6ff;
+    box-shadow:
+      0 0 20px rgb(128 131 251 / 80%),
+      0 0 64px rgb(81 112 255 / 45%),
+      inset 0 0 12px rgb(128 131 251 / 35%);
+  }
+  @keyframes crossnav-breathe {
+    0%, 100% { box-shadow: 0 0 14px rgb(128 131 251 / 55%), 0 0 42px rgb(81 112 255 / 30%), inset 0 0 10px rgb(128 131 251 / 25%); }
+    50%      { box-shadow: 0 0 22px rgb(128 131 251 / 85%), 0 0 60px rgb(81 112 255 / 50%), inset 0 0 12px rgb(128 131 251 / 40%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .crossnav--seller .crossnav__link { animation: none; }
+  }
+
+  .crossnav__link:focus-visible {
+    outline: 2px solid #5170ff;
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 860px) {
+    .crossnav--top-right,
+    .crossnav--top-left {
+      top: 10px;
+    }
+
+    .crossnav--top-right {
+      right: 10px;
+    }
+
+    .crossnav--top-left {
+      left: 10px;
+    }
+
+    .crossnav--bottom-right {
+      right: 10px;
+      bottom: 10px;
+    }
+
+    .crossnav__link {
+      font-size: 0.72rem;
+      padding: 0.4em 0.75em;
+    }
+  }
+</style>

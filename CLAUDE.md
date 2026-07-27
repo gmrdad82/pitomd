@@ -22,19 +22,20 @@
 
 # pitomd (map + invariants)
 
-A **single-page, scroll-driven, over-the-top showcase** of PITO, served at
+A **single-page, scroll-driven, over-the-top showcase** of Pito, served at
 **pitomd.com**. Two jobs: make the visitor feel "wow, this is cool"
 (spectacle) and "wow, I could use this" (the hook). It **sells and wows — it
 does not document**. Every "how do I get it / where are the docs" resolves to
 a link to `github.com/gmrdad82/pito`; never replicate install steps or
 command reference here.
 
-The site **is** PITO's vibe: it borrows the palette (19 themes, pito-blue
+The site **is** Pito's vibe: it borrows the palette (19 themes, pito-blue
 `#5170ff`, constant across all of them), the fx (typewriter / scramble /
 comet / cursor-trail), and mono texture as **ingredients**, but the layout is
 a lush marketing canvas, not a 14px terminal grid. Big display type carries
-each frame; mono stays as accent. **Brand caps:** "PITO" is the brand in
-prose; "pito" only in CLI commands, code identifiers, paths, and URLs.
+each frame; mono stays as accent. **The name:** "Pito" — capital P, lowercase
+rest — is the brand in prose. Never "PITO" (retired 2026-07-25), never "pito".
+Lowercase `pito` only in CLI commands, code identifiers, paths, and URLs.
 
 ## Reference, don't inject
 
