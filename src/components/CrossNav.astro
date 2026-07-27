@@ -12,7 +12,7 @@
 interface Props {
   /** destination path */
   href: string;
-  /** visible label, e.g. "Pito Studio ->" */
+  /** visible label, e.g. "Pito Studio" (no arrows — owner ruling) */
   label: string;
   /** corner to pin to */
   position?: "top-right" | "top-left" | "bottom-right";
@@ -51,8 +51,13 @@ const { href, label, position = "top-right", variant = "quiet" } = Astro.props;
   }
 
   .crossnav__link {
-    display: inline-block;
-    padding: 0.45em 0.9em;
+    /* flex centering (owner: "this is not vertical aligned") — the mono
+       glyphs sat high of center in the old inline-block/baseline layout */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0.55em 0.9em;
     font-family: var(--font-mono);
     font-size: 0.78rem;
     letter-spacing: 0.06em;
@@ -80,38 +85,42 @@ const { href, label, position = "top-right", variant = "quiet" } = Astro.props;
   }
 
   /* ── the seller ─────────────────────────────────────────────────────
-     Neon, breathing, unmissable — the one pill that sells. Brand ramp
-     only (purple → pito-blue), never rainbow. */
+     Neon, breathing, unmissable — the one pill that sells. Pink →
+     purple, the brand's own pair (owner: "a pink/purple/neon style
+     background so that's always visible") — near-opaque on purpose: the
+     old translucent wash disappeared against busy page art. Two hues,
+     never rainbow. */
   .crossnav--seller .crossnav__link {
     color: #fff;
     font-weight: 700;
     letter-spacing: 0.1em;
-    padding: 0.6em 1.25em;
-    border: 1px solid #8083fb;
-    background:
-      linear-gradient(120deg,
-        rgb(128 131 251 / 22%),
-        rgb(81 112 255 / 30%),
-        rgb(128 131 251 / 22%));
+    padding: 0.7em 1.25em;
+    border: 1px solid #ffb3e2;
+    background: linear-gradient(
+      120deg,
+      rgb(255 110 199 / 92%),
+      rgb(187 154 247 / 94%),
+      rgb(128 131 251 / 92%)
+    );
     box-shadow:
-      0 0 14px rgb(128 131 251 / 55%),
-      0 0 42px rgb(81 112 255 / 30%),
-      inset 0 0 10px rgb(128 131 251 / 25%);
-    text-shadow: 0 0 8px rgb(128 131 251 / 85%);
+      0 0 14px rgb(255 110 199 / 60%),
+      0 0 42px rgb(187 154 247 / 35%),
+      inset 0 0 10px rgb(255 255 255 / 18%);
+    text-shadow: 0 1px 6px rgb(60 20 80 / 70%);
     animation: crossnav-breathe 2.6s ease-in-out infinite;
   }
   .crossnav--seller .crossnav__link:hover,
   .crossnav--seller .crossnav__link:focus-visible {
     color: #fff;
-    border-color: #b3b6ff;
+    border-color: #ffd3ee;
     box-shadow:
-      0 0 20px rgb(128 131 251 / 80%),
-      0 0 64px rgb(81 112 255 / 45%),
-      inset 0 0 12px rgb(128 131 251 / 35%);
+      0 0 22px rgb(255 110 199 / 85%),
+      0 0 64px rgb(187 154 247 / 50%),
+      inset 0 0 12px rgb(255 255 255 / 25%);
   }
   @keyframes crossnav-breathe {
-    0%, 100% { box-shadow: 0 0 14px rgb(128 131 251 / 55%), 0 0 42px rgb(81 112 255 / 30%), inset 0 0 10px rgb(128 131 251 / 25%); }
-    50%      { box-shadow: 0 0 22px rgb(128 131 251 / 85%), 0 0 60px rgb(81 112 255 / 50%), inset 0 0 12px rgb(128 131 251 / 40%); }
+    0%, 100% { box-shadow: 0 0 14px rgb(255 110 199 / 60%), 0 0 42px rgb(187 154 247 / 35%), inset 0 0 10px rgb(255 255 255 / 18%); }
+    50%      { box-shadow: 0 0 24px rgb(255 110 199 / 90%), 0 0 60px rgb(187 154 247 / 55%), inset 0 0 12px rgb(255 255 255 / 28%); }
   }
   @media (prefers-reduced-motion: reduce) {
     .crossnav--seller .crossnav__link { animation: none; }
