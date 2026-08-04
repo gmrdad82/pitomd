@@ -38,7 +38,11 @@ const lines = stacked ? label.split(" ") : null;
   aria-label="Pito sites"
 >
   <a class="crossnav__link mono" href={href} data-magnetic>
-    {lines ? lines.map((line) => <span class="crossnav__line">{line}</span>) : label}
+    {
+      lines
+        ? lines.map((line) => <span class="crossnav__line">{line}</span>)
+        : label
+    }
   </a>
 </nav>
 
