@@ -545,6 +545,7 @@
 }
 .footer {
   display: flex;
+  flex-wrap: wrap;
   gap: 1.5rem;
   justify-content: center;
   margin-top: 3rem;
@@ -552,6 +553,9 @@
   font-size: 0.85rem;
 }
 .footer a {
+  color: var(--fg-dim);
+}
+.footer__legal {
   color: var(--fg-dim);
 }
 .footer a:hover,

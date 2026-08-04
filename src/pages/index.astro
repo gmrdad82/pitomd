@@ -55,6 +55,8 @@ import CrossNav from "../components/CrossNav.astro";
 // ticking number is not the kind of motion that rule targets, and per the
 // owner, reduced-motion visitors get "a pure countdown" — it can reach
 // zero, and that's fine).
+
+const year = new Date().getFullYear();
 ---
 
 <Base>
@@ -90,6 +92,8 @@ import CrossNav from "../components/CrossNav.astro";
     </div>
 
     <CrossNav href="/chat" label="The Free Chat" position="bottom-right" />
+
+    <p class="teaser__legal">© {year} Catalin Ilinca. All rights reserved.</p>
   </div>
 </Base>
 
@@ -249,6 +253,19 @@ import CrossNav from "../components/CrossNav.astro";
     display: grid;
     place-items: center;
     padding: 2rem;
+  }
+
+  .teaser__legal {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: color-mix(in oklch, #ffffff 40%, transparent);
   }
 
   .countdown {
