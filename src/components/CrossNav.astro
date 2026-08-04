@@ -49,8 +49,17 @@ const { href, label, position = "top-right", variant = "quiet" } = Astro.props;
   }
 
   .crossnav--bottom-right {
-    right: 16px;
-    bottom: 16px;
+    right: 32px;
+    bottom: 72px;
+  }
+
+  .crossnav--bottom-right .crossnav__link {
+    background: color-mix(
+      in oklch,
+      var(--bg-elevated, #14142a) 45%,
+      transparent
+    );
+    backdrop-filter: blur(3px);
   }
 
   .crossnav__link {
@@ -162,8 +171,8 @@ const { href, label, position = "top-right", variant = "quiet" } = Astro.props;
     }
 
     .crossnav--bottom-right {
-      right: 10px;
-      bottom: 10px;
+      right: 16px;
+      bottom: 48px;
     }
 
     .crossnav__link {
