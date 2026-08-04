@@ -1,16 +1,58 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Production favicon: INVERSE of the app mark — pito-blue (#5170ff) fills the
-     background and the "P" blocks are punched out in the dark base (#1a1b26),
-     with a mid-blue box-drawing shadow. Distinct from the dev (yellow) icon and
-     from the in-app blue-on-dark mark. SVG outranks /favicon.ico. -->
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-  <rect width="1024" height="1024" fill="#5170ff"/>
-  <g font-family="'JetBrainsMono Nerd Font Mono','JetBrains Mono',monospace" font-size="160" xml:space="preserve" font-weight="400">
-    <text x="200" y="210"><tspan fill="#1a1b26">██████</tspan><tspan fill="#3a4488">╗ </tspan></text>
-    <text x="200" y="360"><tspan fill="#1a1b26">██</tspan><tspan fill="#3a4488">╔══</tspan><tspan fill="#1a1b26">██</tspan><tspan fill="#3a4488">╗</tspan></text>
-    <text x="200" y="510"><tspan fill="#1a1b26">██████</tspan><tspan fill="#3a4488">╔╝</tspan></text>
-    <text x="200" y="660"><tspan fill="#1a1b26">██</tspan><tspan fill="#3a4488">╔═══╝</tspan></text>
-    <text x="200" y="810"><tspan fill="#1a1b26">██</tspan><tspan fill="#3a4488">║</tspan></text>
-    <text x="200" y="960"><tspan fill="#3a4488">╚═╝</tspan></text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="pg" gradientUnits="userSpaceOnUse" x1="250" y1="0" x2="775" y2="0">
+      <stop offset="0.0000" stop-color="#ff6ec7"/>
+      <stop offset="0.0833" stop-color="#f86fca"/>
+      <stop offset="0.1667" stop-color="#e472d2"/>
+      <stop offset="0.2500" stop-color="#c977dd"/>
+      <stop offset="0.3333" stop-color="#ab7cea"/>
+      <stop offset="0.4167" stop-color="#9280f4"/>
+      <stop offset="0.5000" stop-color="#8383fa"/>
+      <stop offset="0.5833" stop-color="#7f83fb"/>
+      <stop offset="0.6667" stop-color="#7980fc"/>
+      <stop offset="0.7500" stop-color="#6d7bfd"/>
+      <stop offset="0.8333" stop-color="#5f76fe"/>
+      <stop offset="0.9167" stop-color="#5572ff"/>
+      <stop offset="1.0000" stop-color="#5170ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="224" fill="#0e0a1a"/>
+  <g fill="url(#pg)">
+    <path fill-rule="evenodd" d="
+      M 250 148
+      L 673 148
+      Q 775 148 775 250
+      L 775 442
+      Q 775 544 673 544
+      L 250 544
+      L 250 148
+      Z
+      M 394 292
+      L 591 292
+      Q 631 292 631 332
+      L 631 360
+      Q 631 400 591 400
+      L 394 400
+      Z"/>
+    <rect x="250" y="148" width="144" height="640"/>
+    <rect x="250" y="836" width="320" height="26" rx="13"/>
   </g>
+  <path fill="#7dcfff" fill-rule="evenodd" d="
+    M 652 706
+    L 800 706
+    Q 840 706 840 746
+    L 840 866
+    Q 840 906 800 906
+    L 652 906
+    Q 612 906 612 866
+    L 612 746
+    Q 612 706 652 706
+    Z
+    M 612 778
+    L 840 778
+    L 840 794
+    L 612 794
+    Z"/>
+  <circle cx="654" cy="744" r="14" fill="#0e0a1a"/>
+  <circle cx="700" cy="744" r="14" fill="#0e0a1a"/>
 </svg>
