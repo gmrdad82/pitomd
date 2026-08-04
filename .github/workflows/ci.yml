@@ -53,10 +53,8 @@ jobs:
         with:
           configPath: ./lighthouserc.json
 
-      # Slack only on FAILURE — successful CI is silent (no spam). The deploy
-      # workflow posts the success/"deployed" notice, so the two never overlap.
-      - name: Notify Slack on failure
-        if: failure()
+      - name: Notify Slack
+        if: always()
         continue-on-error: true
         uses: ./.github/actions/slack-notify
         with:
