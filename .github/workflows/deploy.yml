@@ -1,21 +1,20 @@
 name: Deploy
 
-# Builds the static site and publishes it to Cloudflare Pages when a version tag
-# (v*.*.*) is pushed — TAG-GATED like pito. Pushes to main are still validated by
-# Website CI but never auto-deploy; a release ships only when a new tag is cut.
-# Two gates before anything ships:
-#   1. The `gate` job REFUSES to deploy until the tagged commit has a GREEN
-#      "Website CI" run — tagging a red or unvalidated commit cannot ship.
+# Builds the static site and publishes it to Cloudflare Pages on every push to
+# main (owner order 2026-08-04: deploy on CI, not on tag). Two gates before
+# anything ships:
+#   1. The `gate` job REFUSES to deploy until this exact commit has a GREEN
+#      "Website CI" run — it polls while CI races this workflow, and a red or
+#      unvalidated commit cannot ship.
 #   2. The build step — a broken build fails the job and nothing ships.
-# `--branch=main` pins the upload to the project's PRODUCTION branch: a tag
-# checkout is a detached HEAD, and without it wrangler files the deploy as a
-# "head"-branch PREVIEW that never reaches pitomd.com (the v1.1.0 lesson).
-# Also runs on manual dispatch. Requires repo secrets CLOUDFLARE_API_TOKEN and
-# CLOUDFLARE_ACCOUNT_ID. SLACK_WEBHOOK (optional) posts a deploy notice.
+# `--branch=main` pins the upload to the project's PRODUCTION branch (the
+# v1.1.0 lesson). Also runs on manual dispatch. Requires repo secrets
+# CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID. SLACK_WEBHOOK (optional)
+# posts a deploy notice.
 on:
   push:
-    tags:
-      - "v*.*.*"
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:

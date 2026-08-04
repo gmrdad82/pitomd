@@ -81,10 +81,15 @@ describe("the countdown teaser", () => {
     expect(index).toMatch(/\.countdown:hover,\s*\.countdown--flyover/);
   });
 
-  test("the reveal names Pito Studio — and claims nothing beyond the countdown (owner amendment 6, supersedes the F4 no-claims rule)", () => {
+  test("the reveal names Pito Studio in the brand gradient — and claims nothing beyond the countdown (owner amendment 6 + gradient law 2026-08-04)", () => {
     // The owner ordered the reveal copy above the digits; I21 copy-case:
     // sentence case with the name in Title Case, a sentence not a shout.
-    expect(index).toContain(">Pito Studio is coming in...</span>");
+    expect(index).toContain(
+      '<span class="countdown__brand">Pito Studio</span> is coming in...',
+    );
+    expect(index).toMatch(
+      /\.countdown__brand\s*{[^}]*linear-gradient\(90deg,\s*#ff6ec7 0%,\s*#8083fb 55%,\s*#5170ff 100%\)/,
+    );
     // Still no launch-sign language — the countdown IS the whole claim.
     const body = index.slice(index.indexOf("---", 3) + 3);
     expect(body.toLowerCase()).not.toContain("studio is here");

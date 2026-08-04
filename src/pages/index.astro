@@ -70,7 +70,9 @@ const year = new Date().getFullYear();
         class="countdown"
         aria-label="A countdown to Pito Studio. Butterflies fly over it and bend its time — touch it to reset the display. The real date does not move."
       >
-        <span class="countdown__title">Pito Studio is coming in...</span>
+        <span class="countdown__title"
+          ><span class="countdown__brand">Pito Studio</span> is coming in...</span
+        >
         <span class="countdown__digits" aria-hidden="true">
           <span class="countdown__group" id="countdown-dd">00</span>
           <span class="countdown__colon">:</span>
@@ -321,6 +323,15 @@ const year = new Date().getFullYear();
     text-align: center;
     color: color-mix(in oklch, #eaf0ff 80%, transparent);
     text-shadow: 0 0 14px color-mix(in oklch, var(--pito-blue) 45%, transparent);
+  }
+
+  .countdown__brand {
+    font-weight: 700;
+    background: linear-gradient(90deg, #ff6ec7 0%, #8083fb 55%, #5170ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
   }
 
   /* Two rows (owner rule 3): a 9-column grid — the 5 digit groups in row 1
