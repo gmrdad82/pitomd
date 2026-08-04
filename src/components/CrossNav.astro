@@ -20,16 +20,26 @@ interface Props {
    *  (owner, freeze QA: "this is our seller… it should sell not 'just
    *  be present'"). */
   variant?: "quiet" | "seller";
+  stacked?: boolean;
 }
 
-const { href, label, position = "top-right", variant = "quiet" } = Astro.props;
+const {
+  href,
+  label,
+  position = "top-right",
+  variant = "quiet",
+  stacked = false,
+} = Astro.props;
+const lines = stacked ? label.split(" ") : null;
 ---
 
 <nav
-  class={`crossnav crossnav--${position} crossnav--${variant}`}
+  class={`crossnav crossnav--${position} crossnav--${variant}${stacked ? " crossnav--stacked" : ""}`}
   aria-label="Pito sites"
 >
-  <a class="crossnav__link mono" href={href} data-magnetic>{label}</a>
+  <a class="crossnav__link mono" href={href} data-magnetic>
+    {lines ? lines.map((line) => <span class="crossnav__line">{line}</span>) : label}
+  </a>
 </nav>
 
 <style>
@@ -60,6 +70,14 @@ const { href, label, position = "top-right", variant = "quiet" } = Astro.props;
       transparent
     );
     backdrop-filter: blur(3px);
+  }
+
+  .crossnav--stacked .crossnav__link {
+    flex-direction: column;
+    gap: 3px;
+    text-align: center;
+    padding: 0.7em 1.1em;
+    border-radius: 22px;
   }
 
   .crossnav__link {
