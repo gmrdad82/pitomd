@@ -1,6 +1,6 @@
 {
-  "name": "pito",
-  "short_name": "pito",
+  "name": "Pito",
+  "short_name": "Pito",
   "description": "best YouTube tool",
   "start_url": "/",
   "display": "standalone",

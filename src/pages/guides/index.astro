@@ -1,0 +1,69 @@
+---
+// pitomd.com/guides — the docs home for Pito Studio's four setup guides
+// (owner order, 2026-07-30). Studio's own setup wizard links out to each of
+// these four routes by name when it asks for a credential
+// (internal/ui/studio_cockpit_wizard_render.go); this page is the front
+// door for anyone who lands on /guides directly instead of one guide
+// specifically.
+//
+// Written for a non-technical reader (owner: "the canonical reader is my
+// wife") — plain language first, no jargon-first framing; config.toml is
+// never mentioned here at all, since the landing page doesn't need it.
+
+import GuideLayout from "../../layouts/GuideLayout.astro";
+import { guides } from "../../data/guides.js";
+
+const TITLE = "Setup guides — Pito Studio";
+const DESCRIPTION =
+  "Plain-language guides for connecting IGDB, YouTube, TikTok and Claude to Pito Studio: what you need, why it's useful, and how it's kept private.";
+
+const pageUrl = new URL("/guides/", Astro.site).href;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      name: TITLE,
+      url: pageUrl,
+      description: DESCRIPTION,
+      hasPart: guides.map((g) => ({
+        "@type": "WebPage",
+        name: `Connect ${g.title}`,
+        url: new URL(`/guides/${g.slug}/`, Astro.site).href,
+      })),
+    },
+  ],
+};
+---
+
+<GuideLayout
+  title={TITLE}
+  description={DESCRIPTION}
+  eyebrow="Pito Studio guides"
+  heading="Connecting Studio to the services it uses."
+  dek="Pito Studio can pull in game info, channel numbers, and AI help — but only once you decide to turn each one on. These four short guides walk you through it, one service at a time."
+  jsonLd={jsonLd}
+>
+  <p class="guide-intro">
+    Every guide here works the same simple way: you sign up (or sign in) on the
+    other service's own website, copy a couple of codes it gives you, and paste
+    them into Studio. From then on, Studio talks to that service directly from
+    your own computer — there's no Pito account involved and nothing passes
+    through anyone else's server. Pick a guide below, or skip all four; the rest
+    of Studio works exactly the same either way.
+  </p>
+
+  <div class="guide-grid">
+    {
+      guides.map((g) => (
+        <a class="guide-card" href={`/guides/${g.slug}`}>
+          <span class="guide-card__eyebrow">
+            {g.eyebrow} · {g.time}
+          </span>
+          <span class="guide-card__title">Connect {g.title}</span>
+          <span class="guide-card__desc">{g.oneLiner}</span>
+        </a>
+      ))
+    }
+  </div>
+</GuideLayout>

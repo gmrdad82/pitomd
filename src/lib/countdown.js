@@ -49,6 +49,8 @@ export const MAX_TOTAL_MS = 99 * DAY_MS;
 // push a single event past it.
 export const MAX_ADD_MS = 3 * DAY_MS;
 
+export const ADD_BOOST = 1.3;
+
 // The page-load starting point. Arbitrary by design (there is no real target
 // date — the countdown counts down to nothing in particular); chosen just
 // long enough that it reads as a "real" countdown, short enough that
@@ -103,7 +105,7 @@ export function pickGentleAddMs(rand = Math.random) {
   }
   const span = tier.max - tier.min + 1;
   const units = tier.min + Math.floor(rand() * span);
-  return Math.min(MAX_ADD_MS, units * tier.ms);
+  return Math.min(MAX_ADD_MS, Math.round(units * tier.ms * ADD_BOOST));
 }
 
 // ── Reset (owner amendment to the tap wiring) ───────────────────────────

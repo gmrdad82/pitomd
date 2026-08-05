@@ -268,11 +268,22 @@ describe("assets", () => {
 });
 
 describe("script islands", () => {
-  test("every src/scripts file is loaded by Base.astro", () => {
+  test("every src/scripts file is loaded by Base.astro, or by its own documented page-scoped layout", () => {
+    // guide-theme.js is the one deliberate exception (owner restyle order,
+    // 2026-07-30): /guides got its own style/script domain, separate from
+    // the site-wide fx shell, so its light/dark toggle script is wired
+    // from GuideLayout.astro instead of Base.astro — loading it globally
+    // would ship dead code to every other route for a button that only
+    // exists on /guides pages.
+    const guideLayout = read("src/layouts/GuideLayout.astro");
+    const pageScoped = { "guide-theme.js": guideLayout };
+
     for (const f of readdirSync(join(ROOT, "src/scripts"))) {
+      const owner = pageScoped[f] ?? base;
+      const ownerLabel = pageScoped[f] ? "GuideLayout.astro" : "Base.astro";
       expect(
-        base.includes(`scripts/${f}`),
-        `${f} not wired in Base.astro`,
+        owner.includes(`scripts/${f}`),
+        `${f} not wired in ${ownerLabel}`,
       ).toBe(true);
     }
   });

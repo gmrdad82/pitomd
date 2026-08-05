@@ -1,16 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Development-only favicon: the Pito "P" in the synthwave YELLOW token
-     (#ffe066) on the synthwave dark background, so a localhost tab is never
-     mistaken for production. Linked from Base.astro head only when
-     import.meta.env.DEV. SVG favicons outrank /favicon.ico in modern browsers. -->
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-  <rect width="1024" height="1024" fill="#1a0b2e"/>
-  <g font-family="'JetBrainsMono Nerd Font Mono','JetBrains Mono',monospace" font-size="160" xml:space="preserve" font-weight="400">
-    <text x="200" y="210"><tspan fill="#ffe066">██████</tspan><tspan fill="#8a6d1f">╗ </tspan></text>
-    <text x="200" y="360"><tspan fill="#ffe066">██</tspan><tspan fill="#8a6d1f">╔══</tspan><tspan fill="#ffe066">██</tspan><tspan fill="#8a6d1f">╗</tspan></text>
-    <text x="200" y="510"><tspan fill="#ffe066">██████</tspan><tspan fill="#8a6d1f">╔╝</tspan></text>
-    <text x="200" y="660"><tspan fill="#ffe066">██</tspan><tspan fill="#8a6d1f">╔═══╝</tspan></text>
-    <text x="200" y="810"><tspan fill="#ffe066">██</tspan><tspan fill="#8a6d1f">║</tspan></text>
-    <text x="200" y="960"><tspan fill="#8a6d1f">╚═╝</tspan></text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="dg" gradientUnits="userSpaceOnUse" x1="250" y1="0" x2="775" y2="0">
+      <stop offset="0" stop-color="#ffe58a"/>
+      <stop offset="0.5" stop-color="#ffcf5c"/>
+      <stop offset="1" stop-color="#e8a33d"/>
+    </linearGradient>
+    <linearGradient id="pg" gradientUnits="userSpaceOnUse" x1="250" y1="0" x2="775" y2="0">
+      <stop offset="0.0000" stop-color="#ff6ec7"/>
+      <stop offset="0.0833" stop-color="#f86fca"/>
+      <stop offset="0.1667" stop-color="#e472d2"/>
+      <stop offset="0.2500" stop-color="#c977dd"/>
+      <stop offset="0.3333" stop-color="#ab7cea"/>
+      <stop offset="0.4167" stop-color="#9280f4"/>
+      <stop offset="0.5000" stop-color="#8383fa"/>
+      <stop offset="0.5833" stop-color="#7f83fb"/>
+      <stop offset="0.6667" stop-color="#7980fc"/>
+      <stop offset="0.7500" stop-color="#6d7bfd"/>
+      <stop offset="0.8333" stop-color="#5f76fe"/>
+      <stop offset="0.9167" stop-color="#5572ff"/>
+      <stop offset="1.0000" stop-color="#5170ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="224" fill="#0e0a1a"/>
+  <g fill="url(#dg)">
+    <path fill-rule="evenodd" d="
+      M 250 148
+      L 673 148
+      Q 775 148 775 250
+      L 775 442
+      Q 775 544 673 544
+      L 250 544
+      L 250 148
+      Z
+      M 394 292
+      L 591 292
+      Q 631 292 631 332
+      L 631 360
+      Q 631 400 591 400
+      L 394 400
+      Z"/>
+    <rect x="250" y="148" width="144" height="640"/>
+  </g>
+  <g fill="url(#dg)">
+    <rect x="250" y="836" width="525" height="26" rx="13"/>
   </g>
 </svg>

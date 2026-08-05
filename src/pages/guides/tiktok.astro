@@ -1,0 +1,184 @@
+---
+// pitomd.com/guides/tiktok — connect a TikTok developer app to Pito Studio
+// for video analytics and publishing Shorts. Linked verbatim from Studio's
+// own setup wizard as "pitomd.com/guides/tiktok"
+// (internal/ui/studio_cockpit_wizard_render.go, wizPhTikTokCreds).
+//
+// Field labels: Studio's wizard reuses the same generic creds form for
+// IGDB/YouTube/TikTok (buildWizardCredsForm in
+// internal/ui/studio_cockpit_wizard_forms.go), so the two boxes are titled
+// "Client ID" / "Client Secret" even though TikTok's own developer portal
+// calls the first one "Client key" — called out explicitly in step 4 below
+// so nobody hunts for a field literally named "Client ID" on TikTok's site.
+//
+// Written for a non-technical reader (owner: "the canonical reader is my
+// wife") — plain language first; config.toml gets one aside at the end of
+// "How it's handled", never the lead.
+
+import GuideLayout from "../../layouts/GuideLayout.astro";
+
+const TITLE = "Connect TikTok — Pito Studio guides";
+const DESCRIPTION =
+  "How to create a TikTok developer app and connect it to Pito Studio for video analytics and publishing Shorts — what you need, why it's useful, and how it's kept private.";
+
+const pageUrl = new URL("/guides/tiktok/", Astro.site).href;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "HowTo",
+      name: TITLE,
+      url: pageUrl,
+      description: DESCRIPTION,
+    },
+  ],
+};
+---
+
+<GuideLayout
+  title={TITLE}
+  description={DESCRIPTION}
+  eyebrow="Analytics & Shorts · TikTok"
+  heading="Connect TikTok."
+  dek="Connecting TikTok gets you real numbers for what you've posted, and — once TikTok approves it — a way to send new Shorts straight from Studio. It starts with a short, free sign-up on TikTok's own site."
+  slug="tiktok"
+  jsonLd={jsonLd}
+>
+  <section id="need">
+    <h2>What you need</h2>
+    <ul class="guide-checklist">
+      <li>
+        <strong>A TikTok account</strong>, plus a separate sign-up as a TikTok
+        developer — that's its own registration, apart from your regular TikTok
+        login.
+      </li>
+      <li>
+        <strong>A short note about what your app does.</strong> TikTok asks before
+        it lets anything post through it.
+      </li>
+      <li>
+        <strong>A bit of patience.</strong> Plan for a few days between applying and
+        being approved, not five minutes.
+      </li>
+    </ul>
+  </section>
+
+  <section id="why">
+    <h2>Why Studio wants this</h2>
+    <p>
+      This does for TikTok what the previous guide does for YouTube: real
+      numbers for what you've posted, and — once TikTok approves your app —
+      sending a finished Short straight from Studio instead of uploading it by
+      hand.
+    </p>
+    <p>
+      You don't need this either. Skip it and Studio's editing works exactly the
+      same; you'd just export the finished clip and post it yourself through the
+      TikTok app.
+    </p>
+  </section>
+
+  <section id="handled">
+    <h2>How it's handled</h2>
+    <div class="guide-callout">
+      <p>
+        The two codes you paste in stay right here on this computer. Studio uses
+        them to talk to TikTok directly — there's no Pito server in between,
+        because there isn't one.
+      </p>
+      <p>
+        You can disconnect any time by removing the app from your TikTok
+        developer account.
+      </p>
+      <p>
+        Technically minded: the codes are kept in Studio's <code
+          >config.toml</code
+        > on this machine.
+      </p>
+    </div>
+  </section>
+
+  <section id="steps">
+    <h2>Step by step</h2>
+    <ol class="guide-steps">
+      <li>
+        <h3>Sign in to TikTok's developer site</h3>
+        <p>
+          Open <a href="https://developers.tiktok.com/">developers.tiktok.com</a
+          > and sign in with your TikTok account, or create one.
+        </p>
+      </li>
+      <li>
+        <h3>Register an app</h3>
+        <p>
+          Create a new app, give it a name, and describe what it does in a
+          sentence or two. Being specific — "a personal tool that posts my own
+          gameplay videos" rather than something vague — tends to get approved
+          faster.
+        </p>
+      </li>
+      <li>
+        <h3>Add the posting feature</h3>
+        <p>
+          From your app's list of features, add the Content Posting API, plus
+          any of the analytics features you want — TikTok lists these
+          separately, so you add each one you need. Some stay private or
+          draft-only until your app is approved; that's normal for a new app and
+          doesn't stop you from getting your codes today.
+        </p>
+      </li>
+      <li>
+        <h3>Copy your two codes</h3>
+        <p>
+          Once the app exists, its overview page shows a Client key and a Client
+          secret — copy both. (TikTok calls the first one "Client key"; Studio's
+          own box for it just says "Client ID" — same thing, different name.)
+        </p>
+      </li>
+      <li>
+        <h3>Paste both into Studio</h3>
+        <p>
+          In Studio's setup wizard — or later, from Settings — paste the first
+          code, move to the next box with <span class="guide-key">Tab</span>,
+          paste the second, then press <span class="guide-key">Enter</span> to save.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <section id="limits">
+    <h2>Good to know</h2>
+    <div class="guide-callout guide-callout--limits">
+      <p>
+        <strong>Approval takes days, not minutes.</strong> TikTok reviews every app
+        that asks to post — expect a short wait, unlike the other guides here.
+      </p>
+      <p>
+        <strong>New apps can only post privately or as drafts.</strong> Until TikTok
+        approves yours, anything sent through it lands as private or a draft, so you'll
+        still publish it yourself from the TikTok app in the meantime. That restriction
+        lifts once you're approved.
+      </p>
+      <p>
+        <strong>Ask for only what you need.</strong> Requesting more features than
+        you'll actually use can slow down approval.
+      </p>
+      <p>
+        <strong>This one's newer than the others.</strong> If a step here doesn't
+        quite match what you see on TikTok's site, their own help pages are the more
+        current source — their site changes faster than this guide can track.
+      </p>
+    </div>
+  </section>
+
+  <section id="done">
+    <h2>Back in Studio</h2>
+    <div class="guide-callout guide-callout--done">
+      <span class="guide-callout__tag">Last step</span>
+      <p>
+        Open the setup wizard's TikTok step — or Settings, later — paste in your
+        two codes from TikTok's overview page, and save.
+      </p>
+    </div>
+  </section>
+</GuideLayout>

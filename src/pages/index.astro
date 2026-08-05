@@ -71,7 +71,11 @@ const year = new Date().getFullYear();
         aria-label="A countdown to Pito Studio. Butterflies fly over it and bend its time — touch it to reset the display. The real date does not move."
       >
         <span class="countdown__title"
-          ><span class="countdown__brand">Pito Studio</span> is coming in...</span
+          ><span class="countdown__brand"
+            ><span class="countdown__brand-mark">Pito</span>{" "}<span
+              class="countdown__brand-product">Studio</span
+            ></span
+          > is coming in...</span
         >
         <span class="countdown__digits" aria-hidden="true">
           <span class="countdown__group" id="countdown-dd">00</span>
@@ -331,12 +335,48 @@ const year = new Date().getFullYear();
   }
 
   .countdown__brand {
+    --wordmark: linear-gradient(
+      90deg,
+      #ff6ec7 0%,
+      #f86fca 8.33%,
+      #e472d2 16.67%,
+      #c977dd 25%,
+      #ab7cea 33.33%,
+      #9280f4 41.67%,
+      #8383fa 50%,
+      #7f83fb 58.33%,
+      #7980fc 66.67%,
+      #6d7bfd 75%,
+      #5f76fe 83.33%,
+      #5572ff 91.67%,
+      #5170ff 100%
+    );
     font-weight: 700;
-    background: linear-gradient(90deg, #ff6ec7 0%, #8083fb 55%, #5170ff 100%);
+    text-shadow: none;
+  }
+
+  .countdown__brand-mark {
+    position: relative;
+    display: inline-block;
+    background: var(--wordmark);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    text-shadow: none;
+  }
+
+  .countdown__brand-mark::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.14em;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--wordmark);
+  }
+
+  .countdown__brand-product {
+    color: #ffffff;
   }
 
   /* Two rows (owner rule 3): a 9-column grid — the 5 digit groups in row 1

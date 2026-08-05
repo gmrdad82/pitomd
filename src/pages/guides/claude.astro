@@ -1,0 +1,185 @@
+---
+// pitomd.com/guides/claude — connect an Anthropic API key to Pito Studio
+// for the AI features (auto-cut drafts, footage-aware answers in the
+// Claude split). Linked verbatim from Studio's own setup wizard as
+// "pitomd.com/guides/claude" (internal/ui/studio_cockpit_wizard_render.go,
+// wizPhClaudeCreds).
+//
+// Written for a non-technical reader (owner: "the canonical reader is my
+// wife") — "API key" is named once, plainly, and the config.toml aside sits
+// at the end of "How it's handled," never the lead.
+//
+// console.anthropic.com now 301-redirects to platform.claude.com
+// (verified live 2026-07) — linked directly at the new address rather than
+// through the old one.
+//
+// SOURCE OF TRUTH: pito-tui's README.md ("Configuration" — the `[claude]`
+// table: api_key, model, max_tokens; "Leave the table out or the key blank
+// to keep the split off; it opens and says so honestly instead of
+// pretending to be live"). Unlike IGDB, there is no dedicated Settings-
+// surface form for editing the Claude key later — it's set during the
+// wizard's first run, or by hand-editing config.toml afterward.
+
+import GuideLayout from "../../layouts/GuideLayout.astro";
+
+const TITLE = "Connect Claude — Pito Studio guides";
+const DESCRIPTION =
+  "How to create an Anthropic API key and connect Claude to Pito Studio's AI features — what you need, why it's useful, and how it's kept private.";
+
+const pageUrl = new URL("/guides/claude/", Astro.site).href;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "HowTo",
+      name: TITLE,
+      url: pageUrl,
+      description: DESCRIPTION,
+    },
+  ],
+};
+---
+
+<GuideLayout
+  title={TITLE}
+  description={DESCRIPTION}
+  eyebrow="AI features · Claude"
+  heading="Connect Claude."
+  dek="Claude is what gives Studio its AI features — rough-cut drafts and answers about your own footage — and it never touches anything without you saying yes first. It takes one key from Anthropic's own site."
+  slug="claude"
+  jsonLd={jsonLd}
+>
+  <section id="need">
+    <h2>What you need</h2>
+    <ul class="guide-checklist">
+      <li>
+        <strong>An Anthropic account with a payment method added</strong> — this kind
+        of access is billed by actual use, directly by Anthropic.
+      </li>
+      <li><strong>About five minutes.</strong></li>
+      <li>
+        <strong>The right kind of account:</strong> a Claude.ai chat subscription
+        (Pro or Max) is a different product and won't work here. You need a developer
+        key instead, with its own credits behind it.
+      </li>
+    </ul>
+  </section>
+
+  <section id="why">
+    <h2>Why Studio wants this</h2>
+    <p>
+      Claude is what powers Studio's AI features: rough-cut drafts of a
+      timeline, and answers about your own footage inside the Claude panel —
+      press <span class="guide-key">c</span> to open it. Studio never acts on your
+      footage without you saying yes first: Claude suggests, you decide.
+    </p>
+    <p>
+      Skip this and the rest of Studio works exactly the same; the Claude panel
+      just opens and says plainly that it isn't set up yet, instead of
+      pretending to be ready.
+    </p>
+  </section>
+
+  <section id="handled">
+    <h2>How it's handled</h2>
+    <div class="guide-callout">
+      <p>
+        The key you paste in stays right here on this computer, and every
+        request goes straight from your machine to Anthropic — nothing passes
+        through a Pito server in between.
+      </p>
+      <p>
+        You're billed directly by Anthropic, at their normal rates — Studio
+        doesn't add anything on top or track it separately. You can turn the key
+        off any time from Anthropic's own site, and the Claude panel goes back
+        to its plain "not set up" message.
+      </p>
+      <p>
+        Technically minded: the key lives in the <code>[claude]</code> table of Studio's
+        <code>config.toml</code>, alongside which model to use and how long an
+        answer is allowed to run.
+      </p>
+    </div>
+  </section>
+
+  <section id="steps">
+    <h2>Step by step</h2>
+    <ol class="guide-steps">
+      <li>
+        <h3>Sign in to Anthropic's developer site</h3>
+        <p>
+          Open <a href="https://platform.claude.com/">platform.claude.com</a> — Anthropic's
+          developer console, recently renamed from console.anthropic.com to Claude
+          Platform — and sign in, or create an account.
+        </p>
+      </li>
+      <li>
+        <h3>Add a payment method</h3>
+        <p>
+          This kind of access is billed by use, separately from any Claude.ai
+          chat subscription — add a card under Billing if you haven't already.
+          Studio's AI features are billed the normal way, like any other use of
+          the service.
+        </p>
+      </li>
+      <li>
+        <h3>Create a key</h3>
+        <p>
+          Go to the API Keys page, click Create Key, and give it a name — <code
+            >Pito Studio</code
+          > works fine. Anthropic shows you the key exactly once, so copy it before
+          you leave the page.
+        </p>
+      </li>
+      <li>
+        <h3>Paste it into Studio</h3>
+        <p>
+          In Studio's setup wizard, say yes when it asks about turning AI on,
+          then paste the key in and press <span class="guide-key">Enter</span> to
+          save.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <section id="limits">
+    <h2>Good to know</h2>
+    <div class="guide-callout guide-callout--limits">
+      <p>
+        <strong>A chat subscription is not the same thing.</strong> This is the most
+        common mix-up: paying for Claude.ai chat (Pro or Max) doesn't give you this
+        kind of key. You need a separate one, billed separately, even if you already
+        pay for the chat app.
+      </p>
+      <p>
+        <strong>You're billed for what you use.</strong> There's no flat monthly price
+        here — you pay Anthropic for exactly what Studio's AI features use.
+      </p>
+      <p>
+        <strong>A couple of extra settings live alongside the key.</strong> Studio's
+        settings file also lets you choose which model to use and put a ceiling on
+        how long an answer can run, if you'd like a bit more control over cost.
+      </p>
+      <p>
+        <strong>Studio is honest if it's missing.</strong> Leave the key out, or take
+        it out later, and the Claude panel simply says it isn't set up — never a crash,
+        never a silent failure somewhere else in the app.
+      </p>
+    </div>
+  </section>
+
+  <section id="done">
+    <h2>Back in Studio</h2>
+    <div class="guide-callout guide-callout--done">
+      <span class="guide-callout__tag">Last step</span>
+      <p>
+        Going through the setup wizard for the first time? Pasting the key there
+        is all it takes — it's ready as soon as Studio opens. Adding or changing
+        it later doesn't have its own screen yet: open Studio's settings file,
+        add the key under <code>[claude]</code>, and restart Studio. Either way,
+        press <span class="guide-key">c</span> anywhere to open the Claude panel once
+        it's set.
+      </p>
+    </div>
+  </section>
+</GuideLayout>

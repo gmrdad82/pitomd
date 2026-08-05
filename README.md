@@ -1,3 +1,5 @@
+<p align="center"><img src=".github/pito-mark.png" width="96" alt="Pito"></p>
+
 # pitomd
 
 [![Website CI](https://github.com/gmrdad82/pitomd/actions/workflows/ci.yml/badge.svg)](https://github.com/gmrdad82/pitomd/actions/workflows/ci.yml)

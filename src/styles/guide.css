@@ -1,0 +1,728 @@
+/*
+ * guide.css — the /guides documentation shell (owner restyle order,
+ * 2026-07-30: "guides must NOT look like the /chat landing... guides get
+ * their OWN style domain"). Reference: a Svelte-docs-style reader layout —
+ * left sidebar nav, a comfortable reading column, an optional right-hand
+ * "on this page" list on wide screens, and a persisted light/dark toggle
+ * that otherwise defaults to the visitor's system preference.
+ *
+ * Deliberately its OWN token set (--gdoc-*), not the site's --bg-root/
+ * --fg-default/etc. tokyo-night palette: those 19 [data-theme] blocks in
+ * themes.css are the marketing brand's moody terminal identity, and the
+ * whole point here is that a guide page reads like a document, not a
+ * slide. Body copy is a system sans stack (fast, no extra font fetch,
+ * genuinely different texture from the site-wide JetBrains Mono body);
+ * Space Grotesk (already loaded by Base.astro) carries headings only, at
+ * blog/docs scale, never the marketing .display clamp(...,9vw,...) sizes.
+ *
+ * Imported only by GuideLayout.astro, so none of this reaches any other
+ * route's bundle.
+ */
+
+/* ── Theme tokens ──────────────────────────────────────────── */
+
+.guide-app {
+  /* light — the default, and the one every reader sees with no JS and no
+     stated system preference */
+  --gdoc-bg: #ffffff;
+  --gdoc-bg-inset: #f6f7f9;
+  --gdoc-border: #e4e7eb;
+  --gdoc-fg: #1f2430;
+  --gdoc-fg-muted: #545c6b;
+  --gdoc-fg-faint: #8991a0;
+  --gdoc-accent: #3654d1;
+  --gdoc-accent-soft: rgb(54 84 209 / 8%);
+  --gdoc-code-bg: #eef0f4;
+  --gdoc-warn-fg: #92400e;
+  --gdoc-warn-bg: #fdf3e0;
+  --gdoc-warn-border: #f0c785;
+  --gdoc-good-border: #1f9d55;
+  --gdoc-shadow: 0 1px 2px rgb(20 20 30 / 5%);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-guide-theme="light"]) .guide-app {
+    --gdoc-bg: #12141a;
+    --gdoc-bg-inset: #191c24;
+    --gdoc-border: #272c37;
+    --gdoc-fg: #e8eaf0;
+    --gdoc-fg-muted: #a7adba;
+    --gdoc-fg-faint: #6c7484;
+    --gdoc-accent: #85a0ff;
+    --gdoc-accent-soft: rgb(133 160 255 / 14%);
+    --gdoc-code-bg: #1c212b;
+    --gdoc-warn-fg: #e0af68;
+    --gdoc-warn-bg: rgb(224 175 104 / 10%);
+    --gdoc-warn-border: rgb(224 175 104 / 35%);
+    --gdoc-good-border: #4ade80;
+    --gdoc-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+    color-scheme: dark;
+  }
+}
+
+html[data-guide-theme="dark"] .guide-app {
+  --gdoc-bg: #12141a;
+  --gdoc-bg-inset: #191c24;
+  --gdoc-border: #272c37;
+  --gdoc-fg: #e8eaf0;
+  --gdoc-fg-muted: #a7adba;
+  --gdoc-fg-faint: #6c7484;
+  --gdoc-accent: #85a0ff;
+  --gdoc-accent-soft: rgb(133 160 255 / 14%);
+  --gdoc-code-bg: #1c212b;
+  --gdoc-warn-fg: #e0af68;
+  --gdoc-warn-bg: rgb(224 175 104 / 10%);
+  --gdoc-warn-border: rgb(224 175 104 / 35%);
+  --gdoc-good-border: #4ade80;
+  --gdoc-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+  color-scheme: dark;
+}
+
+/* the marketing chrome (film grain, the neon cursor ring) is a /chat-style
+   flourish that has no place over a plain reading page — suppressed
+   whenever a guide page's root is in the document at all */
+body:has(.guide-app) .grain,
+body:has(.guide-app) .cursor-ring {
+  display: none;
+}
+
+/* ── App shell ─────────────────────────────────────────────── */
+
+.guide-app {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  background: var(--gdoc-bg);
+  color: var(--gdoc-fg);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.guide-skip {
+  position: absolute;
+  top: -3rem;
+  left: 1rem;
+  z-index: 50;
+  padding: 0.6em 1em;
+  background: var(--gdoc-accent);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  transition: top 120ms ease;
+}
+.guide-skip:focus-visible {
+  top: 1rem;
+}
+
+/* ── Top bar ───────────────────────────────────────────────── */
+
+.guide-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 3.5rem;
+  padding-inline: clamp(1rem, 3vw, 1.75rem);
+  border-bottom: 1px solid var(--gdoc-border);
+  background: color-mix(in oklab, var(--gdoc-bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.guide-topbar__brand {
+  /* flex centring keeps the word on the bar's own centre line; the box ends
+     exactly on the sidebar's divider (the 240px column), and still clears
+     the fixed CrossNav pill parked over this same corner */
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  line-height: 1;
+  width: calc(240px - clamp(1rem, 3vw, 1.75rem));
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--gdoc-fg);
+}
+
+/* the fixed return pill rides the top bar's own centre line */
+body:has(.guide-app) .crossnav--top-left {
+  top: 1.75rem;
+  transform: translateY(-50%);
+}
+
+/* below the shell's split the sidebar has no divider to meet */
+@media (max-width: 900px) {
+  .guide-topbar__brand {
+    width: auto;
+    justify-content: flex-start;
+    padding-left: clamp(6.5rem, 16vw, 9rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .guide-topbar__brand {
+    padding-left: 5.4rem;
+    font-size: 0.85rem;
+  }
+}
+
+.guide-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.45em 0.85em;
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: var(--gdoc-fg-muted);
+  background: var(--gdoc-bg-inset);
+  border: 1px solid var(--gdoc-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    color 140ms ease,
+    border-color 140ms ease,
+    background 140ms ease;
+}
+.guide-theme-toggle:hover,
+.guide-theme-toggle:focus-visible {
+  color: var(--gdoc-fg);
+  border-color: var(--gdoc-accent);
+  outline: none;
+}
+.guide-theme-toggle__icon {
+  font-size: 0.95em;
+  line-height: 1;
+}
+
+/* ── Shell grid: sidebar | main ───────────────────────────── */
+
+.guide-shell {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  align-items: start;
+}
+
+.guide-sidebar {
+  position: sticky;
+  top: 3.5rem;
+  height: calc(100vh - 3.5rem);
+  overflow-y: auto;
+  padding: 1.75rem 1.25rem;
+  border-right: 1px solid var(--gdoc-border);
+  background: var(--gdoc-bg-inset);
+}
+
+.guide-sidebar__home {
+  display: block;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--gdoc-border);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--gdoc-fg-muted);
+}
+.guide-sidebar__home:hover,
+.guide-sidebar__home:focus-visible {
+  color: var(--gdoc-accent);
+}
+.guide-sidebar__home.is-active {
+  color: var(--gdoc-accent);
+}
+
+.guide-sidebar__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gdoc-fg-faint);
+  margin-bottom: 0.6rem;
+}
+
+.guide-sidebar__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.guide-sidebar__link {
+  display: block;
+  padding: 0.4rem 0.6rem;
+  margin-inline: -0.6rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--gdoc-fg-muted);
+}
+.guide-sidebar__link:hover,
+.guide-sidebar__link:focus-visible {
+  color: var(--gdoc-fg);
+  background: var(--gdoc-bg);
+}
+.guide-sidebar__link.is-active {
+  color: var(--gdoc-accent);
+  background: var(--gdoc-accent-soft);
+  font-weight: 600;
+}
+
+.guide-sidebar__subnav {
+  list-style: none;
+  padding: 0.2rem 0 0.6rem 1rem;
+  margin: 0;
+  margin-left: 0.5rem;
+  border-left: 1px solid var(--gdoc-border);
+  display: grid;
+  gap: 0.1rem;
+}
+.guide-sidebar__subnav a {
+  display: block;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.82rem;
+  color: var(--gdoc-fg-faint);
+  border-radius: 6px;
+}
+.guide-sidebar__subnav a:hover,
+.guide-sidebar__subnav a:focus-visible {
+  color: var(--gdoc-fg);
+  background: var(--gdoc-bg);
+}
+
+/* ── Main: content column + optional "on this page" ─────────── */
+
+.guide-main {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding: clamp(2.25rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 3rem)
+    clamp(4rem, 8vw, 6rem);
+}
+
+.guide-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 40rem;
+}
+
+.guide-content--wide {
+  max-width: 54rem;
+}
+
+.guide-kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gdoc-accent);
+  margin-bottom: 0.6rem;
+}
+
+.guide-content h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--gdoc-fg);
+}
+
+.guide-dek {
+  margin-top: 0.9rem;
+  max-width: 38rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--gdoc-fg-muted);
+}
+
+.guide__body {
+  margin-top: clamp(2.5rem, 5vw, 3.25rem);
+  display: grid;
+  gap: clamp(2.25rem, 5vw, 3rem);
+}
+
+.guide-content h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: -0.005em;
+  color: var(--gdoc-fg);
+  margin-bottom: 0.9rem;
+  scroll-margin-top: 4.5rem;
+}
+
+.guide-content h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--gdoc-fg);
+  margin-bottom: 0.3rem;
+}
+
+.guide-content p {
+  color: var(--gdoc-fg-muted);
+  line-height: 1.75;
+  font-size: 1.0625rem;
+}
+
+.guide-content p + p {
+  margin-top: 0.9rem;
+}
+
+.guide-content a {
+  color: var(--gdoc-accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(
+    in oklab,
+    var(--gdoc-accent) 40%,
+    transparent
+  );
+  text-underline-offset: 0.15em;
+}
+.guide-content a:hover,
+.guide-content a:focus-visible {
+  text-decoration-color: var(--gdoc-accent);
+}
+
+.guide-content code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  background: var(--gdoc-code-bg);
+  color: var(--gdoc-fg);
+}
+
+/* actual keyboard keys — a visually distinct little cap, not a code chip */
+.guide-key {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  padding: 0.1em 0.5em;
+  border: 1px solid var(--gdoc-border);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: var(--gdoc-bg-inset);
+  color: var(--gdoc-fg);
+}
+
+/* ── What-you-need checklist ──────────────────────────────── */
+
+.guide-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.guide-checklist li {
+  position: relative;
+  padding-left: 1.6em;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--gdoc-fg-muted);
+}
+
+.guide-checklist li::before {
+  content: "✓";
+  position: absolute;
+  top: 0.05em;
+  left: 0;
+  color: var(--gdoc-accent);
+  font-weight: 700;
+}
+
+.guide-checklist strong {
+  color: var(--gdoc-fg);
+}
+
+/* ── Callout boxes ─────────────────────────────────────────── */
+
+.guide-callout {
+  border: 1px solid var(--gdoc-border);
+  border-radius: 10px;
+  background: var(--gdoc-bg-inset);
+  padding: 1.2rem 1.4rem;
+  box-shadow: var(--gdoc-shadow);
+}
+
+.guide-callout p:first-child {
+  margin-top: 0;
+}
+
+.guide-callout--limits {
+  background: var(--gdoc-warn-bg);
+  border-color: var(--gdoc-warn-border);
+}
+.guide-callout--limits strong {
+  color: var(--gdoc-warn-fg);
+}
+
+.guide-callout--done {
+  border-color: var(--gdoc-good-border);
+}
+
+.guide-callout__tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gdoc-fg-faint);
+  margin-bottom: 0.5rem;
+}
+
+/* ── Numbered walkthrough ─────────────────────────────────── */
+
+.guide-steps {
+  list-style: none;
+  counter-reset: guide-step;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1.4rem;
+}
+
+.guide-steps > li {
+  counter-increment: guide-step;
+  position: relative;
+  padding-left: 2.6rem;
+}
+
+.guide-steps > li::before {
+  content: counter(guide-step);
+  position: absolute;
+  top: 0.1em;
+  left: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: #fff;
+  background: var(--gdoc-accent);
+  border-radius: 50%;
+}
+
+/* ── Prev/next pager ───────────────────────────────────────── */
+
+.guide-pager {
+  margin-top: clamp(3rem, 6vw, 4rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--gdoc-border);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.guide-pager__link {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--gdoc-border);
+  border-radius: 10px;
+  min-width: 9rem;
+}
+.guide-pager__link:hover,
+.guide-pager__link:focus-visible {
+  border-color: var(--gdoc-accent);
+}
+.guide-pager__link--next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.guide-pager__dir {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gdoc-fg-faint);
+}
+.guide-pager__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--gdoc-fg);
+}
+
+/* ── "On this page" ────────────────────────────────────────── */
+
+.guide-toc {
+  position: sticky;
+  top: calc(3.5rem + 2.25rem);
+  flex: 0 0 200px;
+  align-self: flex-start;
+}
+
+.guide-toc__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gdoc-fg-faint);
+  margin-bottom: 0.6rem;
+}
+
+.guide-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.45rem;
+  border-left: 1px solid var(--gdoc-border);
+}
+
+.guide-toc a {
+  display: block;
+  margin-left: -1px;
+  padding: 0.15rem 0 0.15rem 0.9rem;
+  border-left: 1px solid transparent;
+  font-size: 0.84rem;
+  color: var(--gdoc-fg-muted);
+}
+.guide-toc a:hover,
+.guide-toc a:focus-visible {
+  color: var(--gdoc-fg);
+}
+
+/* ── Docs-home grid (the /guides landing) ─────────────────── */
+
+.guide-intro {
+  max-width: 38rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--gdoc-fg-muted);
+}
+
+.guide-grid {
+  margin-top: clamp(2rem, 5vw, 2.75rem);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.1rem;
+}
+
+.guide-card {
+  display: block;
+  padding: 1.4rem 1.5rem;
+  border: 1px solid var(--gdoc-border);
+  border-radius: 12px;
+  background: var(--gdoc-bg-inset);
+  box-shadow: var(--gdoc-shadow);
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+.guide-card:hover,
+.guide-card:focus-visible {
+  border-color: var(--gdoc-accent);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.guide-card__eyebrow {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gdoc-accent);
+}
+
+.guide-card__title {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--gdoc-fg);
+}
+
+.guide-card__desc {
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--gdoc-fg-muted);
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+
+/* "on this page" is explicitly a wide-screen extra */
+@media (max-width: 1180px) {
+  .guide-toc {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .guide-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-sidebar {
+    position: static;
+    height: auto;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0.9rem clamp(1rem, 3vw, 1.75rem);
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--gdoc-border);
+  }
+
+  .guide-sidebar__home {
+    margin: 0;
+    padding: 0;
+    border: none;
+    white-space: nowrap;
+  }
+
+  .guide-sidebar__label {
+    display: none;
+  }
+
+  .guide-sidebar__list {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .guide-sidebar__link {
+    margin-inline: 0;
+    white-space: nowrap;
+  }
+
+  /* the in-page section jumps only make sense with the vertical layout */
+  .guide-sidebar__subnav {
+    display: none;
+  }
+
+  .guide-main {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .guide-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-pager {
+    flex-direction: column;
+  }
+  .guide-pager__link--next {
+    margin-left: 0;
+    text-align: left;
+  }
+}
