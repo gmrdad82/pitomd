@@ -81,7 +81,7 @@ describe("the countdown teaser", () => {
     expect(index).toMatch(/\.countdown:hover,\s*\.countdown--flyover/);
   });
 
-  test("the reveal renders the wordmark law — gradient Pito, underline, pure-white Studio — and claims nothing beyond the countdown (owner amendment 6 + wordmark law 2026-08-05)", () => {
+  test("the reveal renders the wordmark law — gradient Pito, 1px underline, pure-white Studio — and claims nothing beyond the countdown (owner amendment 6 + wordmark law 2026-08-05, #128 halving)", () => {
     expect(index).toContain('<span class="countdown__brand-mark">Pito</span>');
     expect(index).toMatch(/class="countdown__brand-product">Studio<\/span/);
     expect(index).toContain('</span>{" "}<span');
@@ -89,7 +89,7 @@ describe("the countdown teaser", () => {
       /\.countdown__brand\s*{[^}]*--wordmark: linear-gradient\([^)]*#ff6ec7 0%,[^)]*#5170ff 100%\s*\)/,
     );
     expect(index).toMatch(
-      /\.countdown__brand-mark::after\s*{[^}]*height: 2px;[^}]*background: var\(--wordmark\);/,
+      /\.countdown__brand-mark::after\s*{[^}]*height: 1px;[^}]*background: var\(--wordmark\);/,
     );
     expect(index).toMatch(/\.countdown__brand-product\s*{\s*color: #ffffff;/);
     // Still no launch-sign language — the countdown IS the whole claim.
