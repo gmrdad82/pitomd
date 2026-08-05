@@ -16,4 +16,9 @@ if [ ! -d node_modules ]; then
 fi
 
 echo "→ pitomd dev server → http://localhost:4321  ·  https://dev.pitomd.com"
-exec npm run dev -- --host 127.0.0.1 "$@"
+trap 'exit 0' INT TERM
+while true; do
+  npm run dev -- --host 127.0.0.1 "$@" && break
+  echo "→ the press stumbled; restarting the run"
+  sleep 1
+done
