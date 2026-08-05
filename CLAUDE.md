@@ -39,8 +39,8 @@ Lowercase `pito` only in CLI commands, code identifiers, paths, and URLs.
 
 ## Reference, don't inject
 
-pitomd does **not** bundle or import pito's source. It references
-`~/Dev/pito`:
+pitomd does **not** bundle or import pito's source. It references a
+local checkout of the private `pito` repo (a sibling directory):
 
 - **Copy/adapt**, don't import: CSS color tokens + the 19 `[data-theme]`
   blocks into pitomd's own `src/styles/`, from
@@ -125,3 +125,14 @@ tools/shots/           screenshot/capture tooling (Python; venv + auth state git
 ## License
 
 AGPL-3.0 (see [`LICENSE`](LICENSE)).
+
+
+## Language and design canon (owner law, 2026-08-05)
+
+Every language and design decision in this repo — voice, copy,
+marks, lockups, interface grammar — follows the Pito estate design
+canon (`LANGUAGE-AND-DESIGN-LANGUAGE.md`, kept in the owner's
+private dev-notes archive). Sessions on the owner's machine read
+it before designing or wording anything user-facing. Per-product
+amendments are ratified by the owner; the canon is amended, never
+forked.
