@@ -1,4 +1,4 @@
-<p align="center"><img src=".github/pito-mark.png" width="96" alt="Pito"></p>
+<p align="center"><img src=".github/icons/pitomd.png" height="96" alt="pitomd">&nbsp;&nbsp;&nbsp;<img src=".github/icons/pito-studio.png" height="44" alt="Pito Studio">&nbsp;<img src=".github/icons/pito-ping.png" height="44" alt="Pito Ping">&nbsp;<img src=".github/icons/pito-tools.png" height="44" alt="Pito Tools">&nbsp;<img src=".github/icons/pito-licence.png" height="44" alt="Pito Licence">&nbsp;<img src=".github/icons/pito-orbit.png" height="44" alt="Pito Orbit">&nbsp;<img src=".github/icons/pito-claude.png" height="44" alt="Pito Claude">&nbsp;<img src=".github/icons/pito-git.png" height="44" alt="Pito Git"></p>
 
 # pitomd
 
