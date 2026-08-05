@@ -17,4 +17,8 @@ jobs:
           [ -z "$HOOK" ] && exit 0
           SUBJECT=$(printf '%s' "$MSG" | head -n1)
           short_sha="${GITHUB_SHA:0:7}"
-          jq -n --arg t ":incoming_envelope: *New copy on \`main\`* — ${SUBJECT} (${WHO}). _pitomd · <${URL}|diff> · \`${short_sha}\`_" '{text: $t}' | curl -sS -X POST -H 'Content-Type: application/json' -d @- "$HOOK"
+          TEXT=$(printf '%s\n%s\n%s' \
+            ":incoming_envelope: *New copy* on \`main\`" \
+            "${SUBJECT} (${WHO})." \
+            "_pitomd · <${URL}|diff> · \`${short_sha}\`_")
+          jq -n --arg t "$TEXT" '{text: $t}' | curl -sS -X POST -H 'Content-Type: application/json' -d @- "$HOOK"

@@ -77,7 +77,7 @@ runs:
                 "Published. Try to act like you expected it to work." \
                 "It's live. Refresh, admire, repeat.")"
               text="$(printf '%s\n%s\n%s' \
-                ":rocket: *Deployed \`${BRANCH}\` to pitomd.com* :sparkles:" \
+                ":rocket: *Deployed to pitomd.com* on \`${BRANCH}\` :sparkles:" \
                 "${line}" \
                 "_${repo_name} · <https://pitomd.com|site> · <${RUN_URL}|run> · \`${short_sha}\`_")"
             else
@@ -89,7 +89,7 @@ runs:
                 "Everything's green. Do try to act surprised." \
                 "Passed without complaint. A rare and beautiful thing.")"
               text="$(printf '%s\n%s\n%s' \
-                ":white_check_mark: *${WORKFLOW} is green on \`${BRANCH}\`* :four_leaf_clover:" \
+                ":white_check_mark: *${WORKFLOW} is green* on \`${BRANCH}\` :four_leaf_clover:" \
                 "${line}" \
                 "_${repo_name} · <${RUN_URL}|run> · \`${short_sha}\`_")"
             fi
@@ -102,7 +102,7 @@ runs:
               "Stopped mid-stride. Most undignified." \
               "Cancelled. The Butler retires to his quarters.")"
             text="$(printf '%s\n%s\n%s' \
-              ":no_entry: *${WORKFLOW} was called off on \`${BRANCH}\`*" \
+              ":no_entry: *${WORKFLOW} was called off* on \`${BRANCH}\`" \
               "${line}" \
               "_${repo_name} · <${RUN_URL}|run> · \`${short_sha}\`_")"
             ;;
@@ -132,11 +132,10 @@ runs:
             shopt -u nocasematch
 
             verb="$(pick "fell over" "face-planted" "threw a tantrum" "came apart at the seams" "had a moment" "lost its composure")"
-            text="$(printf '%s\n%s\n%s\n%s' \
-              ":rotating_light: *${WORKFLOW} ${verb} on \`${BRANCH}\`*" \
-              "Tripped at: *${failed_step}*" \
-              "${quip}" \
-              "_${repo_name} · \`${short_sha}\` · <${RUN_URL}|View the carnage>_")"
+            text="$(printf '%s\n%s\n%s' \
+              ":rotating_light: *${WORKFLOW} ${verb}* on \`${BRANCH}\`" \
+              "Tripped at *${failed_step}* — ${quip}" \
+              "_${repo_name} · <${RUN_URL}|run> · \`${short_sha}\`_")"
             ;;
         esac
 
