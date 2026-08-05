@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
-# bin/dev — start the pitomd dev server.
-#
-# Convenience wrapper (pito-style) around `npm run dev`. Installs deps on first
-# run, then serves the site with hot-reload at http://localhost:4321.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
+
+if fuser 4321/tcp >/dev/null 2>&1; then
+  echo "→ sweeping a stale press off port 4321"
+  pkill -f "[p]itomd/node_modules/astro" 2>/dev/null || true
+  fuser -k 4321/tcp >/dev/null 2>&1 || true
+  sleep 1
+fi
 
 if [ ! -d node_modules ]; then
   echo "→ installing dependencies (first run)…"
