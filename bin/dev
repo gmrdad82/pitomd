@@ -12,5 +12,5 @@ if [ ! -d node_modules ]; then
   npm install
 fi
 
-echo "→ pitomd dev server → http://localhost:4321"
-exec npm run dev -- "$@"
+echo "→ pitomd dev server → http://localhost:4321  ·  https://dev.pitomd.com"
+exec npm run dev -- --host 127.0.0.1 "$@"

@@ -19,4 +19,9 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
+  vite: {
+    server: {
+      allowedHosts: ["dev.pitomd.com"],
+    },
+  },
 });
