@@ -126,7 +126,6 @@ tools/shots/           screenshot/capture tooling (Python; venv + auth state git
 
 AGPL-3.0 (see [`LICENSE`](LICENSE)).
 
-
 ## Language and design canon (owner law, 2026-08-05)
 
 Every language and design decision in this repo — voice, copy,
