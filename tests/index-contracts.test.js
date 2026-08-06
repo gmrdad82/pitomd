@@ -81,8 +81,8 @@ describe("the countdown teaser", () => {
     expect(index).toMatch(/\.countdown:hover,\s*\.countdown--flyover/);
   });
 
-  test("the reveal renders the wordmark law — gradient Pito, 1px underline, pure-white Studio — and claims nothing beyond the countdown (owner amendment 6 + wordmark law 2026-08-05, #128 halving)", () => {
-    expect(index).toContain('<span class="countdown__brand-mark">Pito</span>');
+  test("the reveal renders the wordmark law — gradient PITO (owner amendment 2026-08-06, uppercase mark), 1px underline, pure-white Studio — and claims nothing beyond the countdown (owner amendment 6 + wordmark law 2026-08-05, #128 halving)", () => {
+    expect(index).toContain('<span class="countdown__brand-mark">PITO</span>');
     expect(index).toMatch(/class="countdown__brand-product">Studio<\/span/);
     expect(index).toContain('</span>{" "}<span');
     expect(index).toMatch(
