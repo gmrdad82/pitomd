@@ -6,51 +6,31 @@ import CrossNav from "../components/CrossNav.astro";
 // I8, verbatim in the plan appendix). This replaced the chat showcase, which
 // moved to `/chat` (src/pages/chat.astro).
 //
-// COUNTDOWN v2 (owner ruling, verbatim, superseding the original
-// ever-growing-digit-count mechanic), plus the v3 amendments:
-//   1. dd:hh:mm:ss:zzz format.
-//   2. a butterfly colliding with the countdown adds a gentle random amount
-//      of time (seconds/minutes/hours/rarely days, capped).
-//   3. two rows: big dd:hh:mm:ss:zzz, smaller Days/Hours/Minutes/Seconds
-//      labels beneath — no Milliseconds label (owner), each label
-//      right-aligned to its group's rightmost digit.
-//   4. butterflies bounce off the box as a solid obstacle; they never pass
-//      beneath/behind it. (SUPERSEDED by amendment 8+: the box is a
-//      fly-over zone — bodies cross it, surging on their own random
-//      accelerations, and the display takes signed gentle deltas at a
-//      cadence stacked by how many bodies overlap; the owner later ruled
-//      the counter LAYER sits above the flock, so they visually pass
-//      beneath the box while the physics overlap does the work.)
-//   5. (amendment) a tap/click/Enter/Space RESETS the countdown to a fresh
-//      random remaining time — "something random every time, not just make
-//      it bigger and bigger". Only collisions bend it gently.
-//   6. (amendment — RELATIVE TIME) the deadline is REAL: 2026-08-10, the
-//      visitor's local time. The display is elastic around it — butterflies
-//      add OR subtract display time, taps re-roll it, and the tick burns
-//      display-ms at rate = display / real-remaining, so the counter hits
-//      zero exactly on the date no matter what happened to it. "no matter
-//      how many days ... we display we count them faster or slower ...
-//      the duration will remain the same."
-//   7. (amendment — THE REVEAL) the box says what it counts to now:
-//      "Pito Studio is coming in..." above the digits.
+// COUNTDOWN v4 (owner ruling, 2026-08-10 — the wave era; supersedes the
+// butterfly-flock mechanics below where they conflict):
+//   - dd:hh:mm:ss:zzz format, two rows, labels right-aligned to their
+//     groups (v2/v3 layout rulings stand).
+//   - the deadline is REAL and now 2026-09-01, the visitor's local
+//     time. The display stays ELASTIC around it — taps re-roll it to a
+//     fresh random remaining time, and the tick burns display-ms at
+//     rate = display / real-remaining, so the counter hits zero exactly
+//     on the date no matter what the display shows.
+//   - THE REVEAL stands: "Pito Studio is coming in..." above the digits.
+//   - the butterfly flock RETIRED from this page (it lives on at
+//     deps.pitomd.com); with it went the fly-over deltas — nothing bends
+//     the display anymore except a tap.
 //
-// All state math + the bounce geometry are pure and vitest-covered
-// (tests/countdown.test.js) — this script only wires them to the DOM/canvas.
+// Background: the Resting wave from Pito Studio's own splash screen,
+// ported line-for-line from the desktop's shape model into
+// src/lib/resting-wave.js — two counter-drifting sine-braided ribbons in
+// the house gradient, 18s period, same numbers as the app. The page and
+// the product now breathe the same way.
 //
-// Background: the sky + butterfly flock, ported from pito (Rails)'s
-// app/javascript/fx/{sky,attractor,butterfly_trail}.js into a self-contained
-// vanilla-JS canvas module (src/lib/sky-flock.js) — no Rails deps, no
-// ActionCable, no Stimulus. sky-flock.js treats the countdown box as the
-// FLY-OVER ZONE (amendment 8): every frame it asks this page for the box's
-// current bounding rect, and any body over it surges and bends the time.
+// A small bottom-right banner points at `/chat` ("The Free Chat") —
+// minimal, intriguing, no claims about what the countdown itself is for.
+// The page title is the brand, bare: PITO.
 //
-// A small bottom-right banner points at `/chat` ("The Free Chat") — minimal,
-// intriguing, no claims about what the countdown itself is for. No SEO
-// promises either: this route's title/description (Base.astro's defaults)
-// are deliberately bare.
-//
-// prefers-reduced-motion: the sky renders one static frame (sky-flock.js),
-// which also means no flock movement -> no collisions -> no time added.
+// prefers-reduced-motion: the wave renders one still frame.
 // The countdown's own tick loop is NOT gated behind that media query (a
 // ticking number is not the kind of motion that rule targets, and per the
 // owner, reduced-motion visitors get "a pure countdown" — it can reach
@@ -59,7 +39,7 @@ import CrossNav from "../components/CrossNav.astro";
 const year = new Date().getFullYear();
 ---
 
-<Base>
+<Base title="PITO">
   <div class="teaser">
     <canvas id="sky-flock" class="teaser__canvas" aria-hidden="true"></canvas>
 
@@ -68,7 +48,7 @@ const year = new Date().getFullYear();
         type="button"
         id="countdown"
         class="countdown"
-        aria-label="A countdown to Pito Studio. Butterflies fly over it and bend its time — touch it to reset the display. The real date does not move."
+        aria-label="A countdown to Pito Studio, breathing over a slow wave. Touch it to reset the display. The real date does not move."
       >
         <span class="countdown__title"
           ><span class="countdown__brand"
@@ -113,12 +93,10 @@ const year = new Date().getFullYear();
     REAL_DEADLINE_ISO,
     createElasticState,
     tickElastic,
-    pickGentleDeltaMs,
-    applyElasticDelta,
     resetElastic,
     formatCountdownParts,
   } from "../lib/countdown.js";
-  import { initSkyFlock } from "../lib/sky-flock.js";
+  import { initRestingWave } from "../lib/resting-wave.js";
 
   // Standalone consts (not an object) on purpose: astro check runs the
   // script through TypeScript, and narrowing from the guard below only
@@ -164,14 +142,6 @@ const year = new Date().getFullYear();
       );
     };
 
-    // A butterfly over the box bends the display: adds OR subtracts a
-    // gentle amount (amendment 5), once per second of over-flight — which
-    // only changes how fast the elastic tick burns. The deadline never
-    // moves, and (owner) NO pulse here: the numbers just change hands.
-    const grantTime = () => {
-      state = applyElasticDelta(state, pickGentleDeltaMs(), Date.now());
-    };
-
     // Tap/click/Enter/Space = RESET (owner amendment): a fresh random
     // display, every time — the rate absorbs it, the date holds.
     // Rendered immediately so the jump lands this frame, not next tick.
@@ -184,7 +154,7 @@ const year = new Date().getFullYear();
     // The countdown's own tick loop — elastic time (owner amendment 5):
     // display-milliseconds burn at rate = display / real-remaining, so the
     // counter reaches zero exactly at the real deadline no matter what the
-    // butterflies did to it. Wall-clock (Date.now) on purpose: a laptop
+    // taps did to it. Wall-clock (Date.now) on purpose: a laptop
     // waking from sleep must land at the honest position, not resume where
     // it dozed off. Deliberately NOT gated behind prefers-reduced-motion
     // (see the header comment): reduced-motion visitors get no collisions
@@ -212,27 +182,12 @@ const year = new Date().getFullYear();
     });
 
     const canvas = document.getElementById("sky-flock");
-    if (canvas instanceof HTMLCanvasElement) {
-      initSkyFlock(canvas, {
-        // The countdown box as the fly-over zone (amendment 8): read its
-        // live bounding rect each frame; while any body is over it, the
-        // flock calls onCollide once per second (the signed gentle delta).
-        // The canvas is `position: fixed; inset: 0`, so viewport/client
-        // coordinates ARE canvas coordinates — no conversion needed.
-        obstacle: () => button.getBoundingClientRect(),
-        onCollide: grantTime,
-        // While any body is over the box, the counter wears its hover
-        // look (owner: "make the counter look like this") — same styling
-        // as :hover, driven by the flock instead of the mouse.
-        onHover: (active) =>
-          button.classList.toggle("countdown--flyover", active),
-      });
-    }
+    if (canvas instanceof HTMLCanvasElement) initRestingWave(canvas);
   } else {
     // Degrade gracefully: no countdown markup found, still run the
-    // background on its own (no obstacle to bounce off of).
+    // background on its own.
     const canvas = document.getElementById("sky-flock");
-    if (canvas instanceof HTMLCanvasElement) initSkyFlock(canvas);
+    if (canvas instanceof HTMLCanvasElement) initRestingWave(canvas);
   }
 </script>
 
@@ -246,8 +201,7 @@ const year = new Date().getFullYear();
     background: #0e0a1a;
   }
 
-  /* Under the stage (owner tune: "Z-index counter layer over the
-     butterflies") — the trio and its trails slide BENEATH the counter;
+  /* Under the stage: the wave slides beneath the counter layer, its
      pointer-events off regardless, so taps always land on the countdown. */
   .teaser__canvas {
     position: fixed;
@@ -301,11 +255,8 @@ const year = new Date().getFullYear();
       0 0 60px color-mix(in oklch, #bb9af7 20%, transparent);
   }
 
-  /* .countdown--flyover: the same look, worn while a butterfly is over
-     the box (owner amendment 9 — toggled by sky-flock's onHover). */
   .countdown:hover,
-  .countdown--flyover,
-  .countdown:focus-visible {
+    .countdown:focus-visible {
     transform: scale(1.02);
     border-color: color-mix(in oklch, var(--pito-blue) 80%, transparent);
     box-shadow:
@@ -485,8 +436,7 @@ const year = new Date().getFullYear();
     grid-column: 7;
   }
 
-  /* A cheap, on-brand pulse whenever a butterfly collision or a tap adds
-     time (owner: "a small visual pulse on the box ... is welcome"). */
+  /* A cheap, on-brand pulse when a tap re-rolls the display. */
   @keyframes countdown-pulse {
     0% {
       transform: scale(1);

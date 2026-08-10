@@ -153,7 +153,7 @@ export function addTime(state, ms) {
 // matter what the butterflies did: more display just ticks faster, less
 // ticks slower. Parsed by the page in the visitor's local time, so the
 // countdown ends at their September 10th.
-export const REAL_DEADLINE_ISO = "2026-08-10T00:00:00";
+export const REAL_DEADLINE_ISO = "2026-09-01T00:00:00";
 
 export function realRemainingMs(nowMs, deadlineMs) {
   return Math.max(0, deadlineMs - nowMs);
