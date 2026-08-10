@@ -17,32 +17,21 @@ const index = read("src/pages/index.astro");
 const base = read("src/layouts/Base.astro");
 
 describe("the countdown teaser", () => {
-  test("wires the countdown lib and the sky-flock background", () => {
+  test("wires the countdown lib and the Resting wave background (flock retired, owner 2026-08-10)", () => {
     expect(index).toContain('from "../lib/countdown.js"');
-    expect(index).toContain('from "../lib/sky-flock.js"');
-    expect(index).toContain("initSkyFlock");
+    expect(index).toContain('from "../lib/resting-wave.js"');
+    expect(index).toContain("initRestingWave");
+    expect(index).not.toContain("initSkyFlock");
   });
 
-  test("collisions bend the elastic display; touch/click RESETS it (owner rule 2 + amendments 1 and 5)", () => {
-    // The elastic layer is wired: real deadline, elastic tick, signed
-    // butterfly deltas — and the collision path is the ONLY one bending.
+  test("the display stays elastic over the real deadline; touch/click RESETS it (wave era: taps are the only bend)", () => {
     expect(index).toMatch(/REAL_DEADLINE_ISO/);
     expect(index).toMatch(/createElasticState/);
     expect(index).toMatch(/tickElastic/);
-    expect(index).toMatch(/pickGentleDeltaMs/);
-    expect(index).toMatch(/applyElasticDelta/);
-    expect(index).toContain("onCollide: grantTime");
-    // The tap/click/keyboard path is the RESET, never the delta ("reset to
-    // something random every time, not just make it bigger and bigger").
     expect(index).toMatch(/resetElastic/);
     expect(index).toContain('addEventListener("click", resetCountdown)');
-    expect(index).not.toContain('addEventListener("click", grantTime)');
-    // Over-flight deltas do NOT pulse the box (owner: "don't pulsate the
-    // counter as it's already in a hover state") — the pulse is tap-only.
-    expect(index).toMatch(/const grantTime = \(\) => \{[^}]*\};/s);
-    expect(
-      index.match(/const grantTime = \(\) => \{[^}]*\};/s)[0],
-    ).not.toContain("pulse()");
+    expect(index).not.toContain("grantTime");
+    expect(index).not.toContain("applyElasticDelta");
   });
 
   test("no Milliseconds label; the four labels right-align to their groups (owner amendment)", () => {
@@ -68,17 +57,11 @@ describe("the countdown teaser", () => {
     expect(flock).toContain("Math.PI / 12");
   });
 
-  test("the countdown box is wired as sky-flock's fly-over zone (amendment 8: bodies pass above; time bends every second)", () => {
-    expect(index).toMatch(/obstacle:/);
-    expect(index).toMatch(/onCollide:/);
-    expect(index).toContain("getBoundingClientRect");
-    // The bodies render ABOVE the box, and taps must still reach it.
+  test("the wave slides beneath the counter and taps always reach the box (wave era)", () => {
     expect(index).toMatch(/\.teaser__canvas\s*{[^}]*pointer-events:\s*none/);
-    // Over-flight dresses the box in its hover look (owner: "make the
-    // counter look like this") — the flock drives the same styling.
-    expect(index).toMatch(/onHover:/);
-    expect(index).toContain("countdown--flyover");
-    expect(index).toMatch(/\.countdown:hover,\s*\.countdown--flyover/);
+    expect(index).not.toMatch(/obstacle:/);
+    expect(index).not.toMatch(/onCollide:/);
+    expect(index).not.toContain("countdown--flyover");
   });
 
   test("the reveal renders the wordmark law — gradient PITO (owner amendment 2026-08-06, uppercase mark), 1px underline, pure-white Studio — and claims nothing beyond the countdown (owner amendment 6 + wordmark law 2026-08-05, #128 halving)", () => {

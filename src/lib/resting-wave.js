@@ -100,7 +100,8 @@ export function initRestingWave(canvas) {
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    if (!running) paint(ctx, w, h, media.matches ? 0 : (performance.now() - born) / 1000);
+    if (!running)
+      paint(ctx, w, h, media.matches ? 0 : (performance.now() - born) / 1000);
   };
 
   const stop = () => {

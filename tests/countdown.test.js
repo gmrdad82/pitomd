@@ -212,8 +212,8 @@ describe("relative time — the elastic display over a real deadline (owner amen
     const d = new Date(REAL_DEADLINE_ISO);
     expect(Number.isNaN(d.getTime())).toBe(false);
     expect(d.getFullYear()).toBe(2026);
-    expect(d.getMonth()).toBe(7); // August ("I meant 10 August")
-    expect(d.getDate()).toBe(10);
+    expect(d.getMonth()).toBe(8); // September (owner bump, 2026-08-10)
+    expect(d.getDate()).toBe(1);
   });
 
   it("the display starts honest: exactly the real remaining time", () => {
