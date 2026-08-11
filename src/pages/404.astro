@@ -1,0 +1,150 @@
+---
+import Base from "../layouts/Base.astro";
+
+// pitomd.com/404 — the platform 404 (Astro emits this as dist/404.html;
+// Cloudflare Pages serves it automatically for any unmatched path).
+//
+// Same skeleton as the estate's other three sites (ping, licence, deps):
+// the root page's own PITO+product lockup, a huge "404", one line in the
+// site's voice, the root page's own background animation running quietly
+// behind it, the shared footer. The lockup markup/CSS below is lifted
+// verbatim from index.astro's .countdown__brand block — the only PITO
+// wordmark this site's root page actually renders.
+
+const year = new Date().getFullYear();
+---
+
+<Base title="pitomd.com — page not found">
+  <div class="nf-page">
+    <canvas id="sky-flock" class="nf-page__canvas" aria-hidden="true"></canvas>
+
+    <div class="nf-page__stage">
+      <span class="nf-brand"
+        ><span class="nf-brand-mark">PITO</span>{" "}<span
+          class="nf-brand-product">Studio</span
+        ></span
+      >
+      <div class="nf-num">404</div>
+      <p class="nf-line">This page wandered off.</p>
+    </div>
+
+    <p class="nf-legal">pitomd.com · © {year} · All rights reserved.</p>
+  </div>
+</Base>
+
+<script>
+  import { initRestingWave } from "../lib/resting-wave.js";
+  const canvas = document.getElementById("sky-flock");
+  if (canvas instanceof HTMLCanvasElement) initRestingWave(canvas);
+</script>
+
+<style>
+  .nf-page {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #0e0a1a;
+  }
+
+  .nf-page__canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .nf-page__stage {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    justify-items: center;
+    row-gap: clamp(0.8rem, 3vw, 1.4rem);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  /* Lifted verbatim from index.astro's .countdown__brand — the estate's
+     PITO wordmark law: uppercase gradient mark + 1px gradient underline,
+     product word plain white. */
+  .nf-brand {
+    --wordmark: linear-gradient(
+      90deg,
+      #ff6ec7 0%,
+      #f86fca 8.33%,
+      #e472d2 16.67%,
+      #c977dd 25%,
+      #ab7cea 33.33%,
+      #9280f4 41.67%,
+      #8383fa 50%,
+      #7f83fb 58.33%,
+      #7980fc 66.67%,
+      #6d7bfd 75%,
+      #5f76fe 83.33%,
+      #5572ff 91.67%,
+      #5170ff 100%
+    );
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 3.4vw, 1.8rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .nf-brand-mark {
+    position: relative;
+    display: inline-block;
+    background: var(--wordmark);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nf-brand-mark::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.14em;
+    height: 1px;
+    border-radius: 0.5px;
+    background: var(--wordmark);
+  }
+
+  .nf-brand-product {
+    color: #ffffff;
+  }
+
+  .nf-num {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: clamp(3.5rem, 14vw, 7.5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: #eaf0ff;
+    text-shadow: 0 0 24px color-mix(in oklch, var(--pito-blue) 40%, transparent);
+  }
+
+  .nf-line {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    color: color-mix(in oklch, #ffffff 65%, transparent);
+  }
+
+  .nf-legal {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: color-mix(in oklch, #ffffff 40%, transparent);
+  }
+</style>
