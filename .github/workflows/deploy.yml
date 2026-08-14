@@ -15,6 +15,9 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - "README.md"
+      - ".github/icons/**"
   workflow_dispatch:
 
 jobs:

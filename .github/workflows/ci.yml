@@ -13,42 +13,117 @@ permissions:
 jobs:
   # One job, so a failure produces exactly one Slack message (no double-posting).
   # Keep the job id `lint-and-audit` — it's the required status check on main.
+  #
+  # This job is NOT gated by `paths-ignore` on the workflow's own `on:`
+  # block, deliberately: `lint-and-audit` is a REQUIRED status check on
+  # `main`, and `paths-ignore` would skip the trigger entirely on a
+  # docs-only push — main's branch protection would then sit waiting
+  # forever for a status that never arrives, blocking merge. Instead the
+  # job always runs and always reports a real conclusion; the `classify`
+  # step below decides whether the expensive steps underneath it do
+  # anything, so a README/icon-only push still posts success in seconds
+  # rather than spending the full npm/lint/build/Lighthouse run on a
+  # picture.
   lint-and-audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      # Same shape as pito-ci's own `rust-ci.yml` docs-only guard (that
+      # one's allowlist logic survived an adversarial review — this
+      # mirrors it rather than inventing a second, weaker version). Only
+      # a plain branch push with real prior history even attempts the
+      # diff: tags, manual dispatches, and pull requests get a
+      # predetermined "run everything" answer, since a PR diff against
+      # its base isn't this simple before/after comparison.
+      - name: Classify the push range
+        id: classify
+        if: github.event_name == 'push'
+        env:
+          BEFORE: ${{ github.event.before }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -uo pipefail
+          ZERO_SHA="0000000000000000000000000000000000000000"
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "$ZERO_SHA" ]; then
+            echo "docs_only=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if ! changed="$(git diff --name-only "$BEFORE" "$SHA" 2>&1)"; then
+            echo "::warning::could not diff ${BEFORE}..${SHA} (${changed}); running the full job to be safe"
+            echo "docs_only=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ -z "$changed" ]; then
+            echo "docs_only=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # ALLOWLIST, not a denylist — only the root README.md and image
+          # assets under `.github/icons/` (real image extensions, not any
+          # file merely living in that folder) count as docs-only; every
+          # other changed path flips this to false.
+          docs_only=true
+          while IFS= read -r path; do
+            [ -z "$path" ] && continue
+            case "$path" in
+              README.md) ;;
+              .github/icons/*)
+                ext="${path##*.}"
+                ext="$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
+                case "$ext" in
+                  svg | png | jpg | jpeg | webp | gif | ico) ;;
+                  *) docs_only=false ;;
+                esac
+                ;;
+              *) docs_only=false ;;
+            esac
+          done <<< "$changed"
+          echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
 
       - uses: actions/setup-node@v7
+        if: steps.classify.outputs.docs_only != 'true'
         with:
           node-version: "22"
           cache: npm
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
+        if: steps.classify.outputs.docs_only != 'true'
         run: npm ci
 
       - name: npm audit (high severity gate)
+        if: steps.classify.outputs.docs_only != 'true'
         run: npm audit --audit-level=high
 
       - name: Prettier (all source)
+        if: steps.classify.outputs.docs_only != 'true'
         run: npx prettier --check .
 
       - name: ESLint (vanilla JS islands)
+        if: steps.classify.outputs.docs_only != 'true'
         run: npx eslint .
 
       - name: Stylelint (CSS)
+        if: steps.classify.outputs.docs_only != 'true'
         run: npx stylelint "src/styles/**/*.css"
 
       - name: Astro check (typing + template lint)
+        if: steps.classify.outputs.docs_only != 'true'
         run: npx astro check
 
       - name: Contract tests (vitest — fx/slide/asset invariants)
+        if: steps.classify.outputs.docs_only != 'true'
         run: npx vitest run
 
       - name: Build verification
+        if: steps.classify.outputs.docs_only != 'true'
         run: npm run build
 
       - name: Lighthouse CI (a11y / SEO / best-practices gated; perf is a warning)
+        if: steps.classify.outputs.docs_only != 'true'
         uses: treosh/lighthouse-ci-action@v12
         with:
           configPath: ./lighthouserc.json
