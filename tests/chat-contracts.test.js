@@ -276,11 +276,17 @@ describe("script islands", () => {
     // would ship dead code to every other route for a button that only
     // exists on /guides pages.
     const guideLayout = read("src/layouts/GuideLayout.astro");
-    const pageScoped = { "guide-theme.js": guideLayout };
+    const saidLayout = read("src/layouts/SaidLayout.astro");
+    const pageScoped = {
+      "guide-theme.js": guideLayout,
+      "said-reveal.js": saidLayout,
+    };
 
     for (const f of readdirSync(join(ROOT, "src/scripts"))) {
       const owner = pageScoped[f] ?? base;
-      const ownerLabel = pageScoped[f] ? "GuideLayout.astro" : "Base.astro";
+      const ownerLabel = pageScoped[f]
+        ? "its page-scoped layout"
+        : "Base.astro";
       expect(
         owner.includes(`scripts/${f}`),
         `${f} not wired in ${ownerLabel}`,

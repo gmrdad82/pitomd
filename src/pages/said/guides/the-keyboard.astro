@@ -1,0 +1,59 @@
+---
+import SaidLayout from "../../../layouts/SaidLayout.astro";
+import SaidPlaceholder from "../../../components/SaidPlaceholder.astro";
+---
+
+<SaidLayout
+  title="The keyboard is the desk — Said guides"
+  description="Every Said flow without the mouse: moving between cards, opening them, filing them, finding them."
+  active="guides"
+>
+  <article class="said-article">
+    <h1>The keyboard is the desk</h1>
+    <p class="said-meta">One rule, a handful of keys, no modes.</p>
+
+    <p>
+      Said has one keyboard rule and it never bends: a key goes to the topmost
+      screen and nowhere else. No global shortcuts, no hidden modes, no key that
+      reaches past what you're looking at. When a text field has focus, it eats
+      the keys — that's the whole system.
+    </p>
+
+    <h2>Moving around</h2>
+    <ul>
+      <li>
+        <code>arrows</code> or <code>h j k l</code> — walk the cards and lanes.
+      </li>
+      <li><code>enter</code> — open the card under the cursor.</li>
+      <li><code>esc</code> — close the topmost screen, always.</li>
+    </ul>
+    <SaidPlaceholder label="Capture — cursor walking the board" />
+
+    <h2>Making and moving</h2>
+    <ul>
+      <li><code>n</code> — a new card.</li>
+      <li>
+        Move a card between lanes from its own screen — or drag it; the mouse
+        can do everything the keys can.
+      </li>
+      <li>Resolving asks how it ended: done, abandoned, or not relevant.</li>
+    </ul>
+
+    <h2>Finding</h2>
+    <ul>
+      <li>
+        <code>/</code> — the finder: exact words and meaning, side by side.
+      </li>
+      <li>
+        <code>?</code> — the key help, which only ever shows keys that work right
+        now.
+      </li>
+    </ul>
+    <SaidPlaceholder label="Capture — the finder" />
+
+    <p>
+      If a key is shown on screen, it works. If it isn't, it doesn't. You can
+      trust your hands to learn the desk in a day.
+    </p>
+  </article>
+</SaidLayout>

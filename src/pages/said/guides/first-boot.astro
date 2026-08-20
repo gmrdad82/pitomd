@@ -1,0 +1,67 @@
+---
+import SaidLayout from "../../../layouts/SaidLayout.astro";
+import SaidPlaceholder from "../../../components/SaidPlaceholder.astro";
+---
+
+<SaidLayout
+  title="First boot, first board — Said guides"
+  description="Install Said, point it at your notes folder, pick its face, and land on a working board."
+  active="guides"
+>
+  <article class="said-article">
+    <h1>First boot, first board</h1>
+    <p class="said-meta">About three minutes, one folder decision.</p>
+
+    <p>
+      Said arrives whole: the installer carries everything it needs, and nothing
+      is downloaded at boot. Your only real decision is which folder holds your
+      notes.
+    </p>
+
+    <h2>1 · Install</h2>
+    <p>
+      Run the installer for your platform. On Linux it installs to your own
+      user, puts <code>said</code> on your path, and adds the launcher entry; on macOS
+      you drag Said to Applications; on Windows it installs per-user with a normal
+      uninstaller. No elevation, no system folders.
+    </p>
+    <SaidPlaceholder label="Capture — the installer" />
+
+    <h2>2 · Point it at your notes</h2>
+    <p>
+      First boot asks one thing first: where do your notes live? Pick the folder
+      that holds your work. Every folder inside becomes a project; nothing is
+      copied or moved. If you have no notes folder yet, take the suggested fresh
+      one and grow into it.
+    </p>
+    <SaidPlaceholder label="Capture — the folder picker" />
+
+    <h2>3 · Pick its face</h2>
+    <p>
+      Choose how the desk opens: the board, where lanes carry cards; or the
+      dossier, one running record with the freshest word on top. Both previews
+      are live — and the choice is yours to flip any time in Settings.
+    </p>
+    <SaidPlaceholder label="Capture — the face chooser" />
+
+    <h2>4 · Claude, key, and the phone-home question</h2>
+    <p>
+      Then three honest questions: may Claude help move things, do you want to
+      paste its key now, and may Said send crash reports home. Every answer can
+      change later in Settings; none of them blocks the desk.
+    </p>
+
+    <h2>5 · The first card</h2>
+    <ol>
+      <li>Press <code>n</code> — a new card opens.</li>
+      <li>Give it a title in your own words.</li>
+      <li>
+        Press <code>enter</code> — it lands in the lane, numbered for life.
+      </li>
+    </ol>
+    <p>
+      That's the whole loop. Say it, move it, and when it's finished — mark it
+      done. <strong>Said and Done.</strong>
+    </p>
+  </article>
+</SaidLayout>

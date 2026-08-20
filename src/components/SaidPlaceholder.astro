@@ -1,0 +1,12 @@
+---
+interface Props {
+  label: string;
+  ratio?: string;
+}
+
+const { label, ratio = "16 / 10" } = Astro.props;
+---
+
+<div class="said-placeholder" style={`aspect-ratio: ${ratio};`}>
+  <span>{label}</span>
+</div>

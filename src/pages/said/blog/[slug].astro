@@ -1,0 +1,45 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import SaidLayout from "../../../layouts/SaidLayout.astro";
+import { released, withScheduled, stamp } from "../../../lib/said-blog";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("saidBlog");
+  const visible = import.meta.env.DEV
+    ? withScheduled(posts).map(({ post }) => post)
+    : released(posts);
+  return visible.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<"saidBlog">;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const scheduled = post.data.pubDate.getTime() > Date.now();
+---
+
+<SaidLayout
+  title={`${post.data.title} — Said blog`}
+  description={post.data.description}
+  active="blog"
+>
+  <article class="said-article">
+    <h1>{post.data.title}</h1>
+    <p class="said-meta">
+      {stamp(post.data.pubDate)}
+      {
+        scheduled && (
+          <span class="said-scheduled">
+            scheduled · publishes {stamp(post.data.pubDate)}
+          </span>
+        )
+      }
+    </p>
+    <Content />
+  </article>
+</SaidLayout>

@@ -1,0 +1,55 @@
+---
+import SaidLayout from "../../../layouts/SaidLayout.astro";
+import SaidPlaceholder from "../../../components/SaidPlaceholder.astro";
+---
+
+<SaidLayout
+  title="Let Claude in — Said guides"
+  description="Connect a Claude session to your Said desk over MCP and watch it file its own work under its own name."
+  active="guides"
+>
+  <article class="said-article">
+    <h1>Let Claude in</h1>
+    <p class="said-meta">One command, a named teammate.</p>
+
+    <p>
+      Said speaks MCP — the protocol Claude uses to work with tools. Connected,
+      a Claude session can read your boards, search your notes, file cards, move
+      them, and leave comments in card threads. Signed, every time, with its own
+      name.
+    </p>
+
+    <h2>1 · Connect</h2>
+    <pre><code>claude mcp add pito-work -- said mcp</code></pre>
+    <p>
+      That's the whole handshake. The session now carries the desk's tools:
+      listing boards, searching, adding and moving cards, commenting, reading
+      the exact lines a card references.
+    </p>
+
+    <h2>2 · Ask for something real</h2>
+    <p>
+      Tell Claude to sweep your notes for loose ends and file each one as a card
+      with a reference to the lines it came from. Then open the board — the new
+      cards are there, each naming the agent that made it.
+    </p>
+    <SaidPlaceholder
+      label="Capture — cards filed by claude, named in history"
+    />
+
+    <h2>3 · Work the same card together</h2>
+    <p>
+      Nobody owns a card. You can be editing while an agent comments; its words
+      land in the thread under its name, next to yours. The history keeps
+      everyone honest — every move records who, when, and from where.
+    </p>
+    <SaidPlaceholder label="Capture — a shared thread" />
+
+    <h2>What it can't do</h2>
+    <ul>
+      <li>It can't touch your markdown — your files aren't its to edit.</li>
+      <li>It can't act unasked — a session works when you set it working.</li>
+      <li>It can't hide — there is no anonymous move in this house.</li>
+    </ul>
+  </article>
+</SaidLayout>

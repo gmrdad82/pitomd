@@ -1,0 +1,43 @@
+---
+import { getCollection } from "astro:content";
+import SaidLayout from "../../../layouts/SaidLayout.astro";
+import { released, withScheduled, stamp } from "../../../lib/said-blog";
+
+const posts = await getCollection("saidBlog");
+const entries = import.meta.env.DEV
+  ? withScheduled(posts)
+  : released(posts).map((post) => ({ post, scheduled: false }));
+---
+
+<SaidLayout
+  title="Blog — Said by PITO"
+  description="Notes from the desk: essays on planning where your notes live, keyboard-first work, and AI teammates that sign their work."
+  active="blog"
+>
+  <div class="said-list">
+    <header class="said-list-head">
+      <div class="said-eyebrow">The blog</div>
+      <h1>Notes from the desk.</h1>
+      <p>
+        Essays on working where your notes live — planning, keyboards, named
+        teammates, and keeping your own data.
+      </p>
+    </header>
+    {
+      entries.map(({ post, scheduled }) => (
+        <a class="said-entry" href={`/said/blog/${post.id}/`}>
+          <h2>{post.data.title}</h2>
+          <p>{post.data.description}</p>
+          <div class="said-entry-meta">
+            {stamp(post.data.pubDate)}
+            {scheduled && (
+              <span class="said-scheduled">
+                scheduled · publishes {stamp(post.data.pubDate)}
+              </span>
+            )}
+          </div>
+        </a>
+      ))
+    }
+  </div>
+</SaidLayout>

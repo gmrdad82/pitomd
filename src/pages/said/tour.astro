@@ -1,0 +1,198 @@
+---
+import SaidLayout from "../../layouts/SaidLayout.astro";
+import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
+---
+
+<SaidLayout
+  title="The tour — Said by PITO"
+  description="Every feature of Said, explained: projects from folders, the board, the dossier, references, meaning search, Claude at the desk, the remote client, and backups."
+  active="tour"
+>
+  <header class="said-hero said-wrap" style="min-height: 56svh;">
+    <div class="said-eyebrow said-rise">The tour</div>
+    <h1 class="said-rise said-rise-2" style="font-size: clamp(3rem,8vw,6rem);">
+      Every feature,<br />plainly said<span class="dot">.</span>
+    </h1>
+    <p class="said-hero-sub said-rise said-rise-3">
+      No mystery meat. This is what Said does, one frame per feature, in the
+      order you'll meet them.
+    </p>
+  </header>
+
+  <section class="said-frame">
+    <div class="said-wrap said-reveal">
+      <p class="said-kicker">01 · Projects</p>
+      <h2>Projects are folders.</h2>
+      <p>
+        You pick one working folder at first boot. Every top-level folder inside
+        it becomes a project; new folders become projects on the next scan.
+        There is no setup ceremony and no import — your structure is the
+        structure.
+      </p>
+      <ul>
+        <li>
+          Each project carries a short key — <code>STU</code>, <code>WORK</code> —
+          and numbers its cards for life: <code>STU-42</code>.
+        </li>
+        <li>
+          A card keeps its name across every lane and board move inside its
+          project.
+        </li>
+        <li>Loose files at the root belong to no project — folders decide.</li>
+      </ul>
+      <div class="said-visual">
+        <SaidPlaceholder label="Screen — the project switcher" />
+      </div>
+    </div>
+  </section>
+
+  <section class="said-frame">
+    <div class="said-wrap said-reveal">
+      <p class="said-kicker">02 · The board</p>
+      <h2>The board is for deciding.</h2>
+      <p>
+        Four lanes — backlog, todo, in progress, done — and a card is either
+        moving or resting. Done is not one thing: a card resolves as done,
+        abandoned, or not relevant, and the record says which.
+      </p>
+      <ul>
+        <li>
+          Keyboard first: every flow rides without the mouse, and the mouse can
+          do everything the keys can.
+        </li>
+        <li>
+          Resolved cards file themselves away after a week — nothing is deleted,
+          the archive is one filter away.
+        </li>
+        <li>Every move is history: who, when, from where, to where.</li>
+      </ul>
+      <div class="said-visual">
+        <SaidPlaceholder label="Screen — the board, four lanes" />
+      </div>
+    </div>
+  </section>
+
+  <section class="said-frame">
+    <div class="said-wrap said-reveal">
+      <p class="said-kicker">03 · The dossier</p>
+      <h2>The dossier is for understanding.</h2>
+      <p>
+        Flip the desk and the same cards become one running record, freshest
+        first. Click any card and it opens as a case file: what state it's in,
+        how long it lived, who spoke in it, how the spec changed, and every
+        journey back from done — called out, not buried.
+      </p>
+      <div class="said-duo">
+        <div>
+          <SaidPlaceholder label="Screen — the dossier" ratio="4 / 3" />
+        </div>
+        <div>
+          <SaidPlaceholder label="Screen — a case file" ratio="4 / 3" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="said-frame">
+    <div class="said-wrap said-reveal">
+      <p class="said-kicker">04 · References</p>
+      <h2>Cards point at real lines.</h2>
+      <p>
+        A card can reference any number of your markdown files, each with its
+        own line ranges. The referenced text is readable in place — the card and
+        the thinking behind it stay one keystroke apart.
+      </p>
+      <ul>
+        <li>
+          Many cards may reference the same file; a file may feed many cards.
+        </li>
+        <li>
+          New cards get a reference suggested automatically from the project's
+          own folder.
+        </li>
+        <li>Your files are never edited, never moved, never touched.</li>
+      </ul>
+      <div class="said-visual">
+        <SaidPlaceholder label="Screen — a reference, read in place" />
+      </div>
+    </div>
+  </section>
+
+  <section class="said-frame">
+    <div class="said-wrap said-reveal">
+      <p class="said-kicker">05 · Search</p>
+      <h2>Search that gets what you meant.</h2>
+      <p>
+        Exact-word search covers titles, bodies, and the text inside every
+        referenced range. Beside it, an on-device meaning search — embeddings
+        computed on your own GPU — finds the note that says it differently.
+        Nothing leaves your machine to do it.
+      </p>
+      <div class="said-visual">
+        <SaidPlaceholder label="Screen — the finder, both legs" />
+      </div>
+    </div>
+  </section>
+
+  <section class="said-frame">
+    <div class="said-wrap said-reveal">
+      <p class="said-kicker">06 · Claude</p>
+      <h2>Claude at the desk.</h2>
+      <p>
+        Said speaks MCP. A Claude session can list your boards, search your
+        notes, create and move cards, comment in threads, and attach captures —
+        as itself. Every action carries the agent's name in the history and in
+        the thread, exactly like yours carries yours.
+      </p>
+      <ul>
+        <li>One command connects it: <code>claude mcp add pito-work</code>.</li>
+        <li>
+          Agents collaborate on cards; several can work the same card at once.
+        </li>
+        <li>It needs your key, and it never touches a board unasked.</li>
+      </ul>
+      <div class="said-visual">
+        <SaidPlaceholder label="Screen — a card thread with named agents" />
+      </div>
+    </div>
+  </section>
+
+  <section class="said-frame">
+    <div class="said-wrap said-reveal">
+      <p class="said-kicker">07 · Remote</p>
+      <h2>The desk in your pocket.</h2>
+      <p>
+        A remote client rides the same desk from your phone, through your own
+        tunnel, with one token. The window closed means the remote is off —
+        there is no daemon, no always-on server, no surprise surface.
+      </p>
+      <div class="said-visual">
+        <SaidPlaceholder
+          label="Screen — the remote client, mobile"
+          ratio="9 / 16"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="said-frame">
+    <div class="said-wrap said-reveal">
+      <p class="said-kicker">08 · Backups</p>
+      <h2>Backed up before you asked.</h2>
+      <p>
+        Once a day while it's open, Said backs up its database and every
+        attachment to the folder you chose — keeping two weeks of history. Your
+        notes aren't its to back up: those stay your files, in your hands, on
+        your terms.
+      </p>
+      <div class="said-visual">
+        <SaidPlaceholder label="Screen — jobs, back up now" />
+      </div>
+      <div class="said-cta-row" style="margin-top: 34px;">
+        <a class="said-btn said-btn-primary" href="/said/guides/"
+          >Now read the guides</a
+        >
+      </div>
+    </div>
+  </section>
+</SaidLayout>
