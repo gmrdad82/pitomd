@@ -11,6 +11,7 @@ const { href = "/said/", size = "nav", collapsible = false } = Astro.props;
 <a
   class:list={["said-brand-lockup", `is-${size}`, collapsible && "collapses"]}
   href={href}
+  aria-label="Said and Done — home"
 >
   <img class="brand-mark" src="/said/icon.svg" alt="" />
   <span class="brand-words"
