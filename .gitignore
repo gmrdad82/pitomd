@@ -31,3 +31,5 @@ tools/shots/.venv/
 tools/shots/auth-state.json
 __pycache__/
 /tmp/
+/tmp-build.log
+/tmp-lint.log
