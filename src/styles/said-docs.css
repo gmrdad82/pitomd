@@ -664,13 +664,12 @@ html[data-guide-theme="light"] .sdoc-paper {
   padding: 22px 24px 22px 28px;
   border: 1px solid var(--sdoc-line);
   border-radius: 16px;
-  background:
-    linear-gradient(
-      120deg,
-      color-mix(in srgb, var(--sdoc-blue) 9%, var(--sdoc-panel)),
-      var(--sdoc-panel) 42%,
-      color-mix(in srgb, #89aef4 7%, var(--sdoc-panel))
-    );
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--sdoc-blue) 9%, var(--sdoc-panel)),
+    var(--sdoc-panel) 42%,
+    color-mix(in srgb, #89aef4 7%, var(--sdoc-panel))
+  );
   text-decoration: none;
   overflow: hidden;
   transition:
@@ -693,7 +692,8 @@ html[data-guide-theme="light"] .sdoc-paper {
 .sdoc a.sdoc-entry:hover {
   transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--sdoc-blue) 45%, var(--sdoc-line));
-  box-shadow: 0 14px 40px -18px color-mix(in srgb, var(--sdoc-blue) 55%, transparent);
+  box-shadow: 0 14px 40px -18px
+    color-mix(in srgb, var(--sdoc-blue) 55%, transparent);
 }
 
 .sdoc a.sdoc-entry:hover h2 {
@@ -796,7 +796,8 @@ html[data-guide-theme="light"] .sdoc-paper {
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--sdoc-ink) 30%, transparent) transparent;
+  scrollbar-color: color-mix(in srgb, var(--sdoc-ink) 30%, transparent)
+    transparent;
 }
 
 ::-webkit-scrollbar {
