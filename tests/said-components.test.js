@@ -13,7 +13,7 @@ const walk = (dir) => {
     else if (/\.(astro|css)$/.test(name)) saidSurfaces.push(rel);
   }
 };
-walk("src/pages/said");
+walk("src/pages/said-and-done");
 saidSurfaces.push(
   "src/pages/index.astro",
   "src/layouts/SaidLayout.astro",
@@ -36,7 +36,7 @@ describe("brand elements exist once, as components (owner order, 2026-08-20)", (
     }
   });
 
-  test("no Said page or layout hand-rolls the lockup or footer markup", () => {
+  test("no Said and Done page or layout hand-rolls the lockup or footer markup", () => {
     for (const file of saidSurfaces) {
       const src = readFileSync(join(ROOT, file), "utf8");
       for (const marker of [
@@ -99,15 +99,15 @@ describe("brand elements exist once, as components (owner order, 2026-08-20)", (
 
     for (const page of [
       "src/pages/index.astro",
-      "src/pages/said/index.astro",
-      "src/pages/said/tour.astro",
-      "src/pages/said/guides/first-boot.astro",
-      "src/pages/said/guides/the-keyboard.astro",
-      "src/pages/said/guides/agents-at-the-desk.astro",
+      "src/pages/said-and-done/index.astro",
+      "src/pages/said-and-done/tour.astro",
+      "src/pages/said-and-done/guides/first-boot.astro",
+      "src/pages/said-and-done/guides/the-keyboard.astro",
+      "src/pages/said-and-done/guides/agents-at-the-desk.astro",
     ]) {
       const markup = readFileSync(join(ROOT, page), "utf8");
       expect(markup).toContain("SaidShot");
-      expect(markup).not.toMatch(/<img[^>]*\/said\/shots\//);
+      expect(markup).not.toMatch(/<img[^>]*\/said-and-done\/shots\//);
     }
   });
 });

@@ -5,7 +5,7 @@ interface Props {
   collapsible?: boolean;
 }
 
-const { href = "/said/", size = "nav", collapsible = false } = Astro.props;
+const { href = "/said-and-done/", size = "nav", collapsible = false } = Astro.props;
 ---
 
 <a
@@ -13,7 +13,7 @@ const { href = "/said/", size = "nav", collapsible = false } = Astro.props;
   href={href}
   aria-label="Said and Done — home"
 >
-  <img class="brand-mark" src="/said/icon.svg" alt="" />
+  <img class="brand-mark" src="/said-and-done/icon.svg" alt="" />
   <span class="brand-words"
     ><span class="brand-said">Said and</span>{" "}<span class="brand-done"
       >Done.</span

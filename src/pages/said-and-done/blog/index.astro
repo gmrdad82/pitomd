@@ -11,15 +11,15 @@ const entries = import.meta.env.DEV
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Blog",
-  name: "The Said blog",
+  name: "The Said and Done blog",
   description:
     "Notes from the desk: planning where your notes live, keyboard-first work, and AI teammates that sign their work.",
-  url: new URL("/said/blog/", Astro.site).toString(),
+  url: new URL("/said-and-done/blog/", Astro.site).toString(),
 };
 ---
 
 <SaidDocsLayout
-  title="Blog — Said"
+  title="Blog — Said and Done"
   description="Notes from the desk: essays on planning where your notes live, keyboard-first work, and AI teammates that sign their work."
   section="blog"
   kicker="The blog"
@@ -31,7 +31,7 @@ const jsonLd = {
   <div class="sdoc-entrylist" style="margin-top: 28px;">
     {
       entries.map(({ post, badge }) => (
-        <a class="sdoc-entry sdoc-entry-serif" href={`/said/blog/${post.id}/`}>
+        <a class="sdoc-entry sdoc-entry-serif" href={`/said-and-done/blog/${post.id}/`}>
           <h2>{post.data.title}</h2>
           <p>{post.data.description}</p>
           <div class="sdoc-entry-meta">

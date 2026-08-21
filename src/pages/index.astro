@@ -18,12 +18,12 @@ const roll = (
 
 <Base
   title="pitomd.com — Said and Done"
-  description="The home of Pito's products. Said, the desk that lives where your notes live, leads the lineup."
+  description="The home of Pito's products. Said and Done, the desk that lives where your notes live, leads the lineup."
 >
   <main class="home">
     <section class="home-hero">
       <canvas class="fx-aurora" aria-hidden="true"></canvas>
-      <img class="home-mark" src="/said/icon.svg" alt="The Said mark" />
+      <img class="home-mark" src="/said-and-done/icon.svg" alt="The Said and Done mark" />
       <h1 class="home-name said-comet">
         <span class="hn-said">Said and</span>{" "}<span class="hn-done"
           >Done.</span
@@ -34,22 +34,22 @@ const roll = (
         honest about every move.
       </p>
       <div class="home-cta">
-        <a class="said-btn said-btn-primary" href="/said/">Meet Said</a>
-        <a class="said-btn said-btn-ghost" href="/said/tour/">Take the tour</a>
+        <a class="said-btn said-btn-primary" href="/said-and-done/">Meet Said and Done</a>
+        <a class="said-btn said-btn-ghost" href="/said-and-done/tour/">Take the tour</a>
       </div>
       <div class="home-fan">
         <div class="home-fan-side home-fan-left">
-          <SaidShot src="/said/shots/dossier.png" alt="" eager />
+          <SaidShot src="/said-and-done/shots/dossier.png" alt="" eager />
         </div>
         <div class="home-fan-center">
           <SaidShot
-            src="/said/shots/board.png"
-            alt="The Said board — four lanes carrying real cards"
+            src="/said-and-done/shots/board.png"
+            alt="The Said and Done board — four lanes carrying real cards"
             eager
           />
         </div>
         <div class="home-fan-side home-fan-right">
-          <SaidShot src="/said/shots/casefile.png" alt="" eager />
+          <SaidShot src="/said-and-done/shots/casefile.png" alt="" eager />
         </div>
       </div>
     </section>
@@ -59,11 +59,11 @@ const roll = (
       <div class="home-roll-grid">
         {
           roll.map(({ post, badge }) => (
-            <a class="home-card" href={`/said/blog/${post.id}/`}>
+            <a class="home-card" href={`/said-and-done/blog/${post.id}/`}>
               <h3>{post.data.title}</h3>
               <p>{post.data.description}</p>
               <span class="home-card-meta">
-                Said · {stamp(post.data.pubDate)}
+                Said and Done · {stamp(post.data.pubDate)}
                 {badge && <em class="home-card-badge">{badge}</em>}
               </span>
             </a>

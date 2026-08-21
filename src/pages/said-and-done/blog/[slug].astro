@@ -36,7 +36,7 @@ const jsonLd = {
   description: post.data.description,
   datePublished: post.data.pubDate.toISOString().slice(0, 10),
   author: { "@type": "Organization", name: "Pito" },
-  url: new URL(`/said/blog/${post.id}/`, Astro.site).toString(),
+  url: new URL(`/said-and-done/blog/${post.id}/`, Astro.site).toString(),
 };
 
 const meta = badge
@@ -49,7 +49,7 @@ const meta = badge
 ---
 
 <SaidDocsLayout
-  title={`${post.data.title} — Said blog`}
+  title={`${post.data.title} — Said and Done blog`}
   description={post.data.description}
   section="blog"
   kicker="The blog"
@@ -82,9 +82,9 @@ const meta = badge
           <p class="sdoc-related-label">More from the blogs</p>
           <div class="sdoc-related-grid">
             {more.map((m) => (
-              <a class="sdoc-related-card" href={`/said/blog/${m.id}/`}>
+              <a class="sdoc-related-card" href={`/said-and-done/blog/${m.id}/`}>
                 <h3>{m.data.title}</h3>
-                <span>Said · {stamp(m.data.pubDate)}</span>
+                <span>Said and Done · {stamp(m.data.pubDate)}</span>
               </a>
             ))}
           </div>

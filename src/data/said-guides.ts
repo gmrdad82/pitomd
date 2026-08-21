@@ -3,7 +3,7 @@ export const saidGuides = [
     slug: "first-boot",
     title: "First boot, first board",
     blurb:
-      "Install Said, point it at your notes, pick its face, and land on a working board — in about three minutes.",
+      "Install Said and Done, point it at your notes, pick its face, and land on a working board — in about three minutes.",
     sections: [
       { id: "install", label: "Install" },
       { id: "notes", label: "Point it at your notes" },

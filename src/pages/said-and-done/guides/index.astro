@@ -4,8 +4,8 @@ import { saidGuides } from "../../../data/said-guides";
 ---
 
 <SaidDocsLayout
-  title="Guides — Said"
-  description="Step-by-step guides for Said: first boot, the keyboard, and connecting your AI agents to your desk."
+  title="Guides — Said and Done"
+  description="Step-by-step guides for Said and Done: first boot, the keyboard, and connecting your AI agents to your desk."
   section="guides"
   kicker="Guides"
   heading="Shown, step by step."
@@ -14,7 +14,7 @@ import { saidGuides } from "../../../data/said-guides";
   <div class="sdoc-entrylist" style="margin-top: 28px;">
     {
       saidGuides.map((g, i) => (
-        <a class="sdoc-entry" href={`/said/guides/${g.slug}/`}>
+        <a class="sdoc-entry" href={`/said-and-done/guides/${g.slug}/`}>
           <p class="sdoc-guide-kicker">
             Guide 0{i + 1} · {g.sections.length} steps
           </p>

@@ -1,5 +1,5 @@
 // index-contracts.test.js — static contract guards for the root page
-// (owner order, 2026-08-20: one oversized Said hero + the last four blog
+// (owner order, 2026-08-20: one oversized Said and Done hero + the last four blog
 // articles; the Studio countdown retired to src/parked/). Same discipline
 // as chat-contracts.test.js: read the source as TEXT, assert the
 // invariants that would otherwise only surface as a visual regression.
@@ -14,7 +14,7 @@ const read = (p) => readFileSync(join(ROOT, p), "utf8");
 
 const index = read("src/pages/index.astro");
 
-describe("the Said home", () => {
+describe("the Said and Done home", () => {
   test("the countdown teaser is parked, not routed", () => {
     expect(existsSync(join(ROOT, "src/parked/countdown-index.astro"))).toBe(
       true,
@@ -23,14 +23,14 @@ describe("the Said home", () => {
     expect(index).not.toContain("REAL_DEADLINE_ISO");
   });
 
-  test("the home rides pitomd's own Base — its favicon and theme, not Said's", () => {
+  test("the home rides pitomd's own Base — its favicon and theme, not Said and Done's", () => {
     expect(index).toContain('import Base from "../layouts/Base.astro"');
     expect(index).not.toContain("SaidLayout");
     expect(index).not.toContain("said.css");
   });
 
   test("one oversized hero: the mark and the branded two-tone name with a real gap (owner order, 2026-08-20: no PITO word in the hero)", () => {
-    expect(index).toContain('src="/said/icon.svg"');
+    expect(index).toContain('src="/said-and-done/icon.svg"');
     expect(index).toContain('<span class="hn-said">Said and</span>');
     expect(index).toContain('{" "}');
     expect(index).not.toMatch(/\.home-name\s*{[^}]*display:\s*flex/s);
@@ -63,15 +63,15 @@ describe("the said pages' shots", () => {
   test("every capture referenced by a said page exists in public/", () => {
     const pages = [
       "src/pages/index.astro",
-      "src/pages/said/index.astro",
-      "src/pages/said/tour.astro",
-      "src/pages/said/guides/first-boot.astro",
-      "src/pages/said/guides/the-keyboard.astro",
-      "src/pages/said/guides/agents-at-the-desk.astro",
+      "src/pages/said-and-done/index.astro",
+      "src/pages/said-and-done/tour.astro",
+      "src/pages/said-and-done/guides/first-boot.astro",
+      "src/pages/said-and-done/guides/the-keyboard.astro",
+      "src/pages/said-and-done/guides/agents-at-the-desk.astro",
     ];
     for (const page of pages) {
       const src = read(page);
-      for (const [, ref] of src.matchAll(/src="(\/said\/[^"]+)"/g)) {
+      for (const [, ref] of src.matchAll(/src="(\/said-and-done\/[^"]+)"/g)) {
         expect(existsSync(join(ROOT, "public", ref)), `missing ${ref}`).toBe(
           true,
         );

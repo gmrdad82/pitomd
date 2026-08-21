@@ -54,24 +54,24 @@ const active = slug ? saidGuides.find((g) => g.slug === slug) : undefined;
       rel="preload"
       as="font"
       type="font/ttf"
-      href="/said/fonts/MartianMono-Medium-latin.ttf"
+      href="/said-and-done/fonts/MartianMono-Medium-latin.ttf"
       crossorigin
     />
     <link
       rel="preload"
       as="font"
       type="font/ttf"
-      href="/said/fonts/JetBrainsMono-Regular-latin.ttf"
+      href="/said-and-done/fonts/JetBrainsMono-Regular-latin.ttf"
       crossorigin
     />
     <link
       rel="preload"
       as="font"
       type="font/ttf"
-      href="/said/fonts/JetBrainsMono-Medium-latin.ttf"
+      href="/said-and-done/fonts/JetBrainsMono-Medium-latin.ttf"
       crossorigin
     />
-    <link rel="icon" type="image/svg+xml" href="/said/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/said-and-done/icon.svg" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="article" />
@@ -117,7 +117,7 @@ const active = slug ? saidGuides.find((g) => g.slug === slug) : undefined;
               <li>
                 <a
                   class:list={["sdoc-side-link", !slug && "is-active"]}
-                  href="/said/guides/"
+                  href="/said-and-done/guides/"
                   aria-current={!slug ? "page" : undefined}
                 >
                   All guides
@@ -130,7 +130,7 @@ const active = slug ? saidGuides.find((g) => g.slug === slug) : undefined;
                       "sdoc-side-link",
                       g.slug === slug && "is-active",
                     ]}
-                    href={`/said/guides/${g.slug}/`}
+                    href={`/said-and-done/guides/${g.slug}/`}
                     aria-current={g.slug === slug ? "page" : undefined}
                   >
                     {g.title}

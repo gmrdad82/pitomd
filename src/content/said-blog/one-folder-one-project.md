@@ -9,7 +9,7 @@ Watch someone start a project in a typical tool: name it, pick a template,
 choose members, configure columns, set a color, invite nobody because it's
 just them. Ten decisions before the first real thought.
 
-Said replaces the ceremony with a rule: every top-level folder in your notes
+Said and Done replaces the ceremony with a rule: every top-level folder in your notes
 folder is a project. Make a folder — in your file manager, in your editor,
 however you make folders — and the desk notices on its next scan. That's the
 whole onboarding.
@@ -27,7 +27,7 @@ the cards keep their names as they travel.
 The deeper point is about where structure should come from. Your folders
 already encode how you think — the projects you're in, the seasons of them.
 A planning tool that invents its own parallel structure is asking you to
-maintain two maps of one territory. Said just reads the map you already
+maintain two maps of one territory. Said and Done just reads the map you already
 drew.
 
 Planning tools should be furniture, not architecture. A desk, not a

@@ -1,6 +1,6 @@
 ---
 title: "An AI teammate that signs its work"
-description: "Your AI agent can sit at your Said desk over MCP — filing cards, leaving notes, and never once acting anonymously."
+description: "Your AI agent can sit at your Said and Done desk over MCP — filing cards, leaving notes, and never once acting anonymously."
 published: false
 pubDate: 2026-09-03
 ---
@@ -11,7 +11,7 @@ whose hand.
 
 ## Everyone at the desk has a name
 
-Said takes the boring, old-fashioned position: everyone at the desk has a
+Said and Done takes the boring, old-fashioned position: everyone at the desk has a
 name, including the machines. An MCP client connects with one line of
 setup and gets real tools: list the boards, search the notes,
 file a card, move it, comment in its thread, attach a capture.
@@ -19,7 +19,7 @@ file a card, move it, comment in its thread, attach a capture.
 Every one of those actions lands in the history signed with the agent's own
 name, exactly the way yours land signed with yours.
 
-![A case file where agent:builder reports its fix in the thread, under its own name](/said/shots/casefile.png)
+![A case file where agent:builder reports its fix in the thread, under its own name](/said-and-done/shots/casefile.png)
 
 _agent:builder, on the record. The reopen it caused is in the same file,
 two sections down. Nobody gets to be anonymous — including the machines._
@@ -37,7 +37,7 @@ attributable, you can hand it real work:
 Come morning, the board shows what happened — and the case file shows who
 did it, step by step, next to your own moves.
 
-![The board carrying cards filed by hand and by agents alike](/said/shots/board.png)
+![The board carrying cards filed by hand and by agents alike](/said-and-done/shots/board.png)
 
 _The morning after: agent-filed cards sit beside yours, each one carrying
 its author in the history._

@@ -8,7 +8,7 @@ pubDate: 2026-08-31
 Most apps accumulate shortcuts the way drawers accumulate keys: one by one,
 each reasonable, until nobody can say what any given press will do.
 
-Said has one keyboard law instead. A key goes to the topmost screen, and
+Said and Done has one keyboard law instead. A key goes to the topmost screen, and
 nowhere else. If the screen on top doesn't claim it, the key is dropped — it
 never falls through to the board underneath, never triggers something you
 can't see. There are no global shortcuts. Not for quit, not for search, not

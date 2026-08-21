@@ -16,11 +16,11 @@ what landed. It is deliberately amnesiac — a card in "done" looks exactly
 like it strolled there in an afternoon, even if it fought its way back from
 done three times.
 
-So Said has a second face: the dossier. Same cards, same data, no sync —
+So Said and Done has a second face: the dossier. Same cards, same data, no sync —
 one running record with the freshest word on top, like a ledger of the
 desk.
 
-![The dossier — every card as one running record, freshest first](/said/shots/dossier.png)
+![The dossier — every card as one running record, freshest first](/said-and-done/shots/dossier.png)
 
 _The dossier face: the same cards the board carries, read as a record
 instead of a queue. An index drawer files them alphabetically when you'd
@@ -34,7 +34,7 @@ who spoke in it. The spec trail: every edit to what the card asks. The
 activity: the whole journey between lanes. The thread: everything said, by
 everyone, named.
 
-![A case file — the whole life of one card on a single sheet](/said/shots/casefile.png)
+![A case file — the whole life of one card on a single sheet](/said-and-done/shots/casefile.png)
 
 _ATL-4's case file: born, shipped, reopened, shipped again — with the
 agent that fixed it signing its comment._
@@ -45,7 +45,7 @@ never say it.
 
 ## Two faces, honestly
 
-No one owns a card in Said, so the case file is also how a shared card
+No one owns a card in Said and Done, so the case file is also how a shared card
 stays honest. When you and an agent both worked it, the file shows exactly
 who did what, in order, without anyone's memory in the loop.
 
