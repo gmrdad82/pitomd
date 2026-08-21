@@ -31,7 +31,10 @@ const jsonLd = {
   <div class="sdoc-entrylist" style="margin-top: 28px;">
     {
       entries.map(({ post, badge }) => (
-        <a class="sdoc-entry sdoc-entry-serif" href={`/said-and-done/blog/${post.id}/`}>
+        <a
+          class="sdoc-entry sdoc-entry-serif"
+          href={`/said-and-done/blog/${post.id}/`}
+        >
           <h2>{post.data.title}</h2>
           <p>{post.data.description}</p>
           <div class="sdoc-entry-meta">

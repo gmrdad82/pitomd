@@ -82,7 +82,10 @@ const meta = badge
           <p class="sdoc-related-label">More from the blogs</p>
           <div class="sdoc-related-grid">
             {more.map((m) => (
-              <a class="sdoc-related-card" href={`/said-and-done/blog/${m.id}/`}>
+              <a
+                class="sdoc-related-card"
+                href={`/said-and-done/blog/${m.id}/`}
+              >
                 <h3>{m.data.title}</h3>
                 <span>Said and Done · {stamp(m.data.pubDate)}</span>
               </a>
