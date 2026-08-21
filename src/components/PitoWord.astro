@@ -1,0 +1,35 @@
+---
+interface Props {
+  href?: string;
+}
+
+const { href = "/" } = Astro.props;
+---
+
+<a class="pito-word" href={href} aria-label="pitomd.com">PITO</a>
+
+<style>
+  .pito-word {
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.22em;
+    line-height: 1;
+    background: linear-gradient(90deg, #ff6ec7, #8083fb, #5170ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    position: relative;
+    text-decoration: none;
+  }
+
+  .pito-word::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0.2em;
+    bottom: -0.18em;
+    height: 1px;
+    background: linear-gradient(90deg, #ff6ec7, #8083fb, #5170ff);
+  }
+</style>

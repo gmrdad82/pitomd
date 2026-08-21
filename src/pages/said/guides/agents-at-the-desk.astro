@@ -1,0 +1,76 @@
+---
+import SaidDocsLayout from "../../../layouts/SaidDocsLayout.astro";
+import SaidShot from "../../../components/SaidShot.astro";
+import SaidPlaceholder from "../../../components/SaidPlaceholder.astro";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Connect your AI agent to your Said desk",
+  description:
+    "Connect an MCP agent to Said and let it file its own work under its own name.",
+  step: [
+    { "@type": "HowToStep", name: "Add Said as an MCP server" },
+    { "@type": "HowToStep", name: "Ask for something real" },
+    { "@type": "HowToStep", name: "Work the same card together" },
+  ],
+};
+---
+
+<SaidDocsLayout
+  title="Let your agent in — Said guides"
+  description="Connect an MCP agent to your Said desk and watch it file its own work under its own name."
+  section="guides"
+  kicker="Guide 03"
+  heading="Let your agent in"
+  dek="One line of setup, a named teammate."
+  slug="agents-at-the-desk"
+  jsonLd={jsonLd}
+>
+  <p>
+    Said speaks MCP — the protocol AI agents use to work with tools. Connected,
+    an agent can read your boards, search your notes, file cards, move them, and
+    leave notes in card threads. Signed, every time, with its own name.
+  </p>
+
+  <h2 id="connect">1 · Connect</h2>
+  <pre><code>said mcp</code></pre>
+  <p>
+    Register that command as a stdio server in your agent's MCP settings —
+    whichever assistant you run, it is one line in its config. The agent now
+    carries the desk's tools: listing boards, searching, adding and moving
+    cards, leaving notes, reading the exact lines a card references.
+  </p>
+
+  <h2 id="real-work">2 · Ask for something real</h2>
+  <p>
+    Tell your agent to sweep your notes for loose ends and file each one as a
+    card with a reference to the lines it came from. Then open the board — the
+    new cards are there, each naming the agent that made it.
+  </p>
+  <SaidShot
+    src="/said/shots/casefile.png"
+    alt="A case file where agent:builder reports its fix in the thread, signed by name"
+  />
+
+  <h2 id="together">3 · Work the same card together</h2>
+  <p>
+    Nobody owns a card. You can be editing while an agent leaves a note; its
+    words land in the thread under its name, next to yours. The history keeps
+    everyone honest — every move records who, when, and from where. From your
+    phone, the remote client shows the same desk the agents are working.
+  </p>
+  <div style="max-width: 320px;">
+    <SaidPlaceholder
+      label="Capture coming — the remote client view"
+      ratio="9 / 16"
+    />
+  </div>
+
+  <h2 id="limits">What it can't do</h2>
+  <ul>
+    <li>It can't edit your markdown — your files aren't its to touch.</li>
+    <li>It can't act unasked — an agent works when you set it working.</li>
+    <li>It can't hide — there is no anonymous move in this house.</li>
+  </ul>
+</SaidDocsLayout>

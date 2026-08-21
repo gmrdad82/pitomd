@@ -1,49 +1,30 @@
 ---
-import SaidLayout from "../../../layouts/SaidLayout.astro";
-
-const guides = [
-  {
-    href: "/said/guides/first-boot/",
-    title: "First boot, first board",
-    blurb:
-      "Install Said, point it at your notes, pick its face, and land on a working board — in about three minutes.",
-  },
-  {
-    href: "/said/guides/the-keyboard/",
-    title: "The keyboard is the desk",
-    blurb:
-      "Every flow without the mouse: moving between cards, opening them, filing them, finding them.",
-  },
-  {
-    href: "/said/guides/claude-at-the-desk/",
-    title: "Let Claude in",
-    blurb:
-      "Connect a Claude session to your desk over MCP and watch it file its own work under its own name.",
-  },
-];
+import SaidDocsLayout from "../../../layouts/SaidDocsLayout.astro";
+import { saidGuides } from "../../../data/said-guides";
 ---
 
-<SaidLayout
-  title="Guides — Said by PITO"
-  description="Step-by-step guides for Said: first boot, the keyboard, and connecting Claude to your desk."
-  active="guides"
+<SaidDocsLayout
+  title="Guides — Said"
+  description="Step-by-step guides for Said: first boot, the keyboard, and connecting your AI agents to your desk."
+  section="guides"
+  kicker="Guides"
+  heading="Shown, step by step."
+  dek="Each guide walks one feature from cold start to habit — short, honest, and in the order the desk teaches them."
 >
-  <div class="said-list">
-    <header class="said-list-head">
-      <div class="said-eyebrow">Guides</div>
-      <h1>Shown, step by step.</h1>
-      <p>
-        Each guide walks one feature from cold start to habit. Short, honest,
-        and in the order the desk teaches them.
-      </p>
-    </header>
+  <div class="sdoc-entrylist" style="margin-top: 28px;">
     {
-      guides.map((g) => (
-        <a class="said-entry" href={g.href}>
-          <h2>{g.title}</h2>
+      saidGuides.map((g, i) => (
+        <a class="sdoc-entry" href={`/said/guides/${g.slug}/`}>
+          <p class="sdoc-guide-kicker">
+            Guide 0{i + 1} · {g.sections.length} steps
+          </p>
+          <h2>
+            {g.title.endsWith(".") ? g.title.slice(0, -1) : g.title}
+            <span class="sdoc-dot">.</span>
+          </h2>
           <p>{g.blurb}</p>
         </a>
       ))
     }
   </div>
-</SaidLayout>
+</SaidDocsLayout>

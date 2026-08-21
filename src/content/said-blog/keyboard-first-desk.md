@@ -1,6 +1,7 @@
 ---
 title: "Keyboard first: a desk you never leave"
 description: "One rule — keys reach only the topmost screen — and why refusing global shortcuts makes an app learnable in a day."
+published: false
 pubDate: 2026-08-31
 ---
 

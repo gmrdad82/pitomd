@@ -1,59 +1,89 @@
 ---
-import SaidLayout from "../../../layouts/SaidLayout.astro";
-import SaidPlaceholder from "../../../components/SaidPlaceholder.astro";
+import SaidDocsLayout from "../../../layouts/SaidDocsLayout.astro";
+import SaidShot from "../../../components/SaidShot.astro";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  headline: "The keyboard is the desk",
+  description:
+    "Every Said flow without the mouse: one rule, a handful of keys, no modes.",
+};
 ---
 
-<SaidLayout
+<SaidDocsLayout
   title="The keyboard is the desk — Said guides"
   description="Every Said flow without the mouse: moving between cards, opening them, filing them, finding them."
-  active="guides"
+  section="guides"
+  kicker="Guide 02"
+  heading="The keyboard is the desk"
+  dek="One rule, a handful of keys, no modes."
+  slug="the-keyboard"
+  jsonLd={jsonLd}
 >
-  <article class="said-article">
-    <h1>The keyboard is the desk</h1>
-    <p class="said-meta">One rule, a handful of keys, no modes.</p>
+  <h2 id="one-rule">The one rule</h2>
+  <p>
+    Said has one keyboard law and it never bends: <strong
+      >a key goes to the topmost screen, and nowhere else</strong
+    >. If the screen on top doesn't claim it, the key is dropped — it never
+    falls through to the board underneath, never triggers something you can't
+    see. There are no global shortcuts. Not for quit, not for search, not for
+    anything.
+  </p>
+  <p>
+    This sounds strict until you feel it. Every keypress is predictable from
+    what's in front of your eyes, the help screen only ever shows keys that work
+    right now, and a focused text field simply eats the keys — no modes to fall
+    out of, no wrong-mode disasters to recover from.
+  </p>
 
-    <p>
-      Said has one keyboard rule and it never bends: a key goes to the topmost
-      screen and nowhere else. No global shortcuts, no hidden modes, no key that
-      reaches past what you're looking at. When a text field has focus, it eats
-      the keys — that's the whole system.
-    </p>
+  <h2 id="moving">Moving around</h2>
+  <ul>
+    <li>
+      <code>arrows</code> or <code>h j k l</code> — walk the cards and lanes.
+    </li>
+    <li><code>enter</code> or <code>o</code> — open the picked card.</li>
+    <li><code>esc</code> — close the topmost screen, always.</li>
+    <li><code>tab</code> — hop to the next lane, keeping your row feel.</li>
+  </ul>
+  <SaidShot
+    src="/said/shots/board.png"
+    alt="The board with the cursor picked on a card, the ticker naming live keys"
+  />
 
-    <h2>Moving around</h2>
-    <ul>
-      <li>
-        <code>arrows</code> or <code>h j k l</code> — walk the cards and lanes.
-      </li>
-      <li><code>enter</code> — open the card under the cursor.</li>
-      <li><code>esc</code> — close the topmost screen, always.</li>
-    </ul>
-    <SaidPlaceholder label="Capture — cursor walking the board" />
+  <h2 id="making">Making and moving</h2>
+  <ul>
+    <li><code>n</code> — a new card.</li>
+    <li><code>e</code> — edit the picked card, title focused.</li>
+    <li>
+      <code>shift + h/l</code> — carry the picked card a lane left or right;
+      <code>shift + j/k</code> moves it within its lane.
+    </li>
+    <li>
+      <code>r</code> — resolve: done, dropped, or not relevant. The record keeps which.
+    </li>
+  </ul>
+  <p>
+    On the dossier face the same <code>enter</code> opens the card's case file instead
+    — deciding keys on the board, understanding keys on the record.
+  </p>
 
-    <h2>Making and moving</h2>
-    <ul>
-      <li><code>n</code> — a new card.</li>
-      <li>
-        Move a card between lanes from its own screen — or drag it; the mouse
-        can do everything the keys can.
-      </li>
-      <li>Resolving asks how it ended: done, abandoned, or not relevant.</li>
-    </ul>
+  <h2 id="finding">Finding</h2>
+  <ul>
+    <li>
+      <code>/</code> — the finder, every project answering; <code>?</code>
+      keeps it to this project.
+    </li>
+    <li><code>p</code> — switch project; <code>b</code> — switch board.</li>
+    <li><code>space h</code> — the key help, honest by construction.</li>
+  </ul>
+  <SaidShot
+    src="/said/shots/finder.png"
+    alt="The finder open over the board, exact and meaning hits together"
+  />
 
-    <h2>Finding</h2>
-    <ul>
-      <li>
-        <code>/</code> — the finder: exact words and meaning, side by side.
-      </li>
-      <li>
-        <code>?</code> — the key help, which only ever shows keys that work right
-        now.
-      </li>
-    </ul>
-    <SaidPlaceholder label="Capture — the finder" />
-
-    <p>
-      If a key is shown on screen, it works. If it isn't, it doesn't. You can
-      trust your hands to learn the desk in a day.
-    </p>
-  </article>
-</SaidLayout>
+  <p>
+    If a key is shown on screen, it works. If it isn't, it doesn't. You can
+    trust your hands to learn the desk in a day.
+  </p>
+</SaidDocsLayout>

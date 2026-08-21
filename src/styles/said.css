@@ -1,22 +1,3 @@
-@font-face {
-  font-family: "JetBrains Mono";
-  src: url("/said/fonts/JetBrainsMono-Regular-latin.ttf") format("truetype");
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "JetBrains Mono";
-  src: url("/said/fonts/JetBrainsMono-Medium-latin.ttf") format("truetype");
-  font-weight: 500 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Martian Mono";
-  src: url("/said/fonts/MartianMono-Medium-latin.ttf") format("truetype");
-  font-weight: 500 700;
-  font-display: swap;
-}
-
 .said {
   --said-ink: #eceff4;
   --said-dim: #abb4c8;
@@ -33,6 +14,7 @@
   --said-line-soft: rgb(148 225 255 / 10%);
   --said-body: "JetBrains Mono", ui-monospace, monospace;
   --said-display: "Martian Mono", ui-monospace, monospace;
+  --said-gutter: clamp(20px, 5vw, 72px);
 
   margin: 0;
   background: var(--said-deep);
@@ -41,6 +23,7 @@
   font-size: 16px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 .said *,
@@ -54,10 +37,20 @@
   color: var(--said-deep);
 }
 
+.said img {
+  max-width: 100%;
+  display: block;
+}
+
 .said-wrap {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 0 24px;
+  width: 100%;
+  padding: 0 var(--said-gutter);
+}
+
+.said-measure {
+  max-width: 68ch;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .said-nav {
@@ -76,63 +69,39 @@
   height: 64px;
 }
 
-.said-lockup {
-  display: flex;
-  align-items: center;
-  gap: 0.55em;
-  text-decoration: none;
-}
-
-.said-mark {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  display: block;
-}
-
 .said-mark-hero {
-  width: 76px;
-  height: 76px;
-  border-radius: 17px;
+  width: clamp(96px, 12vw, 148px);
+  height: clamp(96px, 12vw, 148px);
+  border-radius: 24%;
+  margin: 0 auto 6px;
+  border: 1px solid rgb(148 225 255 / 28%);
+  box-shadow:
+    0 0 0 1px rgb(6 11 20 / 70%),
+    0 0 80px -12px rgb(15 168 240 / 65%),
+    0 30px 70px -30px rgb(0 0 0 / 80%);
+  animation: said-float 6s ease-in-out infinite;
 }
 
-.said-lockup-product {
-  font-family: var(--said-display);
-  font-weight: 700;
-  font-size: 1.35rem;
-  color: var(--said-ink);
+@keyframes said-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
 }
 
-.said-lockup-joiner {
-  font-size: 0.8rem;
-  color: var(--said-faint);
-}
-
-.said-brand {
-  font-family: var(--said-display);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  background: linear-gradient(90deg, #ff6ec7, #8083fb, #5170ff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  position: relative;
-  padding-bottom: 2px;
-}
-
-.said-brand::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: linear-gradient(90deg, #ff6ec7, #8083fb, #5170ff);
+@media (prefers-reduced-motion: reduce) {
+  .said-mark-hero {
+    animation: none;
+  }
 }
 
 .said-nav-links {
   display: flex;
-  gap: 26px;
+  gap: clamp(14px, 3vw, 28px);
 }
 
 .said a.said-link {
@@ -151,16 +120,94 @@
 }
 
 .said-hero {
-  min-height: 92svh;
+  position: relative;
+  overflow: hidden;
+  min-height: 94svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 26px;
-  padding: 96px 0 64px;
+  align-items: center;
+  text-align: center;
+  gap: 28px;
+  padding: 110px var(--said-gutter) 40px;
+  background: radial-gradient(
+    ellipse 90% 55% at 50% -10%,
+    rgb(15 168 240 / 14%),
+    transparent 70%
+  );
+}
+
+.said-hero > :not(.fx-aurora) {
+  position: relative;
+  z-index: 1;
+}
+
+.fx-aurora {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.said-fan {
+  perspective: 1700px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: min(1500px, 100%);
+  margin-top: clamp(30px, 6vh, 64px);
+}
+
+.said-fan-side {
+  width: 30%;
+  flex: 0 0 30%;
+}
+
+.said-fan-center {
+  width: 52%;
+  flex: 0 0 52%;
+  z-index: 2;
+}
+
+.said-fan .said-shot.said-shot {
+  margin: 0;
+  width: 100%;
+}
+
+.said-fan-left .said-shot {
+  transform: rotateY(24deg) translateX(10%) scale(0.94);
+  transform-origin: right center;
+  opacity: 0.75;
+}
+
+.said-fan-right .said-shot {
+  transform: rotateY(-24deg) translateX(-10%) scale(0.94);
+  transform-origin: left center;
+  opacity: 0.75;
+}
+
+.said-fan-center .said-shot {
+  box-shadow:
+    0 0 0 1px rgb(6 11 20 / 60%),
+    0 0 120px -20px rgb(15 168 240 / 45%),
+    0 50px 140px -40px rgb(0 0 0 / 85%);
+}
+
+@media (width <= 760px) {
+  .said-fan-side {
+    display: none;
+  }
+
+  .said-fan-center {
+    width: 100%;
+    flex: 0 0 100%;
+  }
 }
 
 .said-eyebrow {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   letter-spacing: 0.35em;
   text-transform: uppercase;
   color: var(--said-faint);
@@ -170,37 +217,50 @@
   margin: 0;
   font-family: var(--said-display);
   font-weight: 700;
-  font-size: clamp(4rem, 11vw, 9rem);
-  line-height: 1.02;
+  font-size: clamp(4.5rem, 15vw, 13rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
   color: var(--said-ink);
 }
 
+.said-frame h2 .dot,
 .said-hero h1 .dot {
   color: var(--said-blue);
 }
 
+.said-hero h1.said-hero-name {
+  font-size: clamp(2.9rem, 10.5vw, 9rem);
+}
+
+.said-hero-name .hn-said {
+  color: var(--said-ink);
+}
+
+.said-hero-name .hn-done {
+  color: var(--said-blue);
+}
+
 .said-hero-sub {
-  max-width: 560px;
-  font-size: 1.2rem;
+  max-width: 58ch;
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
   color: var(--said-dim);
+  margin: 0;
 }
 
 .said-tagline {
   font-family: var(--said-display);
   font-weight: 700;
-  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  font-size: clamp(1.4rem, 3.4vw, 2.6rem);
+  display: inline-flex;
+  gap: 0.32em;
 }
 
 .said-tagline .t-said {
-  color: var(--said-sky);
-}
-
-.said-tagline .t-and {
-  color: var(--said-faint);
+  color: var(--said-ink);
 }
 
 .said-tagline .t-done {
-  color: var(--said-done);
+  color: var(--said-blue);
 }
 
 .said-cta-row {
@@ -208,89 +268,225 @@
   flex-wrap: wrap;
   gap: 16px;
   align-items: center;
-}
-
-.said-btn {
-  display: inline-block;
-  font-family: var(--said-body);
-  font-weight: 700;
-  font-size: 0.95rem;
-  padding: 14px 22px;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: filter 140ms ease;
-}
-
-.said-btn:hover {
-  filter: brightness(1.12);
-}
-
-.said-btn-primary {
-  background: var(--said-blue);
-  color: #06131d;
-}
-
-.said-btn-ghost {
-  border: 1px solid rgb(148 225 255 / 30%);
-  color: var(--said-ink);
+  justify-content: center;
 }
 
 .said-frame {
-  padding: 16vh 0;
+  padding: clamp(90px, 16vh, 190px) 0;
+  text-align: center;
+}
+
+.said-frame--tile {
+  background: var(--said-tile);
   border-top: 1px solid var(--said-line-soft);
+  border-bottom: 1px solid var(--said-line-soft);
 }
 
 .said-kicker {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--said-blue);
-  margin: 0 0 14px;
+  margin: 0 0 18px;
 }
 
 .said-frame h2 {
-  margin: 0 0 18px;
+  margin: 0 auto 22px;
+  text-wrap: balance;
+  max-width: 22ch;
   font-family: var(--said-display);
   font-weight: 700;
-  font-size: clamp(2.1rem, 5.5vw, 3.6rem);
-  line-height: 1.12;
+  font-size: clamp(2.4rem, 6.5vw, 5rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
   color: var(--said-ink);
 }
 
 .said-frame p {
-  max-width: 580px;
-  margin: 0 0 14px;
+  max-width: 62ch;
+  margin: 0 auto 16px;
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
 }
 
-.said-frame ul {
-  max-width: 580px;
-  margin: 0 0 14px;
-  padding-left: 1.2em;
+.said-frame p.said-note,
+.said-frame .said-tilelabel {
+  font-size: 0.95rem;
+  color: var(--said-faint);
 }
 
-.said-frame li {
-  margin: 6px 0;
+.said-tiers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(14px, 2vw, 24px);
+  width: min(880px, 100%);
+  margin: clamp(26px, 4vh, 44px) auto;
+}
+
+.said-tier-card {
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid transparent;
+  border-radius: 18px;
+  background:
+    linear-gradient(var(--said-card), var(--said-card)) padding-box,
+    conic-gradient(
+        from var(--said-sheen),
+        rgb(148 225 255 / 14%),
+        rgb(137 174 244 / 45%) 18%,
+        rgb(148 225 255 / 14%) 42%,
+        rgb(15 168 240 / 40%) 70%,
+        rgb(148 225 255 / 14%)
+      )
+      border-box;
+  animation: said-sheen 18s linear infinite;
+  text-align: left;
+}
+
+.said-tier-card.is-paid {
+  background:
+    linear-gradient(var(--said-card), var(--said-card)) padding-box,
+    conic-gradient(
+        from var(--said-sheen),
+        rgb(15 168 240 / 45%),
+        rgb(148 225 255 / 90%) 16%,
+        rgb(15 168 240 / 45%) 38%,
+        rgb(137 174 244 / 70%) 64%,
+        rgb(15 168 240 / 45%)
+      )
+      border-box;
+  animation: said-sheen 12s linear infinite;
+  box-shadow: 0 0 60px -26px rgb(15 168 240 / 55%);
+}
+
+.said-tier-card h3 {
+  margin: 0 0 12px;
+  font-family: var(--said-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--said-ink);
+}
+
+.said-tier-card.is-paid h3 {
+  color: var(--said-blue);
+}
+
+.said-tier-card ul {
+  margin: 0;
+  padding-left: 1.15em;
+}
+
+.said-tier-card li {
+  margin: 8px 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+@media (width <= 640px) {
+  .said-tiers {
+    grid-template-columns: 1fr;
+  }
+}
+
+.said-tilelabel {
+  font-size: 0.95rem;
+  color: var(--said-faint);
+}
+
+.said-note {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 600ms cubic-bezier(0.2, 0.7, 0.2, 1) 150ms,
+    transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1) 150ms;
+}
+
+.said-note.lit {
+  opacity: 1;
+  transform: none;
+}
+
+.said-note::before {
+  content: "// ";
+  color: var(--said-blue);
+}
+
+.said-note {
+  white-space: pre-wrap;
+}
+
+@property --said-sheen {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+
+@keyframes said-sheen {
+  to {
+    --said-sheen: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .said-tier-card {
+    animation: none;
+  }
 }
 
 .said-duo {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-top: 34px;
+  gap: clamp(16px, 2.5vw, 28px);
+  width: min(1360px, 100%);
+  margin: clamp(34px, 6vh, 64px) auto 0;
 }
 
-.said-visual {
-  margin-top: 34px;
+.said-duo .said-shot.said-shot {
+  width: 100%;
+  margin: 0;
 }
+
 
 .said-tilelabel {
-  margin-top: 10px;
-  font-size: 0.85rem;
+  margin-top: 26px;
+  font-size: 0.9rem;
   color: var(--said-faint);
+  text-align: center;
+  text-wrap: balance;
 }
 
 .said-tilelabel strong {
   color: var(--said-ink);
+}
+
+.said-bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(12px, 2vw, 22px);
+  width: min(1360px, 100%);
+  margin: clamp(34px, 6vh, 60px) auto 0;
+}
+
+.said-bento-tile {
+  padding: clamp(20px, 2.6vw, 34px) clamp(16px, 2vw, 28px);
+  border: 1px solid var(--said-line);
+  border-radius: 18px;
+  background: var(--said-card);
+  text-align: left;
+}
+
+.said-bento-tile h3 {
+  margin: 0 0 8px;
+  font-family: var(--said-display);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 2vw, 1.6rem);
+  color: var(--said-sky);
+}
+
+.said-bento-tile p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--said-dim);
+  max-width: none;
 }
 
 .said-placeholder {
@@ -315,18 +511,27 @@
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--said-faint);
+  padding: 0 16px;
 }
 
 .said-reveal {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(34px);
   transition:
-    opacity 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
-    transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    opacity 800ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 800ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .said-reveal.lit {
   opacity: 1;
+  transform: none;
+}
+
+.said-zoom {
+  transform: translateY(34px) scale(0.965);
+}
+
+.said-zoom.lit {
   transform: none;
 }
 
@@ -358,123 +563,27 @@
   }
 }
 
-.said-article {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 72px 24px 96px;
+.said-roll {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(14px, 2vw, 24px);
+  width: 100%;
+  margin-top: clamp(34px, 6vh, 60px);
 }
 
-.said-article h1 {
-  font-family: var(--said-display);
-  font-weight: 700;
-  font-size: clamp(2rem, 5vw, 3rem);
-  line-height: 1.15;
-  color: var(--said-ink);
-  margin: 0 0 10px;
-}
-
-.said-article h2 {
-  font-family: var(--said-display);
-  font-weight: 700;
-  font-size: 1.45rem;
-  color: var(--said-ink);
-  margin: 42px 0 12px;
-}
-
-.said-article h3 {
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: var(--said-ink);
-  margin: 30px 0 8px;
-}
-
-.said-article p,
-.said-article li {
-  color: var(--said-dim);
-}
-
-.said-article ol,
-.said-article ul {
-  padding-left: 1.3em;
-}
-
-.said-article li {
-  margin: 8px 0;
-}
-
-.said-article code {
-  background: var(--said-card);
-  border: 1px solid var(--said-line-soft);
-  border-radius: 6px;
-  padding: 0.1em 0.4em;
-  font-size: 0.9em;
-  color: var(--said-sky);
-}
-
-.said-article pre {
-  background: var(--said-card);
-  border: 1px solid var(--said-line-soft);
-  border-radius: 12px;
-  padding: 16px 18px;
-  overflow-x: auto;
-}
-
-.said-article pre code {
-  background: none;
-  border: 0;
-  padding: 0;
-}
-
-.said-article blockquote {
-  margin: 18px 0;
-  padding: 4px 0 4px 18px;
-  border-left: 2px solid var(--said-blue);
-  color: var(--said-dim);
-}
-
-.said-article a {
-  color: var(--said-sky);
-  font-weight: 700;
-  text-decoration: none;
-  transition: filter 140ms ease;
-}
-
-.said-article a:hover {
-  filter: brightness(1.2);
-}
-
-.said-meta {
-  font-size: 0.85rem;
-  color: var(--said-faint);
-  margin: 0 0 34px;
-}
-
-.said-list {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 72px 24px 96px;
-}
-
-.said-list-head {
-  margin-bottom: 46px;
-}
-
-.said-list-head h1 {
-  font-family: var(--said-display);
-  font-weight: 700;
-  font-size: clamp(2.2rem, 6vw, 3.4rem);
-  color: var(--said-ink);
-  margin: 0 0 12px;
+.said-roll .said-entry {
+  margin: 0;
 }
 
 .said-entry {
   display: block;
-  padding: 22px 24px;
+  padding: 24px;
   margin: 0 0 16px;
   border: 1px solid var(--said-line);
-  border-radius: 16px;
+  border-radius: 18px;
   background: var(--said-card);
   text-decoration: none;
+  text-align: left;
   transition: filter 140ms ease;
 }
 
@@ -482,18 +591,21 @@
   filter: brightness(1.12);
 }
 
-.said-entry h2 {
-  margin: 0 0 6px;
+.said-entry h2,
+.said-entry h3 {
+  margin: 0 0 8px;
   font-family: var(--said-display);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.12rem;
+  line-height: 1.35;
   color: var(--said-ink);
 }
 
 .said-entry p {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   color: var(--said-dim);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
+  max-width: none;
 }
 
 .said-entry-meta {
@@ -501,61 +613,89 @@
   color: var(--said-faint);
 }
 
-.said-scheduled {
+.said-badge {
   display: inline-block;
   margin-left: 10px;
   padding: 1px 9px;
-  border: 1px solid rgb(240 104 122 / 55%);
   border-radius: 999px;
   font-size: 0.72rem;
+}
+
+.said-badge-scheduled {
+  border: 1px solid rgb(148 225 255 / 45%);
+  color: var(--said-sky);
+}
+
+.said-badge-draft {
+  border: 1px solid rgb(240 104 122 / 55%);
   color: var(--said-dropped);
 }
 
-.said-footer {
-  border-top: 1px solid var(--said-line-soft);
-  padding: 64px 0 48px;
+@media (width <= 900px) {
+  .said-bento {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .said-roll {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-.said-footer-tag {
-  font-family: var(--said-display);
-  font-weight: 700;
-  font-size: 1.3rem;
-}
+@media (width <= 640px) {
+  .said-hero {
+    min-height: 86svh;
+    gap: 22px;
+    padding-top: 84px;
+  }
 
-.said-footer-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 18px;
-  margin-top: 18px;
-}
+  .said-frame h2 {
+    margin-bottom: 14px;
+  }
 
-.said-footer-legal {
-  font-size: 0.8rem;
-  color: var(--said-faint);
-  text-align: right;
-  flex: 1;
-}
+  .said-tiers {
+    grid-template-columns: 1fr;
+  }
 
-.said-footer a {
-  color: var(--said-sky);
-  font-weight: 700;
-  text-decoration: none;
-}
+  .said-tilelabel {
+    font-size: 0.88rem;
+  }
 
-@media (width <= 720px) {
+  .said-cta-row {
+    margin-top: 8px;
+  }
+
+  .said-hero-sub {
+    font-size: 0.92rem;
+  }
+
+  .said-fan {
+    margin-top: 22px;
+  }
+
+  .said-frame {
+    padding: 64px 0;
+  }
+
   .said-duo {
     grid-template-columns: 1fr;
   }
 
+  .said-roll {
+    grid-template-columns: 1fr;
+  }
+
+  .said-bento {
+    grid-template-columns: 1fr;
+  }
+
   .said-nav-links {
-    gap: 16px;
+    gap: 14px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .said-reveal,
+  .said-zoom,
   .said-rise,
   .said-rise-2,
   .said-rise-3,
@@ -565,4 +705,104 @@
     transition: none;
     animation: none;
   }
+}
+
+.said-dl-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 2vw, 24px);
+  width: min(1100px, 100%);
+  margin: 0 auto;
+}
+
+.said-dl-card {
+  padding: clamp(24px, 3vw, 36px) clamp(20px, 2.4vw, 30px);
+  border: 1px solid var(--said-line);
+  border-radius: 20px;
+  background: var(--said-card);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.said-dl-card.is-yours {
+  border-color: var(--said-blue);
+  box-shadow: 0 0 70px -26px rgb(15 168 240 / 55%);
+}
+
+.said-dl-os {
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--said-blue);
+}
+
+.said-dl-card h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  max-width: none;
+  text-align: left;
+}
+
+.said-dl-card p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  max-width: none;
+  flex: 1;
+  text-align: left;
+}
+
+@media (width <= 760px) {
+  .said-dl-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.said {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / 14%) transparent;
+}
+
+.said::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.said::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.said::-webkit-scrollbar-thumb {
+  background: rgb(255 255 255 / 14%);
+  border-radius: 999px;
+}
+
+.said::-webkit-scrollbar-thumb:hover {
+  background: rgb(255 255 255 / 24%);
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(148 225 255 / 28%) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(148 225 255 / 25%);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(148 225 255 / 40%);
 }

@@ -1,0 +1,62 @@
+---
+import SaidLayout from "../../layouts/SaidLayout.astro";
+---
+
+<SaidLayout
+  title="Buy Said — 4.99€, yours forever"
+  description="One 4.99€ licence unlocks unlimited projects, boards, files, and references on two devices — pay once, keep it forever."
+  active="buy"
+>
+  <header class="said-hero" style="min-height: 52svh;">
+    <canvas class="fx-aurora" aria-hidden="true"></canvas>
+    <div class="said-eyebrow said-rise">Buy Said</div>
+    <h1
+      class="said-rise said-rise-2"
+      style="font-size: clamp(2.4rem, 7vw, 5.5rem);"
+    >
+      Everything<span class="dot">.</span> 4<span class="dot">.</span>99€<span class="dot">.</span>
+    </h1>
+    <p class="said-hero-sub said-rise said-rise-3">
+      One payment, no subscription, no account. The free desk is yours on
+      unlimited devices — the licence takes the caps off.
+    </p>
+  </header>
+
+  <section class="said-frame" style="padding-top: 30px;">
+    <div class="said-wrap said-reveal">
+      <div class="said-tiers">
+        <div class="said-tier-card">
+          <h3>Free</h3>
+          <ul>
+            <li>The whole desk — board, dossier, search, backups</li>
+            <li>Unlimited devices</li>
+            <li>Up to 5 projects, 10 boards, 100 cards</li>
+          </ul>
+        </div>
+        <div class="said-tier-card is-paid">
+          <h3>Licensed · 4.99€</h3>
+          <ul>
+            <li>Unlimited projects, boards, files, references, topics</li>
+            <li>One key covers 2 devices, moved freely</li>
+            <li>Yours forever — every 1.x update included</li>
+            <li>The key arrives by mail the moment payment lands</li>
+          </ul>
+        </div>
+      </div>
+      <div class="said-cta-row" style="margin-top: 34px;">
+        <span class="said-btn said-btn-primary said-buy-btn"
+          >Buy Said — 4.99€ · checkout opens soon</span
+        >
+      </div>
+      <p class="said-note" style="margin-top: 30px;">
+        Stripe checkout is being wired up for the release. Friends and family:
+        you know where to find me — keys are minted by hand.
+      </p>
+      <div class="said-cta-row" style="margin-top: 20px;">
+        <a class="said-btn said-btn-ghost" href="/said/download/"
+          >See the installers</a
+        >
+      </div>
+    </div>
+  </section>
+</SaidLayout>

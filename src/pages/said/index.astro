@@ -1,78 +1,80 @@
 ---
+import SaidShot from "../../components/SaidShot.astro";
 import SaidLayout from "../../layouts/SaidLayout.astro";
-import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
 ---
 
 <SaidLayout
-  title="Said by PITO — the personal kanban that keeps its word"
+  title="Said — the desk that keeps its word"
   description="Your markdown notes become projects, boards, and cards — local, keyboard-first, with an AI teammate that signs its work. Said and Done."
 >
-  <header class="said-hero said-wrap">
+  <header class="said-hero">
+    <canvas class="fx-aurora" aria-hidden="true"></canvas>
     <img
       class="said-mark said-mark-hero said-rise"
       src="/said/icon.svg"
       alt="The Said mark — three spoken lines, the last one answered with a check"
     />
-    <div class="said-eyebrow said-rise">
-      Said by <span class="said-brand">PITO</span>
-    </div>
-    <h1 class="said-rise said-rise-2">Said<span class="dot">.</span></h1>
+    <h1 class="said-hero-name said-comet">
+      <span class="hn-said">Said and</span>{" "}<span class="hn-done"
+        >Done.</span
+      >
+    </h1>
     <p class="said-hero-sub said-rise said-rise-3">
-      The personal kanban that lives where your notes live. One desk, your own
-      machine, and every word kept.
+      The desk that lives where your notes live.
     </p>
-    <div class="said-tagline said-rise said-rise-3">
-      <span class="t-said">Said</span>
-      <span class="t-and">and</span>
-      <span class="t-done">Done.</span>
-    </div>
     <div class="said-cta-row said-rise said-rise-4">
       <a class="said-btn said-btn-primary" href="/said/tour/">Take the tour</a>
       <a class="said-btn said-btn-ghost" href="/said/guides/">Read the guides</a
       >
     </div>
-    <div class="said-visual said-rise said-rise-4">
-      <SaidPlaceholder label="Hero loop — the desk in motion" ratio="21 / 9" />
+    <div class="said-fan said-rise said-rise-4">
+      <div class="said-fan-side said-fan-left">
+        <SaidShot src="/said/shots/dossier.png" alt="" eager />
+      </div>
+      <div class="said-fan-center">
+        <SaidShot src="/said/shots/board.png" alt="The Said board — four lanes carrying real cards, each with references into markdown notes" eager />
+      </div>
+      <div class="said-fan-side said-fan-right">
+        <SaidShot src="/said/shots/casefile.png" alt="" eager />
+      </div>
     </div>
   </header>
 
   <section class="said-frame">
     <div class="said-wrap said-reveal">
       <p class="said-kicker">01 · The notes are the plan</p>
-      <h2>Your notes are already the plan.</h2>
-      <p>
+      <h2>Your notes are already the plan<span class="dot">.</span></h2>
+      <p class="said-note">
         Point Said at the folder where your thinking lives. Every folder inside
-        becomes a project with its own boards; nothing is copied, nothing is
-        moved. Cards reference the exact lines in your markdown that they came
-        from — the plan and the work never drift apart.
+        becomes a project; nothing is copied, nothing is moved. Cards reference
+        the exact lines in your markdown they came from — so the plan and the
+        work never drift apart.
       </p>
-      <div class="said-visual">
-        <SaidPlaceholder label="Folder → projects → boards" />
-      </div>
+      <SaidShot src="/said/shots/reference.png" alt="A card's reference read in place — the markdown lines it points at, rendered inside the card" class="said-reveal said-zoom" />
     </div>
   </section>
 
-  <section class="said-frame">
+  <section class="said-frame said-frame--tile">
     <div class="said-wrap said-reveal">
       <p class="said-kicker">02 · Two faces</p>
-      <h2>Two faces. One desk.</h2>
-      <p>
+      <h2>Two faces<span class="dot">.</span> One desk<span class="dot">.</span></h2>
+      <p class="said-note">
         The board carries cards across lanes when you are deciding. The dossier
         reads the same cards as one running record when you are understanding.
-        Open any card as a case file: its whole life — every move, every word,
-        every reopen — on one sheet.
+        Open any card as a case file: its whole life on one sheet.
       </p>
       <div class="said-duo">
         <div>
-          <SaidPlaceholder label="The board — living lanes" ratio="4 / 3" />
+          <SaidShot src="/said/shots/dossier.png" alt="The dossier face — one running record of every card, freshest first" class="said-reveal said-zoom" />
           <p class="said-tilelabel">
-            <strong>The board.</strong> Lanes carry the cards until they land in done.
+            <strong>The dossier.</strong> One record, the freshest word on top.
           </p>
         </div>
         <div>
-          <SaidPlaceholder label="The dossier — falling record" ratio="4 / 3" />
+          <SaidShot src="/said/shots/wizard-face.png" alt="First boot asks how your work should face you — both previews animate live" class="said-reveal said-zoom" />
           <p class="said-tilelabel">
-            <strong>The dossier.</strong> One record, the freshest word on top.
+            <strong>The chooser.</strong> First boot asks; Settings can always change
+            your mind.
           </p>
         </div>
       </div>
@@ -82,39 +84,63 @@ import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
   <section class="said-frame">
     <div class="said-wrap said-reveal">
       <p class="said-kicker">03 · A named teammate</p>
-      <h2>A teammate that signs its work.</h2>
-      <p>
-        Claude sits at the same desk through its own door. It reads your boards,
-        searches your notes, files cards, and leaves comments — every move
-        signed with its own name in the history. Never anonymous, never touching
-        a thing you didn't ask it to.
+      <h2>A teammate that signs its work<span class="dot">.</span></h2>
+      <p class="said-note">
+        Your AI agent sits at the same desk through its own door. It files
+        cards, moves them, and speaks in threads — every action signed with its
+        own name in the history, exactly the way yours carries yours.
       </p>
-      <div class="said-visual">
-        <SaidPlaceholder label="The thread — owner and claude, named" />
-      </div>
+      <SaidShot src="/said/shots/casefile.png" alt="A case file thread where agent:builder reports its fix, signed by name" class="said-reveal said-zoom" />
+    </div>
+  </section>
+
+  <section class="said-frame said-frame--tile">
+    <div class="said-wrap said-reveal">
+      <p class="said-kicker">04 · Search that understands</p>
+      <h2>Find what you meant, not just what you typed<span class="dot">.</span></h2>
+      <p class="said-note">
+        Exact words on one leg, on-device meaning search on the other —
+        embeddings computed on your own GPU, sent nowhere. The note that says it
+        differently still answers.
+      </p>
+      <SaidShot src="/said/shots/finder.png" alt="The finder — an exact hit on top, meaning-search hits beneath it" class="said-reveal said-zoom" />
     </div>
   </section>
 
   <section class="said-frame">
     <div class="said-wrap said-reveal">
-      <p class="said-kicker">04 · Yours</p>
-      <h2>Yours, on your machine.</h2>
-      <p>
-        One local database, daily backups, search that understands meaning —
-        running on your own GPU, not somebody's cloud. Your notes stay files,
-        your data stays home, and the only copy that matters is yours.
+      <p class="said-kicker">05 · Yours</p>
+      <h2>Yours, on your machine<span class="dot">.</span></h2>
+      <p class="said-note">
+        One local database. Daily backups you can hold. No account, no cloud, no
+        sync service between you and your own plans.
       </p>
-      <div class="said-visual">
-        <SaidPlaceholder label="Local store · daily backups · GPU search" />
+      <div class="said-bento">
+        <div class="said-bento-tile said-reveal">
+          <h3>One folder</h3>
+          <p>is the whole setup. Your structure is the structure.</p>
+        </div>
+        <div class="said-bento-tile said-reveal">
+          <h3>Zero clouds</h3>
+          <p>Notes stay files. The desk stays local. Nothing phones out.</p>
+        </div>
+        <div class="said-bento-tile said-reveal">
+          <h3>14 days</h3>
+          <p>of daily backups — database and attachments, in your folder.</p>
+        </div>
+        <div class="said-bento-tile said-reveal">
+          <h3>Esc closes</h3>
+          <p>everything, always. One keyboard rule, no modes, no surprises.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="said-frame">
+  <section class="said-frame said-frame--tile">
     <div class="said-wrap said-reveal">
-      <p class="said-kicker">05 · Said and Done</p>
-      <h2>Say it. Then see it done.</h2>
-      <p>
+      <p class="said-kicker">06 · Said and Done</p>
+      <h2>Say it<span class="dot">.</span> Then see it done<span class="dot">.</span></h2>
+      <p class="said-note">
         Said is in release-candidate season. The installers — Linux, macOS,
         Windows, everything bundled, nothing to fetch — are almost ready to
         shake hands.

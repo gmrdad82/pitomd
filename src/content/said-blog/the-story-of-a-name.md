@@ -1,6 +1,7 @@
 ---
 title: "Said and Done: the story of a name"
 description: "Why the app is called Said — and why the tagline was there before the name was."
+published: false
 pubDate: 2026-08-24
 ---
 

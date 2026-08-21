@@ -1,0 +1,75 @@
+---
+import SaidBrand from "./SaidBrand.astro";
+import PitoWord from "./PitoWord.astro";
+
+interface Props {
+  brand?: boolean;
+}
+
+const { brand = true } = Astro.props;
+---
+
+<footer class:list={["said-shared-footer", !brand && "is-minimal"]}>
+  {
+    brand && (
+      <div class="foot-brands">
+        <SaidBrand size="footer" />
+        <span class="foot-maker">
+          <span class="foot-by">by</span>
+          <PitoWord />
+        </span>
+      </div>
+    )
+  }
+  <div class="foot-legal">© 2026 Catalin Ilinca. All rights reserved.</div>
+</footer>
+
+<style>
+  .said-shared-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 34px clamp(20px, 5vw, 72px) 44px;
+    border-top: 1px solid rgb(148 225 255 / 10%);
+  }
+
+  :global(.sdoc) .said-shared-footer {
+    border-top-color: var(--sdoc-line);
+  }
+
+  .foot-brands {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  .foot-maker {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.38em;
+  }
+
+  .foot-by {
+    font-size: 0.72rem;
+    line-height: 1;
+    opacity: 0.55;
+  }
+
+  .foot-legal {
+    font-size: 0.78rem;
+    opacity: 0.55;
+  }
+
+  .is-minimal {
+    justify-content: flex-end;
+  }
+
+  @media (width <= 640px) {
+    .said-shared-footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

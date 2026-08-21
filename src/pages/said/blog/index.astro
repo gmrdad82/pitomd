@@ -1,38 +1,46 @@
 ---
 import { getCollection } from "astro:content";
-import SaidLayout from "../../../layouts/SaidLayout.astro";
-import { released, withScheduled, stamp } from "../../../lib/said-blog";
+import SaidDocsLayout from "../../../layouts/SaidDocsLayout.astro";
+import { released, withBadges, stamp } from "../../../lib/said-blog";
 
 const posts = await getCollection("saidBlog");
 const entries = import.meta.env.DEV
-  ? withScheduled(posts)
-  : released(posts).map((post) => ({ post, scheduled: false }));
+  ? withBadges(posts)
+  : released(posts).map((post) => ({ post, badge: null }));
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "The Said blog",
+  description:
+    "Notes from the desk: planning where your notes live, keyboard-first work, and AI teammates that sign their work.",
+  url: new URL("/said/blog/", Astro.site).toString(),
+};
 ---
 
-<SaidLayout
-  title="Blog — Said by PITO"
+<SaidDocsLayout
+  title="Blog — Said"
   description="Notes from the desk: essays on planning where your notes live, keyboard-first work, and AI teammates that sign their work."
-  active="blog"
+  section="blog"
+  kicker="The blog"
+  heading="Notes from the desk."
+  dek="Essays on working where your notes live — planning, keyboards, named teammates, and keeping your own data."
+  flavor="paper"
+  jsonLd={jsonLd}
 >
-  <div class="said-list">
-    <header class="said-list-head">
-      <div class="said-eyebrow">The blog</div>
-      <h1>Notes from the desk.</h1>
-      <p>
-        Essays on working where your notes live — planning, keyboards, named
-        teammates, and keeping your own data.
-      </p>
-    </header>
+  <div class="sdoc-entrylist" style="margin-top: 28px;">
     {
-      entries.map(({ post, scheduled }) => (
-        <a class="said-entry" href={`/said/blog/${post.id}/`}>
+      entries.map(({ post, badge }) => (
+        <a class="sdoc-entry sdoc-entry-serif" href={`/said/blog/${post.id}/`}>
           <h2>{post.data.title}</h2>
           <p>{post.data.description}</p>
-          <div class="said-entry-meta">
+          <div class="sdoc-entry-meta">
             {stamp(post.data.pubDate)}
-            {scheduled && (
-              <span class="said-scheduled">
-                scheduled · publishes {stamp(post.data.pubDate)}
+            {badge && (
+              <span class:list={["sdoc-badge", `sdoc-badge-${badge}`]}>
+                {badge === "scheduled"
+                  ? `scheduled · publishes ${stamp(post.data.pubDate)}`
+                  : "draft — awaiting the nod"}
               </span>
             )}
           </div>
@@ -40,4 +48,4 @@ const entries = import.meta.env.DEV
       ))
     }
   </div>
-</SaidLayout>
+</SaidDocsLayout>

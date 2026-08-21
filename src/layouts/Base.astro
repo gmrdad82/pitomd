@@ -5,6 +5,8 @@
 // (railnav, reveal, pointer, themes) load here, deferred, once per page.
 
 import "../styles/global.css";
+import "../styles/said-shot.css";
+import DevBanner from "../components/DevBanner.astro";
 
 interface Props {
   title?: string;
@@ -161,11 +163,7 @@ const jsonLd = Astro.props.jsonLd ?? defaultJsonLd;
         actually launches. */
     }
 
-    {
-      /* Dev-only banner pinned to the bottom (synthwave yellow), so a localhost
-        tab is unmistakable next to production — mirrors pito's DEVELOPMENT bar. */
-    }
-    {import.meta.env.DEV && <div class="dev-banner">DEVELOPMENT</div>}
+    <DevBanner />
 
     {
       /* fx islands — deferred, vanilla, dependency-free. Since the 5.0.0 fx

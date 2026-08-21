@@ -1,12 +1,12 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
-import SaidLayout from "../../../layouts/SaidLayout.astro";
-import { released, withScheduled, stamp } from "../../../lib/said-blog";
+import SaidDocsLayout from "../../../layouts/SaidDocsLayout.astro";
+import { released, withBadges, related, stamp } from "../../../lib/said-blog";
 
 export async function getStaticPaths() {
   const posts = await getCollection("saidBlog");
   const visible = import.meta.env.DEV
-    ? withScheduled(posts).map(({ post }) => post)
+    ? withBadges(posts).map(({ post }) => post)
     : released(posts);
   return visible.map((post) => ({
     params: { slug: post.id },
@@ -19,27 +19,77 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
-const scheduled = post.data.pubDate.getTime() > Date.now();
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2);
+const posts = await getCollection("saidBlog");
+const more = related(post, posts);
+const badge = !post.data.published
+  ? "draft"
+  : post.data.pubDate.getTime() > Date.now()
+    ? "scheduled"
+    : null;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.pubDate.toISOString().slice(0, 10),
+  author: { "@type": "Organization", name: "Pito" },
+  url: new URL(`/said/blog/${post.id}/`, Astro.site).toString(),
+};
+
+const meta = badge
+  ? `${stamp(post.data.pubDate)} <span class="sdoc-badge sdoc-badge-${badge}">${
+      badge === "scheduled"
+        ? `scheduled · publishes ${stamp(post.data.pubDate)}`
+        : "draft — awaiting the nod"
+    }</span>`
+  : `Published ${stamp(post.data.pubDate)}`;
 ---
 
-<SaidLayout
+<SaidDocsLayout
   title={`${post.data.title} — Said blog`}
   description={post.data.description}
-  active="blog"
+  section="blog"
+  kicker="The blog"
+  heading={post.data.title}
+  meta={meta}
+  progress={true}
+  serif={true}
+  flavor="paper"
+  jsonLd={jsonLd}
 >
-  <article class="said-article">
-    <h1>{post.data.title}</h1>
-    <p class="said-meta">
-      {stamp(post.data.pubDate)}
-      {
-        scheduled && (
-          <span class="said-scheduled">
-            scheduled · publishes {stamp(post.data.pubDate)}
-          </span>
-        )
-      }
-    </p>
-    <Content />
-  </article>
-</SaidLayout>
+  {
+    toc.length > 1 && (
+      <nav class="sdoc-toc-box" aria-label="Table of contents">
+        <p>In this piece</p>
+        <ol>
+          {toc.map((h) => (
+            <li>
+              <a href={`#${h.slug}`}>{h.text}</a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )
+  }
+  <Content />
+  <div slot="after">
+    {
+      more.length > 0 && (
+        <div class="sdoc-related">
+          <p class="sdoc-related-label">More from the blogs</p>
+          <div class="sdoc-related-grid">
+            {more.map((m) => (
+              <a class="sdoc-related-card" href={`/said/blog/${m.id}/`}>
+                <h3>{m.data.title}</h3>
+                <span>Said · {stamp(m.data.pubDate)}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )
+    }
+  </div>
+</SaidDocsLayout>

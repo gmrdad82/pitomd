@@ -1,0 +1,87 @@
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/said/fonts/JetBrainsMono-Regular-latin.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/said/fonts/JetBrainsMono-Medium-latin.ttf") format("truetype");
+  font-weight: 500 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Martian Mono";
+  src: url("/said/fonts/MartianMono-Medium-latin.ttf") format("truetype");
+  font-weight: 500 700;
+  font-display: swap;
+}
+
+.said-note .cword,
+.said-comet .cword {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.said-note .cchar,
+.said-comet .cchar {
+  display: inline-block;
+  white-space: pre;
+  opacity: 0;
+  animation: said-comet-char 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--i) * var(--comet-step, 7ms));
+}
+
+@keyframes said-comet-char {
+  from {
+    opacity: 0;
+    transform: translateX(0.6em);
+    text-shadow:
+      -0.5em 0 0.5em rgb(15 168 240 / 80%),
+      0 0 0.8em #0fa8f0;
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+    text-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .said-note .cchar,
+  .said-comet .cchar {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+.said-comet {
+  --comet-step: 55ms;
+}
+
+.said-comet .cchar {
+  animation-duration: 0.7s;
+}
+
+@media (width <= 760px) {
+  .said-note .cchar,
+  .said-comet .cchar {
+    animation-name: said-comet-char-flat;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    animation-delay: calc(var(--i) * 5ms);
+  }
+}
+
+@keyframes said-comet-char-flat {
+  from {
+    opacity: 0;
+    transform: translateX(0.4em);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,10 +1,16 @@
 ---
 import "../styles/said.css";
+import "../styles/said-shot.css";
+import "../styles/said-buttons.css";
+import "../styles/said-fx.css";
+import SaidNav from "../components/SaidNav.astro";
+import SaidFooter from "../components/SaidFooter.astro";
+import DevBanner from "../components/DevBanner.astro";
 
 interface Props {
   title: string;
   description: string;
-  active?: "tour" | "guides" | "blog";
+  active?: "tour" | "guides" | "blog" | "download" | "buy";
 }
 
 const { title, description, active } = Astro.props;
@@ -19,6 +25,27 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link
+      rel="preload"
+      as="font"
+      type="font/ttf"
+      href="/said/fonts/MartianMono-Medium-latin.ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/ttf"
+      href="/said/fonts/JetBrainsMono-Regular-latin.ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/ttf"
+      href="/said/fonts/JetBrainsMono-Medium-latin.ttf"
+      crossorigin
+    />
     <link rel="icon" type="image/svg+xml" href="/said/icon.svg" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -26,49 +53,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:url" content={canonical} />
   </head>
   <body class="said">
-    <nav class="said-nav">
-      <div class="said-wrap said-nav-row">
-        <a class="said-lockup" href="/said/">
-          <img class="said-mark" src="/said/icon.svg" alt="" />
-          <span class="said-lockup-product">Said</span>
-          <span class="said-lockup-joiner">by</span>
-          <span class="said-brand">PITO</span>
-        </a>
-        <div class="said-nav-links">
-          <a
-            class="said-link"
-            href="/said/tour/"
-            aria-current={active === "tour" ? "page" : undefined}>Tour</a
-          >
-          <a
-            class="said-link"
-            href="/said/guides/"
-            aria-current={active === "guides" ? "page" : undefined}>Guides</a
-          >
-          <a
-            class="said-link"
-            href="/said/blog/"
-            aria-current={active === "blog" ? "page" : undefined}>Blog</a
-          >
-        </div>
-      </div>
-    </nav>
+    <SaidNav active={active} />
     <slot />
-    <footer class="said-footer">
-      <div class="said-wrap">
-        <div class="said-tagline said-footer-tag">
-          <span class="t-said">Said</span>
-          <span class="t-and">and</span>
-          <span class="t-done">Done.</span>
-        </div>
-        <div class="said-footer-row">
-          <a href="/">pitomd.com</a>
-          <div class="said-footer-legal">
-            © 2026 Catalin Ilinca. All rights reserved.
-          </div>
-        </div>
-      </div>
-    </footer>
+    <SaidFooter />
     <script src="../scripts/said-reveal.js"></script>
+    <script src="../scripts/said-hero-shader.js"></script>
+    <DevBanner />
   </body>
 </html>

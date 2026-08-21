@@ -1,0 +1,136 @@
+---
+import SaidBrand from "./SaidBrand.astro";
+
+interface Props {
+  active?: string;
+  themeToggle?: boolean;
+}
+
+const { active, themeToggle = false } = Astro.props;
+const links = [
+  { href: "/said/tour/", label: "Tour", key: "tour" },
+  { href: "/said/guides/", label: "Guides", key: "guides" },
+  { href: "/said/blog/", label: "Blog", key: "blog" },
+  { href: "/said/download/", label: "Download", key: "download" },
+];
+---
+
+<nav class="said-shared-nav">
+  <div class="nav-row">
+    <SaidBrand collapsible={true} />
+    <div class="nav-side">
+      {
+        links.map((l) => (
+          <a
+            class="nav-link"
+            href={l.href}
+            aria-current={active === l.key ? "page" : undefined}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      {
+        themeToggle && (
+          <button
+            type="button"
+            class="nav-theme"
+            data-guide-theme-toggle
+            aria-label="Switch between light and dark"
+          >
+            <span data-guide-theme-icon aria-hidden="true">
+              ☾
+            </span>
+          </button>
+        )
+      }
+    </div>
+  </div>
+</nav>
+
+<style>
+  .said-shared-nav {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    backdrop-filter: blur(14px);
+    background: rgb(6 11 20 / 72%);
+    border-bottom: 1px solid rgb(148 225 255 / 10%);
+  }
+
+  :global(.sdoc) .said-shared-nav {
+    background: color-mix(in srgb, var(--sdoc-bg) 82%, transparent);
+    border-bottom-color: var(--sdoc-line);
+  }
+
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    height: 62px;
+    padding: 0 clamp(20px, 5vw, 72px);
+  }
+
+  .nav-side {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 2.6vw, 26px);
+  }
+
+  .nav-link {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: #eceff4;
+    text-decoration: none;
+    transition: filter 140ms ease;
+  }
+
+  :global(.sdoc) .nav-link {
+    color: var(--sdoc-ink);
+  }
+
+  .nav-link:hover {
+    filter: brightness(1.25);
+  }
+
+  .nav-link[aria-current="page"] {
+    color: #0fa8f0;
+  }
+
+  :global(.sdoc) .nav-link[aria-current="page"] {
+    color: var(--sdoc-blue);
+  }
+
+  .nav-theme {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    font: inherit;
+    font-size: 1rem;
+    color: #eceff4;
+    background: none;
+    border: 1px solid rgb(148 225 255 / 20%);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: filter 140ms ease;
+  }
+
+  :global(.sdoc) .nav-theme {
+    color: var(--sdoc-ink);
+    border-color: var(--sdoc-line);
+  }
+
+  .nav-theme:hover {
+    filter: brightness(1.2);
+  }
+
+  @media (width <= 560px) {
+    .nav-link {
+      font-size: 0.82rem;
+    }
+  }
+</style>

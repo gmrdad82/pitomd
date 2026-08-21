@@ -1,0 +1,33 @@
+
+> pito-website@5.0.0 lint
+> npm run lint:format && npm run lint:js && npm run lint:css
+
+
+> pito-website@5.0.0 lint:format
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> pito-website@5.0.0 lint:js
+> eslint .
+
+
+/home/catalin/Dev/pitomd/src/lib/countdown.js
+  278:7  warning  'dx' is never reassigned. Use 'const' instead  prefer-const
+  279:7  warning  'dy' is never reassigned. Use 'const' instead  prefer-const
+
+/home/catalin/Dev/pitomd/src/lib/resting-wave.js
+  94:7  warning  'born' is never reassigned. Use 'const' instead  prefer-const
+
+/home/catalin/Dev/pitomd/src/lib/sky-flock.js
+  559:7  warning  'dx' is never reassigned. Use 'const' instead  prefer-const
+  560:7  warning  'dy' is never reassigned. Use 'const' instead  prefer-const
+
+✖ 5 problems (0 errors, 5 warnings)
+  0 errors and 5 warnings potentially fixable with the `--fix` option.
+
+
+> pito-website@5.0.0 lint:css
+> stylelint "src/styles/**/*.css"
+

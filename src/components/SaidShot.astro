@@ -1,0 +1,30 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  eager?: boolean;
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  width = 1280,
+  height = 680,
+  eager = false,
+  class: extra = "",
+} = Astro.props;
+
+let seed = 0;
+for (const ch of src) seed = (seed * 31 + ch.charCodeAt(0)) % 997;
+const delay = -((seed % 70) / 10).toFixed(1);
+const duration = (7 + (seed % 5)).toFixed(0);
+const hue = (seed % 9) * 5 - 20;
+const tune = `--shot-delay:${delay}s;--shot-dur:${duration}s;--shot-hue:${hue}deg`;
+---
+
+<div class:list={["said-shot", extra]} style={tune}>
+  <img {src} {alt} {width} {height} loading={eager ? "eager" : "lazy"} />
+</div>

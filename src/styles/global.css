@@ -322,29 +322,6 @@ h3.display {
   opacity: 0;
 }
 
-/* ── Dev-only banner ───────────────────────────────────────── */
-/* Synthwave yellow bg + synthwave dark-bg text (readable on yellow). Hardcoded
-   (not theme-reactive) so it's an unmistakable localhost marker on every
-   section theme. Only rendered under import.meta.env.DEV. */
-
-.dev-banner {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 100;
-  background: #ffe066; /* synthwave --accent-yellow */
-  color: #1a0b2e; /* synthwave --bg-root, high contrast on yellow */
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.8rem;
-  letter-spacing: 0.3em;
-  text-align: center;
-  padding: 0.25rem 0;
-  pointer-events: none;
-  user-select: none;
-}
-
 /* ── FPS chip (F9) ─────────────────────────────────────────── */
 /* Created + toggled by fps.js — nothing exists in the DOM (and the rAF
    counter never runs) until the first F9 press. Reads the active theme
@@ -439,4 +416,27 @@ h3.display {
   .railnav {
     display: none;
   }
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(148 225 255 / 28%) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(148 225 255 / 25%);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(148 225 255 / 40%);
 }

@@ -1,0 +1,113 @@
+---
+import SaidLayout from "../../layouts/SaidLayout.astro";
+---
+
+<SaidLayout
+  title="Download — Said"
+  description="Said and Done for Linux, macOS, and Windows — one installer per platform, everything bundled, nothing to fetch at boot."
+  active="download"
+>
+  <header class="said-hero" style="min-height: 52svh;">
+    <canvas class="fx-aurora" aria-hidden="true"></canvas>
+    <div class="said-eyebrow said-rise">Download</div>
+    <h1
+      class="said-rise said-rise-2"
+      style="font-size: clamp(2.4rem, 7vw, 5.5rem);"
+    >
+      One installer<span class="dot">.</span><br />Everything in it<span class="dot">.</span>
+    </h1>
+    <div class="said-cta-row said-rise said-rise-3">
+      <a class="said-btn said-btn-primary" href="/said/buy-now/"
+        >Unlock everything — 4.99€</a
+      >
+    </div>
+  </header>
+
+  <section class="said-frame" style="padding-top: 40px;">
+    <div class="said-wrap said-reveal">
+      <div class="said-dl-grid">
+        <div class="said-dl-card" data-os="linux">
+          <span class="said-dl-os">Linux</span>
+          <h2>The .run</h2>
+          <p>
+            Self-installing: your user, your app menu, a clean uninstaller. No
+            elevation, no system folders.
+          </p>
+          <a
+            class="said-btn said-dl-get"
+            data-bundle="linux-x86_64"
+            href="https://releases.pitomd.com/work/1.0.0-alpha/linux-x86_64/said-1.0.0-alpha-linux-x86_64.run"
+            >Download for Linux</a
+          >
+        </div>
+        <div class="said-dl-card" data-os="mac">
+          <span class="said-dl-os">macOS</span>
+          <h2>The .dmg</h2>
+          <p>
+            Drag to Applications, done. Apple Silicon, everything inside the
+            bundle.
+          </p>
+          <a
+            class="said-btn said-dl-get"
+            data-bundle="macos-arm64"
+            href="https://releases.pitomd.com/work/1.0.0-alpha/macos-arm64/said-1.0.0-alpha-macos-arm64.dmg"
+            >Download for macOS</a
+          >
+        </div>
+        <div class="said-dl-card" data-os="windows">
+          <span class="said-dl-os">Windows</span>
+          <h2>The setup.exe</h2>
+          <p>
+            Per-user install — no admin prompt, a normal Add/Remove entry,
+            updates that can actually update.
+          </p>
+          <a
+            class="said-btn said-dl-get"
+            data-bundle="windows-x86_64"
+            href="https://releases.pitomd.com/work/1.0.0-alpha/windows-x86_64/said-1.0.0-alpha-windows-x86_64-setup.exe"
+            >Download for Windows</a
+          >
+        </div>
+      </div>
+      <p class="said-note" style="margin-top: 44px;">
+        Said is in release-candidate season — these installers go live with the
+        first public release. The free desk runs on unlimited devices; one 4.99€
+        licence unlocks everything on two.
+      </p>
+      <div class="said-cta-row" style="margin-top: 26px;">
+        <a class="said-btn said-btn-primary" href="/said/tour/">See it first</a>
+        <a class="said-btn said-btn-ghost" href="/said/buy-now/"
+          >Unlock everything — 4.99€</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var ua = navigator.userAgent;
+      var os = /Windows/i.test(ua)
+        ? "windows"
+        : /Mac|iPhone|iPad/i.test(ua)
+          ? "mac"
+          : "linux";
+      var card = document.querySelector('.said-dl-card[data-os="' + os + '"]');
+      if (card) card.classList.add("is-yours");
+
+      fetch("https://releases.pitomd.com/work/latest.json")
+        .then(function (r) {
+          return r.ok ? r.json() : null;
+        })
+        .then(function (m) {
+          if (!m || !m.platforms) return;
+          document.querySelectorAll("[data-bundle]").forEach(function (a) {
+            var p = m.platforms[a.getAttribute("data-bundle")];
+            if (p && p.bundle && p.bundle.url) {
+              a.href = p.bundle.url;
+            }
+          });
+        })
+        .catch(function () {});
+    })();
+  </script>
+</SaidLayout>

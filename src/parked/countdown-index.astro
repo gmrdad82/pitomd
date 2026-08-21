@@ -1,0 +1,477 @@
+---
+import Base from "../layouts/Base.astro";
+import CrossNav from "../components/CrossNav.astro";
+
+// pitomd.com/ — the COUNTDOWN TEASER (F4, GOAL 1 estate freeze; owner spec
+// I8, verbatim in the plan appendix). This replaced the chat showcase, which
+// moved to `/chat` (src/pages/chat.astro).
+//
+// COUNTDOWN v4 (owner ruling, 2026-08-10 — the wave era; supersedes the
+// butterfly-flock mechanics below where they conflict):
+//   - dd:hh:mm:ss:zzz format, two rows, labels right-aligned to their
+//     groups (v2/v3 layout rulings stand).
+//   - the deadline is REAL and now 2026-09-01, the visitor's local
+//     time. The display stays ELASTIC around it — taps re-roll it to a
+//     fresh random remaining time, and the tick burns display-ms at
+//     rate = display / real-remaining, so the counter hits zero exactly
+//     on the date no matter what the display shows.
+//   - THE REVEAL stands: "Pito Studio is coming in..." above the digits.
+//   - the butterfly flock RETIRED from this page (it lives on at
+//     deps.pitomd.com); with it went the fly-over deltas — nothing bends
+//     the display anymore except a tap.
+//
+// Background: the Resting wave from Pito Studio's own splash screen,
+// ported line-for-line from the desktop's shape model into
+// src/lib/resting-wave.js — two counter-drifting sine-braided ribbons in
+// the house gradient, 18s period, same numbers as the app. The page and
+// the product now breathe the same way.
+//
+// A small bottom-right banner points at `/chat` ("The Free Chat") —
+// minimal, intriguing, no claims about what the countdown itself is for.
+// The page title is the brand, bare: PITO.
+//
+// prefers-reduced-motion: the wave renders one still frame.
+// The countdown's own tick loop is NOT gated behind that media query (a
+// ticking number is not the kind of motion that rule targets, and per the
+// owner, reduced-motion visitors get "a pure countdown" — it can reach
+// zero, and that's fine).
+
+const year = new Date().getFullYear();
+---
+
+<Base title="PITO — software isn’t scary">
+  <div class="teaser">
+    <canvas id="sky-flock" class="teaser__canvas" aria-hidden="true"></canvas>
+
+    <div class="teaser__stage">
+      <button
+        type="button"
+        id="countdown"
+        class="countdown"
+        aria-label="A countdown to Pito Studio, breathing over a slow wave. Touch it to reset the display. The real date does not move."
+      >
+        <span class="countdown__title"
+          ><span class="countdown__brand"
+            ><span class="countdown__brand-mark">PITO</span>{" "}<span
+              class="countdown__brand-product">Studio</span
+            ></span
+          > is coming in...</span
+        >
+        <span class="countdown__digits" aria-hidden="true">
+          <span class="countdown__group" id="countdown-dd">00</span>
+          <span class="countdown__colon">:</span>
+          <span class="countdown__group" id="countdown-hh">00</span>
+          <span class="countdown__colon">:</span>
+          <span class="countdown__group" id="countdown-mm">00</span>
+          <span class="countdown__colon">:</span>
+          <span class="countdown__group" id="countdown-ss">00</span>
+          <span class="countdown__colon countdown__colon--ms">:</span>
+          <span class="countdown__group countdown__group--ms" id="countdown-zzz"
+            >000</span
+          >
+          <span class="countdown__label countdown__label--dd">Days</span>
+          <span class="countdown__label countdown__label--hh">Hours</span>
+          <span class="countdown__label countdown__label--mm">Minutes</span>
+          <span class="countdown__label countdown__label--ss">Seconds</span>
+        </span>
+      </button>
+    </div>
+
+    <CrossNav
+      href="/chat"
+      label="The Free Chat"
+      position="bottom-right"
+      stacked
+    />
+
+    <p class="teaser__legal">pitomd.com · © {year} · All rights reserved.</p>
+  </div>
+</Base>
+
+<script>
+  import {
+    REAL_DEADLINE_ISO,
+    createElasticState,
+    tickElastic,
+    resetElastic,
+    formatCountdownParts,
+  } from "../lib/countdown.js";
+  import { initRestingWave } from "../lib/resting-wave.js";
+
+  // Standalone consts (not an object) on purpose: astro check runs the
+  // script through TypeScript, and narrowing from the guard below only
+  // survives into the closures for const BINDINGS, never for object
+  // properties.
+  const button = document.getElementById("countdown");
+  const dd = document.getElementById("countdown-dd");
+  const hh = document.getElementById("countdown-hh");
+  const mm = document.getElementById("countdown-mm");
+  const ss = document.getElementById("countdown-ss");
+  const zzz = document.getElementById("countdown-zzz");
+
+  if (button && dd && hh && mm && ss && zzz) {
+    // RELATIVE TIME (owner): the deadline is real — parsed in the
+    // visitor's local time — and the display is elastic around it.
+    const deadlineMs = new Date(REAL_DEADLINE_ISO).getTime();
+    let state = createElasticState(Date.now(), deadlineMs);
+
+    const render = () => {
+      const parts = formatCountdownParts(state.displayMs);
+      dd.textContent = parts.dd;
+      hh.textContent = parts.hh;
+      mm.textContent = parts.mm;
+      ss.textContent = parts.ss;
+      zzz.textContent = parts.zzz;
+    };
+    render();
+
+    // A cheap on-brand acknowledgement for the TAP RESET only (owner:
+    // over-flight deltas must not pulsate the box — "it's already in a
+    // hover state", and at one delta per second the pulse would strobe).
+    let pulseTimer: ReturnType<typeof setTimeout> | null = null;
+    const pulse = () => {
+      button.classList.remove("countdown--pulse");
+      // Force a reflow so re-adding the class restarts the animation even
+      // on back-to-back adds.
+      void button.offsetWidth;
+      button.classList.add("countdown--pulse");
+      if (pulseTimer !== null) clearTimeout(pulseTimer);
+      pulseTimer = setTimeout(
+        () => button.classList.remove("countdown--pulse"),
+        420,
+      );
+    };
+
+    // Tap/click/Enter/Space = RESET (owner amendment): a fresh random
+    // display, every time — the rate absorbs it, the date holds.
+    // Rendered immediately so the jump lands this frame, not next tick.
+    const resetCountdown = () => {
+      state = resetElastic(state, Date.now());
+      render();
+      pulse();
+    };
+
+    // The countdown's own tick loop — elastic time (owner amendment 5):
+    // display-milliseconds burn at rate = display / real-remaining, so the
+    // counter reaches zero exactly at the real deadline no matter what the
+    // taps did to it. Wall-clock (Date.now) on purpose: a laptop
+    // waking from sleep must land at the honest position, not resume where
+    // it dozed off. Deliberately NOT gated behind prefers-reduced-motion
+    // (see the header comment): reduced-motion visitors get no collisions
+    // (sky-flock.js skips its wander step) but still get a ticking counter.
+    let lastWall = Date.now();
+    const tick = () => {
+      const nowWall = Date.now();
+      state = tickElastic(state, lastWall, nowWall);
+      lastWall = nowWall;
+      render();
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    // A tap on the box RESETS the countdown to something random (owner
+    // amendment — collisions add, taps reset). click covers both mouse and
+    // touch activation (touchstart would double-fire alongside the
+    // synthesized click on most browsers).
+    button.addEventListener("click", resetCountdown);
+    button.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        resetCountdown();
+      }
+    });
+
+    const canvas = document.getElementById("sky-flock");
+    if (canvas instanceof HTMLCanvasElement) initRestingWave(canvas);
+  } else {
+    // Degrade gracefully: no countdown markup found, still run the
+    // background on its own.
+    const canvas = document.getElementById("sky-flock");
+    if (canvas instanceof HTMLCanvasElement) initRestingWave(canvas);
+  }
+</script>
+
+<style>
+  .teaser {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #0e0a1a;
+  }
+
+  /* Under the stage: the wave slides beneath the counter layer, its
+     pointer-events off regardless, so taps always land on the countdown. */
+  .teaser__canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .teaser__stage {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+  }
+
+  .teaser__legal {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: color-mix(in oklch, #ffffff 40%, transparent);
+  }
+
+  .countdown {
+    appearance: none;
+    display: grid;
+    justify-items: center;
+    row-gap: clamp(0.6rem, 2.2vw, 1.1rem);
+    border: 1px solid color-mix(in oklch, var(--pito-blue) 45%, transparent);
+    background: color-mix(in oklch, #0e0a1a 55%, transparent);
+    border-radius: 1.25rem;
+    padding: clamp(1.25rem, 5vw, 2.5rem) clamp(1.5rem, 7vw, 4rem);
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+    box-shadow:
+      0 0 24px color-mix(in oklch, var(--pito-blue) 35%, transparent),
+      0 0 60px color-mix(in oklch, #bb9af7 20%, transparent);
+  }
+
+  .countdown:hover,
+  .countdown:focus-visible {
+    transform: scale(1.02);
+    border-color: color-mix(in oklch, var(--pito-blue) 80%, transparent);
+    box-shadow:
+      0 0 32px color-mix(in oklch, var(--pito-blue) 55%, transparent),
+      0 0 90px color-mix(in oklch, #bb9af7 35%, transparent);
+  }
+
+  .countdown:active {
+    transform: scale(0.98);
+  }
+
+  .countdown:focus-visible {
+    outline: 2px solid var(--pito-blue);
+    outline-offset: 4px;
+  }
+
+  /* The reveal (owner amendment): a sentence, not a shout — Title Case
+     only where the name is (copy-case law I21). */
+  .countdown__title {
+    font-family: var(--font-display);
+    font-size: clamp(0.85rem, 2.4vw, 1.3rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-align: center;
+    color: color-mix(in oklch, #eaf0ff 80%, transparent);
+    text-shadow: 0 0 14px color-mix(in oklch, var(--pito-blue) 45%, transparent);
+  }
+
+  .countdown__brand {
+    --wordmark: linear-gradient(
+      90deg,
+      #ff6ec7 0%,
+      #f86fca 8.33%,
+      #e472d2 16.67%,
+      #c977dd 25%,
+      #ab7cea 33.33%,
+      #9280f4 41.67%,
+      #8383fa 50%,
+      #7f83fb 58.33%,
+      #7980fc 66.67%,
+      #6d7bfd 75%,
+      #5f76fe 83.33%,
+      #5572ff 91.67%,
+      #5170ff 100%
+    );
+    font-weight: 700;
+    text-shadow: none;
+  }
+
+  .countdown__brand-mark {
+    position: relative;
+    display: inline-block;
+    background: var(--wordmark);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .countdown__brand-mark::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.14em;
+    height: 1px;
+    border-radius: 0.5px;
+    background: var(--wordmark);
+  }
+
+  .countdown__brand-product {
+    color: #ffffff;
+  }
+
+  /* Two rows (owner rule 3): a 9-column grid — the 5 digit groups in row 1
+     with the 4 colons as their OWN cells (a colon glued inside a group is
+     exactly how the ms group once grew a trailing colon, and it would skew
+     the label alignment below). Row 2: each label is pinned to its group's
+     column and right-aligned to the digits' rightmost edge (owner
+     amendment; no Milliseconds label). Default (stretch) row alignment on
+     purpose: the smaller ms digits — and THEIR colon — ride high against
+     the big digits' top, superscript-style (owner: keep the ms "in an
+     upper position", the colon with it). */
+  .countdown__digits {
+    /* one knob for the digit scale — the label nudge below derives from it */
+    --digit-size: clamp(1.6rem, 8vw, 4.6rem);
+    --ms-size: clamp(1rem, 5vw, 2.6rem);
+    display: grid;
+    grid-template-columns: repeat(9, max-content);
+    column-gap: clamp(0.18rem, 0.9vw, 0.5rem);
+    row-gap: clamp(0.35rem, 1.5vw, 0.6rem);
+    justify-content: center;
+    max-width: min(94vw, 64rem);
+  }
+
+  .countdown__group {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: var(--digit-size);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    /* neon in the brand purple/blue family — never a rainbow ramp */
+    color: #eaf0ff;
+    text-shadow:
+      0 0 8px var(--pito-blue),
+      0 0 22px var(--pito-blue),
+      0 0 44px #bb9af7;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .countdown__colon {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: var(--digit-size);
+    line-height: 1;
+    color: #eaf0ff;
+    text-shadow:
+      0 0 8px var(--pito-blue),
+      0 0 22px var(--pito-blue),
+      0 0 44px #bb9af7;
+    opacity: 0.6;
+  }
+
+  /* the ms colon belongs to the ms group (owner): same smaller size, same
+     raised position — it separates seconds FROM the superscript, so it
+     rides with the superscript */
+  .countdown__colon--ms {
+    font-size: var(--ms-size);
+    opacity: 0.5;
+  }
+
+  .countdown__group--ms {
+    font-size: var(--ms-size);
+    opacity: 0.85;
+  }
+
+  .countdown__label {
+    grid-row: 2;
+    justify-self: end;
+    /* tabular digits carry ~0.07em of empty advance after their ink; pull
+       the label back by the same amount so its right edge meets the DIGIT
+       ink, not the invisible box edge (owner: "labels are a bit to the
+       right") */
+    padding-inline-end: calc(var(--digit-size) * 0.07);
+    font-size: clamp(0.55rem, 2vw, 0.85rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in oklch, #eaf0ff 55%, transparent);
+  }
+
+  /* Phones: the 9-cell row at 8vw digits is wider than a 390px viewport
+     (the ms group fell clean off the screen) — step the whole row down so
+     dd:hh:mm:ss:zzz always fits, labels and all. */
+  @media (max-width: 520px) {
+    .countdown {
+      padding: 1rem 1.1rem;
+    }
+
+    .countdown__digits {
+      --digit-size: clamp(1rem, 5.6vw, 1.8rem);
+      --ms-size: clamp(0.7rem, 3.5vw, 1.15rem);
+      column-gap: 0.15rem;
+    }
+  }
+
+  .countdown__label--dd {
+    grid-column: 1;
+  }
+  .countdown__label--hh {
+    grid-column: 3;
+  }
+  .countdown__label--mm {
+    grid-column: 5;
+  }
+  .countdown__label--ss {
+    grid-column: 7;
+  }
+
+  /* A cheap, on-brand pulse when a tap re-rolls the display. */
+  @keyframes countdown-pulse {
+    0% {
+      transform: scale(1);
+      box-shadow:
+        0 0 24px color-mix(in oklch, var(--pito-blue) 35%, transparent),
+        0 0 60px color-mix(in oklch, #bb9af7 20%, transparent);
+    }
+    35% {
+      transform: scale(1.035);
+      box-shadow:
+        0 0 46px color-mix(in oklch, var(--pito-blue) 75%, transparent),
+        0 0 110px color-mix(in oklch, #bb9af7 55%, transparent);
+    }
+    100% {
+      transform: scale(1);
+      box-shadow:
+        0 0 24px color-mix(in oklch, var(--pito-blue) 35%, transparent),
+        0 0 60px color-mix(in oklch, #bb9af7 20%, transparent);
+    }
+  }
+
+  .countdown--pulse {
+    animation: countdown-pulse 420ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* the sky freezes to a single frame (sky-flock.js) and no collisions
+       ever fire (nothing is moving to bump the box), but the counter still
+       ticks down on its own — a pure countdown for these visitors. */
+    .countdown {
+      transition: none;
+    }
+
+    .countdown--pulse {
+      animation: none;
+    }
+  }
+</style>

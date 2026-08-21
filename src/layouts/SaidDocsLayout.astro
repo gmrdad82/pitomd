@@ -1,0 +1,187 @@
+---
+import "../styles/said-docs.css";
+import "../styles/said-shot.css";
+import SaidFooter from "../components/SaidFooter.astro";
+import DevBanner from "../components/DevBanner.astro";
+import SaidNav from "../components/SaidNav.astro";
+import { saidGuides } from "../data/said-guides";
+
+interface Props {
+  title: string;
+  description: string;
+  section: "guides" | "blog";
+  kicker: string;
+  heading: string;
+  dek?: string;
+  meta?: string;
+  slug?: string;
+  progress?: boolean;
+  serif?: boolean;
+  flavor?: "paper";
+  jsonLd?: object;
+}
+
+const {
+  title,
+  description,
+  section,
+  kicker,
+  heading,
+  dek,
+  meta,
+  slug,
+  progress = false,
+  serif = false,
+  flavor,
+  jsonLd,
+} = Astro.props;
+const headText = heading.endsWith(".") ? heading.slice(0, -1) : heading;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const sidebar = section === "guides";
+const active = slug ? saidGuides.find((g) => g.slug === slug) : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link
+      rel="preload"
+      as="font"
+      type="font/ttf"
+      href="/said/fonts/MartianMono-Medium-latin.ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/ttf"
+      href="/said/fonts/JetBrainsMono-Regular-latin.ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/ttf"
+      href="/said/fonts/JetBrainsMono-Medium-latin.ttf"
+      crossorigin
+    />
+    <link rel="icon" type="image/svg+xml" href="/said/icon.svg" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={canonical} />
+    {
+      jsonLd && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(jsonLd)}
+          is:inline
+        />
+      )
+    }
+    <script is:inline>
+      (function () {
+        try {
+          var saved = localStorage.getItem("pito-guide-theme");
+          if (saved === "light" || saved === "dark") {
+            document.documentElement.setAttribute("data-guide-theme", saved);
+          }
+        } catch (e) {
+          void e;
+        }
+      })();
+    </script>
+  </head>
+  <body
+    class:list={[
+      "sdoc",
+      section === "guides" && "sdoc-guides",
+      flavor === "paper" && "sdoc-paper",
+    ]}
+  >
+    {progress && <div class="sdoc-progress" aria-hidden="true" />}
+    <SaidNav active={section} themeToggle={true} />
+
+    <div class:list={["sdoc-shell", !sidebar && "sdoc-shell--noside"]}>
+      {
+        sidebar && (
+          <nav class="sdoc-sidebar" aria-label="Guides">
+            <p class="sdoc-sidebar-label">Guides</p>
+            <ul>
+              <li>
+                <a
+                  class:list={["sdoc-side-link", !slug && "is-active"]}
+                  href="/said/guides/"
+                  aria-current={!slug ? "page" : undefined}
+                >
+                  All guides
+                </a>
+              </li>
+              {saidGuides.map((g) => (
+                <li>
+                  <a
+                    class:list={[
+                      "sdoc-side-link",
+                      g.slug === slug && "is-active",
+                    ]}
+                    href={`/said/guides/${g.slug}/`}
+                    aria-current={g.slug === slug ? "page" : undefined}
+                  >
+                    {g.title}
+                  </a>
+                  {g.slug === slug && (
+                    <ul class="sdoc-subnav">
+                      {g.sections.map((s) => (
+                        <li>
+                          <a href={`#${s.id}`}>{s.label}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )
+      }
+
+      <main class:list={["sdoc-main", serif && "sdoc-article-serif"]}>
+        <p class="sdoc-kicker">{kicker}</p>
+        <h1>{headText}<span class="sdoc-dot">.</span></h1>
+        {dek && <p class="sdoc-dek">{dek}</p>}
+        {meta && <p class="sdoc-meta" set:html={meta} />}
+        <div class="sdoc-body">
+          <slot />
+        </div>
+        <slot name="after" />
+      </main>
+
+      {
+        sidebar && active && (
+          <aside class="sdoc-toc" aria-label="On this page">
+            <p class="sdoc-toc-label">On this page</p>
+            <ul>
+              {active.sections.map((s) => (
+                <li>
+                  <a href={`#${s.id}`}>{s.label}</a>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        )
+      }
+    </div>
+
+    <SaidFooter />
+
+    <script src="../scripts/guide-theme.js"></script>
+    {progress && <script src="../scripts/said-progress.js" />}
+    <DevBanner />
+  </body>
+</html>

@@ -1,6 +1,7 @@
 ---
 title: "Local-first means yours: backups without a cloud"
 description: "One local database, a daily backup you can hold, and a notes folder the app refuses to own."
+published: false
 pubDate: 2026-09-07
 ---
 

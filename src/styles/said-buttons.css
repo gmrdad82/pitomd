@@ -1,0 +1,110 @@
+.said-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 176px;
+  height: 52px;
+  line-height: 1;
+  overflow: hidden;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 0.98rem;
+  padding: 0 26px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition:
+    filter 140ms ease,
+    transform 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.said-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.said-btn-primary,
+.said-dl-get {
+  background: linear-gradient(135deg, #0fa8f0, #5170ff);
+  color: #fff;
+  box-shadow: 0 10px 30px -12px rgb(15 168 240 / 55%);
+}
+
+.said-btn-primary:hover,
+.said-dl-get:hover {
+  box-shadow: 0 14px 40px -12px rgb(15 168 240 / 75%);
+}
+
+.said-btn-primary::before,
+.said-dl-get::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgb(255 255 255 / 35%) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  animation: said-shimmer 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes said-shimmer {
+  0%,
+  55% {
+    transform: translateX(-120%);
+  }
+
+  80%,
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+.said-btn-ghost {
+  color: #eceff4;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgb(10 18 30 / 92%), rgb(10 18 30 / 92%)) padding-box,
+    linear-gradient(120deg, rgb(148 225 255 / 55%), rgb(81 112 255 / 55%))
+      border-box;
+}
+
+.said-btn-ghost:hover {
+  background:
+    linear-gradient(rgb(14 24 38 / 94%), rgb(14 24 38 / 94%)) padding-box,
+    linear-gradient(120deg, rgb(148 225 255 / 85%), rgb(81 112 255 / 85%))
+      border-box;
+  box-shadow: 0 8px 26px -14px rgb(148 225 255 / 45%);
+}
+
+.said-dl-get {
+  min-width: 0;
+  width: 100%;
+}
+
+.said-buy-btn {
+  opacity: 0.75;
+  cursor: default;
+}
+
+@media (width <= 640px) {
+  .said-btn {
+    min-width: 148px;
+    height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .said-btn-primary::before,
+  .said-dl-get::before {
+    animation: none;
+  }
+
+  .said-btn:hover {
+    transform: none;
+  }
+}

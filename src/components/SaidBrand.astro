@@ -1,0 +1,82 @@
+---
+interface Props {
+  href?: string;
+  size?: "nav" | "footer";
+  collapsible?: boolean;
+}
+
+const { href = "/said/", size = "nav", collapsible = false } = Astro.props;
+---
+
+<a
+  class:list={["said-brand-lockup", `is-${size}`, collapsible && "collapses"]}
+  href={href}
+>
+  <img class="brand-mark" src="/said/icon.svg" alt="" />
+  <span class="brand-words"
+    ><span class="brand-said">Said and</span>{" "}<span class="brand-done"
+      >Done.</span
+    ></span
+  >
+</a>
+
+<style>
+  .said-brand-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    text-decoration: none;
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .brand-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: block;
+  }
+
+  .is-nav {
+    font-size: 1.2rem;
+  }
+
+  .is-footer {
+    font-size: 0.95rem;
+  }
+
+  .is-footer .brand-mark {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+  }
+
+  .brand-said {
+    color: #eceff4;
+  }
+
+  .brand-done {
+    color: #0fa8f0;
+  }
+
+  :global(.sdoc) .brand-said {
+    color: var(--sdoc-ink);
+  }
+
+  :global(.sdoc) .brand-done {
+    color: var(--sdoc-blue);
+  }
+
+  @media (width <= 700px) {
+    .collapses .brand-words {
+      display: none;
+    }
+
+    .collapses .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
+    }
+  }
+</style>

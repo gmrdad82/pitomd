@@ -1,0 +1,24 @@
+---
+---
+
+{import.meta.env.DEV && <div class="dev-banner">DEVELOPMENT</div>}
+
+<style>
+  .dev-banner {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    background: #ffe066;
+    color: #1a0b2e;
+    font-family: ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-align: center;
+    padding: 0.25rem 0;
+    pointer-events: none;
+    user-select: none;
+  }
+</style>

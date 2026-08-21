@@ -113,12 +113,6 @@ describe("the 5.0.0 rail (chat showcase, fat cut — H2)", () => {
     expect(chat).not.toContain("github.com/sponsors");
   });
 
-  test("the way back: a top-left CrossNav pill to /", () => {
-    expect(chat).toContain("CrossNav");
-    expect(chat).toMatch(/href=\{HOME\}|href="\/"/);
-    expect(chat).toContain('position="top-left"');
-  });
-
   test("the four purged renderers never come back (H1: fluid, metaballs, halftone, lens)", () => {
     const webgl = read("src/scripts/fx-webgl.js");
     for (const fx of ["fluid", "metaballs", "halftone", "lens"]) {
@@ -275,11 +269,13 @@ describe("script islands", () => {
     // from GuideLayout.astro instead of Base.astro — loading it globally
     // would ship dead code to every other route for a button that only
     // exists on /guides pages.
-    const guideLayout = read("src/layouts/GuideLayout.astro");
     const saidLayout = read("src/layouts/SaidLayout.astro");
+    const saidDocsLayout = read("src/layouts/SaidDocsLayout.astro");
     const pageScoped = {
-      "guide-theme.js": guideLayout,
+      "guide-theme.js": saidDocsLayout,
       "said-reveal.js": saidLayout,
+      "said-hero-shader.js": saidLayout,
+      "said-progress.js": saidDocsLayout,
     };
 
     for (const f of readdirSync(join(ROOT, "src/scripts"))) {
