@@ -33,3 +33,4 @@ __pycache__/
 /tmp/
 /tmp-build.log
 /tmp-lint.log
+*.log
