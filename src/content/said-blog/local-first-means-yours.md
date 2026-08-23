@@ -6,9 +6,9 @@ pubDate: 2026-09-07
 ---
 
 Every productivity tool eventually asks the same quiet question: whose data
-is this, really? Said and Done answers it in architecture, not in a privacy policy.
+is this, really? Said and Done. answers it in architecture, not in a privacy policy.
 
-Your notes stay files, in your folder, under your name. Said and Done reads them
+Your notes stay files, in your folder, under your name. Said and Done. reads them
 where they live and never writes into them — indexing them, referencing
 them, but leaving the bytes yours. If you deleted the app tomorrow, your
 notes wouldn't notice.
@@ -19,12 +19,12 @@ you and your own plans. The remote client, when you want your desk on your
 phone, rides your own tunnel with one token; the window closed means the
 remote is off.
 
-And because local data deserves grown-up care, Said and Done backs itself up once a
+And because local data deserves grown-up care, Said and Done. backs itself up once a
 day while it's open: a clean snapshot of the database plus every attachment,
 into a folder you chose, keeping two weeks of history. Not a cloud promise —
 files you can see, copy, and hold.
 
-One deliberate exception: Said and Done never backs up your notes. That folder is
+One deliberate exception: Said and Done. never backs up your notes. That folder is
 your archive, on your terms, with whatever ceremony you trust. The app backs
 up what it owns and refuses to own what's yours.
 

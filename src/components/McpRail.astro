@@ -1,0 +1,37 @@
+---
+import type { McpChip } from "../lib/mcp-clients";
+
+interface Props {
+  chips: McpChip[];
+  reverse?: boolean;
+  repeat?: number;
+  label: string;
+}
+
+const { chips, reverse = false, repeat = 6, label } = Astro.props;
+const seconds = Math.round(repeat * chips.length * 2.2);
+const copies = [0, 1];
+const reps = Array.from({ length: repeat }, (_, i) => i);
+---
+
+<div class="said-mcp-rail" aria-label={label} style={`--rail-dur: ${seconds}s`}>
+  <div class:list={["said-mcp-track", reverse && "said-mcp-track--reverse"]}>
+    {
+      copies.map((copy) => (
+        <div class="said-mcp-set" aria-hidden={copy > 0 ? "true" : undefined}>
+          {reps.map((rep) =>
+            chips.map((chip) => (
+              <span
+                class="said-mcp-chip"
+                aria-hidden={copy === 0 && rep === 0 ? undefined : "true"}
+              >
+                <strong>{chip.name}</strong>
+                <em>{chip.door}</em>
+              </span>
+            )),
+          )}
+        </div>
+      ))
+    }
+  </div>
+</div>

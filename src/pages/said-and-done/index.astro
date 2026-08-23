@@ -1,48 +1,50 @@
 ---
 import SaidShot from "../../components/SaidShot.astro";
+import McpRail from "../../components/McpRail.astro";
+import { MCP_ROW_ONE, MCP_ROW_TWO } from "../../lib/mcp-clients";
 import SaidLayout from "../../layouts/SaidLayout.astro";
 ---
 
 <SaidLayout
-  title="Said and Done — the desk that keeps its word"
+  title="Said and Done. — the desk that keeps its word"
   description="Your markdown notes become projects, boards, and cards — local, keyboard-first, with an AI teammate that signs its work. Said and Done."
 >
-  <header class="said-hero">
-    <canvas class="fx-aurora" aria-hidden="true"></canvas>
-    <img
-      class="said-mark said-mark-hero said-rise"
-      src="/said-and-done/icon.svg"
-      alt="The Said and Done mark — three spoken lines, the last one answered with a check"
-    />
-    <h1 class="said-hero-name said-comet">
-      <span class="hn-said">Said and</span>{" "}<span class="hn-done"
-        >Done.</span
-      >
-    </h1>
-    <p class="said-hero-sub said-rise said-rise-3">
-      The desk that lives where your notes live.
-    </p>
-    <div class="said-cta-row said-rise said-rise-4">
-      <a class="said-btn said-btn-primary" href="/said-and-done/tour/"
-        >Take the tour</a
-      >
-      <a class="said-btn said-btn-ghost" href="/said-and-done/guides/"
-        >Read the guides</a
-      >
-    </div>
-    <div class="said-fan said-rise said-rise-4">
-      <div class="said-fan-side said-fan-left">
-        <SaidShot src="/said-and-done/shots/dossier.png" alt="" eager />
+  <header class="said-hero said-hero-desk">
+    <canvas class="fx-aurora" data-mark aria-hidden="true"></canvas>
+    <div class="said-mark-slot said-mark-slot-corner" aria-hidden="true"></div>
+    <div class="desk-cols">
+      <div class="desk-copy said-rise">
+        <p class="desk-eyebrow">
+          Said and <span class="desk-eyebrow-done">Done.</span>
+        </p>
+        <h1 class="desk-title">
+          The desk that lives where your notes live<span class="dot">.</span>
+        </h1>
+        <p class="desk-sub">
+          Your markdown folders become projects, boards, and cards — local,
+          keyboard-first, and honest about every move.
+        </p>
+        <div class="said-cta-row said-rise said-rise-3">
+          <a class="said-btn said-btn-primary" href="/said-and-done/tour/"
+            >Take the tour</a
+          >
+          <a class="said-btn said-btn-ghost" href="/said-and-done/download/"
+            >Download</a
+          >
+        </div>
       </div>
-      <div class="said-fan-center">
-        <SaidShot
-          src="/said-and-done/shots/board.png"
-          alt="The Said and Done board — four lanes carrying real cards, each with references into markdown notes"
-          eager
-        />
-      </div>
-      <div class="said-fan-side said-fan-right">
-        <SaidShot src="/said-and-done/shots/casefile.png" alt="" eager />
+      <div class="desk-stage said-rise said-rise-3">
+        <div class="desk-stage-back">
+          <SaidShot src="/said-and-done/shots/casefile.png" alt="" eager />
+        </div>
+        <div class="desk-stage-front">
+          <SaidShot
+            src="/said-and-done/shots/board.png"
+            alt="The Said and Done. board — four lanes carrying real cards, each with references into markdown notes"
+            caption="The board, live on a real project."
+            eager
+          />
+        </div>
       </div>
     </div>
   </header>
@@ -52,52 +54,75 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
       <p class="said-kicker">01 · The notes are the plan</p>
       <h2>Your notes are already the plan<span class="dot">.</span></h2>
       <p class="said-note">
-        Point Said and Done at the folder where your thinking lives. Every
-        folder inside becomes a project; nothing is copied, nothing is moved.
-        Cards reference the exact lines in your markdown they came from — so the
-        plan and the work never drift apart.
+        Point <span class="hn-said">Said and</span>{" "}<span class="hn-done"
+          >Done.</span
+        > at the folder where your thinking lives. Every folder inside becomes a project;
+        nothing is copied, nothing is moved. Cards reference the exact lines in your
+        markdown they came from — so the plan and the work never drift apart.
       </p>
       <SaidShot
         src="/said-and-done/shots/reference.png"
         alt="A card's reference read in place — the markdown lines it points at, rendered inside the card"
+        caption="The exact markdown lines a card points at, rendered where you need them."
         class="said-reveal said-zoom"
       />
     </div>
   </section>
 
-  <section class="said-frame said-frame--tile">
-    <div class="said-wrap said-reveal">
-      <p class="said-kicker">02 · Two faces</p>
-      <h2>
-        Two faces<span class="dot">.</span> One desk<span class="dot">.</span>
-      </h2>
-      <p class="said-note">
-        The board carries cards across lanes when you are deciding. The dossier
-        reads the same cards as one running record when you are understanding.
-        Open any card as a case file: its whole life on one sheet.
-      </p>
-      <div class="said-duo">
-        <div>
-          <SaidShot
-            src="/said-and-done/shots/dossier.png"
-            alt="The dossier face — one running record of every card, freshest first"
-            class="said-reveal said-zoom"
-          />
-          <p class="said-tilelabel">
-            <strong>The dossier.</strong> One record, the freshest word on top.
-          </p>
-        </div>
-        <div>
-          <SaidShot
-            src="/said-and-done/shots/wizard-face.png"
-            alt="First boot asks how your work should face you — both previews animate live"
-            class="said-reveal said-zoom"
-          />
-          <p class="said-tilelabel">
-            <strong>The chooser.</strong> First boot asks; Settings can always change
-            your mind.
-          </p>
-        </div>
+  <section
+    class="said-frame--tile said-scrolly"
+    data-scrolly
+    style="--steps: 3"
+  >
+    <div class="said-scrolly-stage">
+      <span class="said-scrolly-hint">02 · Two faces · scroll through</span>
+      <div class="said-scrolly-step" data-scrolly-step>
+        <h2>Deciding? The board<span class="dot">.</span></h2>
+        <p class="said-note">
+          Lanes carry the cards, left to right, until they land in done. Pick a
+          card with the keyboard, move it with a chord, and the ticker at the
+          bottom names every live key — nothing to memorise, nothing hiding
+          behind a menu. What's next is always the column to the right.
+        </p>
+        <SaidShot
+          src="/said-and-done/shots/board.png"
+          alt="The board face — lanes carrying cards left to right"
+          caption="A real project mid-decision — backlog to done, four lanes across."
+          class="said-scrolly-shot"
+        />
+      </div>
+      <div class="said-scrolly-step" data-scrolly-step>
+        <h2>Understanding? The dossier<span class="dot">.</span></h2>
+        <p class="said-note">
+          The same cards read as one running record, the freshest word on top.
+          Every line carries its dates, its lane, the files it points at, and
+          who spoke last — so catching up after three days away is a scroll, not
+          an excavation. Nothing is duplicated; it is the board, re-read.
+        </p>
+        <SaidShot
+          src="/said-and-done/shots/dossier.png"
+          alt="The dossier face — one running record of every card, freshest first"
+          caption="Every card as a line in the record — dates, files, and voices attached."
+          class="said-scrolly-shot"
+        />
+      </div>
+      <div class="said-scrolly-step" data-scrolly-step>
+        <h2>
+          One desk<span class="dot">.</span> Your pick<span class="dot">.</span>
+        </h2>
+        <p class="said-note">
+          First boot asks how your work should face you, and both faces preview
+          live while you decide. Settings can always change your mind later —
+          same cards, same history, just a different way of looking. And from
+          either face, any card opens as a case file: its whole life on one
+          sheet.
+        </p>
+        <SaidShot
+          src="/said-and-done/shots/wizard-face.png"
+          alt="First boot asks how your work should face you — both previews animate live"
+          caption="The chooser — one desk, two faces, changeable any time in Settings."
+          class="said-scrolly-shot"
+        />
       </div>
     </div>
   </section>
@@ -111,9 +136,19 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
         cards, moves them, and speaks in threads — every action signed with its
         own name in the history, exactly the way yours carries yours.
       </p>
+      <McpRail
+        chips={MCP_ROW_ONE}
+        label="MCP clients that work with Said and Done."
+      />
+      <McpRail
+        chips={MCP_ROW_TWO}
+        reverse
+        label="More MCP clients that work with Said and Done."
+      />
       <SaidShot
         src="/said-and-done/shots/casefile.png"
         alt="A case file thread where agent:builder reports its fix, signed by name"
+        caption="Signed work — the agent's name in the history, next to yours."
         class="said-reveal said-zoom"
       />
     </div>
@@ -133,6 +168,7 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
       <SaidShot
         src="/said-and-done/shots/finder.png"
         alt="The finder — an exact hit on top, meaning-search hits beneath it"
+        caption="Exact hits first, meaning matches beneath."
         class="said-reveal said-zoom"
       />
     </div>
@@ -169,16 +205,20 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
 
   <section class="said-frame said-frame--tile">
     <div class="said-wrap said-reveal">
-      <p class="said-kicker">06 · Said and Done</p>
+      <p class="said-kicker">
+        06 · <span class="hn-said">Said and</span>{" "}<span class="hn-done"
+          >Done.</span>
+      </p>
       <h2>
         Say it<span class="dot">.</span> Then see it done<span class="dot"
           >.</span
         >
       </h2>
       <p class="said-note">
-        Said and Done is in release-candidate season. The installers — Linux,
-        macOS, Windows, everything bundled, nothing to fetch — are almost ready
-        to shake hands.
+        <span class="hn-said">Said and</span>{" "}<span class="hn-done"
+          >Done.</span
+        > is in release-candidate season. The installers — Linux, macOS, Windows,
+        everything bundled, nothing to fetch — are almost ready to shake hands.
       </p>
       <div class="said-cta-row">
         <a class="said-btn said-btn-primary" href="/said-and-done/tour/"
@@ -190,4 +230,5 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
       </div>
     </div>
   </section>
+  <script src="../../scripts/scrollytell.js"></script>
 </SaidLayout>

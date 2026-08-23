@@ -3,20 +3,21 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
 ---
 
 <SaidLayout
-  title="Buy Said and Done — 4.99€, yours forever"
+  title="Buy Said and Done. — 4.99€, yours forever"
   description="One 4.99€ licence unlocks unlimited projects, boards, files, and references on two devices — pay once, keep it forever."
   active="buy"
 >
   <header class="said-hero" style="min-height: 52svh;">
-    <canvas class="fx-aurora" aria-hidden="true"></canvas>
-    <div class="said-eyebrow said-rise">Buy Said and Done</div>
+    <canvas class="fx-aurora" data-mark data-mark-wash aria-hidden="true"
+    ></canvas>
+    <div class="said-eyebrow said-rise">
+      Buy Said and{" "}<span class="hn-done">Done.</span>
+    </div>
     <h1
       class="said-rise said-rise-2"
       style="font-size: clamp(2.4rem, 7vw, 5.5rem);"
     >
-      Everything<span class="dot">.</span> 4<span class="dot">.</span>99€<span
-        class="dot">.</span
-      >
+      Everything<span class="dot">.</span> 4.99€<span class="dot">.</span>
     </h1>
     <p class="said-hero-sub said-rise said-rise-3">
       One payment, no subscription, no account. The free desk is yours on
@@ -46,13 +47,15 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
         </div>
       </div>
       <div class="said-cta-row" style="margin-top: 34px;">
-        <span class="said-btn said-btn-primary said-buy-btn"
-          >Buy Said and Done — 4.99€ · checkout opens soon</span
+        <a
+          class="said-btn said-btn-primary said-buy-btn"
+          href="https://license.pitomd.com/checkout/77816edf"
+          >Buy Said and{" "}<span class="hn-done">Done.</span>&nbsp;— 4.99€</a
         >
       </div>
       <p class="said-note" style="margin-top: 30px;">
-        Stripe checkout is being wired up for the release. Friends and family:
-        you know where to find me — keys are minted by hand.
+        Payment runs on Stripe; card details never touch this site. Friends and
+        family: you know where to find me — keys are minted by hand.
       </p>
       <div class="said-cta-row" style="margin-top: 20px;">
         <a class="said-btn said-btn-ghost" href="/said-and-done/download/"

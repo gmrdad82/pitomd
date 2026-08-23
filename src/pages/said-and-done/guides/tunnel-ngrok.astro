@@ -1,0 +1,70 @@
+---
+import SaidDocsLayout from "../../../layouts/SaidDocsLayout.astro";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Reach your Said and Done. desk from anywhere with ngrok",
+  description:
+    "Arm the Remote Client, hand it a public URL with ngrok, and sign in from your phone.",
+  step: [
+    { "@type": "HowToStep", name: "Arm the Remote Client" },
+    { "@type": "HowToStep", name: "Open the tunnel" },
+    { "@type": "HowToStep", name: "Sign in from your phone" },
+  ],
+};
+---
+
+<SaidDocsLayout
+  title="A road home: ngrok — Said and Done. guides"
+  description="The fastest way to hand your Said and Done. desk a public URL — one command after a one-time token."
+  section="guides"
+  kicker="Guide 05"
+  heading="A road home: ngrok"
+  dek="One command, once the token is in."
+  slug="tunnel-ngrok"
+  jsonLd={jsonLd}
+>
+  <p>
+    Said and Done. answers only on your own machine —
+    <code>127.0.0.1:5180</code> — and never opens itself to the internet. ngrok is
+    the quickest tunnel there is: install it, paste one token, and one command gives
+    the desk a public HTTPS URL. The desk's password still guards the door.
+  </p>
+
+  <h2 id="arm">1 · Arm the Remote Client</h2>
+  <p>
+    In the app: Settings → Connections → Remote Client → <em>Set up…</em>.
+    Choose a password — that alone arms it. Behind a public URL the extra lock
+    is worth having: <em>Add a one-time code…</em> pairs an authenticator app in the
+    same sheet. When the row says it is listening on
+    <code>127.0.0.1:5180</code>, you are ready.
+  </p>
+
+  <h2 id="tunnel">2 · Open the road</h2>
+  <p>
+    Make a free ngrok account, copy the authtoken from its dashboard, and give
+    it to the ngrok you installed — once:
+  </p>
+  <pre><code>ngrok config add-authtoken YOUR_TOKEN</code></pre>
+  <p>Then, whenever you want the road open:</p>
+  <pre><code>ngrok http 5180</code></pre>
+  <p>
+    ngrok prints a public <code>https://…ngrok-free.app</code> URL that now carries
+    straight to your desk. On the free plan the URL changes each run; paid plans can
+    pin a domain of your own so the address never moves.
+  </p>
+
+  <h2 id="phone">3 · From your phone</h2>
+  <p>
+    Open the URL, sign in with the password — and the code, if you set one. The
+    board, the dossier, search, and the card sheets are all there, sized for a
+    thumb. Files you attach from the phone land in the desk's own attachment
+    store, on the computer where the app runs.
+  </p>
+  <p>
+    One honest note: a public URL is a public door, and the password is the only
+    thing behind it. Set a real one, and take the one-time code if the road
+    stays open all day.
+  </p>
+</SaidDocsLayout>

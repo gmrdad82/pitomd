@@ -1,16 +1,19 @@
 ---
 import SaidShot from "../../components/SaidShot.astro";
 import SaidLayout from "../../layouts/SaidLayout.astro";
+import McpRail from "../../components/McpRail.astro";
+import { MCP_ALL } from "../../lib/mcp-clients";
 import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
 ---
 
 <SaidLayout
-  title="The tour — Said and Done"
-  description="Nine reasons Said and Done earns a place on your desk: all local, yours forever, on-device AI, MCP-ready, automatic references, two faces, GPU-fast meaning search, every OS, and a remote client."
+  title="The tour — Said and Done."
+  description="Nine reasons Said and Done. earns a place on your desk: all local, yours forever, on-device AI, MCP-ready, automatic references, two faces, GPU-fast meaning search, every OS, and a remote client."
   active="tour"
 >
   <header class="said-hero" style="min-height: 62svh;">
-    <canvas class="fx-aurora" aria-hidden="true"></canvas>
+    <canvas class="fx-aurora" data-mark data-mark-wash aria-hidden="true"
+    ></canvas>
     <div class="said-eyebrow said-rise">The tour</div>
     <h1
       class="said-rise said-rise-2"
@@ -19,7 +22,9 @@ import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
       Every feature,<br />plainly said<span class="dot">.</span>
     </h1>
     <p class="said-hero-sub said-rise said-rise-3">
-      Nine things Said and Done does, in the order they matter.
+      <span class="said-lead">//</span> Nine things <span class="hn-said"
+        >Said and</span
+      >{" "}<span class="hn-done">Done.</span> does, in the order they matter.
     </p>
     <div class="said-cta-row said-rise said-rise-4">
       <a class="said-btn said-btn-primary" href="/said-and-done/download/"
@@ -42,7 +47,8 @@ import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
       </p>
       <SaidShot
         src="/said-and-done/shots/board.png"
-        alt="The Said and Done board — four lanes carrying real cards, entirely local"
+        alt="The Said and Done. board — four lanes carrying real cards, entirely local"
+        caption="The board, all local — four lanes, real cards, your own machine."
         class="said-reveal said-zoom"
       />
     </div>
@@ -103,6 +109,7 @@ import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
       <SaidShot
         src="/said-and-done/shots/finder.png"
         alt="The finder — an exact hit on top, meaning matches beneath it"
+        caption="One search, two kinds of hits — exact words on top, meaning underneath."
         class="said-reveal said-zoom"
       />
     </div>
@@ -121,9 +128,27 @@ import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
         move cards, speak in threads. Every action signed with the agent's own
         name, exactly like yours.
       </p>
+      <McpRail
+        chips={MCP_ALL}
+        repeat={3}
+        label="MCP clients that work with Said and Done."
+      />
+      <p class="said-note" style="margin-top: 26px;">
+        Two doors, both yours. While the desk is open, a Streamable-HTTP door
+        answers on your machine — and for clients that spawn their own servers,
+        the same desk speaks stdio. One line connects either:
+      </p>
+      <pre
+        class="said-mcp-line"><code>claude mcp add --transport http said http://127.0.0.1:5181/mcp</code></pre>
+      <p class="said-fine">
+        Checked against each client's own docs, not vibes. ChatGPT's connectors
+        reach only public HTTPS, so it joins through a tunnel you own; Claude
+        Desktop sits down through the stdio door.
+      </p>
       <SaidShot
         src="/said-and-done/shots/casefile.png"
         alt="A case file where an agent reports its fix under its own name"
+        caption="agent:builder reports its fix — signed in the thread like anyone else."
         class="said-reveal said-zoom"
       />
     </div>
@@ -143,6 +168,7 @@ import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
           <SaidShot
             src="/said-and-done/shots/card.png"
             alt="A card with its file references and line ranges"
+            caption="A card wearing its references — files and line ranges, not links."
             class="said-reveal said-zoom"
           />
         </div>
@@ -150,6 +176,7 @@ import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
           <SaidShot
             src="/said-and-done/shots/reference.png"
             alt="A reference read in place — the exact markdown lines, rendered"
+            caption="The referenced lines, read in place without leaving the card."
             class="said-reveal said-zoom"
           />
         </div>
@@ -175,6 +202,7 @@ import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
           <SaidShot
             src="/said-and-done/shots/dossier.png"
             alt="The dossier — one running record of every card"
+            caption="The dossier — every card as one running record."
             class="said-reveal said-zoom"
           />
         </div>
@@ -182,6 +210,7 @@ import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
           <SaidShot
             src="/said-and-done/shots/wizard-face.png"
             alt="First boot asking which face the desk should wear"
+            caption="First boot asks which face the desk should wear."
             class="said-reveal said-zoom"
           />
         </div>
@@ -201,6 +230,7 @@ import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
       <SaidShot
         src="/said-and-done/shots/projects.png"
         alt="The project switcher answering instantly"
+        caption="The switcher — projects answer as fast as you can type."
         class="said-reveal said-zoom"
       />
     </div>
@@ -219,6 +249,53 @@ import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
         desk. Nothing downloads at boot; uninstalling never touches your data or
         your notes.
       </p>
+      <div class="said-dl-grid" style="margin-top: 34px;">
+        <div class="said-dl-card" data-os="linux">
+          <img
+            class="said-dl-mark"
+            src="/said-and-done/os/linux.svg"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+          />
+          <span class="said-dl-os">Linux</span>
+          <h2>The .run</h2>
+          <p>
+            Self-installing: your user, your app menu, a clean uninstaller. No
+            elevation, no system folders.
+          </p>
+        </div>
+        <div class="said-dl-card" data-os="mac">
+          <img
+            class="said-dl-mark"
+            src="/said-and-done/os/apple.svg"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+          />
+          <span class="said-dl-os">macOS</span>
+          <h2>The .dmg</h2>
+          <p>
+            Drag to Applications, done. Apple Silicon, everything inside the
+            bundle.
+          </p>
+        </div>
+        <div class="said-dl-card" data-os="windows">
+          <img
+            class="said-dl-mark"
+            src="/said-and-done/os/windows.svg"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+          />
+          <span class="said-dl-os">Windows</span>
+          <h2>The setup.exe</h2>
+          <p>
+            Per-user install — no admin prompt, a normal Add/Remove entry,
+            updates that can actually update.
+          </p>
+        </div>
+      </div>
       <div class="said-cta-row" style="margin-top: 26px;">
         <a class="said-btn said-btn-ghost" href="/said-and-done/download/"
           >See the installers</a

@@ -1,0 +1,95 @@
+.said-mcp-rail {
+  overflow: hidden;
+  margin-top: 34px;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 9%,
+    #000 91%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 9%,
+    #000 91%,
+    transparent
+  );
+}
+
+.said-mcp-rail + .said-mcp-rail {
+  margin-top: 12px;
+}
+
+.said-mcp-track {
+  display: flex;
+  width: max-content;
+  animation: said-mcp-scroll var(--rail-dur, 38s) linear infinite;
+}
+
+.said-mcp-set {
+  display: flex;
+  gap: 12px;
+  padding-right: 12px;
+  flex: none;
+}
+
+.said-mcp-track--reverse {
+  animation-direction: reverse;
+}
+
+.said-mcp-rail:hover .said-mcp-track {
+  animation-play-state: paused;
+}
+
+@keyframes said-mcp-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.said-mcp-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 11px 20px;
+  border: 1px solid var(--said-line, rgb(148 225 255 / 14%));
+  border-radius: 999px;
+  background: var(--said-card, #0e1826);
+  white-space: nowrap;
+}
+
+.said-mcp-chip strong {
+  color: var(--said-ink, #eceff4);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.said-mcp-chip em {
+  color: var(--said-dim, #abb4c8);
+  font-style: normal;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .said-mcp-rail {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .said-mcp-track {
+    animation: none;
+    width: auto;
+  }
+
+  .said-mcp-set {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-right: 0;
+  }
+
+  .said-mcp-track [aria-hidden="true"] {
+    display: none;
+  }
+}

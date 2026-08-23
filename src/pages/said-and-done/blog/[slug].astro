@@ -49,7 +49,7 @@ const meta = badge
 ---
 
 <SaidDocsLayout
-  title={`${post.data.title} — Said and Done blog`}
+  title={`${post.data.title} — Said and Done. blog`}
   description={post.data.description}
   section="blog"
   kicker="The blog"
@@ -87,7 +87,10 @@ const meta = badge
                 href={`/said-and-done/blog/${m.id}/`}
               >
                 <h3>{m.data.title}</h3>
-                <span>Said and Done · {stamp(m.data.pubDate)}</span>
+                <span>
+                  Said and <span class="hn-done">Done.</span> ·{" "}
+                  {stamp(m.data.pubDate)}
+                </span>
               </a>
             ))}
           </div>

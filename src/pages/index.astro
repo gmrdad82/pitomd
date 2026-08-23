@@ -3,9 +3,12 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import "../styles/said-buttons.css";
 import "../styles/said-fx.css";
+import "../styles/said-rail.css";
 import SaidFooter from "../components/SaidFooter.astro";
 import CrossNav from "../components/CrossNav.astro";
 import SaidShot from "../components/SaidShot.astro";
+import McpRail from "../components/McpRail.astro";
+import { MCP_ROW_ONE, MCP_ROW_TWO } from "../lib/mcp-clients";
 import { released, withBadges, stamp } from "../lib/said-blog";
 
 const posts = await getCollection("saidBlog");
@@ -17,17 +20,13 @@ const roll = (
 ---
 
 <Base
-  title="pitomd.com — Said and Done"
-  description="The home of Pito's products. Said and Done, the desk that lives where your notes live, leads the lineup."
+  title="pitomd.com — Said and Done."
+  description="The home of Pito's products. Said and Done., the desk that lives where your notes live, leads the lineup."
 >
   <main class="home">
     <section class="home-hero">
-      <canvas class="fx-aurora" aria-hidden="true"></canvas>
-      <img
-        class="home-mark"
-        src="/said-and-done/icon.svg"
-        alt="The Said and Done mark"
-      />
+      <canvas class="fx-aurora" data-mark aria-hidden="true"></canvas>
+      <div class="said-mark-slot" aria-hidden="true"></div>
       <h1 class="home-name said-comet">
         <span class="hn-said">Said and</span>{" "}<span class="hn-done"
           >Done.</span
@@ -38,8 +37,8 @@ const roll = (
         honest about every move.
       </p>
       <div class="home-cta">
-        <a class="said-btn said-btn-primary" href="/said-and-done/"
-          >Meet Said and Done</a
+        <a class="said-btn said-btn-name" href="/said-and-done/"
+          >Meet Said and&nbsp;<span class="hn-done">Done.</span></a
         >
         <a class="said-btn said-btn-ghost" href="/said-and-done/tour/"
           >Take the tour</a
@@ -52,7 +51,8 @@ const roll = (
         <div class="home-fan-center">
           <SaidShot
             src="/said-and-done/shots/board.png"
-            alt="The Said and Done board — four lanes carrying real cards"
+            alt="The Said and Done. board — four lanes carrying real cards"
+            caption="The board, live — local, keyboard-first, honest."
             eager
           />
         </div>
@@ -60,6 +60,21 @@ const roll = (
           <SaidShot src="/said-and-done/shots/casefile.png" alt="" eager />
         </div>
       </div>
+    </section>
+
+    <section class="home-rail" aria-label="Works with your agents">
+      <p class="home-rail-line">
+        Speaks MCP — any of these can sit at the desk:
+      </p>
+      <McpRail
+        chips={MCP_ROW_ONE}
+        label="MCP clients that work with Said and Done."
+      />
+      <McpRail
+        chips={MCP_ROW_TWO}
+        reverse
+        label="More MCP clients that work with Said and Done."
+      />
     </section>
 
     <section class="home-roll">
@@ -71,7 +86,8 @@ const roll = (
               <h3>{post.data.title}</h3>
               <p>{post.data.description}</p>
               <span class="home-card-meta">
-                Said and Done · {stamp(post.data.pubDate)}
+                Said and <span class="hn-done">Done.</span> ·{" "}
+                {stamp(post.data.pubDate)}
                 {badge && <em class="home-card-badge">{badge}</em>}
               </span>
             </a>
@@ -102,6 +118,23 @@ const roll = (
       min-height: 100svh;
       display: flex;
       flex-direction: column;
+    }
+
+    .hn-done-dot {
+      color: #0fa8f0;
+      font-weight: 700;
+    }
+
+    .home-rail {
+      padding: 2.4rem 0 0.6rem;
+    }
+
+    .home-rail-line {
+      margin: 0 0 4px;
+      text-align: center;
+      color: rgb(171 180 200 / 80%);
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
     }
 
     .home-hero {
@@ -175,34 +208,10 @@ const roll = (
       opacity: 0.75;
     }
 
-    .home-mark {
+    .said-mark-slot {
       width: clamp(96px, 12vw, 148px);
       height: clamp(96px, 12vw, 148px);
-      border-radius: 24%;
-      margin-bottom: 6px;
-      border: 1px solid rgb(148 225 255 / 28%);
-      box-shadow:
-        0 0 0 1px rgb(6 11 20 / 70%),
-        0 0 80px -12px rgb(15 168 240 / 65%),
-        0 30px 70px -30px rgb(0 0 0 / 80%);
-      animation: home-float 6s ease-in-out infinite;
-    }
-
-    @keyframes home-float {
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-7px);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .home-mark {
-        animation: none;
-      }
+      margin: 0 auto 6px;
     }
 
     .home-name {
@@ -211,9 +220,10 @@ const roll = (
       margin: 0;
       font-family: "Martian Mono", ui-monospace, monospace;
       font-weight: 700;
-      font-size: clamp(2.9rem, 10.5vw, 9rem);
+      font-size: clamp(2.2rem, 9.4vw, 9rem);
       line-height: 1.12;
       letter-spacing: -0.02em;
+      white-space: nowrap;
     }
 
     .hn-said {
@@ -310,6 +320,23 @@ const roll = (
     }
 
     @media (width <= 640px) {
+      .hn-done-dot {
+        color: #0fa8f0;
+        font-weight: 700;
+      }
+
+      .home-rail {
+        padding: 2.4rem 0 0.6rem;
+      }
+
+      .home-rail-line {
+        margin: 0 0 4px;
+        text-align: center;
+        color: rgb(171 180 200 / 80%);
+        font-size: 0.9rem;
+        letter-spacing: 0.05em;
+      }
+
       .home-hero {
         min-height: 86svh;
         gap: 1.1rem;

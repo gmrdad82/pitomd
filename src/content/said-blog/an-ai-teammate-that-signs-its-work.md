@@ -1,6 +1,6 @@
 ---
 title: "An AI teammate that signs its work"
-description: "Your AI agent can sit at your Said and Done desk over MCP — filing cards, leaving notes, and never once acting anonymously."
+description: "Your AI agent can sit at your Said and Done. desk over MCP — filing cards, leaving notes, and never once acting anonymously."
 published: false
 pubDate: 2026-09-03
 ---
@@ -11,7 +11,7 @@ whose hand.
 
 ## Everyone at the desk has a name
 
-Said and Done takes the boring, old-fashioned position: everyone at the desk has a
+Said and Done. takes the boring, old-fashioned position: everyone at the desk has a
 name, including the machines. An MCP client connects with one line of
 setup and gets real tools: list the boards, search the notes,
 file a card, move it, comment in its thread, attach a capture.

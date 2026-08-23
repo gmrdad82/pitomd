@@ -81,3 +81,15 @@
 .sdoc.sdoc-paper .sdoc-body > img {
   background: color-mix(in srgb, var(--sdoc-ink) 6%, var(--sdoc-bg));
 }
+
+.said-shot-figure {
+  margin: 0;
+}
+
+.said-shot-caption {
+  margin-top: 14px;
+  text-align: center;
+  color: rgb(171 180 200 / 88%);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}

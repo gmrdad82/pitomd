@@ -9,7 +9,7 @@ You wrote it down three weeks ago. You know it's in there. But you called it
 "the licensing wrinkle" then and you're searching "key problem" now — and
 exact-word search shrugs.
 
-Said and Done searches both ways at once. The exact leg covers card titles, bodies,
+Said and Done. searches both ways at once. The exact leg covers card titles, bodies,
 and the text inside every line range a card references — fast, literal,
 reliable. Beside it runs a meaning leg: your markdown, chunked and embedded
 into vectors on your own GPU, so "key problem" can find the licensing

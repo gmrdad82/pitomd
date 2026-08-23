@@ -1,0 +1,72 @@
+---
+import SaidDocsLayout from "../../../layouts/SaidDocsLayout.astro";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Reach your Said and Done. desk from anywhere with Tailscale",
+  description:
+    "Arm the Remote Client, share it to your own devices with tailscale serve, or to the internet with Funnel.",
+  step: [
+    { "@type": "HowToStep", name: "Arm the Remote Client" },
+    { "@type": "HowToStep", name: "Serve it to your own devices" },
+    { "@type": "HowToStep", name: "Or open Funnel to the internet" },
+    { "@type": "HowToStep", name: "Sign in from your phone" },
+  ],
+};
+---
+
+<SaidDocsLayout
+  title="A road home: Tailscale — Said and Done. guides"
+  description="The private road to your Said and Done. desk — your own devices only, no public URL unless you ask for one."
+  section="guides"
+  kicker="Guide 06"
+  heading="A road home: Tailscale"
+  dek="The private road — no public URL at all, unless you ask."
+  slug="tunnel-tailscale"
+  jsonLd={jsonLd}
+>
+  <p>
+    Said and Done. answers only on your own machine —
+    <code>127.0.0.1:5180</code> — and never opens itself to the internet. Tailscale
+    takes the most private route of the three: your computers and your phone join
+    one small network of their own, and the desk becomes reachable inside it — with
+    no public URL anywhere. Install Tailscale on the desk machine and on your phone,
+    sign both into the same account, and pick a road.
+  </p>
+
+  <h2 id="arm">1 · Arm the Remote Client</h2>
+  <p>
+    In the app: Settings → Connections → Remote Client → <em>Set up…</em>.
+    Choose a password — that alone arms it, and on a tailnet that is genuinely
+    enough: nobody outside your devices can even knock. When the row says it is
+    listening on <code>127.0.0.1:5180</code>, you are ready.
+  </p>
+
+  <h2 id="serve">2 · Your devices only</h2>
+  <pre><code>tailscale serve --bg --https=443 localhost:5180</code></pre>
+  <p>
+    That serves the desk over HTTPS at your machine's own tailnet name —
+    <code>https://your-machine.your-tailnet.ts.net</code> — visible to your devices
+    and to nothing else on Earth. <code>--bg</code> keeps it running after you close
+    the terminal. Tailscale's HTTPS certificates need enabling once in its admin console;
+    the CLI tells you if they aren't yet.
+  </p>
+
+  <h2 id="funnel">3 · Or the public road</h2>
+  <pre><code>tailscale funnel 5180</code></pre>
+  <p>
+    Funnel is the same address, opened to the public internet — for the day you
+    want to reach the desk from a machine that isn't yours. The same port can't
+    ride serve and Funnel at once; pick the road you mean. Behind Funnel, treat
+    the URL like any public door: a real password, and the one-time code on top.
+  </p>
+
+  <h2 id="phone">4 · From your phone</h2>
+  <p>
+    With Tailscale running on the phone, open your machine's
+    <code>ts.net</code> URL and sign in. The board, the dossier, search, and the card
+    sheets are all there, sized for a thumb. Files you attach from the phone land
+    in the desk's own attachment store, on the computer where the app runs.
+  </p>
+</SaidDocsLayout>

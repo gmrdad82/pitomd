@@ -1,6 +1,6 @@
 ---
 title: "Why your kanban should live where your notes live"
-description: "Every board dies when it drifts from the thinking behind it. Said and Done starts from the folder you already have."
+description: "Every board dies when it drifts from the thinking behind it. Said and Done. starts from the folder you already have."
 published: true
 pubDate: 2026-08-20
 ---
@@ -23,12 +23,12 @@ opened the note instead of the board and never quite came back.
 
 ## The other direction
 
-Said and Done starts from the other end. You point it at the folder where your notes
+Said and Done. starts from the other end. You point it at the folder where your notes
 already live, and every folder inside becomes a project. Nothing is copied,
 nothing is converted, nothing is held hostage. The cards are the moving
 parts; your files stay the record.
 
-![The Said and Done board — four lanes carrying cards born from real notes](/said-and-done/shots/board.png)
+![The Said and Done. board — four lanes carrying cards born from real notes](/said-and-done/shots/board.png)
 
 _The board: cards carry their project key for life, and each one points
 back into the notes it came from._
@@ -39,7 +39,7 @@ blink — they were never inside it.
 
 ## Cards that point at lines
 
-The hinge is references. A card in Said and Done points at the exact lines of the
+The hinge is references. A card in Said and Done. points at the exact lines of the
 note it came from — this decision, that paragraph, those requirements. When
 you open the card, the thinking is one keystroke away, read in place from
 your own file.
@@ -51,7 +51,7 @@ knows the way._
 
 The board can't drift from the plan, because the board is pinned to the
 plan, line by line. When the note changes, the reference follows the file.
-When a card is born, Said and Done even suggests its first reference by scanning the
+When a card is born, Said and Done. even suggests its first reference by scanning the
 project's own folder — the plan reaches out to the board before you ask.
 
 ## What the record keeps
@@ -66,4 +66,4 @@ done.
 _The case file: the notes keep the why; the desk keeps the what happened._
 
 That split is the whole philosophy. Your notes were always the source of
-truth. Said and Done just stops pretending otherwise.
+truth. Said and Done. just stops pretending otherwise.

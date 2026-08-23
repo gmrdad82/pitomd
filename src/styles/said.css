@@ -69,34 +69,10 @@
   height: 64px;
 }
 
-.said-mark-hero {
+.said-mark-slot {
   width: clamp(96px, 12vw, 148px);
   height: clamp(96px, 12vw, 148px);
-  border-radius: 24%;
   margin: 0 auto 6px;
-  border: 1px solid rgb(148 225 255 / 28%);
-  box-shadow:
-    0 0 0 1px rgb(6 11 20 / 70%),
-    0 0 80px -12px rgb(15 168 240 / 65%),
-    0 30px 70px -30px rgb(0 0 0 / 80%);
-  animation: said-float 6s ease-in-out infinite;
-}
-
-@keyframes said-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-7px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .said-mark-hero {
-    animation: none;
-  }
 }
 
 .said-nav-links {
@@ -223,9 +199,20 @@
   color: var(--said-ink);
 }
 
-.said-frame h2 .dot,
-.said-hero h1 .dot {
+.dot {
   color: var(--said-blue);
+}
+
+.hn-done {
+  color: var(--said-blue);
+}
+
+.hn-said {
+  color: var(--said-ink);
+}
+
+.said-lead {
+  color: var(--said-faint);
 }
 
 .said-hero h1.said-hero-name {
@@ -238,6 +225,14 @@
 
 .said-hero-name .hn-done {
   color: var(--said-blue);
+}
+
+.hn-said {
+  color: var(--said-ink);
+}
+
+.said-lead {
+  color: var(--said-faint);
 }
 
 .said-hero-sub {
@@ -714,6 +709,8 @@
 }
 
 .said-dl-card {
+  position: relative;
+  overflow: hidden;
   padding: clamp(24px, 3vw, 36px) clamp(20px, 2.4vw, 30px);
   border: 1px solid var(--said-line);
   border-radius: 20px;
@@ -722,6 +719,135 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.said-dl-mark {
+  position: absolute;
+  right: -14px;
+  top: -10px;
+  width: 108px;
+  height: 108px;
+  opacity: 0.07;
+  pointer-events: none;
+  user-select: none;
+}
+
+.said-dl-card > :not(.said-dl-mark) {
+  position: relative;
+}
+
+.said-mcp-line {
+  margin: 30px auto 34px;
+  max-width: 720px;
+  padding: 14px 18px;
+  border: 1px solid var(--said-line);
+  border-radius: 12px;
+  background: var(--said-card);
+  overflow-x: auto;
+}
+
+.said-mcp-line code {
+  color: var(--said-sky);
+  font-size: 0.86rem;
+}
+
+.said-fine {
+  margin-top: 0;
+  margin-bottom: 30px;
+  color: var(--said-dim);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.said-scrolly {
+  position: relative;
+  height: calc(var(--steps, 3) * 88svh);
+}
+
+.said-scrolly-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.said-scrolly-hint {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--said-dim);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.said-scrolly-step {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 72px 24px 40px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px) scale(0.985);
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease;
+  pointer-events: none;
+}
+
+.said-scrolly-step.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.said-scrolly-step.is-past {
+  opacity: 0;
+  transform: translateY(-30px) scale(0.985);
+}
+
+.said-scrolly-step h2 {
+  margin: 0;
+}
+
+.said-scrolly-step .said-note {
+  margin-top: 0;
+  max-width: 58ch;
+}
+
+.said-scrolly-step h2 {
+  max-width: 24ch;
+}
+
+.said-scrolly-shot {
+  width: min(760px, 92vw);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .said-scrolly {
+    height: auto;
+  }
+
+  .said-scrolly-stage {
+    position: static;
+    height: auto;
+    display: block;
+  }
+
+  .said-scrolly-step {
+    position: static;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    padding: 40px 24px;
+  }
 }
 
 .said-dl-card.is-yours {
@@ -803,4 +929,125 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(148 225 255 / 40%);
+}
+
+.said-hero-desk {
+  align-items: stretch;
+  text-align: left;
+  gap: 0;
+}
+
+.said-hero-desk .said-mark-slot-corner {
+  position: absolute;
+  top: clamp(84px, 13vh, 150px);
+  right: clamp(18px, 7vw, 110px);
+  width: clamp(64px, 7vw, 100px);
+  height: clamp(64px, 7vw, 100px);
+  margin: 0;
+}
+
+.desk-cols {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.desk-eyebrow {
+  margin: 0;
+  font-family: var(--said-display);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.6vw, 1.4rem);
+  letter-spacing: 0.02em;
+  color: var(--said-ink);
+}
+
+.desk-eyebrow-done {
+  color: var(--said-blue);
+}
+
+.said-hero-desk h1.desk-title {
+  margin: 14px 0 0;
+  font-family: var(--said-display);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3.2vw, 3.2rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: var(--said-ink);
+}
+
+.said-hero-desk .desk-eyebrow-done {
+  color: var(--said-blue);
+}
+
+.desk-sub {
+  margin: 18px 0 0;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: var(--said-dim);
+  max-width: 46ch;
+}
+
+.said-hero-desk .said-cta-row {
+  margin-top: 30px;
+  justify-content: flex-start;
+}
+
+.desk-stage {
+  position: relative;
+}
+
+.desk-stage-back {
+  position: absolute;
+  top: -9%;
+  right: -7%;
+  width: 74%;
+  transform: rotate(2.5deg);
+  opacity: 0.5;
+  filter: saturate(0.85);
+}
+
+.desk-stage-front {
+  position: relative;
+  transform: perspective(1400px) rotateY(-7deg);
+  transform-origin: right center;
+}
+
+@media (max-width: 960px) {
+  .said-hero-desk {
+    padding-top: 84px;
+    min-height: 0;
+  }
+
+  .said-hero-desk h1.desk-title {
+    font-size: clamp(1.5rem, 6vw, 2.1rem);
+  }
+
+  .desk-sub {
+    font-size: 0.98rem;
+  }
+
+  .desk-cols {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .desk-stage-back {
+    display: none;
+  }
+
+  .desk-stage-front {
+    transform: none;
+  }
+
+  .said-hero-desk .said-mark-slot-corner {
+    top: 76px;
+    right: 20px;
+    width: 58px;
+    height: 58px;
+  }
 }

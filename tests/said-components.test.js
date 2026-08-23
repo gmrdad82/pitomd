@@ -111,3 +111,16 @@ describe("brand elements exist once, as components (owner order, 2026-08-20)", (
     }
   });
 });
+
+test("every content shot carries a caption; only decorative fan shots go without (owner order, 2026-08-23)", () => {
+  for (const surface of saidSurfaces) {
+    const src = readFileSync(join(ROOT, surface), "utf8");
+    for (const shot of src.matchAll(/<SaidShot\b[^>]*?\/>/gs)) {
+      const tag = shot[0];
+      const decorative = /alt=""/.test(tag);
+      if (!decorative) {
+        expect(tag, `${surface}: ${tag.slice(0, 80)}`).toMatch(/caption="/);
+      }
+    }
+  }
+});

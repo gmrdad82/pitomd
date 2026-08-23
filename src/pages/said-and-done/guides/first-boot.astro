@@ -5,11 +5,11 @@ import SaidShot from "../../../components/SaidShot.astro";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "Set up Said and Done: first boot to first board",
+  name: "Set up Said and Done.: first boot to first board",
   description:
-    "Install Said and Done, point it at your notes folder, pick its face, and land on a working board.",
+    "Install Said and Done., point it at your notes folder, pick its face, and land on a working board.",
   step: [
-    { "@type": "HowToStep", name: "Install Said and Done" },
+    { "@type": "HowToStep", name: "Install Said and Done." },
     { "@type": "HowToStep", name: "Point it at your notes folder" },
     { "@type": "HowToStep", name: "Pick the board or the dossier" },
     { "@type": "HowToStep", name: "Answer the phone-home question" },
@@ -19,8 +19,8 @@ const jsonLd = {
 ---
 
 <SaidDocsLayout
-  title="First boot, first board — Said and Done guides"
-  description="Install Said and Done, point it at your notes folder, pick its face, and land on a working board — in about two minutes."
+  title="First boot, first board — Said and Done. guides"
+  description="Install Said and Done., point it at your notes folder, pick its face, and land on a working board — in about two minutes."
   section="guides"
   kicker="Guide 01"
   heading="First boot, first board"
@@ -29,7 +29,7 @@ const jsonLd = {
   jsonLd={jsonLd}
 >
   <p>
-    Said and Done arrives whole: the installer carries everything it needs, and
+    Said and Done. arrives whole: the installer carries everything it needs, and
     nothing is downloaded at boot. Your only real decision is which folder holds
     your notes.
   </p>
@@ -38,7 +38,7 @@ const jsonLd = {
   <p>
     Run the installer for your platform. On Linux it installs to your own user,
     puts <code>said</code> on your path, and adds the launcher entry. On macOS you
-    drag Said and Done to Applications. On Windows it installs per-user with a normal
+    drag Said and Done. to Applications. On Windows it installs per-user with a normal
     uninstaller. No elevation, no system folders — and uninstalling never touches
     your data.
   </p>
@@ -53,6 +53,7 @@ const jsonLd = {
   <SaidShot
     src="/said-and-done/shots/wizard-folder.png"
     alt="The first-boot folder picker, walking the home folder"
+    caption="First boot walks your own folders — nothing is made until you choose."
   />
 
   <h2 id="face">3 · Pick its face</h2>
@@ -65,11 +66,12 @@ const jsonLd = {
   <SaidShot
     src="/said-and-done/shots/wizard-face.png"
     alt="The face chooser — the board and the dossier previews, side by side"
+    caption="The face chooser — both previews animate before you pick."
   />
 
   <h2 id="questions">4 · One honest question</h2>
   <p>
-    May Said and Done send crash reports home? Yes or no — and Settings can
+    May Said and Done. send crash reports home? Yes or no — and Settings can
     change your mind later. That's the whole interview.
   </p>
 

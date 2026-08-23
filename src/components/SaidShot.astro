@@ -2,6 +2,7 @@
 interface Props {
   src: string;
   alt: string;
+  caption?: string;
   width?: number;
   height?: number;
   eager?: boolean;
@@ -11,6 +12,7 @@ interface Props {
 const {
   src,
   alt,
+  caption,
   width = 1280,
   height = 680,
   eager = false,
@@ -25,6 +27,17 @@ const hue = (seed % 9) * 5 - 20;
 const tune = `--shot-delay:${delay}s;--shot-dur:${duration}s;--shot-hue:${hue}deg`;
 ---
 
-<div class:list={["said-shot", extra]} style={tune}>
-  <img {src} {alt} {width} {height} loading={eager ? "eager" : "lazy"} />
-</div>
+{
+  caption ? (
+    <figure class:list={["said-shot-figure", extra]}>
+      <div class="said-shot" style={tune}>
+        <img {src} {alt} {width} {height} loading={eager ? "eager" : "lazy"} />
+      </div>
+      <figcaption class="said-shot-caption">{caption}</figcaption>
+    </figure>
+  ) : (
+    <div class:list={["said-shot", extra]} style={tune}>
+      <img {src} {alt} {width} {height} loading={eager ? "eager" : "lazy"} />
+    </div>
+  )
+}

@@ -3,12 +3,13 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
 ---
 
 <SaidLayout
-  title="Download — Said and Done"
-  description="Said and Done for Linux, macOS, and Windows — one installer per platform, everything bundled, nothing to fetch at boot."
+  title="Download — Said and Done."
+  description="Said and Done. for Linux, macOS, and Windows — one installer per platform, everything bundled, nothing to fetch at boot."
   active="download"
 >
   <header class="said-hero" style="min-height: 52svh;">
-    <canvas class="fx-aurora" aria-hidden="true"></canvas>
+    <canvas class="fx-aurora" data-mark data-mark-wash aria-hidden="true"
+    ></canvas>
     <div class="said-eyebrow said-rise">Download</div>
     <h1
       class="said-rise said-rise-2"
@@ -19,7 +20,9 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
       >
     </h1>
     <div class="said-cta-row said-rise said-rise-3">
-      <a class="said-btn said-btn-primary" href="/said-and-done/buy-now/"
+      <a
+        class="said-btn said-btn-primary"
+        href="https://license.pitomd.com/checkout/77816edf"
         >Unlock everything — 4.99€</a
       >
     </div>
@@ -29,6 +32,13 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
     <div class="said-wrap said-reveal">
       <div class="said-dl-grid">
         <div class="said-dl-card" data-os="linux">
+          <img
+            class="said-dl-mark"
+            src="/said-and-done/os/linux.svg"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+          />
           <span class="said-dl-os">Linux</span>
           <h2>The .run</h2>
           <p>
@@ -43,6 +53,13 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
           >
         </div>
         <div class="said-dl-card" data-os="mac">
+          <img
+            class="said-dl-mark"
+            src="/said-and-done/os/apple.svg"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+          />
           <span class="said-dl-os">macOS</span>
           <h2>The .dmg</h2>
           <p>
@@ -57,6 +74,13 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
           >
         </div>
         <div class="said-dl-card" data-os="windows">
+          <img
+            class="said-dl-mark"
+            src="/said-and-done/os/windows.svg"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+          />
           <span class="said-dl-os">Windows</span>
           <h2>The setup.exe</h2>
           <p>
@@ -72,15 +96,19 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
         </div>
       </div>
       <p class="said-note" style="margin-top: 44px;">
-        Said and Done is in release-candidate season — these installers go live
-        with the first public release. The free desk runs on unlimited devices;
-        one 4.99€ licence unlocks everything on two.
+        <span class="hn-said">Said and</span>{" "}<span class="hn-done"
+          >Done.</span
+        > is in release-candidate season — these installers go live with the first
+        public release. The free desk runs on unlimited devices; one 4.99€ licence
+        unlocks everything on two.
       </p>
       <div class="said-cta-row" style="margin-top: 26px;">
         <a class="said-btn said-btn-primary" href="/said-and-done/tour/"
           >See it first</a
         >
-        <a class="said-btn said-btn-ghost" href="/said-and-done/buy-now/"
+        <a
+          class="said-btn said-btn-ghost"
+          href="https://license.pitomd.com/checkout/77816edf"
           >Unlock everything — 4.99€</a
         >
       </div>

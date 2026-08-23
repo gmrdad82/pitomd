@@ -71,7 +71,38 @@ const active = slug ? saidGuides.find((g) => g.slug === slug) : undefined;
       href="/said-and-done/fonts/JetBrainsMono-Medium-latin.ttf"
       crossorigin
     />
-    <link rel="icon" type="image/svg+xml" href="/said-and-done/icon.svg" />
+    {
+      import.meta.env.DEV ? (
+        <link
+          rel="icon"
+          type="image/svg+xml"
+          sizes="any"
+          href="/favicon-dev.svg?v=10"
+        />
+      ) : (
+        <>
+          <link
+            rel="icon"
+            type="image/svg+xml"
+            sizes="any"
+            href="/favicon.svg?v=10"
+          />
+          <link rel="icon" href="/favicon.ico?v=10" type="image/x-icon" />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png?v=10"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png?v=10"
+          />
+        </>
+      )
+    }
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="article" />

@@ -1,0 +1,37 @@
+
+> pito-website@5.0.0 build
+> astro build
+
+16:54:58 [content] Syncing content
+16:54:58 [content] Synced content
+16:54:58 [types] Generated 1.08s
+16:54:58 [build] output: "static"
+16:54:58 [build] mode: "static"
+16:54:58 [build] directory: /home/catalin/Dev/pitomd/dist/
+16:54:58 [build] Collecting build info...
+16:54:58 [build] ✓ Completed in 1.16s.
+16:54:58 [build] Building static entrypoints...
+16:54:59 [vite] ✓ built in 585ms
+16:54:59 [vite] ✓ built in 105ms
+16:54:59 [build] Rearranging server assets...
+
+ generating static routes 
+16:54:59   ├─ /404.html (+12ms) 
+16:54:59   ├─ /chat/index.html (+13ms) 
+16:54:59   ├─ /said/blog/kanban-where-your-notes-live/index.html (+6ms) 
+16:54:59   ├─ /said/blog/index.html (+5ms) 
+16:54:59   ├─ /said/buy-now/index.html (+5ms) 
+16:54:59   ├─ /said/download/index.html (+6ms) 
+16:54:59   ├─ /said/guides/claude-at-the-desk/index.html (+6ms) 
+16:54:59   ├─ /said/guides/first-boot/index.html (+4ms) 
+16:54:59   ├─ /said/guides/the-keyboard/index.html (+4ms) 
+16:54:59   ├─ /said/guides/index.html (+4ms) 
+16:54:59   ├─ /said/tour/index.html (+5ms) 
+16:54:59   ├─ /said/index.html (+5ms) 
+16:54:59   ├─ /studio/index.html (+4ms) 
+16:54:59   ├─ /index.html (+7ms) 
+16:54:59 ✓ Completed in 112ms.
+
+16:54:59 [build] ✓ Completed in 884ms.
+16:54:59 [build] 14 page(s) built in 2.07s
+16:54:59 [build] Complete!

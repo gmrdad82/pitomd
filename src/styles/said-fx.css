@@ -1,18 +1,21 @@
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("/said/fonts/JetBrainsMono-Regular-latin.ttf") format("truetype");
+  src: url("/said-and-done/fonts/JetBrainsMono-Regular-latin.ttf")
+    format("truetype");
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("/said/fonts/JetBrainsMono-Medium-latin.ttf") format("truetype");
+  src: url("/said-and-done/fonts/JetBrainsMono-Medium-latin.ttf")
+    format("truetype");
   font-weight: 500 700;
   font-display: swap;
 }
 @font-face {
   font-family: "Martian Mono";
-  src: url("/said/fonts/MartianMono-Medium-latin.ttf") format("truetype");
+  src: url("/said-and-done/fonts/MartianMono-Medium-latin.ttf")
+    format("truetype");
   font-weight: 500 700;
   font-display: swap;
 }

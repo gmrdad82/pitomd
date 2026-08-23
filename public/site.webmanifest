@@ -1,6 +1,7 @@
 {
-  "name": "Pito",
-  "short_name": "Pito",
+  "name": "pitomd",
+  "short_name": "pitomd",
+  "display": "browser",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -12,8 +13,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "theme_color": "#282a36",
-  "background_color": "#282a36",
-  "display": "standalone"
+  ]
 }

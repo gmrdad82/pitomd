@@ -29,8 +29,10 @@ describe("the Said and Done home", () => {
     expect(index).not.toContain("said.css");
   });
 
-  test("one oversized hero: the mark and the branded two-tone name with a real gap (owner order, 2026-08-20: no PITO word in the hero)", () => {
-    expect(index).toContain('src="/said-and-done/icon.svg"');
+  test("one oversized hero: the embossed mark slot and the branded two-tone name with a real gap (owner orders, 2026-08-20 and 2026-08-22: no PITO word, no icon image — the shader carries the mark)", () => {
+    expect(index).not.toContain('src="/said-and-done/icon.svg"');
+    expect(index).toContain('class="said-mark-slot"');
+    expect(index).toContain('class="fx-aurora" data-mark');
     expect(index).toContain('<span class="hn-said">Said and</span>');
     expect(index).toContain('{" "}');
     expect(index).not.toMatch(/\.home-name\s*{[^}]*display:\s*flex/s);
