@@ -1,5 +1,6 @@
 ---
 import SaidDocsLayout from "../../../layouts/SaidDocsLayout.astro";
+import SaidTunnelArt from "../../../components/SaidTunnelArt.astro";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -31,6 +32,7 @@ const jsonLd = {
     the quickest tunnel there is: install it, paste one token, and one command gives
     the desk a public HTTPS URL. The desk's password still guards the door.
   </p>
+  <SaidTunnelArt provider="ngrok" host="sturdy-otter.ngrok.app" />
 
   <h2 id="arm">1 · Arm the Remote Client</h2>
   <p>

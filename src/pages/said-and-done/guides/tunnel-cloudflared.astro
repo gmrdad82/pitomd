@@ -1,5 +1,6 @@
 ---
 import SaidDocsLayout from "../../../layouts/SaidDocsLayout.astro";
+import SaidTunnelArt from "../../../components/SaidTunnelArt.astro";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -36,6 +37,7 @@ const jsonLd = {
     requests in from a public URL, and the desk's own password still guards the door.
     Cloudflare Tunnel is free for this, and it comes in two sizes.
   </p>
+  <SaidTunnelArt provider="cloudflared" host="work.yourdomain.com" />
 
   <h2 id="arm">1 · Arm the Remote Client</h2>
   <p>

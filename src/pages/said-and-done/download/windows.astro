@@ -1,0 +1,47 @@
+---
+import SaidLayout from "../../../layouts/SaidLayout.astro";
+---
+
+<SaidLayout
+  title="Said and Done. is downloading — Windows"
+  description="Your setup.exe is on its way. Per-user install, no admin prompt — just tell SmartScreen: More info, Run anyway."
+>
+  <section class="said-frame" style="padding-top: 48px;">
+    <div class="said-wrap said-reveal">
+      <p class="said-kicker">Downloading for Windows</p>
+      <h2>Run it, tell SmartScreen it's fine<span class="dot">.</span></h2>
+      <p>
+        Your <code>setup.exe</code> is on its way. It installs per-user — no
+        admin prompt, a normal Add/Remove entry, updates that can actually
+        update.
+      </p>
+
+      <div class="said-after-art" aria-hidden="true">
+        <svg viewBox="0 0 560 240" role="img">
+          <rect x="90" y="20" width="380" height="200" rx="14" fill="var(--said-card)" stroke="var(--said-line)" />
+          <rect x="90" y="20" width="380" height="42" rx="14" fill="rgb(15 168 240 / 10%)" />
+          <text x="114" y="47" font-family="var(--said-body)" font-size="13" fill="var(--said-ink)">Windows protected your PC</text>
+          <text x="114" y="96" font-family="var(--said-body)" font-size="12" fill="var(--said-faint)">Microsoft Defender SmartScreen hasn't met</text>
+          <text x="114" y="114" font-family="var(--said-body)" font-size="12" fill="var(--said-faint)">this app yet. That changes at release.</text>
+          <text x="114" y="146" font-family="var(--said-body)" font-size="12" fill="var(--said-blue)" text-decoration="underline">More info</text>
+          <rect x="304" y="168" width="140" height="34" rx="8" fill="rgb(15 168 240 / 22%)" stroke="var(--said-blue)" />
+          <text x="374" y="190" font-family="var(--said-body)" font-size="13" fill="var(--said-ink)" text-anchor="middle">Run anyway</text>
+        </svg>
+      </div>
+
+      <ol class="said-after-steps">
+        <li>Run the downloaded <code>setup.exe</code>.</li>
+        <li>SmartScreen may step in: click <strong>More info → Run anyway</strong>. Signing lands before release; until then Windows plays it safe.</li>
+        <li>It installs to your user profile and appears in Start and Add/Remove like anything else.</li>
+      </ol>
+      <p class="said-note said-after-note">
+        No elevation means the self-updater can swap the app without asking an
+        admin — updates that can actually update.
+      </p>
+      <div class="said-cta-row" style="margin-top: 26px;">
+        <a class="said-btn said-btn-primary" href="/said-and-done/guides/first-boot/">First boot, step by step</a>
+        <a class="said-btn said-btn-ghost" href="/said-and-done/download/">Back to downloads</a>
+      </div>
+    </div>
+  </section>
+</SaidLayout>

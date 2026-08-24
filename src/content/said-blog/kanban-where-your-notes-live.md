@@ -61,7 +61,7 @@ who moved it, when, and how it ended. Open any card as a case file and its
 whole life is on one sheet: the moves, the words, the journeys back from
 done.
 
-![A case file — state, lived days, voices, and a reopen called out in red](/said-and-done/shots/casefile.png)
+![A case file — state, lived days, references, and the voices in the thread](/said-and-done/shots/casefile.png)
 
 _The case file: the notes keep the why; the desk keeps the what happened._
 

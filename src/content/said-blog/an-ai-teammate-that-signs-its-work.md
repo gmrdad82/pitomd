@@ -19,7 +19,7 @@ file a card, move it, comment in its thread, attach a capture.
 Every one of those actions lands in the history signed with the agent's own
 name, exactly the way yours land signed with yours.
 
-![A case file where agent:builder reports its fix in the thread, under its own name](/said-and-done/shots/casefile.png)
+![A case file where agent:quartermaster reports in the thread, under its own name](/said-and-done/shots/casefile.png)
 
 _agent:builder, on the record. The reopen it caused is in the same file,
 two sections down. Nobody gets to be anonymous — including the machines._

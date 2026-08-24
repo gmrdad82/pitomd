@@ -1,0 +1,25 @@
+---
+interface Props {
+  src: string;
+  poster?: string;
+  caption?: string;
+  class?: string;
+}
+
+const { src, poster, caption, class: extra = "" } = Astro.props;
+---
+
+{
+  caption ? (
+    <figure class:list={["said-shot-figure", extra]}>
+      <div class="said-shot">
+        <video src={src} poster={poster} autoplay loop muted playsinline width="1280" height="680" />
+      </div>
+      <figcaption class="said-shot-caption">{caption}</figcaption>
+    </figure>
+  ) : (
+    <div class:list={["said-shot", extra]}>
+      <video src={src} poster={poster} autoplay loop muted playsinline width="1280" height="680" />
+    </div>
+  )
+}

@@ -1,5 +1,6 @@
 ---
 import SaidDocsLayout from "../../../layouts/SaidDocsLayout.astro";
+import SaidTunnelArt from "../../../components/SaidTunnelArt.astro";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -34,6 +35,7 @@ const jsonLd = {
     no public URL anywhere. Install Tailscale on the desk machine and on your phone,
     sign both into the same account, and pick a road.
   </p>
+  <SaidTunnelArt provider="tailscale" host="desk.tailnet-name.ts.net" />
 
   <h2 id="arm">1 · Arm the Remote Client</h2>
   <p>

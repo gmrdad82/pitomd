@@ -30,3 +30,7 @@ up what it owns and refuses to own what's yours.
 
 That's the whole deal. Local-first isn't a feature checkbox — it's the
 difference between using a tool and being one.
+
+![The board, entirely local — four lanes of real cards on one machine](/said-and-done/shots/board.png)
+
+_All of it on your machine: the cards, the notes they cite, the search that finds them._

@@ -1,5 +1,6 @@
 ---
 import SaidShot from "../../components/SaidShot.astro";
+import SaidMotion from "../../components/SaidMotion.astro";
 import McpRail from "../../components/McpRail.astro";
 import { MCP_ROW_ONE, MCP_ROW_TWO } from "../../lib/mcp-clients";
 import SaidLayout from "../../layouts/SaidLayout.astro";
@@ -60,12 +61,20 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
         nothing is copied, nothing is moved. Cards reference the exact lines in your
         markdown they came from — so the plan and the work never drift apart.
       </p>
-      <SaidShot
-        src="/said-and-done/shots/reference.png"
-        alt="A card's reference read in place — the markdown lines it points at, rendered inside the card"
-        caption="The exact markdown lines a card points at, rendered where you need them."
-        class="said-reveal said-zoom"
-      />
+      <div class="said-duo">
+        <SaidShot
+          src="/said-and-done/shots/reference.png"
+          alt="A card's reference read in place — the markdown lines it points at, rendered inside the card"
+          caption="The exact markdown lines a card points at, rendered where you need them."
+          class="said-reveal said-zoom"
+        />
+        <SaidShot
+          src="/said-and-done/shots/overview-light.png"
+          alt="The board overview — cards and files as one web, a tooltip listing what a card references"
+          caption="The Overview — every card and every file it touches, one living web."
+          class="said-reveal said-zoom"
+        />
+      </div>
     </div>
   </section>
 
@@ -76,11 +85,12 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
   >
     <div class="said-scrolly-stage">
       <span class="said-scrolly-hint">02 · Two faces · scroll through</span>
+      <div class="said-ticker-dots said-scrolly-dots" data-scrolly-dots aria-hidden="true"></div>
       <div class="said-scrolly-step" data-scrolly-step>
         <h2>Deciding? The board<span class="dot">.</span></h2>
         <p class="said-note">
           Lanes carry the cards, left to right, until they land in done. Pick a
-          card with the keyboard, move it with a chord, and the ticker at the
+          card with the keyboard, move it with a chord, and the strip at the
           bottom names every live key — nothing to memorise, nothing hiding
           behind a menu. What's next is always the column to the right.
         </p>
@@ -100,8 +110,8 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
           an excavation. Nothing is duplicated; it is the board, re-read.
         </p>
         <SaidShot
-          src="/said-and-done/shots/dossier.png"
-          alt="The dossier face — one running record of every card, freshest first"
+          src="/said-and-done/shots/dossier-light.png"
+          alt="The dossier face in the light theme — one running record of every card, freshest first"
           caption="Every card as a line in the record — dates, files, and voices attached."
           class="said-scrolly-shot"
         />
@@ -117,10 +127,10 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
           either face, any card opens as a case file: its whole life on one
           sheet.
         </p>
-        <SaidShot
-          src="/said-and-done/shots/wizard-face.png"
-          alt="First boot asks how your work should face you — both previews animate live"
-          caption="The chooser — one desk, two faces, changeable any time in Settings."
+        <SaidMotion
+          src="/said-and-done/shots/wizard-face.mp4"
+          poster="/said-and-done/shots/wizard-face.png"
+          caption="The chooser — one desk, two faces, previews living while you decide."
           class="said-scrolly-shot"
         />
       </div>
@@ -147,7 +157,7 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
       />
       <SaidShot
         src="/said-and-done/shots/casefile.png"
-        alt="A case file thread where agent:builder reports its fix, signed by name"
+        alt="A case file thread where agent:quartermaster reports, signed by name"
         caption="Signed work — the agent's name in the history, next to yours."
         class="said-reveal said-zoom"
       />

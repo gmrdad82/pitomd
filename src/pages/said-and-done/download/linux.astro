@@ -1,0 +1,48 @@
+---
+import SaidLayout from "../../../layouts/SaidLayout.astro";
+---
+
+<SaidLayout
+  title="Said and Done. is downloading — Linux"
+  description="Your .run is on its way. Two lines in a terminal and Said and Done. is installed — your user, your app menu, a clean uninstaller."
+>
+  <section class="said-frame" style="padding-top: 48px;">
+    <div class="said-wrap said-reveal">
+      <p class="said-kicker">Downloading for Linux</p>
+      <h2>Two lines and it lives here<span class="dot">.</span></h2>
+      <p>
+        Your <code>.run</code> is on its way. When it lands, open a terminal in
+        your download folder and run it — no sudo, no system folders.
+      </p>
+
+      <div class="said-after-art" aria-hidden="true">
+        <svg viewBox="0 0 560 240" role="img">
+          <rect x="20" y="18" width="520" height="204" rx="14" fill="var(--said-card)" stroke="var(--said-line)" />
+          <text x="44" y="92" font-family="var(--said-body)" font-size="15" fill="var(--said-faint)">$</text>
+          <text x="62" y="92" font-family="var(--said-body)" font-size="15" fill="var(--said-ink)">chmod +x said-1.0.0-alpha-linux-x86_64.run</text>
+          <text x="44" y="126" font-family="var(--said-body)" font-size="15" fill="var(--said-faint)">$</text>
+          <text x="62" y="126" font-family="var(--said-body)" font-size="15" fill="var(--said-ink)">./said-1.0.0-alpha-linux-x86_64.run</text>
+          <text x="44" y="168" font-family="var(--said-body)" font-size="13" fill="var(--said-done)">Said and Done. installed to ~/.local/opt</text>
+          <text x="44" y="188" font-family="var(--said-body)" font-size="13" fill="var(--said-done)">— find it in your app menu.</text>
+          <rect x="292" y="176" width="10" height="16" fill="var(--said-blue)">
+            <animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite" />
+          </rect>
+        </svg>
+      </div>
+
+      <ol class="said-after-steps">
+        <li>Open a terminal where the file landed — usually <code>~/Downloads</code>.</li>
+        <li>Make it runnable: <code>chmod +x said-1.0.0-alpha-linux-x86_64.run</code></li>
+        <li>Run it: <code>./said-1.0.0-alpha-linux-x86_64.run</code></li>
+      </ol>
+      <p class="said-note said-after-note">
+        It installs to ~/.local/opt, writes the .desktop entry, and leaves an
+        uninstall.sh beside it. Uninstalling never touches your notes or data.
+      </p>
+      <div class="said-cta-row" style="margin-top: 26px;">
+        <a class="said-btn said-btn-primary" href="/said-and-done/guides/first-boot/">First boot, step by step</a>
+        <a class="said-btn said-btn-ghost" href="/said-and-done/download/">Back to downloads</a>
+      </div>
+    </div>
+  </section>
+</SaidLayout>

@@ -47,6 +47,16 @@ function initScrolly() {
     const steps = Array.from(block.querySelectorAll("[data-scrolly-step]"));
     if (!steps.length) return;
     const progressEl = block.querySelector("[data-scrolly-progress]");
+    const dotsRail = block.querySelector("[data-scrolly-dots]");
+    const dots = dotsRail
+      ? steps.map(() => {
+          const dot = document.createElement("span");
+          dot.className = "said-ticker-dot";
+          dot.appendChild(document.createElement("i"));
+          dotsRail.appendChild(dot);
+          return dot;
+        })
+      : [];
 
     if (reduceMotion) {
       steps.forEach((s) => {
@@ -78,6 +88,19 @@ function initScrolly() {
         });
         // comet the heading of the newly-active slide
         steps[idx].querySelectorAll('[data-fx="comet"]').forEach(cometize);
+      }
+      if (dots.length) {
+        const stepP = Math.min(1, Math.max(0, p * steps.length - idx));
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("is-on", i === idx);
+          const tick = dot.firstChild;
+          if (i === idx) {
+            tick.style.transform = `scaleX(${stepP.toFixed(3)})`;
+            tick.style.transition = "none";
+          } else {
+            tick.style.transform = "scaleX(0)";
+          }
+        });
       }
       if (progressEl) {
         progressEl.style.setProperty("--p", p.toFixed(4));

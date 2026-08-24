@@ -1,5 +1,5 @@
 ---
-title: "Said and Done.: the story of a name"
+title: "The story of a name"
 description: "Why the app is called Said and Done. — and why the tagline was there before the name was."
 published: false
 pubDate: 2026-08-24
@@ -23,3 +23,7 @@ with a check. The freshest word, lit.
 
 Said and Done. is made by Pito, the same small house behind Pito Studio — one person's
 tools, built for people who write things down and mean them.
+
+![The wizard asking how your work should face you](/said-and-done/shots/wizard-face.png)
+
+_Say it, then see it done — the name was the loop all along._

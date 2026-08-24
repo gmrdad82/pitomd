@@ -27,3 +27,7 @@ after the first day, you mostly won't ask it to.
 
 Constraint is the feature. A desk you can trust blind is a desk you never
 have to leave.
+
+![The board driven from the keys — the strip below naming the next moves](/said-and-done/shots/board-general.png)
+
+_The strip at the bottom always names the next keys — nothing to memorise._

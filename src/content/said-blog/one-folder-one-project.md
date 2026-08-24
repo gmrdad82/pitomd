@@ -32,3 +32,7 @@ drew.
 
 Planning tools should be furniture, not architecture. A desk, not a
 building.
+
+![The project switcher — every top-level folder is a project](/said-and-done/shots/projects.png)
+
+_No setup ceremony: folders in, projects out._

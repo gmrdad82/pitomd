@@ -48,6 +48,7 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
           <a
             class="said-btn said-dl-get"
             data-bundle="linux-x86_64"
+            data-after="/said-and-done/download/linux/"
             href="https://releases.pitomd.com/work/1.0.0-alpha/linux-x86_64/said-1.0.0-alpha-linux-x86_64.run"
             >Download for Linux</a
           >
@@ -69,6 +70,7 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
           <a
             class="said-btn said-dl-get"
             data-bundle="macos-arm64"
+            data-after="/said-and-done/download/macos/"
             href="https://releases.pitomd.com/work/1.0.0-alpha/macos-arm64/said-1.0.0-alpha-macos-arm64.dmg"
             >Download for macOS</a
           >
@@ -82,7 +84,7 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
             loading="lazy"
           />
           <span class="said-dl-os">Windows</span>
-          <h2>The setup.exe</h2>
+          <h2>The .exe</h2>
           <p>
             Per-user install — no admin prompt, a normal Add/Remove entry,
             updates that can actually update.
@@ -90,6 +92,7 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
           <a
             class="said-btn said-dl-get"
             data-bundle="windows-x86_64"
+            data-after="/said-and-done/download/windows/"
             href="https://releases.pitomd.com/work/1.0.0-alpha/windows-x86_64/said-1.0.0-alpha-windows-x86_64-setup.exe"
             >Download for Windows</a
           >
@@ -141,5 +144,17 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
         })
         .catch(function () {});
     })();
+  </script>
+  <script>
+    document.querySelectorAll(".said-dl-get[data-after]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const after = button.getAttribute("data-after");
+        if (after) {
+          setTimeout(() => {
+            window.location.href = after;
+          }, 650);
+        }
+      });
+    });
   </script>
 </SaidLayout>

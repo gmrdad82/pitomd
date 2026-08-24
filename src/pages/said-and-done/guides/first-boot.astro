@@ -11,8 +11,9 @@ const jsonLd = {
   step: [
     { "@type": "HowToStep", name: "Install Said and Done." },
     { "@type": "HowToStep", name: "Point it at your notes folder" },
+    { "@type": "HowToStep", name: "Pick the light — light, dark, or auto" },
     { "@type": "HowToStep", name: "Pick the board or the dossier" },
-    { "@type": "HowToStep", name: "Answer the phone-home question" },
+    { "@type": "HowToStep", name: "Decide on the expedition" },
     { "@type": "HowToStep", name: "Make the first card" },
   ],
 };
@@ -56,7 +57,20 @@ const jsonLd = {
     caption="First boot walks your own folders — nothing is made until you choose."
   />
 
-  <h2 id="face">3 · Pick its face</h2>
+  <h2 id="light">3 · Day desk or night desk</h2>
+  <p>
+    Pick the light the desk sits in — <strong>light</strong>,
+    <strong>dark</strong>, or <strong>auto</strong>, which follows your system
+    morning and night. The whole app re-lights live as you move between the
+    three, and Settings can change it any time.
+  </p>
+  <SaidShot
+    src="/said-and-done/shots/wizard-theme.png"
+    alt="The theme step — light, dark and auto tiles, each with a living preview"
+    caption="Light, dark, or follow the system — previews live in each tile."
+  />
+
+  <h2 id="face">4 · Pick its face</h2>
   <p>
     Choose how the desk opens: <strong>the board</strong>, where lanes carry
     cards left to right — or <strong>the dossier</strong>, one running record
@@ -69,13 +83,16 @@ const jsonLd = {
     caption="The face chooser — both previews animate before you pick."
   />
 
-  <h2 id="questions">4 · One honest question</h2>
+  <h2 id="expedition">5 · Want the expedition?</h2>
   <p>
-    May Said and Done. send crash reports home? Yes or no — and Settings can
-    change your mind later. That's the whole interview.
+    One last thing: <strong>Mars or Bust</strong> — a worked example of the
+    desk. Two survivors, a dog, two hundred files of surviving and
+    shipbuilding, and the fifty cards it takes to fly. Board it and it becomes
+    your selected project, free and never counted against the plan — or start
+    with an empty desk.
   </p>
 
-  <h2 id="first-card">5 · The first card</h2>
+  <h2 id="first-card">6 · The first card</h2>
   <ol>
     <li>Press <code>n</code> — a new card opens.</li>
     <li>Give it a title in your own words.</li>

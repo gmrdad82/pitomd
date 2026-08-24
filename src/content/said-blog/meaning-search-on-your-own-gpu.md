@@ -28,3 +28,7 @@ what changed.
 
 Search that understands you used to cost a cloud. Now it costs a few hundred
 megabytes of model weights and the GPU you already own.
+
+![The finder over the board — an exact hit with its references counted](/said-and-done/shots/finder.png)
+
+_One search box: exact words answer first, meaning joins from your own GPU._
