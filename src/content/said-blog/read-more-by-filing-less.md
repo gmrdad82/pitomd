@@ -6,7 +6,7 @@ pubDate: 2026-10-04
 ---
 
 Read-later apps are where articles go to feel saved. The failure isn't
-storage — it's that saving and *intending* look identical.
+storage — it's that saving and _intending_ look identical.
 
 ## Split the two on sight
 

@@ -5,8 +5,8 @@ published: false
 pubDate: 2026-11-15
 ---
 
-Bug trackers know severity and assignee. They rarely know *why the code is
-the way it is* — that lives in your notes, unlinked.
+Bug trackers know severity and assignee. They rarely know _why the code is
+the way it is_ — that lives in your notes, unlinked.
 
 ## File the bug against the thinking
 

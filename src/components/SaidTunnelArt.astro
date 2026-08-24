@@ -8,23 +8,124 @@ const { provider, host = "your-tunnel.example" } = Astro.props;
 
 <div class="said-after-art" aria-hidden="true">
   <svg viewBox="0 0 640 200" role="img">
-    <rect x="24" y="52" width="150" height="96" rx="12" fill="var(--said-card)" stroke="var(--said-line)" />
-    <rect x="40" y="68" width="118" height="52" rx="6" fill="rgb(15 168 240 / 10%)" stroke="var(--said-line-soft)" />
-    <text x="99" y="99" font-family="var(--said-body)" font-size="12" fill="var(--said-ink)" text-anchor="middle">the desk</text>
-    <text x="99" y="138" font-family="var(--said-body)" font-size="10" fill="var(--said-faint)" text-anchor="middle">127.0.0.1:5180</text>
-    <path d="M182 100 h84" stroke="var(--said-sky)" stroke-width="2.5" stroke-dasharray="7 7">
-      <animate attributeName="stroke-dashoffset" values="14;0" dur="1s" repeatCount="indefinite" />
+    <rect
+      x="24"
+      y="52"
+      width="150"
+      height="96"
+      rx="12"
+      fill="var(--said-card)"
+      stroke="var(--said-line)"></rect>
+    <rect
+      x="40"
+      y="68"
+      width="118"
+      height="52"
+      rx="6"
+      fill="rgb(15 168 240 / 10%)"
+      stroke="var(--said-line-soft)"></rect>
+    <text
+      x="99"
+      y="99"
+      font-family="var(--said-body)"
+      font-size="12"
+      fill="var(--said-ink)"
+      text-anchor="middle">the desk</text
+    >
+    <text
+      x="99"
+      y="138"
+      font-family="var(--said-body)"
+      font-size="10"
+      fill="var(--said-faint)"
+      text-anchor="middle">127.0.0.1:5180</text
+    >
+    <path
+      d="M182 100 h84"
+      stroke="var(--said-sky)"
+      stroke-width="2.5"
+      stroke-dasharray="7 7"
+    >
+      <animate
+        attributeName="stroke-dashoffset"
+        values="14;0"
+        dur="1s"
+        repeatCount="indefinite"></animate>
     </path>
-    <rect x="270" y="72" width="126" height="56" rx="28" fill="rgb(15 168 240 / 14%)" stroke="var(--said-blue)" />
-    <text x="333" y="97" font-family="var(--said-body)" font-size="12" fill="var(--said-blue)" text-anchor="middle">{provider}</text>
-    <text x="333" y="115" font-family="var(--said-body)" font-size="9.5" fill="var(--said-faint)" text-anchor="middle">your own tunnel</text>
-    <path d="M404 100 h84" stroke="var(--said-sky)" stroke-width="2.5" stroke-dasharray="7 7">
-      <animate attributeName="stroke-dashoffset" values="14;0" dur="1s" repeatCount="indefinite" />
+    <rect
+      x="270"
+      y="72"
+      width="126"
+      height="56"
+      rx="28"
+      fill="rgb(15 168 240 / 14%)"
+      stroke="var(--said-blue)"></rect>
+    <text
+      x="333"
+      y="97"
+      font-family="var(--said-body)"
+      font-size="12"
+      fill="var(--said-blue)"
+      text-anchor="middle">{provider}</text
+    >
+    <text
+      x="333"
+      y="115"
+      font-family="var(--said-body)"
+      font-size="9.5"
+      fill="var(--said-faint)"
+      text-anchor="middle">your own tunnel</text
+    >
+    <path
+      d="M404 100 h84"
+      stroke="var(--said-sky)"
+      stroke-width="2.5"
+      stroke-dasharray="7 7"
+    >
+      <animate
+        attributeName="stroke-dashoffset"
+        values="14;0"
+        dur="1s"
+        repeatCount="indefinite"></animate>
     </path>
-    <rect x="512" y="34" width="96" height="132" rx="18" fill="var(--said-card)" stroke="var(--said-line)" />
-    <rect x="522" y="48" width="76" height="104" rx="8" fill="rgb(148 225 255 / 6%)" />
-    <text x="560" y="96" font-family="var(--said-body)" font-size="11" fill="var(--said-ink)" text-anchor="middle">the same</text>
-    <text x="560" y="112" font-family="var(--said-body)" font-size="11" fill="var(--said-ink)" text-anchor="middle">desk</text>
-    <text x="560" y="186" font-family="var(--said-body)" font-size="9.5" fill="var(--said-faint)" text-anchor="middle">{host}</text>
+    <rect
+      x="512"
+      y="34"
+      width="96"
+      height="132"
+      rx="18"
+      fill="var(--said-card)"
+      stroke="var(--said-line)"></rect>
+    <rect
+      x="522"
+      y="48"
+      width="76"
+      height="104"
+      rx="8"
+      fill="rgb(148 225 255 / 6%)"></rect>
+    <text
+      x="560"
+      y="96"
+      font-family="var(--said-body)"
+      font-size="11"
+      fill="var(--said-ink)"
+      text-anchor="middle">the same</text
+    >
+    <text
+      x="560"
+      y="112"
+      font-family="var(--said-body)"
+      font-size="11"
+      fill="var(--said-ink)"
+      text-anchor="middle">desk</text
+    >
+    <text
+      x="560"
+      y="186"
+      font-family="var(--said-body)"
+      font-size="9.5"
+      fill="var(--said-faint)"
+      text-anchor="middle">{host}</text
+    >
   </svg>
 </div>

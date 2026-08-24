@@ -26,6 +26,6 @@ _Cards and raw notes answer together — the desk reads along with you._
 
 ## Lanes give the part notes can't
 
-A note can hold an intention; it can't hold *state*. Backlog, todo, in
+A note can hold an intention; it can't hold _state_. Backlog, todo, in
 progress, done — with honest endings for the rest. Your vault keeps the
 thinking; the board finally shows the doing.

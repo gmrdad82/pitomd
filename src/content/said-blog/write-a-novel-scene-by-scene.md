@@ -12,7 +12,7 @@ the writing feel like project management.
 ## Scenes are cards, the manuscript stays yours
 
 The manuscript lives as markdown in the project folder — one file per
-chapter, or per scene, however you write. Cards carry the *work*: "rewrite
+chapter, or per scene, however you write. Cards carry the _work_: "rewrite
 the ferry scene," referencing `chapter-07.md#L120-186`. The words stay in
 your files; the desk only points at them.
 
@@ -29,5 +29,5 @@ _The dossier reads like the book's black box: what was decided, when, and why._
 ## Meaning search earns its keep
 
 "Where did I mention the lighthouse keeper's daughter?" Exact search finds
-the phrase; meaning search finds the scene where she's only *the girl on
-the rocks*. Both run at home, on your GPU, over your own files.
+the phrase; meaning search finds the scene where she's only _the girl on
+the rocks_. Both run at home, on your GPU, over your own files.

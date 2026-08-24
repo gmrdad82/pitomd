@@ -6,7 +6,7 @@ pubDate: 2026-11-25
 ---
 
 Public issue trackers are inboxes other people fill. Maintainers burn out
-managing *their* queue instead of *the project's* direction.
+managing _their_ queue instead of _the project's_ direction.
 
 ## The private board is the strategy
 

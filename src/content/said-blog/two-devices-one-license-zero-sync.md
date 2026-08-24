@@ -6,7 +6,7 @@ pubDate: 2026-12-13
 ---
 
 Every sync service is a third roommate reading your notes. The desk's
-answer: don't sync — *visit*.
+answer: don't sync — _visit_.
 
 ## The desktop is the single source
 
