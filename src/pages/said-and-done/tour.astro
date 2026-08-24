@@ -4,6 +4,7 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
 import McpRail from "../../components/McpRail.astro";
 import { MCP_ALL } from "../../lib/mcp-clients";
 import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
+import SaidPhoneTicker from "../../components/SaidPhoneTicker.astro";
 ---
 
 <SaidLayout
@@ -314,57 +315,22 @@ import SaidPlaceholder from "../../components/SaidPlaceholder.astro";
         your own tunnel, with one token. The window closed means the remote is
         off — no daemon, no surprise surface.
       </p>
-      <div class="said-phone said-reveal" data-phone-ticker>
-        <div class="said-phone-screen">
-          <img
-            src="/said-and-done/shots/remote/r-backlog.png"
-            alt="The remote client on a phone — the backlog lane of a real board"
-            class="is-on"
-            loading="lazy"
-          />
-          <img
-            src="/said-and-done/shots/remote/r-todo.png"
-            alt="The remote client's todo lane, cards with references and ids"
-            loading="lazy"
-          />
-          <img
-            src="/said-and-done/shots/remote/r-card.png"
-            alt="A card opened on the phone — references, notes, lanes to move to"
-            loading="lazy"
-          />
-        </div>
-        <div class="said-ticker-dots" aria-hidden="true"></div>
-      </div>
-      <script>
-        document.querySelectorAll("[data-phone-ticker]").forEach((ticker) => {
-          const frames = Array.from(ticker.querySelectorAll("img"));
-          const rail = ticker.querySelector(".said-ticker-dots");
-          if (!rail) return;
-          const HOLD_MS = 3600;
-          const dots = frames.map(() => {
-            const dot = document.createElement("span");
-            dot.className = "said-ticker-dot";
-            const tick = document.createElement("i");
-            dot.appendChild(tick);
-            rail.appendChild(dot);
-            return dot;
-          });
-          let at = 0;
-          const show = (next: number) => {
-            frames[at].classList.remove("is-on");
-            dots[at].classList.remove("is-on");
-            at = next;
-            frames[at].classList.add("is-on");
-            const dot = dots[at];
-            dot.classList.remove("is-on");
-            void dot.offsetWidth;
-            dot.style.setProperty("--hold", HOLD_MS + "ms");
-            dot.classList.add("is-on");
-          };
-          show(0);
-          setInterval(() => show((at + 1) % frames.length), HOLD_MS);
-        });
-      </script>
+      <SaidPhoneTicker
+        frames={[
+          {
+            src: "/said-and-done/shots/remote/r-backlog.png",
+            alt: "The remote client on a phone — the backlog lane of a real board",
+          },
+          {
+            src: "/said-and-done/shots/remote/r-todo.png",
+            alt: "The remote client's todo lane, cards with references and ids",
+          },
+          {
+            src: "/said-and-done/shots/remote/r-card.png",
+            alt: "A card opened on the phone — references, notes, lanes to move to",
+          },
+        ]}
+      />
       <div class="said-cta-row" style="margin-top: 40px;">
         <a class="said-btn said-btn-primary" href="/said-and-done/buy-now/"
           >Unlock everything — 4.99€</a

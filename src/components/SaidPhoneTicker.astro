@@ -1,0 +1,58 @@
+---
+interface Frame {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  frames: Frame[];
+}
+
+const { frames } = Astro.props;
+---
+
+<div class="said-phone said-reveal" data-phone-ticker>
+  <div class="said-phone-screen">
+    {
+      frames.map((frame, at) => (
+        <img
+          src={frame.src}
+          alt={frame.alt}
+          class={at === 0 ? "is-on" : ""}
+          loading="lazy"
+        />
+      ))
+    }
+  </div>
+  <div class="said-ticker-dots" aria-hidden="true"></div>
+</div>
+<script>
+  document.querySelectorAll("[data-phone-ticker]").forEach((ticker) => {
+    const frames = Array.from(ticker.querySelectorAll("img"));
+    const rail = ticker.querySelector(".said-ticker-dots");
+    if (!rail) return;
+    const HOLD_MS = 3600;
+    const dots = frames.map(() => {
+      const dot = document.createElement("span");
+      dot.className = "said-ticker-dot";
+      const tick = document.createElement("i");
+      dot.appendChild(tick);
+      rail.appendChild(dot);
+      return dot;
+    });
+    let at = 0;
+    const show = (next: number) => {
+      frames[at].classList.remove("is-on");
+      dots[at].classList.remove("is-on");
+      at = next;
+      frames[at].classList.add("is-on");
+      const dot = dots[at];
+      dot.classList.remove("is-on");
+      void dot.offsetWidth;
+      dot.style.setProperty("--hold", HOLD_MS + "ms");
+      dot.classList.add("is-on");
+    };
+    show(0);
+    setInterval(() => show((at + 1) % frames.length), HOLD_MS);
+  });
+</script>
