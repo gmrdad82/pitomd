@@ -110,25 +110,19 @@
 }
 
 .said-btn-name {
-  background: linear-gradient(135deg, #0fa8f0, #4b63e8);
-  color: #ffffff;
+  background: #0d1c31;
+  color: #eceff4;
   box-shadow:
-    0 10px 30px -12px rgb(15 168 240 / 55%),
-    inset 0 0 0 1px rgb(148 225 255 / 25%);
+    inset 0 0 0 1px rgb(15 168 240 / 45%),
+    0 10px 30px -14px rgb(15 168 240 / 35%);
 }
 
 .said-btn-name:hover {
-  filter: brightness(1.08);
   box-shadow:
-    0 14px 40px -12px rgb(15 168 240 / 70%),
-    inset 0 0 0 1px rgb(148 225 255 / 40%);
-}
-
-.said-btn-name .hn-said {
-  color: #062033;
+    inset 0 0 0 1px rgb(15 168 240 / 80%),
+    0 14px 40px -14px rgb(15 168 240 / 55%);
 }
 
 .said-btn-name .hn-done {
   color: #0fa8f0;
-  font-weight: 700;
 }
