@@ -107,7 +107,9 @@ describe("no reference points at a missing image (owner report, 2026-08-25)", ()
     for (const f of files) {
       const s = readFileSync(f, "utf8");
       const refs = [
-        ...s.matchAll(/(?:!\[[^\]]*\]\(|src="|src=\{")(\/said-and-done\/[^)"}\s]+)/g),
+        ...s.matchAll(
+          /(?:!\[[^\]]*\]\(|src="|src=\{")(\/said-and-done\/[^)"}\s]+)/g,
+        ),
       ].map((m) => m[1]);
       for (const ref of refs) {
         expect(
