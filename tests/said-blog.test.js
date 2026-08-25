@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { released, withBadges, related } from "../src/lib/said-blog.ts";
 
 const post = (id, published, iso) => ({
@@ -50,7 +51,8 @@ describe("the publishing gate", () => {
 });
 
 describe("every post carries its shape (owner rulings, 2026-08-25)", () => {
-  const dir = join(__dirname, "..", "src", "content", "said-blog");
+  const here = dirname(fileURLToPath(import.meta.url));
+  const dir = join(here, "..", "src", "content", "said-blog");
   const files = readdirSync(dir).filter((f) => f.endsWith(".md"));
 
   test("the collection is not empty", () => {
@@ -78,7 +80,7 @@ describe("every post carries its shape (owner rulings, 2026-08-25)", () => {
 
   test("the docs layout brands Said and Done. in running text", () => {
     const layout = readFileSync(
-      join(__dirname, "..", "src", "layouts", "SaidDocsLayout.astro"),
+      join(here, "..", "src", "layouts", "SaidDocsLayout.astro"),
       "utf8",
     );
     expect(layout).toContain("said-brandmark.js");
