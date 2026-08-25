@@ -27,8 +27,8 @@ done, made as short as we could make it.
 The mark tells the same story: three spoken lines, and the last one answered
 with a check. The freshest word, lit.
 
-Said and Done. is made by Pito, the same small house behind Pito Studio — one person's
-tools, built for people who write things down and mean them.
+Said and Done. is made by Pito — a small house, one person's tools, built for
+people who write things down and mean them.
 
 ![The wizard asking how your work should face you](/said-and-done/shots/wizard-face.png)
 

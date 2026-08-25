@@ -38,7 +38,7 @@ import Base from "../layouts/Base.astro";
 const year = new Date().getFullYear();
 ---
 
-<Base title="Pito Studio — something is counting">
+<Base title="PITO — something is counting">
   <div class="teaser">
     <canvas id="sky-flock" class="teaser__canvas" aria-hidden="true"></canvas>
 
@@ -47,14 +47,12 @@ const year = new Date().getFullYear();
         type="button"
         id="countdown"
         class="countdown"
-        aria-label="A countdown to Pito Studio, breathing over a slow wave. Touch it to reset the display. The real date does not move."
+        aria-label="A countdown, breathing over a slow wave. Touch it to reset the display. The real date does not move."
       >
         <span class="countdown__title"
           ><span class="countdown__brand"
-            ><span class="countdown__brand-mark">PITO</span>{" "}<span
-              class="countdown__brand-product">Studio</span
-            ></span
-          > is coming in...</span
+            ><span class="countdown__brand-mark">PITO</span></span
+          > has something coming in...</span
         >
         <span class="countdown__digits" aria-hidden="true">
           <span class="countdown__group" id="countdown-dd">00</span>
