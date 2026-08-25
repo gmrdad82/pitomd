@@ -2,7 +2,7 @@
 title: "Why your kanban should live where your notes live"
 description: "Every board dies when it drifts from the thinking behind it. Said and Done. starts from the folder you already have."
 published: true
-pubDate: 2026-08-20
+pubDate: 2026-09-01
 ---
 
 Every abandoned kanban died the same death: the board said one thing, the

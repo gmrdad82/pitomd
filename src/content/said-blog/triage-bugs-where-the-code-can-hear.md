@@ -2,7 +2,7 @@
 title: "Triage bugs where the code can hear"
 description: "Bug cards that reference the design notes — triage that leaves a trail better than labels."
 published: false
-pubDate: 2026-11-15
+pubDate: 2026-12-08
 ---
 
 Bug trackers know severity and assignee. They rarely know _why the code is

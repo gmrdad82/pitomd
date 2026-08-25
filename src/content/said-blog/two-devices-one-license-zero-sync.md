@@ -2,7 +2,7 @@
 title: "Two devices, one licence, zero sync services"
 description: "The desktop owns the data; the phone rides your tunnel. Nobody in the middle."
 published: false
-pubDate: 2026-12-13
+pubDate: 2027-01-05
 ---
 
 Every sync service is a third roommate reading your notes. The desk's

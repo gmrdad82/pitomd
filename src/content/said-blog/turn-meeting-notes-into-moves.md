@@ -2,7 +2,7 @@
 title: "Turn meeting notes into moves"
 description: "Notes are where decisions go to sleep. References and a backlog lane wake them up."
 published: false
-pubDate: 2026-09-09
+pubDate: 2026-09-25
 ---
 
 Every meeting produces two artifacts: a warm feeling of alignment, and a

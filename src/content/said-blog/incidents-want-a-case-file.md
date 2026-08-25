@@ -2,7 +2,7 @@
 title: "Incidents want a case file"
 description: "Postmortems write themselves when every move landed on a card with a timestamp."
 published: false
-pubDate: 2026-10-18
+pubDate: 2026-11-10
 ---
 
 The worst part of an incident isn't the outage — it's reconstructing the

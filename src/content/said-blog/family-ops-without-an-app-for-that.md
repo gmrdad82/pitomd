@@ -2,7 +2,7 @@
 title: "Family ops, without an app for that"
 description: "School forms, house maintenance, the shared mental load — one desk instead of six apps."
 published: false
-pubDate: 2026-10-07
+pubDate: 2026-10-30
 ---
 
 Family logistics is a real operations job running on sticky notes and one

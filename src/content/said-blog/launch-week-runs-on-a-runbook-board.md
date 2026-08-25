@@ -2,7 +2,7 @@
 title: "Launch week runs on a runbook board"
 description: "The checklist, the owners, the fallbacks — one board that is the launch."
 published: false
-pubDate: 2026-11-11
+pubDate: 2026-12-04
 ---
 
 Launches fail in the gaps between checklists — the step everyone thought

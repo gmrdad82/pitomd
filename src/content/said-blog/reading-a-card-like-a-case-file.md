@@ -2,7 +2,7 @@
 title: "The dossier: reading a card like a case file"
 description: "Boards are for deciding. When you need to understand, the same cards read better as one record."
 published: false
-pubDate: 2026-08-27
+pubDate: 2026-09-08
 ---
 
 A board answers one question well: what should move next? But some mornings

@@ -2,7 +2,7 @@
 title: "Plan content like a shipping lane"
 description: "Drafts in markdown, a calendar of cards, and a done lane that means published."
 published: false
-pubDate: 2026-10-21
+pubDate: 2026-11-13
 ---
 
 A content calendar in a spreadsheet knows dates. It doesn't know drafts,

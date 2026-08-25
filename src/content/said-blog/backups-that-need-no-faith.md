@@ -2,7 +2,7 @@
 title: "Backups that need no faith"
 description: "A daily snapshot, fourteen kept, restore by copying files — no export button, no prayer."
 published: false
-pubDate: 2026-12-09
+pubDate: 2027-01-01
 ---
 
 Backup features usually mean an export button and hope. This desk backs up

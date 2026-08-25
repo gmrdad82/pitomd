@@ -2,7 +2,7 @@
 title: "Keyboard first: a desk you never leave"
 description: "One rule — keys reach only the topmost screen — and why refusing global shortcuts makes an app learnable in a day."
 published: false
-pubDate: 2026-08-31
+pubDate: 2026-09-11
 ---
 
 Most apps accumulate shortcuts the way drawers accumulate keys: one by one,

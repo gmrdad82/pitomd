@@ -2,7 +2,7 @@
 title: "Maintain open source without resentment"
 description: "Issues arrive endlessly. A private desk decides what deserves you."
 published: false
-pubDate: 2026-11-25
+pubDate: 2026-12-18
 ---
 
 Public issue trackers are inboxes other people fill. Maintainers burn out

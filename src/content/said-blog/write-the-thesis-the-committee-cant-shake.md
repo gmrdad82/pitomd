@@ -2,7 +2,7 @@
 title: "Write the thesis the committee can't shake"
 description: "Chapters, sources, and supervisor feedback — one desk where every claim knows its source."
 published: false
-pubDate: 2026-11-08
+pubDate: 2026-12-01
 ---
 
 A thesis is three years of "where did I read that?" compressed into one

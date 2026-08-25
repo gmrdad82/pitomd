@@ -2,7 +2,7 @@
 title: "The story of a name"
 description: "Why the app is called Said and Done. — and why the tagline was there before the name was."
 published: false
-pubDate: 2026-08-24
+pubDate: 2026-09-04
 ---
 
 Products usually get named after what they hold: Notes, Tasks, Boards. We

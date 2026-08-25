@@ -2,7 +2,7 @@
 title: "Run your homelab like you mean it"
 description: "Services, upgrades, and the 2am fix you'll forget — filed where future-you will look."
 published: false
-pubDate: 2026-11-04
+pubDate: 2026-11-27
 ---
 
 Every homelab has two states: working mysteriously, and broken

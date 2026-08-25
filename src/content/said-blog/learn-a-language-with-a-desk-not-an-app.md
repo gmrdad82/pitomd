@@ -2,7 +2,7 @@
 title: "Learn a language with a desk, not an app"
 description: "Streaks lie. A board of honest cards and a folder of notes compound instead."
 published: false
-pubDate: 2026-11-18
+pubDate: 2026-12-11
 ---
 
 Language apps optimize for the streak. Actual acquisition is messier:

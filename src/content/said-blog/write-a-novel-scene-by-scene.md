@@ -2,7 +2,7 @@
 title: "Write a novel, scene by scene"
 description: "Scenes as cards, chapters as boards, and a dossier that reads like your book's black box."
 published: false
-pubDate: 2026-09-20
+pubDate: 2026-10-13
 ---
 
 A novel is a project with ten thousand moving pieces and exactly one

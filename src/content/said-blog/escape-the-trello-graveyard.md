@@ -2,7 +2,7 @@
 title: "Escape the Trello graveyard"
 description: "Boards die when they float free of the work. Anchor cards to your files and they stay alive."
 published: false
-pubDate: 2026-10-11
+pubDate: 2026-11-03
 ---
 
 Every abandoned Trello board died the same death: it described work that

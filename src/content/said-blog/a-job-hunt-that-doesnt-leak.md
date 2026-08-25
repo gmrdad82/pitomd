@@ -2,7 +2,7 @@
 title: "A job hunt that doesn't leak"
 description: "Applications, contacts, prep notes — a pipeline you own, on a machine you own."
 published: false
-pubDate: 2026-09-13
+pubDate: 2026-10-02
 ---
 
 A job search is a pipeline with feelings. Spreadsheets track it coldly and

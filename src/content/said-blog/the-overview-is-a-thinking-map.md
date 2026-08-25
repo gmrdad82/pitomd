@@ -2,7 +2,7 @@
 title: "The Overview is a thinking map"
 description: "Press w: your cards and files as one web — gaps, hubs, and orphans made visible."
 published: false
-pubDate: 2026-12-06
+pubDate: 2026-12-29
 ---
 
 Lists hide structure. The Overview draws it: every card, every file it

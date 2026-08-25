@@ -2,7 +2,7 @@
 title: "The weekly review in fifteen minutes"
 description: "One keyboard pass over the board, one dossier read, one honest rating."
 published: false
-pubDate: 2026-09-30
+pubDate: 2026-10-23
 ---
 
 Weekly reviews die because they're framed as meditation retreats. On this

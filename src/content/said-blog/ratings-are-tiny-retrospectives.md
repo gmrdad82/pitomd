@@ -2,7 +2,7 @@
 title: "Ratings are tiny retrospectives"
 description: "Half a star of honesty per board, and the compounding it buys."
 published: false
-pubDate: 2026-12-02
+pubDate: 2026-12-25
 ---
 
 Retrospectives fail by being meetings. A board rating is a retrospective

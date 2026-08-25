@@ -2,7 +2,7 @@
 title: "Client work with a clean conscience"
 description: "Scope, hours, and decisions — a per-client project where every change has a receipt."
 published: false
-pubDate: 2026-10-25
+pubDate: 2026-11-17
 ---
 
 Scope creep is rarely malice. It's amnesia: nobody remembers what was

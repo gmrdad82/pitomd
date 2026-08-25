@@ -2,7 +2,7 @@
 title: "Give your agents a desk"
 description: "MCP turns the board into a place where AI teammates file, move, and sign their work."
 published: false
-pubDate: 2026-09-27
+pubDate: 2026-10-20
 ---
 
 The difference between an AI tool and an AI teammate is a surface where

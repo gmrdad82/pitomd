@@ -2,7 +2,7 @@
 title: "Recipes are versioned software"
 description: "Iterate dishes like releases — attempts as cards, tweaks as threads, keepers in done."
 published: false
-pubDate: 2026-11-01
+pubDate: 2026-11-24
 ---
 
 Anyone who cooks seriously runs an R&D lab with terrible record-keeping.

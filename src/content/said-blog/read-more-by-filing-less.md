@@ -2,7 +2,7 @@
 title: "Read more by filing less"
 description: "A reading pipeline where highlights stay in notes and cards only carry intent."
 published: false
-pubDate: 2026-10-04
+pubDate: 2026-10-27
 ---
 
 Read-later apps are where articles go to feel saved. The failure isn't

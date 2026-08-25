@@ -2,7 +2,7 @@
 title: "An AI teammate that signs its work"
 description: "Your AI agent can sit at your Said and Done. desk over MCP — filing cards, leaving notes, and never once acting anonymously."
 published: false
-pubDate: 2026-09-03
+pubDate: 2026-09-15
 ---
 
 The problem with most AI-touches-my-stuff features isn't capability. It's

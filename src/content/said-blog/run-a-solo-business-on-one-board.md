@@ -2,7 +2,7 @@
 title: "Run a solo business on one board"
 description: "Clients, invoices, and the work itself — one desk where every promise is a card with a paper trail."
 published: false
-pubDate: 2026-09-06
+pubDate: 2026-09-18
 ---
 
 Solo work has a cruel shape: you are the sales team, the delivery team, and

@@ -2,7 +2,7 @@
 title: "Talk prep, from abstract to applause"
 description: "The submission, the outline, the slides, the run-throughs — one board per talk."
 published: false
-pubDate: 2026-11-22
+pubDate: 2026-12-15
 ---
 
 A conference talk is a three-month project disguised as forty minutes.

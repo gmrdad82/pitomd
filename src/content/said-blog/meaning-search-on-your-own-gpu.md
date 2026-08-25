@@ -2,7 +2,7 @@
 title: "Meaning search on your own GPU"
 description: "Exact words find what you wrote. Meaning search finds what you meant — computed at home, sent nowhere."
 published: false
-pubDate: 2026-09-10
+pubDate: 2026-09-29
 ---
 
 You wrote it down three weeks ago. You know it's in there. But you called it

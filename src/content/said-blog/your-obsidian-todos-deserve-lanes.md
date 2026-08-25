@@ -2,7 +2,7 @@
 title: "Your scattered TODOs deserve lanes"
 description: "Keep writing TODOs in your notes — then give them a desk that reads along."
 published: false
-pubDate: 2026-10-14
+pubDate: 2026-11-06
 ---
 
 If your vault has `TODO` scattered through forty files, you don't have a

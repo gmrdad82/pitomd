@@ -2,7 +2,7 @@
 title: "Travel planning that survives contact"
 description: "Bookings, backups, and the day-of chaos — a trip board that works from your pocket."
 published: false
-pubDate: 2026-10-28
+pubDate: 2026-11-20
 ---
 
 Trip plans are perfect until the first delayed train. Then the plan needs

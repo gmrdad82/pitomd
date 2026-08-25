@@ -2,7 +2,7 @@
 title: "Start with the expedition"
 description: "Mars or Bust: two survivors, one dog, fifty cards — the worked example that teaches by riding."
 published: false
-pubDate: 2026-12-16
+pubDate: 2027-01-08
 ---
 
 Empty tools teach nothing. That's why first boot offers the expedition:

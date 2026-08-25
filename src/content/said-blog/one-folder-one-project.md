@@ -2,7 +2,7 @@
 title: "One folder, one project: planning without ceremony"
 description: "No project setup screens, no workspace wizards. Make a folder, and the desk already knows."
 published: false
-pubDate: 2026-09-14
+pubDate: 2026-10-06
 ---
 
 Watch someone start a project in a typical tool: name it, pick a template,

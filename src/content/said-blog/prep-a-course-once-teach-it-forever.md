@@ -2,7 +2,7 @@
 title: "Prep a course once, teach it forever"
 description: "Lectures as cards with references into your own materials — reusable every semester."
 published: false
-pubDate: 2026-09-23
+pubDate: 2026-10-16
 ---
 
 Course prep has a dirty secret: you rebuild the same semester every year

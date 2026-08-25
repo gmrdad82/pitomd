@@ -2,7 +2,7 @@
 title: "Plan a renovation without losing the receipts"
 description: "Quotes, measurements, and befores-and-afters — filed on cards that outlive the dust."
 published: false
-pubDate: 2026-09-16
+pubDate: 2026-10-09
 ---
 
 A renovation is three months of decisions made in hardware store aisles.

@@ -2,7 +2,7 @@
 title: "The daily log is a dossier"
 description: "Skip the journaling app — the record your day writes while you work it."
 published: false
-pubDate: 2026-11-29
+pubDate: 2026-12-22
 ---
 
 Journaling apps ask you to narrate your day after living it. The dossier
