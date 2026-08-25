@@ -8,17 +8,23 @@ pubDate: 2026-08-31
 Most apps accumulate shortcuts the way drawers accumulate keys: one by one,
 each reasonable, until nobody can say what any given press will do.
 
+## One law, no exceptions
+
 Said and Done. has one keyboard law instead. A key goes to the topmost screen, and
 nowhere else. If the screen on top doesn't claim it, the key is dropped — it
 never falls through to the board underneath, never triggers something you
 can't see. There are no global shortcuts. Not for quit, not for search, not
 for anything.
 
+## Strict is how it stays learnable
+
 This sounds strict until you feel it. It means every keypress is predictable
 from what's in front of your eyes. It means the help screen can be honest —
 it only ever shows keys that work right now. It means a focused text field
 simply eats the keys, so there are no modes to fall out of and no wrong-mode
 disasters to recover from.
+
+## The working set fits in one day
 
 And it means your hands learn the desk in a day: arrows or h-j-k-l to walk,
 enter to open, escape to close the top thing, n for a new card, slash to

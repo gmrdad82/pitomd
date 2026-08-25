@@ -276,6 +276,7 @@ describe("script islands", () => {
       "said-reveal.js": saidLayout,
       "said-hero-shader.js": saidLayout,
       "said-progress.js": saidDocsLayout,
+      "said-brandmark.js": saidDocsLayout,
     };
 
     for (const f of readdirSync(join(ROOT, "src/scripts"))) {

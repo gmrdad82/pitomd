@@ -831,3 +831,17 @@ html {
 .sdoc-dot {
   color: var(--sdoc-blue);
 }
+
+.sd-brand {
+  font-family: var(--sdoc-font);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.sd-brand-said {
+  color: var(--sdoc-ink);
+}
+
+.sd-brand-done {
+  color: var(--sdoc-blue);
+}
