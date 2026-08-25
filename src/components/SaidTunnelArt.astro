@@ -8,14 +8,27 @@ const { provider, host = "your-tunnel.example" } = Astro.props;
 
 <div class="said-after-art" aria-hidden="true">
   <svg viewBox="0 0 640 200" role="img">
+    <defs>
+      <marker
+        id="tunnel-arrow"
+        viewBox="0 0 10 10"
+        refX="8"
+        refY="5"
+        markerWidth="7"
+        markerHeight="7"
+        orient="auto-start-reverse"
+      >
+        <path d="M0 0 L10 5 L0 10 z" fill="var(--sdoc-blue, #0fa8f0)"></path>
+      </marker>
+    </defs>
     <rect
       x="24"
       y="52"
       width="150"
       height="96"
       rx="12"
-      fill="var(--said-card)"
-      stroke="var(--said-line)"></rect>
+      fill="var(--sdoc-panel, #0e1826)"
+      stroke="var(--sdoc-line, rgb(148 225 255 / 14%))"></rect>
     <rect
       x="40"
       y="68"
@@ -23,13 +36,13 @@ const { provider, host = "your-tunnel.example" } = Astro.props;
       height="52"
       rx="6"
       fill="rgb(15 168 240 / 10%)"
-      stroke="var(--said-line-soft)"></rect>
+      stroke="var(--sdoc-line, rgb(148 225 255 / 14%))"></rect>
     <text
       x="99"
       y="99"
       font-family="var(--said-body)"
       font-size="12"
-      fill="var(--said-ink)"
+      fill="var(--sdoc-ink, #eceff4)"
       text-anchor="middle">the desk</text
     >
     <text
@@ -37,14 +50,15 @@ const { provider, host = "your-tunnel.example" } = Astro.props;
       y="138"
       font-family="var(--said-body)"
       font-size="10"
-      fill="var(--said-faint)"
+      fill="var(--sdoc-faint, #6c7a96)"
       text-anchor="middle">127.0.0.1:5180</text
     >
     <path
-      d="M182 100 h84"
-      stroke="var(--said-sky)"
+      d="M182 100 h76"
+      stroke="var(--sdoc-blue, #0fa8f0)"
       stroke-width="2.5"
       stroke-dasharray="7 7"
+      marker-end="url(#tunnel-arrow)"
     >
       <animate
         attributeName="stroke-dashoffset"
@@ -59,13 +73,13 @@ const { provider, host = "your-tunnel.example" } = Astro.props;
       height="56"
       rx="28"
       fill="rgb(15 168 240 / 14%)"
-      stroke="var(--said-blue)"></rect>
+      stroke="var(--sdoc-blue, #0fa8f0)"></rect>
     <text
       x="333"
       y="97"
       font-family="var(--said-body)"
       font-size="12"
-      fill="var(--said-blue)"
+      fill="var(--sdoc-blue, #0fa8f0)"
       text-anchor="middle">{provider}</text
     >
     <text
@@ -73,14 +87,15 @@ const { provider, host = "your-tunnel.example" } = Astro.props;
       y="115"
       font-family="var(--said-body)"
       font-size="9.5"
-      fill="var(--said-faint)"
+      fill="var(--sdoc-faint, #6c7a96)"
       text-anchor="middle">your own tunnel</text
     >
     <path
       d="M404 100 h84"
-      stroke="var(--said-sky)"
+      stroke="var(--sdoc-blue, #0fa8f0)"
       stroke-width="2.5"
       stroke-dasharray="7 7"
+      marker-end="url(#tunnel-arrow)"
     >
       <animate
         attributeName="stroke-dashoffset"
@@ -94,8 +109,8 @@ const { provider, host = "your-tunnel.example" } = Astro.props;
       width="96"
       height="132"
       rx="18"
-      fill="var(--said-card)"
-      stroke="var(--said-line)"></rect>
+      fill="var(--sdoc-panel, #0e1826)"
+      stroke="var(--sdoc-line, rgb(148 225 255 / 14%))"></rect>
     <rect
       x="522"
       y="48"
@@ -108,7 +123,7 @@ const { provider, host = "your-tunnel.example" } = Astro.props;
       y="96"
       font-family="var(--said-body)"
       font-size="11"
-      fill="var(--said-ink)"
+      fill="var(--sdoc-ink, #eceff4)"
       text-anchor="middle">the same</text
     >
     <text
@@ -116,7 +131,7 @@ const { provider, host = "your-tunnel.example" } = Astro.props;
       y="112"
       font-family="var(--said-body)"
       font-size="11"
-      fill="var(--said-ink)"
+      fill="var(--sdoc-ink, #eceff4)"
       text-anchor="middle">desk</text
     >
     <text
@@ -124,7 +139,7 @@ const { provider, host = "your-tunnel.example" } = Astro.props;
       y="186"
       font-family="var(--said-body)"
       font-size="9.5"
-      fill="var(--said-faint)"
+      fill="var(--sdoc-faint, #6c7a96)"
       text-anchor="middle">{host}</text
     >
   </svg>

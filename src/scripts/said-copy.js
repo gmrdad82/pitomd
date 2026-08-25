@@ -3,7 +3,21 @@ const COPY_ICON =
 
 const STYLE = `
 .said-copy-wrap { position: relative; }
-.said-copy-wrap pre { padding-right: 60px; }
+.said-copy-wrap pre { padding-right: 64px; }
+.said-copy-wrap pre > code::after {
+  content: "";
+  display: inline-block;
+  width: 64px;
+}
+.said-copy-fade {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  width: 84px;
+  border-radius: 0 8px 8px 0;
+  pointer-events: none;
+}
 .said-copy-btn {
   position: absolute;
   top: 50%;
@@ -79,6 +93,8 @@ function toast(message) {
   el._down = setTimeout(() => el.classList.remove("is-up"), 1700);
 }
 
+const fades = [];
+
 function decorate() {
   const style = document.createElement("style");
   style.textContent = STYLE;
@@ -90,6 +106,19 @@ function decorate() {
     wrap.className = "said-copy-wrap";
     pre.parentNode.insertBefore(wrap, pre);
     wrap.appendChild(pre);
+    const fade = document.createElement("span");
+    fade.className = "said-copy-fade";
+    wrap.appendChild(fade);
+    const paintFade = () => {
+      const bg = getComputedStyle(pre).backgroundColor;
+      if (bg && bg !== "rgba(0, 0, 0, 0)") {
+        fade.style.background = `linear-gradient(90deg, transparent, ${bg} 55%)`;
+      } else {
+        fade.style.background = "none";
+      }
+    };
+    paintFade();
+    fades.push(paintFade);
     const button = document.createElement("button");
     button.type = "button";
     button.className = "said-copy-btn";
@@ -112,3 +141,8 @@ if (document.readyState === "loading") {
 } else {
   decorate();
 }
+
+new MutationObserver(() => fades.forEach((paint) => paint())).observe(
+  document.documentElement,
+  { attributes: true, attributeFilter: ["data-guide-theme"] },
+);

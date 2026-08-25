@@ -1,78 +1,137 @@
 ---
 import SaidDocsLayout from "../../../layouts/SaidDocsLayout.astro";
 import SaidShot from "../../../components/SaidShot.astro";
-import SaidPlaceholder from "../../../components/SaidPlaceholder.astro";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "Connect your AI agent to your Said and Done. desk",
   description:
-    "Connect an MCP agent to Said and let it file its own work under its own name.",
+    "Connect an MCP agent over HTTP or stdio and let it file its own work under its own name, on the Mars or Bust sample project.",
   step: [
-    { "@type": "HowToStep", name: "Add Said and Done. as an MCP server" },
-    { "@type": "HowToStep", name: "Ask for something real" },
-    { "@type": "HowToStep", name: "Work the same card together" },
+    { "@type": "HowToStep", name: "Pick a door — HTTP or stdio" },
+    { "@type": "HowToStep", name: "Connect Claude Code in one line" },
+    { "@type": "HowToStep", name: "Ask for the board" },
+    { "@type": "HowToStep", name: "Have it file a card" },
+    { "@type": "HowToStep", name: "Check its work on the board" },
   ],
 };
 ---
 
 <SaidDocsLayout
   title="Let your agent in — Said and Done. guides"
-  description="Connect an MCP agent to your Said and Done. desk and watch it file its own work under its own name."
+  description="Connect an MCP agent to your Said and Done. desk — two doors, one line each — and watch it file real cards under its own name."
   section="guides"
   kicker="Guide 03"
   heading="Let your agent in"
-  dek="One line of setup, a named teammate."
+  dek="Two doors, one line, a named teammate."
   slug="agents-at-the-desk"
   jsonLd={jsonLd}
 >
   <p>
     Said and Done. speaks MCP — the protocol AI agents use to work with tools.
-    Connected, an agent can read your boards, search your notes, file cards,
-    move them, and leave notes in card threads. Signed, every time, with its own
-    name.
+    Connected, an agent can list your boards, search your notes, file cards,
+    move them, resolve them, and speak in card threads. Every action is signed
+    with the agent's own name, exactly like yours. Everything below was done for
+    real against the <em>Mars or Bust</em> sample project — the one the first-boot
+    wizard offers you — so you can follow along click for click.
   </p>
 
-  <h2 id="connect">1 · Connect</h2>
-  <pre><code>said mcp</code></pre>
+  <h2 id="doors">1 · Two doors, both yours</h2>
   <p>
-    Register that command as a stdio server in your agent's MCP settings —
-    whichever assistant you run, it is one line in its config. The agent now
-    carries the desk's tools: listing boards, searching, adding and moving
-    cards, leaving notes, reading the exact lines a card references.
+    While the desk is open, a Streamable-HTTP door answers on your own machine —
+    nothing to install, nothing to spawn:
+  </p>
+  <pre><code>http://127.0.0.1:5181/mcp</code></pre>
+  <p>
+    And for clients that prefer to launch their own servers, the same desk
+    speaks stdio through the installed binary:
+  </p>
+  <pre><code>said-and-done mcp</code></pre>
+  <p>
+    Both doors serve the same twenty-four tools and the same board. The HTTP
+    door lives and dies with the window — the desk closed means no agent gets
+    in. Settings → Connections carries the MCP switch and a copy button with
+    your install's exact line; Doctor probes the door live and counts the tools.
   </p>
 
-  <h2 id="real-work">2 · Ask for something real</h2>
+  <h2 id="connect">2 · Claude Code, in one line</h2>
   <p>
-    Tell your agent to sweep your notes for loose ends and file each one as a
-    card with a reference to the lines it came from. Then open the board — the
-    new cards are there, each naming the agent that made it.
+    Register the door once, then just talk. Here is the whole thing, recorded
+    live — the setup line, then a question about the sample project's{" "}
+    <em>Fuel &amp; Flight</em> board:
+  </p>
+  <SaidShot
+    src="/said-and-done/shots/mcp/mcp-connect.gif"
+    alt="A real terminal session: claude mcp add registers the said-and-done HTTP door, then Claude reads the Fuel & Flight board and lists every lane and card"
+    caption="One line to connect, one question — Claude reads the whole board, lane by lane."
+  />
+  <p>
+    Zed, Cursor and Windsurf take the same two facts — the HTTP URL above, or
+    the stdio command — pasted into their own MCP server settings. Whichever
+    client you run, the server introduces itself as{" "}
+    <strong>Said and Done.</strong> and hands over the desk's tools.
+  </p>
+
+  <h2 id="real-work">3 · Ask for something real</h2>
+  <p>
+    Reading is a parlor trick. The desk earns its keep when the agent files work
+    — here Claude is asked to create a card on Fuel &amp; Flight, land it
+    straight in todo, and leave a comment explaining the urgency. Watch the id
+    come back:
+  </p>
+  <SaidShot
+    src="/said-and-done/shots/mcp/mcp-file.gif"
+    alt="A real terminal session: Claude files MARS-53, Dust filter swap, straight into the todo lane with a comment, and reports the id back"
+    caption="MARS-53 is born — filed to todo, commented, and the desk even suggested a note reference on its own."
+  />
+  <p>
+    Note the last line: the desk auto-suggested a reference to
+    <code>breathing-easy.md</code> from the project's own notes — new cards get their
+    references scanned at birth, whoever files them.
+  </p>
+
+  <h2 id="board">4 · The card is on the board</h2>
+  <p>
+    Switch to the desk and there it is — <strong>MARS-53</strong> sitting in todo
+    with its comment count and its reference, next to the cards you made yourself.
+    No import, no sync, no refresh button. It was always the same board.
+  </p>
+  <SaidShot
+    src="/said-and-done/shots/mcp/mcp-board.png"
+    alt="The Said and Done. desktop board — MARS-53, Dust filter swap, filed by Claude, sitting in the todo lane with a comment and a reference"
+    caption="Claude's card in the todo lane — one comment, one reference, signed work."
+  />
+
+  <h2 id="signed">5 · Signed, every time</h2>
+  <p>
+    Open MARS-53 as a case file and the history reads like a ledger:
+    <code>agent:claude-code</code> created it, moved it, commented on it. An agent's
+    name comes from its own MCP handshake, so the same assistant keeps one name across
+    a whole session. When a card moved and you didn't move it, the case file says
+    exactly who did — there is no anonymous move in this house.
   </p>
   <SaidShot
     src="/said-and-done/shots/casefile.png"
-    alt="A case file where agent:quartermaster reporting in the thread, signed by name"
-    caption="The case file — agent:quartermaster's report, filed under its own name."
+    alt="A case file where agent:quartermaster reports in the thread, signed by name"
+    caption="The thread keeps everyone honest — agents report under their own names, next to yours."
   />
 
-  <h2 id="together">3 · Work the same card together</h2>
+  <h2 id="together">6 · Work the same card together</h2>
   <p>
     Nobody owns a card. You can be editing while an agent leaves a note; its
-    words land in the thread under its name, next to yours. The history keeps
-    everyone honest — every move records who, when, and from where. From your
-    phone, the remote client shows the same desk the agents are working.
+    words land in the thread under its name, next to yours. From your phone, the
+    remote client shows the same desk the agents are working — file a card from
+    the couch, let the agent pick it up at the keyboard.
   </p>
-  <div style="max-width: 320px;">
-    <SaidPlaceholder
-      label="Capture coming — the remote client view"
-      ratio="9 / 16"
-    />
-  </div>
 
   <h2 id="limits">What it can't do</h2>
   <ul>
     <li>It can't edit your markdown — your files aren't its to touch.</li>
     <li>It can't act unasked — an agent works when you set it working.</li>
-    <li>It can't hide — there is no anonymous move in this house.</li>
+    <li>
+      It can't reach in from outside — the doors answer your machine only.
+    </li>
+    <li>It can't hide — every move is signed and kept.</li>
   </ul>
 </SaidDocsLayout>
