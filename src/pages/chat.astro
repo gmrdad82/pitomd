@@ -4,7 +4,6 @@ import SaidFooter from "../components/SaidFooter.astro";
 import Section from "../components/Section.astro";
 import ColorBridge from "../components/ColorBridge.astro";
 import PitoLogo from "../components/PitoLogo.astro";
-import CrossNav from "../components/CrossNav.astro";
 
 // pitomd.com/chat — the over-the-top, scroll-driven showcase of Pito, the
 // FREE self-hosted chat. One long page, a distinct theme + font + entrance
@@ -118,11 +117,10 @@ const year = new Date().getFullYear();
 ---
 
 <Base title={TITLE} description={DESCRIPTION} jsonLd={jsonLd}>
-  {
-    /* The way back — fixed top-left pill (I8: "/chat on top-left ... to
-    return to / which is Studio"). Top-left is free here: no StudioBanner
-    mounts on this route anymore (parked alongside it). */
-  }
+  <a class="phome mono" href="/" aria-label="Back to pitomd.com" data-magnetic>
+    <img src="/logo/pito-p.svg" alt="" width="22" height="22" />
+    <span>Back to PITO</span>
+  </a>
 
   {/* Persistent social rail (left) — hidden on mobile. */}
   <nav class="socialbar" aria-label="Follow Catalin">
@@ -1995,4 +1993,59 @@ const year = new Date().getFullYear();
 
     <SaidFooter brand={false} />
   </Section>
+  <style>
+    .phome {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 90;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px 8px 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      white-space: nowrap;
+      background: linear-gradient(
+        115deg,
+        #ff4d6d 0%,
+        #ff2e93 34%,
+        #a44dff 66%,
+        #0fa8f0 100%
+      );
+      box-shadow:
+        0 12px 34px -10px rgb(255 46 147 / 65%),
+        inset 0 1px 0 rgb(255 255 255 / 55%),
+        inset 0 -6px 14px rgb(0 0 0 / 25%);
+    }
+
+    .phome::after {
+      content: "";
+      position: absolute;
+      inset: 2px 2px 52% 2px;
+      border-radius: 999px 999px 40% 40%;
+      background: linear-gradient(
+        rgb(255 255 255 / 42%),
+        rgb(255 255 255 / 4%)
+      );
+      pointer-events: none;
+    }
+
+    .phome:hover {
+      filter: brightness(1.08);
+    }
+
+    .phome img {
+      display: block;
+      width: 22px;
+      height: 22px;
+      filter: drop-shadow(0 1px 2px rgb(0 0 0 / 40%));
+    }
+  </style>
 </Base>

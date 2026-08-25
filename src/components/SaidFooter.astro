@@ -21,6 +21,7 @@ const { brand = true } = Astro.props;
       </div>
     )
   }
+  <slot />
   <div class="foot-legal">© 2026. All rights reserved.</div>
 </footer>
 
@@ -63,7 +64,11 @@ const { brand = true } = Astro.props;
   }
 
   .is-minimal {
-    justify-content: flex-end;
+    justify-content: space-between;
+  }
+
+  .is-minimal .foot-legal {
+    margin-left: auto;
   }
 
   @media (width <= 640px) {

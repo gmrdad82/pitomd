@@ -5,7 +5,6 @@ import "../styles/said-buttons.css";
 import "../styles/said-fx.css";
 import "../styles/said-rail.css";
 import SaidFooter from "../components/SaidFooter.astro";
-import CrossNav from "../components/CrossNav.astro";
 import SaidShot from "../components/SaidShot.astro";
 import McpRail from "../components/McpRail.astro";
 import { MCP_ROW_ONE, MCP_ROW_TWO } from "../lib/mcp-clients";
@@ -96,18 +95,51 @@ const roll = (
       </div>
     </section>
 
-    <CrossNav
-      href="/chat"
-      label="The Free Chat"
-      position="bottom-right"
-      stacked
-    />
-    <SaidFooter brand={false} />
+    <SaidFooter brand={false}>
+      <a class="freechat mono" href="/chat">The Free Chat</a>
+    </SaidFooter>
   </main>
 
   <style>
-    .home :global(.crossnav--bottom-right) {
-      bottom: 108px;
+    .freechat {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-radius: 999px;
+      overflow: hidden;
+      color: #fff;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      background: linear-gradient(
+        115deg,
+        #ff4d6d 0%,
+        #ff2e93 34%,
+        #a44dff 66%,
+        #0fa8f0 100%
+      );
+      box-shadow:
+        0 10px 30px -10px rgb(255 46 147 / 60%),
+        inset 0 1px 0 rgb(255 255 255 / 55%),
+        inset 0 -6px 14px rgb(0 0 0 / 25%);
+    }
+
+    .freechat::after {
+      content: "";
+      position: absolute;
+      inset: 2px 2px 52% 2px;
+      border-radius: 999px 999px 40% 40%;
+      background: linear-gradient(
+        rgb(255 255 255 / 42%),
+        rgb(255 255 255 / 4%)
+      );
+      pointer-events: none;
+    }
+
+    .freechat:hover {
+      filter: brightness(1.08);
     }
 
     .home {
