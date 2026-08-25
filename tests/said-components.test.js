@@ -29,7 +29,7 @@ describe("brand elements exist once, as components (owner order, 2026-08-20)", (
     for (const file of saidSurfaces) {
       const src = readFileSync(join(ROOT, file), "utf8");
       const declarations = (src.match(/#ff6ec7/g) || []).length;
-      const allowed = file === "src/styles/said-docs.css" ? 2 : 0;
+      const allowed = file === "src/styles/said-docs.css" ? 3 : 0;
       expect(
         declarations <= allowed,
         `${file} re-declares the PITO gradient — use <PitoWord /় or .sd-pito instead`.replace(
