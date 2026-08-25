@@ -848,7 +848,7 @@ html {
 
 .sd-pito {
   position: relative;
-  font-family: var(--sdoc-display);
+  font-family: var(--sdoc-font);
   font-weight: 700;
   font-size: 0.85em;
   letter-spacing: 0.18em;
