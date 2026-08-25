@@ -20,7 +20,7 @@ const STYLE = `
 }
 .said-copy-btn {
   position: absolute;
-  top: 50%;
+  top: 0;
   right: 10px;
   transform: translateY(-50%);
   display: inline-flex;
@@ -120,6 +120,20 @@ function decorate() {
     paintFade();
     fades.push(paintFade);
     const button = document.createElement("button");
+    const place = () => {
+      const wr = wrap.getBoundingClientRect();
+      const pr = pre.getBoundingClientRect();
+      const inset = wr.right - pr.right;
+      button.style.right = `${inset + 10}px`;
+      button.style.top = `${pr.top - wr.top + pr.height / 2}px`;
+      fade.style.right = `${inset + 1}px`;
+      fade.style.top = `${pr.top - wr.top + 1}px`;
+      fade.style.bottom = "auto";
+      fade.style.height = `${pr.height - 2}px`;
+    };
+    requestAnimationFrame(place);
+    new ResizeObserver(place).observe(pre);
+    window.addEventListener("resize", place);
     button.type = "button";
     button.className = "said-copy-btn";
     button.setAttribute("aria-label", "Copy to clipboard");

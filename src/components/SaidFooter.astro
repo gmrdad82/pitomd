@@ -1,33 +1,19 @@
 ---
-import SaidBrand from "./SaidBrand.astro";
-import PitoWord from "./PitoWord.astro";
-
 interface Props {
   brand?: boolean;
   home?: boolean;
 }
 
-const { brand = true, home = false } = Astro.props;
+const { home = false } = Astro.props;
 ---
 
-<footer class:list={["said-shared-footer", !brand && "is-minimal"]}>
+<footer class="said-shared-footer is-minimal">
   {
     home && (
       <a class="foot-home mono" href="/" aria-label="Back to pitomd.com">
         <span>Back to</span>
         <img src="/logo/pito-p.svg" alt="PITO" width="20" height="20" />
       </a>
-    )
-  }
-  {
-    brand && (
-      <div class="foot-brands">
-        <SaidBrand size="footer" />
-        <span class="foot-maker">
-          <span class="foot-by">by</span>
-          <PitoWord />
-        </span>
-      </div>
     )
   }
   <slot />
@@ -47,24 +33,6 @@ const { brand = true, home = false } = Astro.props;
 
   :global(.sdoc) .said-shared-footer {
     border-top-color: var(--sdoc-line);
-  }
-
-  .foot-brands {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5em;
-  }
-
-  .foot-maker {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.38em;
-  }
-
-  .foot-by {
-    font-size: 0.72rem;
-    line-height: 1;
-    opacity: 0.82;
   }
 
   .foot-legal {
@@ -132,10 +100,6 @@ const { brand = true, home = false } = Astro.props;
   @media (width <= 640px) {
     .said-shared-footer {
       flex-wrap: nowrap;
-    }
-
-    .foot-brands {
-      display: none;
     }
 
     .foot-legal {
