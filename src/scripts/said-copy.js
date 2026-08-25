@@ -3,20 +3,23 @@ const COPY_ICON =
 
 const STYLE = `
 .said-copy-wrap { position: relative; }
+.said-copy-wrap pre { padding-right: 60px; }
 .said-copy-btn {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 8px;
-  border: 1px solid rgb(148 225 255 / 25%);
-  border-radius: 7px;
-  background: rgb(6 11 20 / 55%);
+  justify-content: center;
+  padding: 7px 9px;
+  border: 1px solid rgb(148 225 255 / 30%);
+  border-radius: 8px;
+  background: rgb(6 11 20 / 88%);
+  backdrop-filter: blur(6px);
   color: #94e1ff;
   cursor: pointer;
-  opacity: 0.55;
+  opacity: 0.9;
   transition: opacity 140ms ease, filter 140ms ease;
 }
 .said-copy-wrap:hover .said-copy-btn { opacity: 1; }
