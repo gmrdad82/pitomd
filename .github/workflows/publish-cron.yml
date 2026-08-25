@@ -1,0 +1,36 @@
+# The blog publishes itself: once a day, if an approved post's date has
+# arrived, rebuild and deploy — otherwise exit in seconds. Posts carry
+# published: true (the owner's nod) and a pubDate; the site is static,
+# so a date arriving means nothing until a build runs. This is that build.
+name: Publish cron
+on:
+  schedule:
+    - cron: "10 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  due:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: A post is due today?
+        id: check
+        run: |
+          TODAY=$(date -u +%F)
+          DUE=$(grep -l "published: true" src/content/said-blog/*.md 2>/dev/null | xargs -r grep -l "pubDate: ${TODAY}" || true)
+          if [ -n "$DUE" ]; then
+            echo "due=yes" >> "$GITHUB_OUTPUT"
+            echo "Due today: $DUE"
+          else
+            echo "due=no" >> "$GITHUB_OUTPUT"
+            echo "Nothing due on ${TODAY}."
+          fi
+      - name: Wake the deploy
+        if: steps.check.outputs.due == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main

@@ -19,6 +19,7 @@ on:
       - "README.md"
       - ".github/icons/**"
   workflow_dispatch:
+  workflow_dispatch:
   schedule:
     - cron: "10 6 * * *"
 
