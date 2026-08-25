@@ -26,9 +26,9 @@ disasters to recover from.
 
 ## The working set fits in one day
 
-And it means your hands learn the desk in a day: arrows or h-j-k-l to walk,
-enter to open, escape to close the top thing, n for a new card, slash to
-find. That's the working set. The mouse can do everything the keys can — but
+And it means your hands learn the desk in a day: `arrows` or `h j k l` to
+walk, `enter` to open, `esc` to close the top thing, `n` for a new card,
+`/` to find. That's the working set. The mouse can do everything the keys can — but
 after the first day, you mostly won't ask it to.
 
 Constraint is the feature. A desk you can trust blind is a desk you never
