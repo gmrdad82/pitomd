@@ -19,9 +19,6 @@ on:
       - "README.md"
       - ".github/icons/**"
   workflow_dispatch:
-  workflow_dispatch:
-  schedule:
-    - cron: "10 6 * * *"
 
 jobs:
   # Deploy only if the exact commit being deployed is green on Website CI.
