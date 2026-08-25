@@ -22,7 +22,7 @@ need: the vanity card points at the alcove width, the flooring card at the
 square meters. In the store, the remote client shows the same cards from
 your phone, through your own tunnel.
 
-![The remote client on a phone — the same desk from anywhere](/said-and-done/shots/remote/r-card.png)
+![The remote client on a phone — the same desk from anywhere](/said-and-done/shots/remote/r-card-dark.png)
 
 _The card in the aisle: measurements, attachments, and the thread, on your phone._
 

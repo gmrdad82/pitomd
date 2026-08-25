@@ -845,3 +845,14 @@ html {
 .sd-brand-done {
   color: var(--sdoc-blue);
 }
+
+.sd-pito {
+  font-family: var(--sdoc-display);
+  font-weight: 700;
+  font-size: 0.85em;
+  letter-spacing: 0.18em;
+  background: linear-gradient(90deg, #ff6ec7, #8083fb, #5170ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}

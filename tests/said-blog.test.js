@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { released, withBadges, related } from "../src/lib/said-blog.ts";
@@ -84,5 +84,37 @@ describe("every post carries its shape (owner rulings, 2026-08-25)", () => {
       "utf8",
     );
     expect(layout).toContain("said-brandmark.js");
+  });
+});
+
+describe("no reference points at a missing image (owner report, 2026-08-25)", () => {
+  const here = dirname(fileURLToPath(import.meta.url));
+  const root = join(here, "..");
+
+  function walk(dir) {
+    return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) return walk(path);
+      return /\.(md|astro)$/.test(entry.name) ? [path] : [];
+    });
+  }
+
+  test("every /said-and-done asset referenced in content and pages exists in public", () => {
+    const files = [
+      ...walk(join(root, "src", "content", "said-blog")),
+      ...walk(join(root, "src", "pages", "said-and-done")),
+    ];
+    for (const f of files) {
+      const s = readFileSync(f, "utf8");
+      const refs = [
+        ...s.matchAll(/(?:!\[[^\]]*\]\(|src="|src=\{")(\/said-and-done\/[^)"}\s]+)/g),
+      ].map((m) => m[1]);
+      for (const ref of refs) {
+        expect(
+          existsSync(join(root, "public", ref)),
+          `${f} references missing asset ${ref}`,
+        ).toBe(true);
+      }
+    }
   });
 });

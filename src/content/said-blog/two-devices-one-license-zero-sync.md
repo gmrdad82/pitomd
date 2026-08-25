@@ -20,7 +20,7 @@ Nothing to reconcile, no conflict dialogs, no eventual consistency —
 because there's exactly one desk. Close the window, and the remote goes
 dark. That's a feature: attack surface you can reason about.
 
-![The remote client riding the same desk](/said-and-done/shots/remote/r-backlog.png)
+![The remote client riding the same desk](/said-and-done/shots/remote/r-board-dark.png)
 
 _The same cards, through your own tunnel — no service in the middle._
 

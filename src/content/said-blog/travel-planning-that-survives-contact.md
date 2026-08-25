@@ -20,7 +20,7 @@ The remote client rides your own tunnel — the same cards on the platform
 when the train dies. Move "Day 3: Alhambra" back to todo, file "rebook
 leg" with the confirmation number in the title.
 
-![The remote client's lanes on a phone](/said-and-done/shots/remote/r-todo.png)
+![The remote client's lanes on a phone](/said-and-done/shots/remote/r-board-light.png)
 
 _Replanning at the platform — same desk, smaller glass._
 

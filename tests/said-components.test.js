@@ -23,16 +23,20 @@ saidSurfaces.push(
 );
 
 describe("brand elements exist once, as components (owner order, 2026-08-20)", () => {
-  test("the PITO gradient is declared only inside src/components", () => {
+  test("the PITO gradient is declared only inside src/components, plus the one sanctioned .sd-pito rule", () => {
+    // said-docs.css carries the gradient exactly once, for the running-text
+    // brandmark (owner order, 2026-08-25: "PITO missing branding").
     for (const file of saidSurfaces) {
       const src = readFileSync(join(ROOT, file), "utf8");
+      const declarations = (src.match(/#ff6ec7/g) || []).length;
+      const allowed = file === "src/styles/said-docs.css" ? 2 : 0;
       expect(
-        src.includes("#ff6ec7"),
-        `${file} re-declares the PITO gradient — use <PitoWord /় instead`.replace(
+        declarations <= allowed,
+        `${file} re-declares the PITO gradient — use <PitoWord /় or .sd-pito instead`.replace(
           "়",
           ">",
         ),
-      ).toBe(false);
+      ).toBe(true);
     }
   });
 
