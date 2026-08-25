@@ -69,7 +69,10 @@ describe("brand elements exist once, as components (owner order, 2026-08-20)", (
       "utf8",
     );
     expect(footer).toContain("foot-home");
-    expect(footer, "the footer carries only the way back, no brand block (owner, 2026-08-25)").not.toContain("SaidBrand");
+    expect(
+      footer,
+      "the footer carries only the way back, no brand block (owner, 2026-08-25)",
+    ).not.toContain("SaidBrand");
   });
   test("every capture wears one slim shimmering border, staggered and hue-shifted", () => {
     const shot = readFileSync(

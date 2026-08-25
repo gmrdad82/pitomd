@@ -67,6 +67,13 @@ const jsonLd = {
     caption="One line to connect, one question — Claude reads the whole board, lane by lane."
   />
   <p>
+    The first time an agent reaches for the desk's tools, Claude Code asks once
+    and remembers; for headless runs, allow them once in your project's
+    <code>.claude/settings.json</code> — <code
+      >{'{ "permissions": {'} "allow": ["mcp__said-and-done__*"] {"} }"}</code
+    > — and every command after that is just the question.
+  </p>
+  <p>
     Zed, Cursor and Windsurf take the same two facts — the HTTP URL above, or
     the stdio command — pasted into their own MCP server settings. Whichever
     client you run, the server introduces itself as{" "}

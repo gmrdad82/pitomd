@@ -101,6 +101,13 @@ html[data-guide-theme="light"] .sdoc {
   box-shadow: 0 20px 50px -30px rgb(0 0 0 / 60%);
 }
 
+.sdoc .said-shot img {
+  margin: 0;
+  border: none;
+  border-radius: 4px;
+  box-shadow: none;
+}
+
 .sdoc-body img + em,
 .sdoc-body p:has(> img) + p > em:only-child {
   display: block;
