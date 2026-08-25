@@ -6,7 +6,7 @@ function wrapMatches(root, regex, build) {
       if (!parent) return NodeFilter.FILTER_REJECT;
       if (
         parent.closest(
-          "pre, code, script, style, .sd-brand, .sd-pito, .said-brand-lockup, .pito-word, h1",
+          "pre, code, script, style, .sd-brand, .said-brand-lockup, .pito-word, h1",
         )
       )
         return NodeFilter.FILTER_REJECT;
@@ -43,17 +43,9 @@ function saidBrand() {
   return brand;
 }
 
-function pitoBrand() {
-  const pito = document.createElement("span");
-  pito.className = "sd-pito";
-  pito.textContent = "PITO";
-  return pito;
-}
-
 function run() {
   document.querySelectorAll(".sdoc").forEach((root) => {
     wrapMatches(root, /Said and Done\./, saidBrand);
-    wrapMatches(root, /\bPITO\b|\bPito\b/, pitoBrand);
   });
 }
 

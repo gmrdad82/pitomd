@@ -11,7 +11,7 @@ const { home = false } = Astro.props;
   {
     home && (
       <a class="foot-home mono" href="/" aria-label="Back to pitomd.com">
-        <span>Back to</span>
+        <span class="foot-home-word">Back to</span>
         <img src="/logo/pito-p.svg" alt="PITO" width="20" height="20" />
       </a>
     )
@@ -83,6 +83,12 @@ const { home = false } = Astro.props;
 
   .foot-home:hover {
     filter: brightness(1.08);
+  }
+
+  .foot-home-word {
+    display: block;
+    line-height: 1;
+    transform: translateY(0.5px);
   }
 
   .foot-home img {

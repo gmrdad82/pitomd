@@ -118,7 +118,7 @@ const year = new Date().getFullYear();
 
 <Base title={TITLE} description={DESCRIPTION} jsonLd={jsonLd}>
   <a class="phome mono" href="/" aria-label="Back to pitomd.com" data-magnetic>
-    <span>Back to</span>
+    <span class="phome-word">Back to</span>
     <img src="/logo/pito-p.svg" alt="PITO" width="22" height="22" />
   </a>
 
@@ -2039,6 +2039,12 @@ const year = new Date().getFullYear();
 
     .phome:hover {
       filter: brightness(1.08);
+    }
+
+    .phome-word {
+      display: block;
+      line-height: 1;
+      transform: translateY(0.5px);
     }
 
     .phome img {
