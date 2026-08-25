@@ -4,12 +4,21 @@ import PitoWord from "./PitoWord.astro";
 
 interface Props {
   brand?: boolean;
+  home?: boolean;
 }
 
-const { brand = true } = Astro.props;
+const { brand = true, home = false } = Astro.props;
 ---
 
 <footer class:list={["said-shared-footer", !brand && "is-minimal"]}>
+  {
+    home && (
+      <a class="foot-home mono" href="/" aria-label="Back to pitomd.com">
+        <span>Back to</span>
+        <img src="/logo/pito-p.svg" alt="PITO" width="20" height="20" />
+      </a>
+    )
+  }
   {
     brand && (
       <div class="foot-brands">
@@ -65,6 +74,55 @@ const { brand = true } = Astro.props;
 
   .is-minimal {
     justify-content: space-between;
+  }
+
+  .foot-home {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 9px 7px 14px;
+    border-radius: 999px;
+    overflow: hidden;
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    background: linear-gradient(
+      115deg,
+      #ff4d6d 0%,
+      #ff2e93 34%,
+      #a44dff 66%,
+      #0fa8f0 100%
+    );
+    box-shadow:
+      0 8px 24px -8px rgb(255 46 147 / 55%),
+      inset 0 1px 0 rgb(255 255 255 / 55%),
+      inset 0 -5px 12px rgb(0 0 0 / 25%);
+  }
+
+  .foot-home::after {
+    content: "";
+    position: absolute;
+    inset: 2px 2px 52% 2px;
+    border-radius: 999px 999px 40% 40%;
+    background: linear-gradient(rgb(255 255 255 / 40%), rgb(255 255 255 / 4%));
+    pointer-events: none;
+  }
+
+  .foot-home:hover {
+    filter: brightness(1.08);
+  }
+
+  .foot-home img {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    filter: drop-shadow(0 1px 2px rgb(0 0 0 / 40%));
   }
 
   .is-minimal .foot-legal {
