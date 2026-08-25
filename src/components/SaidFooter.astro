@@ -73,8 +73,17 @@ const { brand = true } = Astro.props;
 
   @media (width <= 640px) {
     .said-shared-footer {
-      flex-direction: column;
-      align-items: flex-start;
+      flex-wrap: nowrap;
+    }
+
+    .foot-brands {
+      display: none;
+    }
+
+    .foot-legal {
+      margin-left: auto;
+      font-size: 0.72rem;
+      white-space: nowrap;
     }
   }
 </style>
