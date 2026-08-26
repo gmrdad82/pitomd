@@ -845,3 +845,12 @@ html {
 .sd-brand-done {
   color: var(--sdoc-blue);
 }
+
+.sdoc .sdoc-entry-thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--sdoc-hairline, rgb(255 255 255 / 10%));
+  border-radius: 8px;
+  margin: 0 0 14px;
+}

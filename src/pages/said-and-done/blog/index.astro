@@ -35,6 +35,12 @@ const jsonLd = {
           class="sdoc-entry sdoc-entry-serif"
           href={`/said-and-done/blog/${post.id}/`}
         >
+          <img
+            class="sdoc-entry-thumb"
+            src={`/said-and-done/blog/thumbs/${post.id}.png`}
+            alt={post.data.title}
+            loading="lazy"
+          />
           <h2>{post.data.title}</h2>
           <p>{post.data.description}</p>
           <div class="sdoc-entry-meta">

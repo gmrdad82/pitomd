@@ -11,11 +11,12 @@ import { MCP_ROW_ONE, MCP_ROW_TWO } from "../lib/mcp-clients";
 import { released, withBadges, stamp } from "../lib/said-blog";
 
 const posts = await getCollection("saidBlog");
-const roll = (
-  import.meta.env.DEV
-    ? withBadges(posts)
-    : released(posts).map((post) => ({ post, badge: null }))
-).slice(0, 4);
+const visible = import.meta.env.DEV
+  ? withBadges(posts)
+  : released(posts).map((post) => ({ post, badge: null }));
+const pin = visible.find(({ post }) => post.data.pinned) ?? null;
+const roll = visible.filter(({ post }) => !post.data.pinned).slice(0, 4);
+const thumb = (id: string) => `/said-and-done/blog/thumbs/${id}.png`;
 ---
 
 <Base
@@ -78,10 +79,34 @@ const roll = (
 
     <section class="home-roll">
       <h2>From the blogs</h2>
+      {
+        pin && (
+          <a class="home-pin" href={`/said-and-done/blog/${pin.post.id}/`}>
+            <img
+              src={thumb(pin.post.id)}
+              alt={pin.post.data.title}
+              loading="lazy"
+            />
+            <h3>{pin.post.data.title}</h3>
+            <p>{pin.post.data.pinExcerpt ?? pin.post.data.description}</p>
+            <span class="home-card-meta">
+              Said and <span class="hn-done">Done.</span> ·{" "}
+              {stamp(pin.post.data.pubDate)}
+              {pin.badge && <em class="home-card-badge">{pin.badge}</em>}
+            </span>
+          </a>
+        )
+      }
       <div class="home-roll-grid">
         {
           roll.map(({ post, badge }) => (
             <a class="home-card" href={`/said-and-done/blog/${post.id}/`}>
+              <img
+                class="home-card-thumb"
+                src={thumb(post.id)}
+                alt={post.data.title}
+                loading="lazy"
+              />
               <h3>{post.data.title}</h3>
               <p>{post.data.description}</p>
               <span class="home-card-meta">
@@ -302,6 +327,57 @@ const roll = (
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1.4rem;
+    }
+
+    .home-pin {
+      display: block;
+      margin: 0 0 1.4rem;
+      padding: 1.7rem 1.8rem 1.9rem;
+      border: 1px solid rgb(255 255 255 / 14%);
+      border-radius: 14px;
+      text-decoration: none;
+      transition:
+        border-color 140ms ease,
+        filter 140ms ease;
+    }
+
+    .home-pin:hover {
+      border-color: var(--pito-blue);
+      filter: brightness(1.1);
+    }
+
+    .home-pin img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid rgb(255 255 255 / 10%);
+      border-radius: 10px;
+      margin: 0 0 1.3rem;
+    }
+
+    .home-pin h3 {
+      margin: 0 0 0.7rem;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.8rem;
+      line-height: 1.25;
+      color: var(--fg-default, #eceff4);
+    }
+
+    .home-pin p {
+      margin: 0 0 0.9rem;
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: var(--fg-muted, #a8b1c7);
+    }
+
+    .home-card-thumb {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid rgb(255 255 255 / 10%);
+      border-radius: 8px;
+      margin: 0 0 1.1rem;
     }
 
     .home-card {
