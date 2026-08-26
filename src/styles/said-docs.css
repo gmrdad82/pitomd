@@ -47,36 +47,6 @@
   -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-color-scheme: light) {
-  html:not([data-guide-theme="dark"]) .sdoc {
-    --sdoc-bg: #fbfcfe;
-    --sdoc-panel: #f1f5fa;
-    --sdoc-ink: #101828;
-    --sdoc-body-c: #3d4a5f;
-    --sdoc-faint: #77839a;
-    --sdoc-blue: #0284c7;
-    --sdoc-sky: #0369a1;
-    --sdoc-done: #4d7c0f;
-    --sdoc-alert: #be123c;
-    --sdoc-line: rgb(16 24 40 / 12%);
-    --sdoc-code-bg: #eef3f9;
-  }
-}
-
-html[data-guide-theme="light"] .sdoc {
-  --sdoc-bg: #fbfcfe;
-  --sdoc-panel: #f1f5fa;
-  --sdoc-ink: #101828;
-  --sdoc-body-c: #3d4a5f;
-  --sdoc-faint: #77839a;
-  --sdoc-blue: #0284c7;
-  --sdoc-sky: #0369a1;
-  --sdoc-done: #4d7c0f;
-  --sdoc-alert: #be123c;
-  --sdoc-line: rgb(16 24 40 / 12%);
-  --sdoc-code-bg: #eef3f9;
-}
-
 .sdoc *,
 .sdoc *::before,
 .sdoc *::after {
@@ -189,26 +159,6 @@ html[data-guide-theme="light"] .sdoc {
 
 .sdoc a.sdoc-toplink[aria-current="page"] {
   color: var(--sdoc-blue);
-}
-
-.guide-theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font: inherit;
-  font-weight: 700;
-  font-size: 0.82rem;
-  color: var(--sdoc-ink);
-  background: none;
-  border: 1px solid var(--sdoc-line);
-  border-radius: 999px;
-  padding: 6px 14px;
-  cursor: pointer;
-  transition: filter 140ms ease;
-}
-
-.guide-theme-toggle:hover {
-  filter: brightness(1.2);
 }
 
 .sdoc-shell {
@@ -325,32 +275,6 @@ html[data-guide-theme="light"] .sdoc {
 }
 
 .sdoc-paper {
-  --sdoc-bg: #16130c;
-  --sdoc-panel: #1e1a11;
-  --sdoc-ink: #f3ead6;
-  --sdoc-body-c: #d8cdb2;
-  --sdoc-faint: #9c9077;
-  --sdoc-blue: #4fb7e8;
-  --sdoc-sky: #7ecdf2;
-  --sdoc-line: rgb(243 234 214 / 14%);
-  --sdoc-code-bg: #1e1a11;
-}
-
-@media (prefers-color-scheme: light) {
-  html:not([data-guide-theme="dark"]) .sdoc-paper {
-    --sdoc-bg: #f7f1e3;
-    --sdoc-panel: #efe7d2;
-    --sdoc-ink: #23201a;
-    --sdoc-body-c: #3c3730;
-    --sdoc-faint: #8a7f6a;
-    --sdoc-blue: #0f6fa8;
-    --sdoc-sky: #0b5c8c;
-    --sdoc-line: rgb(35 32 26 / 14%);
-    --sdoc-code-bg: #efe7d2;
-  }
-}
-
-html[data-guide-theme="light"] .sdoc-paper {
   --sdoc-bg: #f7f1e3;
   --sdoc-panel: #efe7d2;
   --sdoc-ink: #23201a;
@@ -358,6 +282,8 @@ html[data-guide-theme="light"] .sdoc-paper {
   --sdoc-faint: #8a7f6a;
   --sdoc-blue: #0f6fa8;
   --sdoc-sky: #0b5c8c;
+  --sdoc-alert: #be123c;
+  --sdoc-done: #4d7c0f;
   --sdoc-line: rgb(35 32 26 / 14%);
   --sdoc-code-bg: #efe7d2;
 }

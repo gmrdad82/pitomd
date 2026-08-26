@@ -38,7 +38,7 @@ relevant, and the desk files them away while keeping every one findable.
 A living board rarely holds a hundred open thoughts — and if yours does,
 you are exactly who the paid tier is for.
 
-![Everything the free desk holds, against the one price](/said-and-done/blog/thumbs/why-only-five-euros.png)
+![The ledger: everything the free desk holds, against the one price](/said-and-done/blog/five-ledger.png)
 
 ## Where the care goes
 

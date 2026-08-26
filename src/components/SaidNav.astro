@@ -3,10 +3,9 @@ import SaidBrand from "./SaidBrand.astro";
 
 interface Props {
   active?: string;
-  themeToggle?: boolean;
 }
 
-const { active, themeToggle = false } = Astro.props;
+const { active } = Astro.props;
 const links = [
   { href: "/said-and-done/tour/", label: "Tour", key: "tour" },
   { href: "/said-and-done/guides/", label: "Guides", key: "guides" },
@@ -29,20 +28,6 @@ const links = [
             {l.label}
           </a>
         ))
-      }
-      {
-        themeToggle && (
-          <button
-            type="button"
-            class="nav-theme"
-            data-guide-theme-toggle
-            aria-label="Switch between light and dark"
-          >
-            <span data-guide-theme-icon aria-hidden="true">
-              ☾
-            </span>
-          </button>
-        )
       }
     </div>
   </div>
@@ -101,31 +86,6 @@ const links = [
 
   :global(.sdoc) .nav-link[aria-current="page"] {
     color: var(--sdoc-blue);
-  }
-
-  .nav-theme {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    font: inherit;
-    font-size: 1rem;
-    color: #eceff4;
-    background: none;
-    border: 1px solid rgb(148 225 255 / 20%);
-    border-radius: 999px;
-    cursor: pointer;
-    transition: filter 140ms ease;
-  }
-
-  :global(.sdoc) .nav-theme {
-    color: var(--sdoc-ink);
-    border-color: var(--sdoc-line);
-  }
-
-  .nav-theme:hover {
-    filter: brightness(1.2);
   }
 
   @media (width <= 560px) {

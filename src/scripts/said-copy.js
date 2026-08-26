@@ -155,8 +155,3 @@ if (document.readyState === "loading") {
 } else {
   decorate();
 }
-
-new MutationObserver(() => fades.forEach((paint) => paint())).observe(
-  document.documentElement,
-  { attributes: true, attributeFilter: ["data-guide-theme"] },
-);

@@ -1,0 +1,58 @@
+---
+const rows: [string, string][] = [
+  ["5 projects", "free"],
+  ["10 boards", "free"],
+  ["100 living cards", "free"],
+  ["every key, every face", "free"],
+  ["agents at the desk", "free"],
+  ["no caps, 2 devices", "4.99€"],
+];
+---
+
+<dl class="said-ledger">
+  {
+    rows.map(([what, price]) => (
+      <div class="said-ledger-row">
+        <dt>{what}</dt>
+        <dd class={price === "free" ? "is-free" : "is-paid"}>{price}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .said-ledger {
+    margin: 2.2rem auto 0;
+    max-width: 620px;
+    font-family: var(--font-mono, "JetBrains Mono", monospace);
+    text-align: left;
+  }
+
+  .said-ledger-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 0.72rem 0.2rem;
+    border-bottom: 1px solid var(--said-line-soft, rgb(255 255 255 / 10%));
+  }
+
+  .said-ledger dt {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--fg-default, #e8ecf6);
+  }
+
+  .said-ledger dd {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .said-ledger dd.is-free {
+    color: var(--pito-blue, #0fa8f0);
+  }
+
+  .said-ledger dd.is-paid {
+    color: #d9a24a;
+  }
+</style>

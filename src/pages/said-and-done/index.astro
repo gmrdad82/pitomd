@@ -1,5 +1,6 @@
 ---
 import SaidShot from "../../components/SaidShot.astro";
+import SaidLedger from "../../components/SaidLedger.astro";
 import SaidMotion from "../../components/SaidMotion.astro";
 import McpRail from "../../components/McpRail.astro";
 import { MCP_ROW_ONE, MCP_ROW_TWO } from "../../lib/mcp-clients";
@@ -75,6 +76,20 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
           class="said-reveal said-zoom"
         />
       </div>
+    </div>
+  </section>
+
+  <section class="said-frame said-frame--tile">
+    <div class="said-wrap said-reveal">
+      <p class="said-kicker">Free is the product</p>
+      <h2>Most people never pay a cent<span class="dot">.</span></h2>
+      <p class="said-note">
+        The free desk has no clock and no watermark — five projects, ten boards,
+        a hundred living cards, every key and every face, forever. One payment
+        of 4.99€ lifts the caps on two devices when you outgrow it. No
+        subscription, no account, no tracking.
+      </p>
+      <SaidLedger />
     </div>
   </section>
 

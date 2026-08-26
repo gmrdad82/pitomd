@@ -116,18 +116,6 @@ const active = slug ? saidGuides.find((g) => g.slug === slug) : undefined;
         />
       )
     }
-    <script is:inline>
-      (function () {
-        try {
-          var saved = localStorage.getItem("pito-guide-theme");
-          if (saved === "light" || saved === "dark") {
-            document.documentElement.setAttribute("data-guide-theme", saved);
-          }
-        } catch (e) {
-          void e;
-        }
-      })();
-    </script>
   </head>
   <body
     class:list={[
@@ -137,7 +125,7 @@ const active = slug ? saidGuides.find((g) => g.slug === slug) : undefined;
     ]}
   >
     {progress && <div class="sdoc-progress" aria-hidden="true" />}
-    <SaidNav active={section} themeToggle={true} />
+    <SaidNav active={section} />
 
     <div class:list={["sdoc-shell", !sidebar && "sdoc-shell--noside"]}>
       {
@@ -211,7 +199,6 @@ const active = slug ? saidGuides.find((g) => g.slug === slug) : undefined;
 
     <SaidFooter home />
 
-    <script src="../scripts/guide-theme.js"></script>
     {progress && <script src="../scripts/said-progress.js" />}
     <DevBanner />
     <script src="../scripts/said-copy.js"></script>

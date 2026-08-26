@@ -1,24 +1,15 @@
 .said-shot,
 .sdoc-body p > img,
 .sdoc-body > img {
-  --shot-glow-soft: 14%;
-  --shot-glow-peak: 45%;
-}
-
-html[data-guide-theme="dark"] .said-shot,
-html[data-guide-theme="dark"] .sdoc-body p > img,
-html[data-guide-theme="dark"] .sdoc-body > img {
   --shot-glow-soft: 34%;
   --shot-glow-peak: 72%;
 }
 
-@media (prefers-color-scheme: dark) {
-  html:not([data-guide-theme="light"]) .said-shot,
-  html:not([data-guide-theme="light"]) .sdoc-body p > img,
-  html:not([data-guide-theme="light"]) .sdoc-body > img {
-    --shot-glow-soft: 34%;
-    --shot-glow-peak: 72%;
-  }
+.sdoc-paper .said-shot,
+.sdoc-paper .sdoc-body p > img,
+.sdoc-paper .sdoc-body > img {
+  --shot-glow-soft: 14%;
+  --shot-glow-peak: 45%;
 }
 
 .said-shot {
