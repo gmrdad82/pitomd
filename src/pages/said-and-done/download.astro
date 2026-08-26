@@ -49,7 +49,7 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
             class="said-btn said-dl-get"
             data-bundle="linux-x86_64"
             data-after="/said-and-done/download/linux/"
-            href="https://releases.pitomd.com/work/1.0.0-alpha/linux-x86_64/said-1.0.0-alpha-linux-x86_64.run"
+            href="https://pitomd.com/dl/said-and-done/linux-x86_64"
             >Download for Linux</a
           >
         </div>
@@ -71,7 +71,7 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
             class="said-btn said-dl-get"
             data-bundle="macos-arm64"
             data-after="/said-and-done/download/macos/"
-            href="https://releases.pitomd.com/work/1.0.0-alpha/macos-arm64/said-1.0.0-alpha-macos-arm64.dmg"
+            href="https://pitomd.com/dl/said-and-done/macos-arm64"
             >Download for macOS</a
           >
         </div>
@@ -93,7 +93,7 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
             class="said-btn said-dl-get"
             data-bundle="windows-x86_64"
             data-after="/said-and-done/download/windows/"
-            href="https://releases.pitomd.com/work/1.0.0-alpha/windows-x86_64/said-1.0.0-alpha-windows-x86_64-setup.exe"
+            href="https://pitomd.com/dl/said-and-done/windows-x86_64"
             >Download for Windows</a
           >
         </div>
@@ -129,20 +129,6 @@ import SaidLayout from "../../layouts/SaidLayout.astro";
       var card = document.querySelector('.said-dl-card[data-os="' + os + '"]');
       if (card) card.classList.add("is-yours");
 
-      fetch("https://releases.pitomd.com/work/latest.json")
-        .then(function (r) {
-          return r.ok ? r.json() : null;
-        })
-        .then(function (m) {
-          if (!m || !m.platforms) return;
-          document.querySelectorAll("[data-bundle]").forEach(function (a) {
-            var p = m.platforms[a.getAttribute("data-bundle")];
-            if (p && p.bundle && p.bundle.url) {
-              a.href = p.bundle.url;
-            }
-          });
-        })
-        .catch(function () {});
     })();
   </script>
   <script>
