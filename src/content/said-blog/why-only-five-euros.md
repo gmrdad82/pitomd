@@ -1,7 +1,7 @@
 ---
 title: "Why only €5?"
 description: "Because the free desk is the product. The €4.99 is a thank-you — most people will never need to pay it."
-pinExcerpt: "Said and Done. gives away the whole desk — the lanes, the keyboard, the notes under every card, the backups, the agents. Five projects, ten boards, a hundred living cards, forever, on your own machine, with no account and no tracking. The €4.99 exists for the day you outgrow that — and most people never do. It is less a price than a small token of support, so the desk keeps getting built."
+pinExcerpt: "Said and Done. gives away the whole desk — the record, the keyboard, the notes under every page, the backups, the agents. Five notebooks, ten chapters, a hundred living pages, forever, on your own machine, with no account and no tracking. The €4.99 exists for the day you outgrow that — and most people never do. It is less a price than a small token of support, so the desk keeps getting built."
 pinned: true
 published: false
 pubDate: 2026-09-01
@@ -11,16 +11,16 @@ The honest answer: because the free desk is not a demo. It is the product.
 
 ## What free actually holds
 
-Five projects. Ten boards. A hundred cards. Those are the only caps, and
+Five notebooks. Ten chapters. A hundred pages. Those are the only caps, and
 there is no clock on any of it — no trial that expires, no feature that
 grays out on day fifteen, no watermark.
 
 Everything else is simply there, for everyone:
 
-- Four lanes and a dossier, on every board.
+- The record on every chapter, with a case file behind every page.
 - The whole keyboard grammar — one mode, no insert/normal ceremony,
   letters that stay quiet while a field has focus.
-- Your notes under every card: a card can point at any number of files,
+- Your notes under every page: a page can point at any number of files,
   down to the exact lines, and read them in place.
 - Search that spans titles, bodies, and the referenced lines themselves —
   plus on-device meaning search when your machine carries a GPU.
@@ -32,11 +32,11 @@ Everything else is simply there, for everyone:
 - Every pixel of the same app paying customers run. There is no second,
   nicer binary.
 
-A hundred cards sounds small until you work the way the desk wants you
-to: cards resolve. They land in done as done, abandoned, or not
+A hundred pages sounds small until you work the way the desk wants you
+to: pages resolve. They land in done as done, abandoned, or not
 relevant, and the desk files them away while keeping every one findable.
-A living board rarely holds a hundred open thoughts — and if yours does,
-you are exactly who the paid tier is for.
+A living chapter rarely holds a hundred open thoughts — and if yours
+does, you are exactly who the paid tier is for.
 
 ![The ledger: everything the free desk holds, against the one price](/said-and-done/blog/five-ledger.png)
 

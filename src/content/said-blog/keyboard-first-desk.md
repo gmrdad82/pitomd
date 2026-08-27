@@ -12,7 +12,7 @@ each reasonable, until nobody can say what any given press will do.
 
 Said and Done. has one keyboard law instead. A key goes to the topmost screen, and
 nowhere else. If the screen on top doesn't claim it, the key is dropped — it
-never falls through to the board underneath, never triggers something you
+never falls through to the record underneath, never triggers something you
 can't see. There are no global shortcuts. Not for quit, not for search, not
 for anything.
 
@@ -27,13 +27,13 @@ disasters to recover from.
 ## The working set fits in one day
 
 And it means your hands learn the desk in a day: `arrows` or `h j k l` to
-walk, `enter` to open, `esc` to close the top thing, `n` for a new card,
+walk, `enter` to open, `esc` to close the top thing, `n` for a new page,
 `/` to find. That's the working set. The mouse can do everything the keys can — but
 after the first day, you mostly won't ask it to.
 
 Constraint is the feature. A desk you can trust blind is a desk you never
 have to leave.
 
-![The board driven from the keys — the strip below naming the next moves](/said-and-done/shots/board-general.png)
+![The record driven from the keys — the strip below naming the next moves](/said-and-done/shots/board-general.png)
 
 _The strip at the bottom always names the next keys — nothing to memorise._

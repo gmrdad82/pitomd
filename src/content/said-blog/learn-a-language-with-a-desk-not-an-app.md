@@ -1,6 +1,6 @@
 ---
 title: "Learn a language with a desk, not an app"
-description: "Streaks lie. A board of honest cards and a folder of notes compound instead."
+description: "Streaks lie. A chapter of honest pages and a folder of notes compound instead."
 published: false
 pubDate: 2026-12-11
 ---
@@ -18,9 +18,9 @@ the moment you save.
 
 "Shadow episode 12," "write 200 words about the trip," "clear the
 subjunctive confusion note." Real work, walked left to right weekly. The
-board doesn't gamify; it just refuses to let intentions blur.
+record doesn't gamify; it just refuses to let intentions blur.
 
-![The board holding the week's language work](/said-and-done/shots/board-light.png)
+![The record holding the week's language work](/said-and-done/shots/board-light.png)
 
 _A week of real practice — visible, movable, finishable._
 

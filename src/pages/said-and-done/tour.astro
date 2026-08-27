@@ -9,7 +9,7 @@ import SaidPhoneTicker from "../../components/SaidPhoneTicker.astro";
 
 <SaidLayout
   title="The tour — Said and Done."
-  description="Nine reasons Said and Done. earns a place on your desk: all local, yours forever, on-device AI, MCP-ready, automatic references, two faces, GPU-fast meaning search, every OS, and a remote client."
+  description="Nine reasons Said and Done. earns a place on your desk: all local, yours forever, on-device AI, MCP-ready, automatic references, the record, GPU-fast meaning search, every OS, and a remote client."
   active="tour"
 >
   <header class="said-hero" style="min-height: 62svh;">
@@ -48,8 +48,8 @@ import SaidPhoneTicker from "../../components/SaidPhoneTicker.astro";
       </p>
       <SaidShot
         src="/said-and-done/shots/board.png"
-        alt="The Said and Done. board — four lanes carrying real cards, entirely local"
-        caption="The board, all local — four lanes, real cards, your own machine."
+        alt="The Said and Done. record — real pages wearing their statuses, entirely local"
+        caption="The record, all local — real pages, your own machine."
         class="said-reveal said-zoom"
       />
     </div>
@@ -72,22 +72,22 @@ import SaidPhoneTicker from "../../components/SaidPhoneTicker.astro";
         <div class="said-tier-card">
           <h3>Free</h3>
           <ul>
-            <li>The whole desk — board, dossier, search, backups</li>
+            <li>The whole desk — the record, case files, search, backups</li>
             <li>Unlimited devices</li>
-            <li>Up to 5 projects, 10 boards, 100 cards</li>
+            <li>Up to 5 notebooks, 10 chapters, 100 pages</li>
           </ul>
         </div>
         <div class="said-tier-card is-paid">
           <h3>Licensed · 4.99€</h3>
           <ul>
             <li>Everything in Free</li>
-            <li>Unlimited projects, boards, files, references, topics</li>
+            <li>Unlimited notebooks, chapters, files, references, topics</li>
             <li>One payment, yours forever, updates included</li>
           </ul>
         </div>
       </div>
       <p class="said-note">
-        *Free: every feature, capped at 5 projects, 10 boards, and 100 cards.<br
+        *Free: every feature, capped at 5 notebooks, 10 chapters, and 100 pages.<br
         />
         **Licensed: no caps anywhere, one key covers 2 devices, moved freely.
       </p>
@@ -126,9 +126,9 @@ import SaidPhoneTicker from "../../components/SaidPhoneTicker.astro";
         >
       </h2>
       <p class="said-note">
-        Any MCP client can sit at your desk: list boards, search notes, file and
-        move cards, speak in threads. Every action signed with the agent's own
-        name, exactly like yours.
+        Any MCP client can sit at your desk: list chapters, search notes, file
+        and resolve pages, speak in threads. Every action signed with the
+        agent's own name, exactly like yours.
       </p>
       <McpRail
         chips={MCP_ALL}
@@ -161,16 +161,16 @@ import SaidPhoneTicker from "../../components/SaidPhoneTicker.astro";
       <p class="said-kicker">05 · References</p>
       <h2>It remembers where every thought lives<span class="dot">.</span></h2>
       <p class="said-note">
-        Cards point at the exact lines of the markdown they came from —
+        Pages point at the exact lines of the markdown they came from —
         suggested automatically at birth, readable in place, tracked as your
-        files change. The board never drifts from the thinking behind it.
+        files change. The record never drifts from the thinking behind it.
       </p>
       <div class="said-duo">
         <div>
           <SaidShot
             src="/said-and-done/shots/card-light.png"
-            alt="A card with its file references and line ranges"
-            caption="A card wearing its references — files and line ranges, not links."
+            alt="A page with its file references and line ranges"
+            caption="A page wearing its references — files and line ranges, not links."
             class="said-reveal said-zoom"
           />
         </div>
@@ -178,7 +178,7 @@ import SaidPhoneTicker from "../../components/SaidPhoneTicker.astro";
           <SaidShot
             src="/said-and-done/shots/reference.png"
             alt="A reference read in place — the exact markdown lines, rendered"
-            caption="The referenced lines, read in place without leaving the card."
+            caption="The referenced lines, read in place without leaving the page."
             class="said-reveal said-zoom"
           />
         </div>
@@ -188,31 +188,32 @@ import SaidPhoneTicker from "../../components/SaidPhoneTicker.astro";
 
   <section class="said-frame said-frame--tile">
     <div class="said-wrap said-reveal">
-      <p class="said-kicker">06 · Two faces</p>
+      <p class="said-kicker">06 · The record</p>
       <h2>
-        Kanban when deciding<span class="dot">.</span> Dossier when understanding<span
+        One record<span class="dot">.</span> Every page accounted for<span
           class="dot">.</span
         >
       </h2>
       <p class="said-note">
-        The board carries cards across lanes. The dossier reads the same cards
-        as one running record, with an index drawer and per-card case files.
-        Pick your face at first boot; change it any time.
+        Each chapter is one running record — every page a line in it, freshest
+        first, wearing its status. Any page opens as a case file: body,
+        references, thread, and history on one sheet. Nothing to arrange,
+        nothing to tidy; the record keeps itself.
       </p>
       <div class="said-duo">
         <div>
           <SaidShot
             src="/said-and-done/shots/dossier-light.png"
-            alt="The dossier — one running record of every card"
-            caption="The dossier — every card as one running record."
+            alt="The record — one running account of every page"
+            caption="The record — every page as one running line."
             class="said-reveal said-zoom"
           />
         </div>
         <div>
           <SaidShot
-            src="/said-and-done/shots/wizard-face.png"
-            alt="First boot asking which face the desk should wear"
-            caption="First boot asks which face the desk should wear."
+            src="/said-and-done/shots/casefile.png"
+            alt="A case file — one page's whole life on one sheet"
+            caption="The case file — a page's whole life on one sheet."
             class="said-reveal said-zoom"
           />
         </div>
@@ -231,8 +232,8 @@ import SaidPhoneTicker from "../../components/SaidPhoneTicker.astro";
       </p>
       <SaidShot
         src="/said-and-done/shots/projects.png"
-        alt="The project switcher answering instantly"
-        caption="The switcher — projects answer as fast as you can type."
+        alt="The notebook switcher answering instantly"
+        caption="The switcher — notebooks answer as fast as you can type."
         class="said-reveal said-zoom"
       />
     </div>
@@ -319,27 +320,27 @@ import SaidPhoneTicker from "../../components/SaidPhoneTicker.astro";
         frames={[
           {
             src: "/said-and-done/shots/remote/r-board-dark.png",
-            alt: "The remote client on a phone — the board's backlog lane, dark theme",
+            alt: "The remote client on a phone — the record's backlog, dark theme",
           },
           {
             src: "/said-and-done/shots/remote/r-board-light.png",
-            alt: "The board's todo lane on the phone, light theme",
+            alt: "The to-do pages on the phone",
           },
           {
             src: "/said-and-done/shots/remote/r-card-dark.png",
-            alt: "A card opened on the phone — references read in place, dark theme",
+            alt: "A page opened on the phone — references read in place",
           },
           {
             src: "/said-and-done/shots/remote/r-dossier-light.png",
-            alt: "The dossier face on the phone — one running record, light theme",
+            alt: "The record on the phone — one running account",
           },
           {
             src: "/said-and-done/shots/remote/r-dossier-dark.png",
-            alt: "The dossier face on the phone, dark theme",
+            alt: "The record on the phone, scrolled deeper",
           },
           {
             src: "/said-and-done/shots/remote/r-desk-dark.png",
-            alt: "The remote's desk screen — theme and mode tiles, the estate at a glance",
+            alt: "The remote's desk screen — the desk at a glance",
           },
         ]}
       />

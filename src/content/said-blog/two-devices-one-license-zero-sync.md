@@ -22,7 +22,7 @@ dark. That's a feature: attack surface you can reason about.
 
 ![The remote client riding the same desk](/said-and-done/shots/remote/r-board-dark.png)
 
-_The same cards, through your own tunnel — no service in the middle._
+_The same pages, through your own tunnel — no service in the middle._
 
 ## Where the licence fits
 

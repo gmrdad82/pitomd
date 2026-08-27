@@ -50,12 +50,16 @@
 
 .said-mcp-chip {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
   padding: 11px 20px;
-  border: 1px solid var(--said-line, rgb(148 225 255 / 14%));
+  border: 1px solid transparent;
   border-radius: 999px;
-  background: var(--said-card, #0e1826);
+  background:
+    linear-gradient(var(--said-card, #0e1826), var(--said-card, #0e1826))
+      padding-box,
+    linear-gradient(135deg, rgb(15 168 240 / 65%), rgb(81 112 255 / 55%))
+      border-box;
   white-space: nowrap;
 }
 

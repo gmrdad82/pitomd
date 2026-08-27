@@ -11,8 +11,8 @@ exact-word search shrugs.
 
 ## Two legs, one search box
 
-Said and Done. searches both ways at once. The exact leg covers card titles, bodies,
-and the text inside every line range a card references — fast, literal,
+Said and Done. searches both ways at once. The exact leg covers page titles, bodies,
+and the text inside every line range a page references — fast, literal,
 reliable. Beside it runs a meaning leg: your markdown, chunked and embedded
 into vectors on your own GPU, so "key problem" can find the licensing
 wrinkle even though they share no words.
@@ -41,6 +41,6 @@ engine is ready.
 Search that understands you used to cost a cloud. Now it costs a few hundred
 megabytes of model weights and the GPU you already own.
 
-![The finder over the board — an exact hit with its references counted](/said-and-done/shots/finder.png)
+![The finder over the record — an exact hit with its references counted](/said-and-done/shots/finder.png)
 
 _One search box: exact words answer first, meaning joins from your own GPU._

@@ -7,20 +7,20 @@ const jsonLd = {
   "@type": "HowTo",
   name: "Connect your AI agent to your Said and Done. desk",
   description:
-    "Connect an MCP agent over HTTP or stdio and let it file its own work under its own name, on the Mars or Bust sample project.",
+    "Connect an MCP agent over HTTP or stdio and let it file its own work under its own name, on the Mars or Bust sample notebook.",
   step: [
     { "@type": "HowToStep", name: "Pick a door — HTTP or stdio" },
     { "@type": "HowToStep", name: "Connect Claude Code in one line" },
-    { "@type": "HowToStep", name: "Ask for the board" },
-    { "@type": "HowToStep", name: "Have it file a card" },
-    { "@type": "HowToStep", name: "Check its work on the board" },
+    { "@type": "HowToStep", name: "Ask for the chapter" },
+    { "@type": "HowToStep", name: "Have it file a page" },
+    { "@type": "HowToStep", name: "Check its work on the record" },
   ],
 };
 ---
 
 <SaidDocsLayout
   title="Let your agent in — Said and Done. guides"
-  description="Connect an MCP agent to your Said and Done. desk — two doors, one line each — and watch it file real cards under its own name."
+  description="Connect an MCP agent to your Said and Done. desk — two doors, one line each — and watch it file real pages under its own name."
   section="guides"
   kicker="Guide 03"
   heading="Let your agent in"
@@ -30,11 +30,11 @@ const jsonLd = {
 >
   <p>
     Said and Done. speaks MCP — the protocol AI agents use to work with tools.
-    Connected, an agent can list your boards, search your notes, file cards,
-    move them, resolve them, and speak in card threads. Every action is signed
-    with the agent's own name, exactly like yours. Everything below was done for
-    real against the <em>Mars or Bust</em> sample project — the one the first-boot
-    wizard offers you — so you can follow along click for click.
+    Connected, an agent can list your chapters, search your notes, file pages,
+    change their status, resolve them, and speak in page threads. Every action
+    is signed with the agent's own name, exactly like yours. Everything below
+    was done for real against the <em>Mars or Bust</em> sample notebook — the one
+    the first-boot wizard offers you — so you can follow along click for click.
   </p>
 
   <h2 id="doors">1 · Two doors, both yours</h2>
@@ -49,7 +49,7 @@ const jsonLd = {
   </p>
   <pre><code>said-and-done mcp</code></pre>
   <p>
-    Both doors serve the same twenty-four tools and the same board. The HTTP
+    Both doors serve the same twenty-four tools and the same record. The HTTP
     door lives and dies with the window — the desk closed means no agent gets
     in. Settings → Connections carries the MCP switch and a copy button with
     your install's exact line; Doctor probes the door live and counts the tools.
@@ -58,17 +58,17 @@ const jsonLd = {
   <h2 id="connect">2 · Claude Code, in one line</h2>
   <p>
     Register the door once, then just talk. Here is the whole thing, recorded
-    live — the setup line, then a question about the sample project's{" "}
-    <em>Fuel &amp; Flight</em> board:
+    live — the setup line, then a question about the sample notebook's{" "}
+    <em>Fuel &amp; Flight</em> chapter:
   </p>
   <SaidShot
     src="/said-and-done/shots/mcp/mcp-connect.gif"
-    alt="A real terminal session: claude mcp add registers the said-and-done HTTP door, then Claude reads the Fuel & Flight board and lists every lane and card"
-    caption="One line to connect, one question — Claude reads the whole board, lane by lane."
+    alt="A real terminal session: claude mcp add registers the said-and-done HTTP door, then Claude reads the Fuel & Flight chapter and lists every page by status"
+    caption="One line to connect, one question — Claude reads the whole chapter, page by page."
   />
   <p>
     The first time an agent reaches for the desk's tools, Claude Code asks once
-    and remembers; for headless runs, allow them once in your project's
+    and remembers; for headless runs, allow them once in your repo's
     <code>.claude/settings.json</code> — <code
       >{'{ "permissions": {'} "allow": ["mcp__said-and-done__*"] {"} }"}</code
     > — and every command after that is just the question.
@@ -83,31 +83,31 @@ const jsonLd = {
   <h2 id="real-work">3 · Ask for something real</h2>
   <p>
     Reading is a parlor trick. The desk earns its keep when the agent files work
-    — here Claude is asked to create a card on Fuel &amp; Flight, land it
+    — here Claude is asked to create a page on Fuel &amp; Flight, land it
     straight in todo, and leave a comment explaining the urgency. Watch the id
     come back:
   </p>
   <SaidShot
     src="/said-and-done/shots/mcp/mcp-file.gif"
-    alt="A real terminal session: Claude files MARS-53, Dust filter swap, straight into the todo lane with a comment, and reports the id back"
-    caption="MARS-53 is born — filed to todo, commented, and the desk even suggested a note reference on its own."
+    alt="A real terminal session: Claude files MARS-53, Dust filter swap, straight into the to-do status with a comment, and reports the id back"
+    caption="MARS-53 is born — filed to to-do, commented, and the desk even suggested a note reference on its own."
   />
   <p>
     Note the last line: the desk auto-suggested a reference to
-    <code>breathing-easy.md</code> from the project's own notes — new cards get their
+    <code>breathing-easy.md</code> from the notebook's own notes — new pages get their
     references scanned at birth, whoever files them.
   </p>
 
-  <h2 id="board">4 · The card is on the board</h2>
+  <h2 id="record">4 · The page is on the record</h2>
   <p>
-    Switch to the desk and there it is — <strong>MARS-53</strong> sitting in todo
-    with its comment count and its reference, next to the cards you made yourself.
-    No import, no sync, no refresh button. It was always the same board.
+    Switch to the desk and there it is — <strong>MARS-53</strong> on the record in
+    to-do, with its comment count and its reference, next to the pages you made yourself.
+    No import, no sync, no refresh button. It was always the same record.
   </p>
   <SaidShot
     src="/said-and-done/shots/mcp/mcp-board.png"
-    alt="The Said and Done. desktop board — MARS-53, Dust filter swap, filed by Claude, sitting in the todo lane with a comment and a reference"
-    caption="Claude's card in the todo lane — one comment, one reference, signed work."
+    alt="The Said and Done. record — MARS-53, Dust filter swap, filed by Claude, in to-do with a comment and a reference"
+    caption="Claude's page on the record — one comment, one reference, signed work."
   />
 
   <h2 id="signed">5 · Signed, every time</h2>
@@ -115,8 +115,8 @@ const jsonLd = {
     Open MARS-53 as a case file and the history reads like a ledger:
     <code>agent:claude-code</code> created it, moved it, commented on it. An agent's
     name comes from its own MCP handshake, so the same assistant keeps one name across
-    a whole session. When a card moved and you didn't move it, the case file says
-    exactly who did — there is no anonymous move in this house.
+    a whole session. When a page changed status and you didn't change it, the case
+    file says exactly who did — there is no anonymous move in this house.
   </p>
   <SaidShot
     src="/said-and-done/shots/casefile.png"
@@ -124,11 +124,11 @@ const jsonLd = {
     caption="The thread keeps everyone honest — agents report under their own names, next to yours."
   />
 
-  <h2 id="together">6 · Work the same card together</h2>
+  <h2 id="together">6 · Work the same page together</h2>
   <p>
-    Nobody owns a card. You can be editing while an agent leaves a note; its
+    Nobody owns a page. You can be editing while an agent leaves a note; its
     words land in the thread under its name, next to yours. From your phone, the
-    remote client shows the same desk the agents are working — file a card from
+    remote client shows the same desk the agents are working — file a page from
     the couch, let the agent pick it up at the keyboard.
   </p>
 

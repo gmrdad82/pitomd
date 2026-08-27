@@ -1,6 +1,6 @@
 ---
 title: "Read more by filing less"
-description: "A reading pipeline where highlights stay in notes and cards only carry intent."
+description: "A reading pipeline where highlights stay in notes and pages only carry intent."
 published: false
 pubDate: 2026-10-27
 ---

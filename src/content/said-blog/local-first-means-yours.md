@@ -17,7 +17,7 @@ notes wouldn't notice.
 
 ## One database, no landlord
 
-The desk itself — cards, threads, history, attachments — lives in one local
+The desk itself — pages, threads, history, attachments — lives in one local
 database on your machine. No account, no sync service, no server between
 you and your own plans. The remote client, when you want your desk on your
 phone, rides your own tunnel with one token; the window closed means the
@@ -37,6 +37,6 @@ up what it owns and refuses to own what's yours.
 That's the whole deal. Local-first isn't a feature checkbox — it's the
 difference between using a tool and being one.
 
-![The board, entirely local — four lanes of real cards on one machine](/said-and-done/shots/board.png)
+![The record, entirely local — real pages on one machine](/said-and-done/shots/board.png)
 
-_All of it on your machine: the cards, the notes they cite, the search that finds them._
+_All of it on your machine: the pages, the notes they cite, the search that finds them._

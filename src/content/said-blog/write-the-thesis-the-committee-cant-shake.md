@@ -10,17 +10,18 @@ defense. The winning move is never losing a citation's trail.
 
 ## Sources are notes; claims reference them
 
-Reading notes per source, in the project folder. Chapter cards reference
-the note lines behind each claim. When a committee member asks, the card
+Reading notes per source, in the notebook folder. Per-chapter pages
+reference the note lines behind each claim. When a committee member asks,
+the page
 answers with the passage — `r`, read in place.
 
 ## Supervisor meetings become threads
 
-Feedback lands as comments on the chapter cards it concerns — dated,
+Feedback lands as comments on the pages it concerns — dated,
 attributable, findable. "Didn't she already approve this section?" is a
 case-file lookup, not a feeling.
 
-![A reference read in place inside a card](/said-and-done/shots/reference-light.png)
+![A reference read in place inside a page](/said-and-done/shots/reference-light.png)
 
 _The claim and its source, joined at the line — defense-proof plumbing._
 

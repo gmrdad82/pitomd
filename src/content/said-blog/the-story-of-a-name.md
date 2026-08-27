@@ -9,9 +9,9 @@ Products usually get named after what they hold: Notes, Tasks, Boards. We
 named ours after what happens at a desk that works: things get said, and
 then they get done.
 
-## A card is a spoken thing
+## A page is a spoken thing
 
-A card in Said and Done. is a spoken thing. You say it in your own words, it takes a
+A page in Said and Done. is a spoken thing. You say it in your own words, it takes a
 number, and from that moment the desk keeps your word for you — who said
 what, when it moved, how it ended. The history isn't a log; it's a record of
 speech. Comments are called what they are: things people said.
@@ -19,7 +19,7 @@ speech. Comments are called what they are: things people said.
 ## The tagline came first
 
 That's why the tagline came first — and then became the name. "Said and
-Done" is the whole product in three words — the distance between a thought in a note and a card marked
+Done" is the whole product in three words — the distance between a thought in a note and a page marked
 done, made as short as we could make it.
 
 ## The mark, the house

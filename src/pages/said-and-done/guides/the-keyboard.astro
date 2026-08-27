@@ -13,7 +13,7 @@ const jsonLd = {
 
 <SaidDocsLayout
   title="The keyboard is the desk — Said and Done. guides"
-  description="Every Said and Done. flow without the mouse: moving between cards, opening them, filing them, finding them."
+  description="Every Said and Done. flow without the mouse: moving between pages, opening them, filing them, finding them."
   section="guides"
   kicker="Guide 02"
   heading="The keyboard is the desk"
@@ -26,7 +26,7 @@ const jsonLd = {
     Said and Done. has one keyboard law and it never bends: <strong
       >a key goes to the topmost screen, and nowhere else</strong
     >. If the screen on top doesn't claim it, the key is dropped — it never
-    falls through to the board underneath, never triggers something you can't
+    falls through to the record underneath, never triggers something you can't
     see. There are no global shortcuts. Not for quit, not for search, not for
     anything.
   </p>
@@ -40,48 +40,51 @@ const jsonLd = {
   <h2 id="moving">Moving around</h2>
   <ul>
     <li>
-      <code>arrows</code> or <code>h j k l</code> — walk the cards and lanes.
+      <code>j k</code> or <code>arrows</code> — walk the record, page by page.
     </li>
-    <li><code>enter</code> or <code>o</code> — open the picked card.</li>
+    <li><code>enter</code> or <code>o</code> — open the picked page.</li>
     <li><code>esc</code> — close the topmost screen, always.</li>
-    <li><code>tab</code> — hop to the next lane, keeping your row feel.</li>
+    <li>
+      <code>g g</code> and <code>shift + g</code> — first page, last page.
+    </li>
   </ul>
   <SaidShot
     src="/said-and-done/shots/board-general.png"
-    alt="The board with the cursor picked on a card, the strip below naming the next keys"
-    caption="The strip below the lanes names the next keys for the picked card."
+    alt="The record with the cursor picked on a page, the strip below naming the next keys"
+    caption="The strip below the record names the next keys for the picked page."
   />
 
   <h2 id="making">Making and moving</h2>
   <ul>
-    <li><code>n</code> — a new card.</li>
-    <li><code>e</code> — edit the picked card, title focused.</li>
+    <li><code>n</code> — a new page.</li>
+    <li><code>e</code> — edit the picked page, title focused.</li>
     <li>
-      <code>shift + h/l</code> — carry the picked card a lane left or right;
-      <code>shift + j/k</code> moves it within its lane.
+      <code>shift + h/l</code> — carry the picked page one status back or forward:
+      backlog, to do, in progress, done.
     </li>
     <li>
       <code>r</code> — resolve: done, dropped, or not relevant. The record keeps which.
     </li>
   </ul>
   <p>
-    On the dossier face the same <code>enter</code> opens the card's case file instead
-    — deciding keys on the board, understanding keys on the record.
+    <code>enter</code> opens the page's case file — its body, references, thread,
+    and history on one sheet — and <code>esc</code> puts you back on the record exactly
+    where you were.
   </p>
 
   <h2 id="finding">Finding</h2>
   <ul>
     <li>
-      <code>/</code> — the finder, every project answering; <code>?</code>
-      keeps it to this project.
+      <code>/</code> — the finder, every notebook answering; <code>?</code>
+      keeps it to this notebook.
     </li>
-    <li><code>p</code> — switch project; <code>b</code> — switch board.</li>
+    <li><code>p</code> — switch notebook; <code>b</code> — switch chapter.</li>
     <li><code>space h</code> — the key help, honest by construction.</li>
   </ul>
   <SaidShot
     src="/said-and-done/shots/finder.png"
-    alt="The finder open over the board, exact and meaning hits together"
-    caption="The finder rides over the board — exact and meaning hits together."
+    alt="The finder open over the record, exact and meaning hits together"
+    caption="The finder rides over the record — exact and meaning hits together."
   />
 
   <p>

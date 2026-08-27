@@ -5,27 +5,25 @@ import SaidShot from "../../../components/SaidShot.astro";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "Set up Said and Done.: first boot to first board",
+  name: "Set up Said and Done.: first boot to first page",
   description:
-    "Install Said and Done., point it at your notes folder, pick its face, and land on a working board.",
+    "Install Said and Done., point it at your notes folder, and land on a working record.",
   step: [
     { "@type": "HowToStep", name: "Install Said and Done." },
     { "@type": "HowToStep", name: "Point it at your notes folder" },
-    { "@type": "HowToStep", name: "Pick the light — light, dark, or auto" },
-    { "@type": "HowToStep", name: "Pick the board or the dossier" },
     { "@type": "HowToStep", name: "Decide on the expedition" },
-    { "@type": "HowToStep", name: "Make the first card" },
+    { "@type": "HowToStep", name: "Make the first page" },
   ],
 };
 ---
 
 <SaidDocsLayout
-  title="First boot, first board — Said and Done. guides"
-  description="Install Said and Done., point it at your notes folder, pick its face, and land on a working board — in about two minutes."
+  title="First boot, first page — Said and Done. guides"
+  description="Install Said and Done., point it at your notes folder, and land on a working record — in about two minutes."
   section="guides"
   kicker="Guide 01"
-  heading="First boot, first board"
-  dek="About three minutes, one folder decision."
+  heading="First boot, first page"
+  dek="About two minutes, one folder decision."
   slug="first-boot"
   jsonLd={jsonLd}
 >
@@ -37,19 +35,18 @@ const jsonLd = {
 
   <h2 id="install">1 · Install</h2>
   <p>
-    Run the installer for your platform. On Linux it installs to your own user,
-    puts <code>said</code> on your path, and adds the launcher entry. On macOS you
-    drag Said and Done. to Applications. On Windows it installs per-user with a normal
-    uninstaller. No elevation, no system folders — and uninstalling never touches
-    your data.
+    Run the installer for your platform. On Linux it installs to your own user
+    and adds the launcher entry. On macOS you drag Said and Done. to
+    Applications. On Windows it installs per-user with a normal uninstaller. No
+    elevation, no system folders — and uninstalling never touches your data.
   </p>
 
   <h2 id="notes">2 · Point it at your notes</h2>
   <p>
     First boot asks one thing first: where do your notes live? Walk to the
     folder that holds your work and take it. Every folder inside becomes a
-    project; nothing is copied or moved. No notes folder yet? Take the suggested
-    fresh one and grow into it.
+    notebook; nothing is copied or moved. No notes folder yet? Take the
+    suggested fresh one and grow into it.
   </p>
   <SaidShot
     src="/said-and-done/shots/wizard-folder.png"
@@ -57,48 +54,24 @@ const jsonLd = {
     caption="First boot walks your own folders — nothing is made until you choose."
   />
 
-  <h2 id="light">3 · Day desk or night desk</h2>
-  <p>
-    Pick the light the desk sits in — <strong>light</strong>,
-    <strong>dark</strong>, or <strong>auto</strong>, which follows your system
-    morning and night. The whole app re-lights live as you move between the
-    three, and Settings can change it any time.
-  </p>
-  <SaidShot
-    src="/said-and-done/shots/wizard-theme.png"
-    alt="The theme step — light, dark and auto tiles, each with a living preview"
-    caption="Light, dark, or follow the system — previews live in each tile."
-  />
-
-  <h2 id="face">4 · Pick its face</h2>
-  <p>
-    Choose how the desk opens: <strong>the board</strong>, where lanes carry
-    cards left to right — or <strong>the dossier</strong>, one running record
-    with the freshest word on top. Both previews animate live while you decide,
-    and Settings can always change your mind later.
-  </p>
-  <SaidShot
-    src="/said-and-done/shots/wizard-face.png"
-    alt="The face chooser — the board and the dossier previews, side by side"
-    caption="The face chooser — both previews animate before you pick."
-  />
-
-  <h2 id="expedition">5 · Want the expedition?</h2>
+  <h2 id="expedition">3 · Want the expedition?</h2>
   <p>
     One last thing: <strong>Mars or Bust</strong> — a worked example of the desk.
     Two survivors, a dog, two hundred files of surviving and shipbuilding, and the
-    fifty cards it takes to fly. Board it and it becomes your selected project, free
-    and never counted against the plan — or start with an empty desk.
+    fifty pages it takes to fly. Take it aboard and it becomes your selected notebook,
+    free and never counted against the plan — or start with an empty desk.
   </p>
 
-  <h2 id="first-card">6 · The first card</h2>
+  <h2 id="first-page">4 · The first page</h2>
   <ol>
-    <li>Press <code>n</code> — a new card opens.</li>
+    <li>Press <code>n</code> — a new page opens.</li>
     <li>Give it a title in your own words.</li>
-    <li>Press <code>enter</code> — it lands in the lane, numbered for life.</li>
+    <li>
+      Press <code>enter</code> — it lands on the record, numbered for life.
+    </li>
   </ol>
   <p>
-    That's the whole loop. Say it, move it, and when it's finished — mark it
+    That's the whole loop. Say it, work it, and when it's finished — mark it
     done. <strong>Said and Done.</strong>
   </p>
 </SaidDocsLayout>

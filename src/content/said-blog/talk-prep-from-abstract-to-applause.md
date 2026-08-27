@@ -1,6 +1,6 @@
 ---
 title: "Talk prep, from abstract to applause"
-description: "The submission, the outline, the slides, the run-throughs — one board per talk."
+description: "The submission, the outline, the slides, the run-throughs — one chapter per talk."
 published: false
 pubDate: 2026-12-15
 ---
@@ -9,11 +9,11 @@ A conference talk is a three-month project disguised as forty minutes.
 The materials scatter across tools precisely when nerves need them
 gathered.
 
-## One board, the whole arc
+## One chapter, the whole arc
 
 Cards: abstract, outline, slides, demo, run-through one, run-through two,
-travel. The outline lives as markdown; the slides card references the
-sections still weak. Attach the speaker-notes PDF to the talk card.
+travel. The outline lives as markdown; the slides page references the
+sections still weak. Attach the speaker-notes PDF to the talk page.
 
 ## Run-throughs get threads
 
@@ -26,6 +26,6 @@ _The talk's whole life on one sheet — including the demo that failed on Tuesda
 
 ## The morning of
 
-The remote client on your phone holds the checklist card: adapter, clicker,
+The remote client on your phone holds the checklist page: adapter, clicker,
 water, the demo fallback plan referenced from your notes. Done, done,
 done — then applause.

@@ -1,6 +1,6 @@
 ---
 title: "An AI teammate that signs its work"
-description: "Your AI agent can sit at your Said and Done. desk over MCP — filing cards, leaving notes, and never once acting anonymously."
+description: "Your AI agent can sit at your Said and Done. desk over MCP — filing pages, leaving notes, and never once acting anonymously."
 published: false
 pubDate: 2026-09-15
 ---
@@ -13,8 +13,8 @@ whose hand.
 
 Said and Done. takes the boring, old-fashioned position: everyone at the desk has a
 name, including the machines. An MCP client connects with one line of
-setup and gets real tools: list the boards, search the notes,
-file a card, move it, comment in its thread, attach a capture.
+setup and gets real tools: list the chapters, search the notes,
+file a page, move it, comment in its thread, attach a capture.
 
 Every one of those actions lands in the history signed with the agent's own
 name, exactly the way yours land signed with yours.
@@ -29,17 +29,17 @@ two sections down. Nobody gets to be anonymous — including the machines._
 This turns out to change what you ask for. When an agent's work is
 attributable, you can hand it real work:
 
-- Sweep my notes for loose ends and file each one as a card, with a
+- Sweep my notes for loose ends and file each one as a page, with a
   reference to the lines it came from.
-- Read this card's thread and answer the open question in it.
+- Read this page's thread and answer the open question in it.
 - Move what's blocked and say why, in the thread, where I'll see it.
 
-Come morning, the board shows what happened — and the case file shows who
+Come morning, the record shows what happened — and the case file shows who
 did it, step by step, next to your own moves.
 
-![The board carrying cards filed by hand and by agents alike](/said-and-done/shots/board.png)
+![The record carrying pages filed by hand and by agents alike](/said-and-done/shots/board.png)
 
-_The morning after: agent-filed cards sit beside yours, each one carrying
+_The morning after: agent-filed pages sit beside yours, each one carrying
 its author in the history._
 
 ## The boundaries are as firm as the signature
