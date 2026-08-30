@@ -1,12 +1,14 @@
+@import "./tokens.css";
+
 .said {
   --said-ink: #eceff4;
   --said-dim: #abb4c8;
   --said-faint: #6c7a96;
-  --said-blue: #0fa8f0;
-  --said-sky: #94e1ff;
-  --said-accent: #89aef4;
-  --said-done: #9ece6a;
-  --said-dropped: #f0687a;
+  --said-blue: var(--chip-blue);
+  --said-sky: var(--chip-sky);
+  --said-accent: var(--chip-periwinkle);
+  --said-done: var(--chip-green);
+  --said-dropped: var(--chip-red);
   --said-tile: #0a121e;
   --said-deep: #060b14;
   --said-card: #0e1826;

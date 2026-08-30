@@ -33,7 +33,7 @@ const year = new Date().getFullYear();
 </Base>
 
 <script>
-  import { initRestingWave } from "../lib/resting-wave.js";
+  import { initRestingWave } from "../shared/anim/resting-wave.js";
   const canvas = document.getElementById("sky-flock");
   if (canvas instanceof HTMLCanvasElement) initRestingWave(canvas);
 </script>

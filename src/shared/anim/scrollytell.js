@@ -1,13 +1,3 @@
-// scrollytell.js — pinned scroll-through sequences.
-//
-// A [data-scrolly] block is taller than the viewport; inside it a sticky stage
-// stays pinned while you scroll, and one [data-scrolly-step] at a time becomes
-// active based on scroll progress through the block. Big bold messages that
-// swap as you scroll (the AI scrolly beat's game↔channel narrative).
-//
-// Under prefers-reduced-motion the steps are simply all shown stacked (the CSS
-// falls back), and this controller no-ops.
-
 const reduceMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 ).matches;
@@ -16,8 +6,6 @@ function initScrolly() {
   const blocks = document.querySelectorAll("[data-scrolly]");
   if (!blocks.length) return;
 
-  // Comet a heading: re-wrap its text in staggered .cchar spans so the CSS
-  // comet animation replays each time the slide is (re)activated by scroll.
   const cometize = (el) => {
     if (!el) return;
     const text =
@@ -75,10 +63,8 @@ function initScrolly() {
       ticking = false;
       const rect = block.getBoundingClientRect();
       const vh = window.innerHeight;
-      const total = rect.height - vh; // scrollable distance inside the block
-      // progress 0..1 as the block scrolls under the sticky stage
+      const total = rect.height - vh;
       const p = Math.min(1, Math.max(0, -rect.top / Math.max(1, total)));
-      // map to a step index; clamp to last
       const idx = Math.min(steps.length - 1, Math.floor(p * steps.length));
       if (idx !== current) {
         current = idx;
@@ -86,7 +72,6 @@ function initScrolly() {
           s.classList.toggle("is-active", i === idx);
           s.classList.toggle("is-past", i < idx);
         });
-        // comet the heading of the newly-active slide
         steps[idx].querySelectorAll('[data-fx="comet"]').forEach(cometize);
       }
       if (dots.length) {

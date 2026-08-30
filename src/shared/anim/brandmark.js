@@ -1,3 +1,7 @@
+function escapeRegExp(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function wrapMatches(root, regex, build) {
   const probe = new RegExp(regex.source);
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
@@ -30,27 +34,28 @@ function wrapMatches(root, regex, build) {
   }
 }
 
-function saidBrand() {
-  const brand = document.createElement("span");
-  brand.className = "sd-brand";
-  const said = document.createElement("span");
-  said.className = "sd-brand-said";
-  said.textContent = "Said and ";
-  const done = document.createElement("span");
-  done.className = "sd-brand-done";
-  done.textContent = "Done.";
-  brand.append(said, done);
-  return brand;
-}
-
-function run() {
-  document.querySelectorAll(".sdoc").forEach((root) => {
-    wrapMatches(root, /Said and Done\./, saidBrand);
-  });
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", run);
-} else {
-  run();
+export function initBrandmark({ rootSelector, className, parts }) {
+  const fullText = parts.map((part) => part.text).join("");
+  const matchText = new RegExp(escapeRegExp(fullText));
+  const build = () => {
+    const brand = document.createElement("span");
+    brand.className = className;
+    for (const part of parts) {
+      const el = document.createElement("span");
+      el.className = part.className;
+      el.textContent = part.text;
+      brand.appendChild(el);
+    }
+    return brand;
+  };
+  const run = () => {
+    document.querySelectorAll(rootSelector).forEach((root) => {
+      wrapMatches(root, matchText, build);
+    });
+  };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", run);
+  } else {
+    run();
+  }
 }

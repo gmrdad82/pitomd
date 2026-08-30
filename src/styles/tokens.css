@@ -1,0 +1,29 @@
+:root {
+  --r-keycap: 6px;
+  --r-row: 6px;
+  --r-control: 8px;
+  --r-card: 10px;
+  --r-sheet: 12px;
+  --size-body: 14px;
+  --size-row: 15px;
+  --ink: rgba(255, 255, 255, 1.00);
+  --ink-faint: rgba(255, 255, 255, 0.55);
+  --frost-quiet: rgba(255, 255, 255, 0.10);
+  --frost: rgba(255, 255, 255, 0.15);
+  --frost-card: rgba(255, 255, 255, 0.20);
+  --frost-panel: rgba(255, 255, 255, 0.22);
+  --frost-hover: rgba(255, 255, 255, 0.24);
+  --rim: rgba(255, 255, 255, 0.22);
+  --rim-card: rgba(255, 255, 255, 0.35);
+  --rim-panel: rgba(255, 255, 255, 0.40);
+  --glass-sheet: rgba(92, 87, 115, 0.93);
+  --well: rgba(0, 0, 0, 0.25);
+  --chip-blue: rgba(15, 168, 240, 1.00);
+  --chip-sky: rgba(148, 225, 255, 1.00);
+  --chip-periwinkle: rgba(137, 174, 244, 1.00);
+  --chip-azure: rgba(109, 151, 239, 1.00);
+  --chip-green: rgba(158, 206, 106, 1.00);
+  --chip-red: rgba(240, 104, 122, 1.00);
+  --chip-amber: rgba(235, 193, 92, 1.00);
+  --chip-coral: rgba(239, 151, 165, 1.00);
+}

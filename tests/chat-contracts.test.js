@@ -122,7 +122,7 @@ describe("the 5.0.0 rail (chat showcase, fat cut — H2)", () => {
     }
     // glow went with the cull — no CSS rule, no spotlight machinery.
     expect(css).not.toContain('[data-cursor="glow"]');
-    expect(read("src/scripts/pointer.js")).not.toContain('"is-hot"');
+    expect(read("src/shared/anim/pointer.js")).not.toContain('"is-hot"');
   });
 });
 
@@ -228,7 +228,7 @@ describe("fx vocabulary", () => {
 
   test("the currency scramble stays wired (owner constraint)", () => {
     expect(chat).toContain("data-cur");
-    expect(base).toContain("scripts/currency.js");
+    expect(base).toContain("shared/anim/currency.js");
   });
 
   test("all fx respect prefers-reduced-motion somewhere", () => {
@@ -269,14 +269,9 @@ describe("script islands", () => {
     // from GuideLayout.astro instead of Base.astro — loading it globally
     // would ship dead code to every other route for a button that only
     // exists on /guides pages.
-    const saidLayout = read("src/layouts/SaidLayout.astro");
     const saidDocsLayout = read("src/layouts/SaidDocsLayout.astro");
     const pageScoped = {
       "guide-theme.js": saidDocsLayout,
-      "said-reveal.js": saidLayout,
-      "said-hero-shader.js": saidLayout,
-      "said-progress.js": saidDocsLayout,
-      "said-brandmark.js": saidDocsLayout,
     };
 
     for (const f of readdirSync(join(ROOT, "src/scripts"))) {
@@ -289,6 +284,29 @@ describe("script islands", () => {
         `${f} not wired in ${ownerLabel}`,
       ).toBe(true);
     }
+  });
+
+  test("every src/shared/anim module is loaded somewhere on the site (sky-flock.js stays an unwired export)", () => {
+    const wiredAnywhere = [
+      base,
+      read("src/layouts/SaidLayout.astro"),
+      read("src/layouts/SaidDocsLayout.astro"),
+      read("src/pages/index.astro"),
+      read("src/pages/404.astro"),
+      read("src/pages/studio.astro"),
+      read("src/pages/said-and-done/index.astro"),
+    ].join("\n");
+
+    const UNWIRED_ON_PURPOSE = new Set(["sky-flock.js"]);
+    for (const f of readdirSync(join(ROOT, "src/shared/anim"))) {
+      if (UNWIRED_ON_PURPOSE.has(f)) continue;
+      expect(wiredAnywhere, `${f} not wired anywhere`).toContain(`anim/${f}`);
+    }
+
+    expect(
+      wiredAnywhere,
+      "said-and-done/reveal.js not wired anywhere",
+    ).toContain("said-and-done/reveal.js");
   });
 });
 
@@ -325,7 +343,7 @@ describe("fx perf budgets", () => {
 
 describe("pointer + cursor work gates", () => {
   test("pointer.js and cursor.js cap rAF work + gate micro-movement (owner: sample the mouse less aggressively, 2026-07-19)", () => {
-    const pointer = read("src/scripts/pointer.js");
+    const pointer = read("src/shared/anim/pointer.js");
     const cursor = read("src/scripts/cursor.js");
 
     // Work-rate gate: onFrame/onMove used to run on every rAF (display

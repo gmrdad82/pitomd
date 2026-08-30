@@ -171,15 +171,18 @@ const jsonLd = Astro.props.jsonLd ?? defaultJsonLd;
         markup (stable keys), so the islands only ever READ them. */
     }
     <script src="../scripts/railnav.js"></script>
-    <script src="../scripts/reveal.js"></script>
-    <script src="../scripts/pointer.js"></script>
+    <script src="../shared/anim/reveal.js"></script>
+    <script src="../shared/anim/pointer.js"></script>
     <script src="../scripts/fx-webgl.js"></script>
-    <script src="../scripts/parallax.js"></script>
-    <script src="../scripts/scrollytell.js"></script>
-    <script src="../scripts/copy.js"></script>
-    <script src="../scripts/said-copy.js"></script>
+    <script src="../shared/anim/parallax.js"></script>
+    <script src="../shared/anim/scrollytell.js"></script>
+    <script>
+      import { initCopy } from "../shared/anim/copy.js";
+      initCopy("widgets");
+      initCopy("blocks");
+    </script>
     <script src="../scripts/bridge.js"></script>
-    <script src="../scripts/currency.js"></script>
+    <script src="../shared/anim/currency.js"></script>
     <script src="../scripts/cursor.js"></script>
     <script src="../scripts/cover-slots.js"></script>
     <script src="../scripts/fps.js"></script>

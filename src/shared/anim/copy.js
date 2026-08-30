@@ -1,7 +1,7 @@
 const COPY_ICON =
   '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
 
-const STYLE = `
+const BLOCK_STYLE = `
 .said-copy-wrap { position: relative; }
 .said-copy-wrap pre { padding-right: 64px; }
 .said-copy-wrap pre > code::after {
@@ -58,7 +58,7 @@ const STYLE = `
 .said-copy-toast.is-up { opacity: 1; transform: translateX(-50%) translateY(0); }
 `;
 
-function copyText(text) {
+export function copyText(text) {
   if (navigator.clipboard && window.isSecureContext) {
     return navigator.clipboard.writeText(text);
   }
@@ -80,7 +80,29 @@ function copyText(text) {
   });
 }
 
-function toast(message) {
+function initCopyWidgets() {
+  const widgets = document.querySelectorAll("[data-copy]");
+  widgets.forEach((widget) => {
+    const label = widget.querySelector("[data-copy-label]");
+    widget.addEventListener("click", async () => {
+      const text = widget.getAttribute("data-copy");
+      try {
+        await copyText(text);
+        widget.classList.add("is-copied");
+        const prev = label ? label.textContent : null;
+        if (label) label.textContent = "copied ✓";
+        setTimeout(() => {
+          widget.classList.remove("is-copied");
+          if (label) label.textContent = prev;
+        }, 1600);
+      } catch {
+        return;
+      }
+    });
+  });
+}
+
+function blockToast(message) {
   let el = document.querySelector(".said-copy-toast");
   if (!el) {
     el = document.createElement("div");
@@ -93,11 +115,12 @@ function toast(message) {
   el._down = setTimeout(() => el.classList.remove("is-up"), 1700);
 }
 
-const fades = [];
-
-function decorate() {
+function initCopyBlocks({
+  successMessage = "Copied to your clipboard.",
+  errorMessage = "The clipboard said no — select and copy by hand.",
+} = {}) {
   const style = document.createElement("style");
-  style.textContent = STYLE;
+  style.textContent = BLOCK_STYLE;
   document.head.appendChild(style);
 
   document.querySelectorAll("pre").forEach((pre) => {
@@ -118,8 +141,6 @@ function decorate() {
       }
     };
     paintFade();
-    fades.push(paintFade);
-    const button = document.createElement("button");
     const place = () => {
       const wr = wrap.getBoundingClientRect();
       const pr = pre.getBoundingClientRect();
@@ -131,6 +152,7 @@ function decorate() {
       fade.style.bottom = "auto";
       fade.style.height = `${pr.height - 2}px`;
     };
+    const button = document.createElement("button");
     requestAnimationFrame(place);
     new ResizeObserver(place).observe(pre);
     window.addEventListener("resize", place);
@@ -141,17 +163,21 @@ function decorate() {
     button.addEventListener("click", async () => {
       try {
         await copyText(pre.textContent.trim());
-        toast("Copied to your clipboard.");
+        blockToast(successMessage);
       } catch {
-        toast("The clipboard said no — select and copy by hand.");
+        blockToast(errorMessage);
       }
     });
     wrap.appendChild(button);
   });
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", decorate);
-} else {
-  decorate();
+export function initCopy(variant = "widgets", options = {}) {
+  const run = () =>
+    variant === "blocks" ? initCopyBlocks(options) : initCopyWidgets(options);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", run);
+  } else {
+    run();
+  }
 }

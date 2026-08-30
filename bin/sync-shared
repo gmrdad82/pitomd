@@ -1,0 +1,84 @@
+#!/usr/bin/env node
+import { copyFileSync, existsSync, mkdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const scriptDir = dirname(fileURLToPath(import.meta.url));
+const repoRoot = join(scriptDir, "..");
+const estateRoot = join(repoRoot, "..");
+const uiSrc = join(estateRoot, "pito-ui", "js", "src");
+
+const PAIRS = [
+  {
+    source: join(estateRoot, "pito-ui", "assets", "tokens.css"),
+    dest: join(repoRoot, "src", "styles", "tokens.css"),
+  },
+  {
+    source: join(uiSrc, "brand", "brand.css"),
+    dest: join(repoRoot, "src", "styles", "brand.css"),
+  },
+  {
+    source: join(uiSrc, "anim", "pointer.js"),
+    dest: join(repoRoot, "src", "shared", "anim", "pointer.js"),
+  },
+  {
+    source: join(uiSrc, "anim", "parallax.js"),
+    dest: join(repoRoot, "src", "shared", "anim", "parallax.js"),
+  },
+  {
+    source: join(uiSrc, "anim", "reveal.js"),
+    dest: join(repoRoot, "src", "shared", "anim", "reveal.js"),
+  },
+  {
+    source: join(uiSrc, "anim", "scrollytell.js"),
+    dest: join(repoRoot, "src", "shared", "anim", "scrollytell.js"),
+  },
+  {
+    source: join(uiSrc, "anim", "currency.js"),
+    dest: join(repoRoot, "src", "shared", "anim", "currency.js"),
+  },
+  {
+    source: join(uiSrc, "anim", "brandmark.js"),
+    dest: join(repoRoot, "src", "shared", "anim", "brandmark.js"),
+  },
+  {
+    source: join(uiSrc, "anim", "progress.js"),
+    dest: join(repoRoot, "src", "shared", "anim", "progress.js"),
+  },
+  {
+    source: join(uiSrc, "anim", "aurora.js"),
+    dest: join(repoRoot, "src", "shared", "anim", "aurora.js"),
+  },
+  {
+    source: join(uiSrc, "anim", "copy.js"),
+    dest: join(repoRoot, "src", "shared", "anim", "copy.js"),
+  },
+  {
+    source: join(uiSrc, "anim", "sky-flock.js"),
+    dest: join(repoRoot, "src", "shared", "anim", "sky-flock.js"),
+  },
+  {
+    source: join(uiSrc, "anim", "resting-wave.js"),
+    dest: join(repoRoot, "src", "shared", "anim", "resting-wave.js"),
+  },
+  {
+    source: join(uiSrc, "said-and-done", "reveal.js"),
+    dest: join(repoRoot, "src", "shared", "said-and-done", "reveal.js"),
+  },
+];
+
+let missing = 0;
+for (const pair of PAIRS) {
+  if (!existsSync(pair.source)) {
+    console.error(`missing source: ${pair.source}`);
+    missing++;
+    continue;
+  }
+  mkdirSync(dirname(pair.dest), { recursive: true });
+  copyFileSync(pair.source, pair.dest);
+  console.log(`synced ${pair.dest}`);
+}
+
+if (missing > 0) {
+  process.exit(1);
+}

@@ -1,17 +1,9 @@
-// reveal.js — reveal-on-scroll orchestration.
-//
-// Adds `.is-in` to any [data-reveal] element when it enters the viewport (CSS
-// in global.css does the transition). Also drives text fx — scramble,
-// typewriter, comet — declared via [data-fx="…"], fired once on enter. All
-// effects are skipped under prefers-reduced-motion (content shows final state).
-
 const reduceMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 ).matches;
 
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*<>/\\|01";
 
-// Scramble: cycle random glyphs that resolve left-to-right into the final text.
 function scramble(el) {
   const final = el.dataset.fxText || el.textContent || "";
   el.textContent = final;
@@ -19,7 +11,7 @@ function scramble(el) {
 
   const len = final.length;
   let frame = 0;
-  const settleEvery = 2; // frames a char scrambles before it locks (× index)
+  const settleEvery = 2;
 
   const tick = () => {
     let out = "";
@@ -41,8 +33,6 @@ function scramble(el) {
   requestAnimationFrame(tick);
 }
 
-// Typewriter: type the final text one code point at a time with a blinking
-// caret. Honors data-fx-speed (ms per char, default 45).
 function typewriter(el) {
   const final = el.dataset.fxText || el.textContent || "";
   if (reduceMotion) {
@@ -51,9 +41,6 @@ function typewriter(el) {
   }
   const speed = Number(el.dataset.fxSpeed || 45);
   const chars = Array.from(final);
-  // The first-paint CSS hides this element with visibility (not display), so
-  // its final multi-line layout exists right now — pin that height before
-  // clearing, or the copy below jumps down as the lines type in.
   el.style.minHeight = `${el.offsetHeight}px`;
   el.textContent = "";
   el.classList.add("is-typing");
@@ -69,10 +56,6 @@ function typewriter(el) {
   step();
 }
 
-// Comet: each character streaks in from the right with a fading blue glow tail,
-// staggered left-to-right. Characters are grouped into non-breaking words so a
-// line only ever wraps at spaces (per-char inline-blocks would otherwise split
-// a word mid-way, e.g. "o\npen").
 function comet(el) {
   const final = el.dataset.fxText || el.textContent || "";
   if (reduceMotion) {
@@ -105,13 +88,11 @@ function runFx(el) {
   el.dataset.fxDone = "1";
   const kind = el.dataset.fx;
   const go = () => {
-    el.style.visibility = "visible"; // beat the CSS first-paint hide
+    el.style.visibility = "visible";
     if (kind === "scramble") scramble(el);
     else if (kind === "typewriter") typewriter(el);
     else if (kind === "comet") comet(el);
   };
-  // data-fx-delay="ms" staggers an effect (e.g. the hero's second line waits
-  // for the first to finish typing)
   const delay = Number(el.dataset.fxDelay || 0);
   if (delay > 0 && !reduceMotion) setTimeout(go, delay);
   else go();
@@ -119,13 +100,8 @@ function runFx(el) {
 
 function initReveal() {
   const reveals = document.querySelectorAll("[data-reveal]");
-  // scrolly slide headings are driven by scrollytell.js (per-slide activation),
-  // not on viewport-enter — exclude them here.
   const fxEls = document.querySelectorAll("[data-fx]:not(.scrolly__big)");
 
-  // Stash original text so fx can restore the final string. The first-paint
-  // hide lives in CSS (fx.css) with geometry reserved by fixed-height
-  // containers (.hero__title min-height) — no layout jump, no ghost rows.
   fxEls.forEach((el) => {
     if (!el.dataset.fxText) el.dataset.fxText = el.textContent.trim();
   });
@@ -134,7 +110,7 @@ function initReveal() {
     reveals.forEach((el) => el.classList.add("is-in"));
     fxEls.forEach((el) => {
       el.textContent = el.dataset.fxText;
-      el.style.visibility = "visible"; // beat the CSS first-paint hide
+      el.style.visibility = "visible";
     });
     return;
   }

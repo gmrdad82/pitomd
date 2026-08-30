@@ -88,9 +88,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <SaidNav active={active} />
     <slot />
     <SaidFooter home />
-    <script src="../scripts/said-reveal.js"></script>
-    <script src="../scripts/said-copy.js"></script>
-    <script src="../scripts/said-hero-shader.js"></script>
+    <script src="../shared/said-and-done/reveal.js"></script>
+    <script>
+      import { initCopy } from "../shared/anim/copy.js";
+      initCopy("blocks");
+    </script>
+    <script src="../shared/anim/aurora.js"></script>
     <DevBanner />
   </body>
 </html>

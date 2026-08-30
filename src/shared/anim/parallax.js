@@ -1,12 +1,3 @@
-// parallax.js — scroll-driven depth layers for the decor-heavy sections.
-//
-// On each scroll frame, reads how far each target section's centre sits from the
-// viewport centre (--scroll-p, range roughly -1.5..1.5) and writes it as a CSS
-// custom property. The CSS layers combine this with pointer.js's --par-x/--par-y
-// in ONE transform (or translate) per element so scroll + cursor compose cleanly.
-//
-// Disabled under prefers-reduced-motion; the CSS layers then resolve to 0px.
-
 const reduceMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 ).matches;
@@ -33,7 +24,6 @@ function initParallax() {
       const rect = el.getBoundingClientRect();
       const elCenter = scrollY + rect.top + rect.height * 0.5;
       const p = (vcenter - elCenter) / vh;
-      // Clamp so far-off-screen sections don't over-shift their layers
       el.style.setProperty(
         "--scroll-p",
         Math.max(-1.5, Math.min(1.5, p)).toFixed(4),
@@ -54,7 +44,6 @@ function initParallax() {
     { passive: true },
   );
 
-  // Initialise --scroll-p before the first scroll event
   update();
 }
 

@@ -11,6 +11,8 @@
  * frames ONLY for visitors who asked their OS to reduce motion.
  */
 
+@import "./tokens.css";
+@import "./brand.css";
 @import "./themes.css";
 @import "./fx.css";
 @import "./components.css";
@@ -56,9 +58,6 @@
   --font-mono:
     "JetBrains Mono", ui-monospace, Menlo, "Cascadia Code", "Source Code Pro",
     Consolas, monospace;
-
-  /* the one constant accent, lifted from pito */
-  --pito-blue: #5170ff;
 
   /* rail / layout rhythm */
   --rail-gap: clamp(1rem, 4vw, 3rem);

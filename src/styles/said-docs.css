@@ -1,3 +1,5 @@
+@import "./tokens.css";
+
 @font-face {
   font-family: "JetBrains Mono";
   src: url("/said-and-done/fonts/JetBrainsMono-Regular-latin.ttf")
@@ -26,10 +28,10 @@
   --sdoc-ink: #eceff4;
   --sdoc-body-c: #abb4c8;
   --sdoc-faint: #6c7a96;
-  --sdoc-blue: #0fa8f0;
-  --sdoc-sky: #94e1ff;
-  --sdoc-done: #9ece6a;
-  --sdoc-alert: #f0687a;
+  --sdoc-blue: var(--chip-blue);
+  --sdoc-sky: var(--chip-sky);
+  --sdoc-done: var(--chip-green);
+  --sdoc-alert: var(--chip-red);
   --sdoc-line: rgb(148 225 255 / 14%);
   --sdoc-code-bg: #0e1826;
   --sdoc-font: "JetBrains Mono", ui-monospace, monospace;

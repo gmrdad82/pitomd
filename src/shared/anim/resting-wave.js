@@ -1,10 +1,3 @@
-// The Resting wave from Pito Studio's splash, ported line-for-line from
-// the app's CPU shape model (pito-studio src/chroma.rs paint_resting):
-// two counter-drifting layers of sine-braided ribbon, each column split
-// into 18 soft bands with a quadratic falloff, wearing the house
-// gradient pink → purple → blue across the width. Period 18s, same as
-// the desktop. prefers-reduced-motion gets one still frame.
-
 const PERIOD = 18.0;
 const TAU = Math.PI * 2;
 const BANDS = 18;
@@ -13,7 +6,6 @@ const PINK = [255, 110, 199];
 const PURPLE = [128, 131, 251];
 const BLUE = [81, 112, 255];
 
-// (dir, phase, peak, swing, girth) — verbatim from the desktop model.
 const LAYERS = [
   [1.0, 0.0, 0.16, 0.24, 0.28],
   [-1.0, 2.9, 0.09, 0.18, 0.22],
@@ -27,7 +19,6 @@ function mix(a, b, t) {
   ];
 }
 
-// The house gradient bends at 0.55, exactly like the app's theme.
 function gradientAt(t) {
   const u = Math.min(1, Math.max(0, t));
   return u < 0.55
@@ -35,8 +26,6 @@ function gradientAt(t) {
     : mix(PURPLE, BLUE, (u - 0.55) / 0.45);
 }
 
-// Smoothstep fade over the top/bottom 22% so the wave dissolves before
-// it can touch an edge.
 function edgeFade(y, h) {
   if (h <= 0) return 1;
   const margin = h * 0.22;

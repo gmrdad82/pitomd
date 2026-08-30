@@ -1,11 +1,5 @@
-# The blog publishes itself: once a day, if an approved post's date has
-# arrived, rebuild and deploy — otherwise exit in seconds. Posts carry
-# published: true (the owner's nod) and a pubDate; the site is static,
-# so a date arriving means nothing until a build runs. This is that build.
 name: Publish cron
 on:
-  schedule:
-    - cron: "10 6 * * *"
   workflow_dispatch:
 
 permissions:

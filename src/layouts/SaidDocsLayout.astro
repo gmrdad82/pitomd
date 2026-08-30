@@ -199,9 +199,22 @@ const active = slug ? saidGuides.find((g) => g.slug === slug) : undefined;
 
     <SaidFooter home />
 
-    {progress && <script src="../scripts/said-progress.js" />}
+    {progress && <script src="../shared/anim/progress.js" />}
     <DevBanner />
-    <script src="../scripts/said-copy.js"></script>
-    <script src="../scripts/said-brandmark.js"></script>
+    <script>
+      import { initCopy } from "../shared/anim/copy.js";
+      initCopy("blocks");
+    </script>
+    <script>
+      import { initBrandmark } from "../shared/anim/brandmark.js";
+      initBrandmark({
+        rootSelector: ".sdoc",
+        className: "sd-brand",
+        parts: [
+          { className: "sd-brand-said", text: "Said and " },
+          { className: "sd-brand-done", text: "Done." },
+        ],
+      });
+    </script>
   </body>
 </html>

@@ -83,7 +83,7 @@ describe("every post carries its shape (owner rulings, 2026-08-25)", () => {
       join(here, "..", "src", "layouts", "SaidDocsLayout.astro"),
       "utf8",
     );
-    expect(layout).toContain("said-brandmark.js");
+    expect(layout).toContain("initBrandmark");
   });
 });
 
