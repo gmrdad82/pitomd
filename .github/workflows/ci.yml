@@ -2,8 +2,8 @@ name: Website CI
 
 on:
   push:
-    branches: [main]
-  pull_request:
+    tags: ["v*"]
+  workflow_dispatch:
 
 # actions:read lets the Slack notifier look up which step failed.
 permissions:

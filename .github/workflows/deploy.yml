@@ -13,11 +13,7 @@ name: Deploy
 # posts a deploy notice.
 on:
   push:
-    branches:
-      - main
-    paths-ignore:
-      - "README.md"
-      - ".github/icons/**"
+    tags: ["v*"]
   workflow_dispatch:
 
 jobs:

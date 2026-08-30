@@ -1,10 +1,7 @@
 name: notify
 on:
   push:
-    branches: [main]
-    paths-ignore:
-      - "README.md"
-      - ".github/icons/**"
+    tags: ["v*"]
 jobs:
   announce:
     runs-on: ubuntu-latest
