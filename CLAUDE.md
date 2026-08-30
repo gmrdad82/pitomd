@@ -1,5 +1,14 @@
 # pitomd — project guide (for Claude / agents)
 
+## ⛔ THE COMMIT IS THE OWNER'S (owner law, 2026-08-29 — global, all repos)
+
+**Claude never runs `git commit` / `git tag` / `git push` here unless Gamer
+Dad explicitly asks for that commit.** Finishing the work is not permission to
+commit it — the change is left in the working tree and he is told what to
+commit. Never in any case: `stash`, `checkout`, `restore`, `reset`, `clean`,
+force-push, amend, or history rewrite. When he does ask: stage the files
+explicitly (never `git add .` / `-A`), no AI trailers, this repo's message form.
+
 > The global working agreement (`~/.claude/CLAUDE.md`) applies here; this file
 > carries only pitomd specifics. `docs/` is currently empty, so this file is
 > the whole map for pitomd; deeper detail on any stack piece lives in the file
