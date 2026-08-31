@@ -1,3 +1,8 @@
+// said-blog.test.js — guards the publishing gate (said-blog.ts: released /
+// withBadges / related) and the shape every post in src/content/said-blog
+// must carry. Count-agnostic by design: the blog reboot purge (2026-08-31)
+// leaves the collection at zero posts until drafts land, so nothing here may
+// assume a minimum post count — only that whatever IS there is well-formed.
 import { describe, expect, test } from "vitest";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -53,10 +58,16 @@ describe("the publishing gate", () => {
 describe("every post carries its shape (owner rulings, 2026-08-25)", () => {
   const here = dirname(fileURLToPath(import.meta.url));
   const dir = join(here, "..", "src", "content", "said-blog");
-  const files = readdirSync(dir).filter((f) => f.endsWith(".md"));
+  // The glob content loader tolerates a missing/empty base directory (the
+  // purge leaves it gone until the first draft lands) — mirror that here
+  // instead of asserting any post count.
+  const files = existsSync(dir)
+    ? readdirSync(dir).filter((f) => f.endsWith(".md"))
+    : [];
 
-  test("the collection is not empty", () => {
-    expect(files.length).toBeGreaterThan(30);
+  test("post ids are unique (the glob loader keys each post by filename)", () => {
+    const ids = files.map((f) => f.replace(/\.md$/, ""));
+    expect(new Set(ids).size).toBe(ids.length);
   });
 
   test("at least two h2 sections, so the ToC always renders", () => {
@@ -91,7 +102,10 @@ describe("no reference points at a missing image (owner report, 2026-08-25)", ()
   const here = dirname(fileURLToPath(import.meta.url));
   const root = join(here, "..");
 
+  // Tolerates a missing directory (empty said-blog collection) — walking a
+  // dir that isn't there yet yields no files, not a crash.
   function walk(dir) {
+    if (!existsSync(dir)) return [];
     return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
       const path = join(dir, entry.name);
       if (entry.isDirectory()) return walk(path);
