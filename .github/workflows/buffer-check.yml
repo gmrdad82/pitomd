@@ -1,0 +1,24 @@
+# Weekly article-runway check: Mondays 08:00 UTC, posts a Slack alert via
+# the announcer webhook when the scheduled buffer thins (fewer than 5
+# future articles, or under 14 days of schedule left). Manual dispatch
+# posts the status either way — the owner's on-demand pulse check.
+name: Buffer check
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  buffer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the article runway
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ANNOUNCER_SLACK_WEBHOOK_URL }}
+          ALWAYS: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
+        run: node tools/announce/buffer.mjs

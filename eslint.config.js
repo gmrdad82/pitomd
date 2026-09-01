@@ -8,7 +8,7 @@ export default [
   { ignores: ["dist/", ".astro/", "node_modules/", "tools/shots/", "tmp/"] },
   js.configs.recommended,
   {
-    files: ["src/**/*.js", "*.mjs", "*.js"],
+    files: ["src/**/*.js", "tools/announce/**/*.mjs", "*.mjs", "*.js"],
     languageOptions: {
       ecmaVersion: 2023,
       sourceType: "module",

@@ -1,0 +1,56 @@
+# Announce newly published blog articles to the owner's Slack and Discord
+# after each successful deploy. "Newly published" = published posts whose
+# pubDate falls between the previous successful Deploy run and now — the
+# moment a deploy actually put them on the live site. Manual dispatch can
+# force-announce one slug (re-announcements, missed windows).
+#
+# Secrets (repo → Settings → Secrets and variables → Actions) — ANNOUNCER_
+# prefixed so they never collide with CI's SLACK_WEBHOOK; the values live in
+# the "PITO pitomd" 1Password item:
+#   ANNOUNCER_SLACK_WEBHOOK_URL     Slack incoming-webhook URL (private channel)
+#   ANNOUNCER_DISCORD_WEBHOOK_URL   Discord channel webhook URL
+# Either may be absent — that target is skipped with a log line, never a
+# failure, so the owner can wire them one at a time.
+name: Announce
+
+on:
+  workflow_run:
+    workflows: [Deploy]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Force-announce this post slug, ignoring the window"
+        required: false
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  announce:
+    # Only announce for deploys that actually landed.
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The window opens at the previous successful Deploy: anything whose
+      # pubDate crossed into the past since then went live with this one.
+      - name: Find previous successful deploy
+        id: window
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          SINCE=$(gh api "repos/${{ github.repository }}/actions/workflows/deploy.yml/runs?status=success&per_page=2" \
+            --jq '.workflow_runs[1].run_started_at // empty')
+          echo "since=${SINCE:-1970-01-01T00:00:00Z}" >> "$GITHUB_OUTPUT"
+
+      - name: Announce to Slack and Discord
+        env:
+          SINCE: ${{ steps.window.outputs.since }}
+          FORCE_SLUG: ${{ inputs.slug }}
+          SLACK_WEBHOOK_URL: ${{ secrets.ANNOUNCER_SLACK_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.ANNOUNCER_DISCORD_WEBHOOK_URL }}
+        run: node tools/announce/announce.mjs
