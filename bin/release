@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# bin/release — the release ceremony in one move (agents/skills/release.md).
+# Computes the next version from the latest v* tag (patch bump; pass X.Y.Z,
+# --minor or --major to override), asks only for the release sentence, then
+# bumps the manifest, folds in whatever the owner already staged, commits
+# "[vX.Y.Z] <sentence>" and pushes. tag.yml does the rest. --dry-run shows
+# the plan and stops before touching anything.
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+DRY=""
+BUMP="patch"
+EXPLICIT=""
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run) DRY=1 ;;
+    --minor) BUMP="minor" ;;
+    --major) BUMP="major" ;;
+    [0-9]*.[0-9]*.[0-9]*) EXPLICIT="$arg" ;;
+    *) echo "usage: bin/release [X.Y.Z | --minor | --major] [--dry-run]"; exit 2 ;;
+  esac
+done
+
+# Releases leave from main, up to date with origin.
+branch=$(git rev-parse --abbrev-ref HEAD)
+[[ "$branch" == "main" ]] || { echo "→ releases leave from main (you are on $branch)"; exit 1; }
+git fetch -q --tags
+
+# Next version: the latest v* tag plus one, unless the owner named one.
+latest=$(git tag --list 'v*' | sort -V | tail -1)
+latest=${latest#v}; latest=${latest:-0.0.0}
+IFS=. read -r maj min pat <<< "$latest"
+case "$BUMP" in
+  patch) next="$maj.$min.$((pat + 1))" ;;
+  minor) next="$maj.$((min + 1)).0" ;;
+  major) next="$((maj + 1)).0.0" ;;
+esac
+[[ -n "$EXPLICIT" ]] && next="$EXPLICIT"
+git rev-parse -q --verify "refs/tags/v$next" >/dev/null && { echo "→ v$next already exists"; exit 1; }
+
+# The same gate CI runs first — cheaper to fail here than up there.
+echo "→ prettier --check . (the gate that bites first in CI)"
+npx prettier --check . >/dev/null || { echo "→ prettier is unhappy; run: npx prettier --write ."; exit 1; }
+
+echo "→ releasing v$next (latest tag was v${latest})"
+echo "→ riding along, already staged by you:"
+git diff --cached --name-only | sed 's/^/    /'
+unstaged=$(git status --porcelain | grep -cv '^[MARCD] ' || true)
+[[ "$unstaged" -gt 0 ]] && echo "→ note: $unstaged change(s) NOT staged — they stay behind"
+
+if [[ -n "$DRY" ]]; then echo "→ dry run — stopping here"; exit 0; fi
+
+read -rp "→ the release sentence (after [v$next]): " sentence
+[[ -n "$sentence" ]] || { echo "→ a release needs its sentence"; exit 1; }
+
+npm version "$next" --no-git-tag-version >/dev/null
+git add package.json package-lock.json
+git commit -m "[v$next] $sentence"
+git pull --rebase && git push
+echo "→ pushed. tag.yml verifies, tags v$next, and dispatches CI + Deploy."
