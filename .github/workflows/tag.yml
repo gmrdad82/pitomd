@@ -1,0 +1,67 @@
+# A commit message that starts with "[v1.2.3]" bumps package.json to 1.2.3,
+# commits that, cuts tag v1.2.3 on it and dispatches CI and Deploy. Any other
+# commit costs nothing — this job never starts. (Announce rides Deploy's
+# completion on its own.)
+name: Tag from the commit message
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  tag:
+    if: startsWith(github.event.head_commit.message, '[v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read the version from the first line
+        id: version
+        env:
+          MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          first="${MESSAGE%%$'\n'*}"
+          if [[ "$first" =~ ^\[v([0-9]+\.[0-9]+\.[0-9]+)\] ]]; then
+            echo "bare=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+            echo "version=v${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::The message starts with a bracket but carries no vX.Y.Z"; exit 1
+          fi
+          if git rev-parse -q --verify "refs/tags/v${BASH_REMATCH[1]}" >/dev/null; then
+            echo "::error::v${BASH_REMATCH[1]} already exists"; exit 1
+          fi
+
+      # The site's own version follows the tag; the lock file follows the manifest.
+      - name: Bump the manifest to the tag
+        env:
+          BARE: ${{ steps.version.outputs.bare }}
+        run: npm version "$BARE" --no-git-tag-version
+
+      - name: Commit the manifest, then cut the tag on that commit
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet; then
+            git add -u
+            git commit -m "The manifest follows $VERSION"
+            git push origin HEAD:main
+          fi
+          git tag -a "$VERSION" -m "${MESSAGE%%$'\n'*}"
+          git push origin "$VERSION"
+
+      - name: Run CI and Deploy on the tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh workflow run ci.yml --ref "$VERSION"
+          gh workflow run deploy.yml --ref "$VERSION"
