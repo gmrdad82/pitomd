@@ -2,7 +2,7 @@
 title: "Carry the desk in your pocket"
 description: "A self-hosted notes and tasks app on your phone with no cloud in between: your desk, served by your own computer, reachable from the hardware store."
 published: false
-pubDate: 2026-08-31
+pubDate: 2026-09-19
 ---
 
 Standing in aisle seven of the hardware store, holding two boxes of
@@ -51,7 +51,7 @@ service holding your desk open — window closed means desk closed,
 everywhere at once. I have come to love this. My notes are reachable
 when my computer is awake and serving them, and provably unreachable when
 it is not.
-![PLACEHOLDER — a phone in one hand in a hardware store aisle, the desk's page for "rebuild the fence" open on screen with its measurements visible](/said-and-done/blog/TODO-carry-the-desk-in-your-pocket.png)
+![PLACEHOLDER — a phone in one hand in a hardware store aisle, the desk's Page for "rebuild the fence" open on screen with its measurements visible](/said-and-done/blog/TODO-carry-the-desk-in-your-pocket.png)
 
 _Aisle seven, one thumb, the measurement from last Tuesday — no cloud was consulted._
 
@@ -61,23 +61,24 @@ This is not a desktop screen squeezed onto glass.
 The phone client is its own thing, shaped around how a phone is actually
 held and what a person actually does standing up.
 
-You swipe your way between the four steps a page walks, one at a time,
-the motion your thumb already knows from everything else it does. Cards
-open into the full dossier: description, the comment threads, the
+You swipe your way between the four steps a Page walks, one at a time,
+the motion your thumb already knows from everything else it does. Pages
+open into the full dossier: description, the Thoughts and Updates, the
 attached photos, the history of who did what. When a list grows long,
-pages group themselves under their first letters with a rail to jump by —
+Pages group themselves under their first letters with a rail to jump by —
 finding "fence" means tapping F, not scrolling through your whole
 ambitious life. Filtering happens as you type, and the same little box
-quick-adds a new page when what you typed does not exist yet, which is
+quick-adds a new Page when what you typed does not exist yet, which is
 capture at the speed of a crosswalk.
 
 The client sweats phone-specific details because half-hearted mobile
-apps are a personal grievance of mine. Need to move six pages along? A
+apps are a personal grievance of mine. Need to move six Pages along? A
 multi-select mode does them as one batch instead of six pilgrimages. Deep
-in a card with the dog pulling the leash? The back button — the real
+in a Page with the dog pulling the leash? The back button — the real
 one, the one your thumb pressed on reflex — steps you out the way you
 came instead of dumping you at the front door. Little toasts confirm
-what just happened; light and dark themes follow your evening. None of
+what just happened; the desk's single glass look follows you here
+unchanged. None of
 this is glamorous; it is simply the part most mobile companions skip,
 and the part your thumb notices most.
 
@@ -86,7 +87,7 @@ couch, later, when the day has gone soft. I swipe through what piled up:
 the half-thoughts from the car, whatever four-word mysteries
 afternoon-me left behind. Some get a line of description while
 the context still breathes; some march forward a step; the mystery ones
-get a comment asking past-me what he meant, which he sometimes even
+get a Thought asking past-me what he meant, which he sometimes even
 answers. Twenty minutes of thumb-work and tomorrow's desk is already
 set. Triage never deserved a desk chair, and now it does not require
 one.
@@ -94,9 +95,9 @@ one.
 ## The desk leaves the house without leaving home
 
 My phone now carries the whole desk and none of the compromise: every
-page, thread, and pinned thought reachable from a store aisle or the far
+Page, Thought, and pinned paragraph reachable from a store aisle or the far
 end of the dog's favorite field, served by the computer at home with
 nothing renting space in between. When an idea lands mid-walk, it goes
-onto the board in the time a red light lasts, and it is simply there,
+onto the record in the time a red light lasts, and it is simply there,
 on the real desk rather than in an inbox awaiting import ceremony, when
 I sit back down.

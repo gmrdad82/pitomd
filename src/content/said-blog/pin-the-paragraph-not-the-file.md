@@ -2,7 +2,7 @@
 title: "Pin the paragraph, not the file"
 description: "How to link tasks to notes at the line level — pins that show you the exact paragraph, survive your rewrites, and draw you a map of what your work leans on."
 published: false
-pubDate: 2026-08-31
+pubDate: 2026-09-09
 ---
 
 Last spring I decided to rebuild the back garden, and like every project I
@@ -17,18 +17,18 @@ would have handed me `money.md` and wished me luck scrolling.
 
 ## Link tasks to notes at the line, not the filename
 
-In Said and Done., a page — one task, one intention — carries references,
+In Said and Done., a Page — one task, one intention — carries references,
 and a reference is precise: this file, these lines. Not "see
 `garden/money.md`" but lines 41 through 44 of it, the four lines that
-actually matter to the lumber order. A page can carry as many pins as it
-needs, into as many files as it needs. My lumber page held three pins
+actually matter to the lumber order. A Page can carry as many pins as it
+needs, into as many files as it needs. My lumber Page held three pins
 across three files, and each one pointed at a paragraph, not a haystack.
 
-Press one key on the page and the pinned lines open right there in the
+Press one key on the Page and the pinned lines open right there in the
 app, with the surrounding note a nudge away — when the paragraph turns
 out to need its neighbors, you widen the view twenty lines at a time
 instead of drowning in the whole file. Another key gathers every
-reference on the page into one reading, grouped by file, so before I
+reference on the Page into one reading, grouped by file, so before I
 drove to the lumber yard I read the measurements, the wishlist lines, and
 the budget rows as a single briefing. A third key copies all of it,
 numbered, ready to paste into a message or an AI chat: the whole
@@ -38,7 +38,7 @@ the keyboard until it grips exactly what you meant. And when you would
 rather read in your own editor, that works too: the app opens the file in
 whatever program you have told it to use.
 
-![PLACEHOLDER — a page titled "Order the lumber" with three pinned excerpts stacked under it, each labeled with its file name and line range](/said-and-done/blog/TODO-pin-the-paragraph-not-the-file.png)
+![PLACEHOLDER — a Page titled "Order the lumber" with three pinned excerpts stacked under it, each labeled with its file name and line range](/said-and-done/blog/TODO-pin-the-paragraph-not-the-file.png)
 
 _One task, three pins, three files — each pin showing only the lines that matter._
 
@@ -57,7 +57,7 @@ its snapshot. Only when the paragraph is genuinely gone does the pin let
 go, and a paragraph that is merely mangled beyond confidence is left
 alone rather than guessed at. I have reorganized entire notes, moved
 sections wholesale, split one file's worth of thinking across new
-headings, and my pages just kept pointing at the right sentences like
+headings, and my Pages just kept pointing at the right sentences like
 nothing happened. The first time I watched a pin follow a paragraph I had
 moved eighty lines down, I said something out loud that my dog took as an
 invitation to play.
@@ -65,15 +65,15 @@ invitation to play.
 ## See what your project actually leans on
 
 Once tasks pin real paragraphs, something lovely becomes possible: the
-desk can draw you a map. Press one key in a chapter and you get its
-overview: every page as a node, every referenced file as a node, and
+desk can draw you a map. Press one key in a Chapter and you get its
+overview: every Page as a node, every referenced file as a node, and
 edges between them showing which tasks lean on which notes. The graph
 moves and settles like something alive.
 
-My garden chapter's map taught me two things in ten seconds. First,
-`beds.md` sat in the middle like a train station — six pages pinned into
+My garden Chapter's map taught me two things in ten seconds. First,
+`beds.md` sat in the middle like a train station — six Pages pinned into
 it, which told me exactly which file deserved a proper cleanup before the
-real work started. Second, one lonely page floated off to the side,
+real work started. Second, one lonely Page floated off to the side,
 connected to nothing — a task with no thinking behind it yet. Both were things I half-knew
 until the map made them plain.
 

@@ -31,6 +31,31 @@ Three content jobs, one voice (the Pito estate canon — read it first):
   OG tags via the layout, real headings a skimmer can navigate, internal
   links between guide ↔ landing ↔ post where they genuinely help.
 - Brand casing law: "Pito" in prose; product names as the canon rules them.
+- Product terminology (Said and Done.): the concepts are **Notebook,
+  Chapter, Page** — capitalized in prose when naming the product concept.
+  The signed remarks on a Page split by author: a person leaves a
+  **Thought**, an MCP/AI agent leaves an **Update** (a mixed strip is
+  "Thoughts and Updates"). Never "comments", never "threads", never
+  "cards", and **"Note" is retired** — lowercase "notes" is the preferred
+  word for the reader's own markdown files and means only that. Generic
+  senses stay lowercase (a passing thought, software updates); never let
+  a capitalized term share a sentence with its generic twin — reword.
+  The app's surfaces are the desk, the record, the dossier, the case
+  file, the finder, the Overview — never "board" (a fence may still lose
+  a literal one). Blog prose says "article", never "post". This binds every
+  Said and Done. surface in this repo — landing/tour, guides, download and
+  buy pages, blog posts, and the Said components/layouts — and is enforced
+  by `tests/said-terminology.test.js` (runs in `npx vitest run` and CI).
+- Product design fact (Said and Done., owner ruling 2026-09-01): the app
+  is one single glass experience — light/dark themes are long gone. Never
+  claim theme switching or "dark mode"/"light mode"; screenshots showing
+  the old themed UI are stale and need recapture, not re-description.
+- Product behavior fact (Said and Done., owner ruling 2026-09-01): a
+  permanent file watcher runs while the app does — the indexer keeps the
+  index live and the filler keeps adjusting and filling Pages from it as
+  notes change. Never claim reference scanning is one-shot ("at creation,
+  once", "never rescanned"); the true invariants to lean on instead are
+  restraint (nothing pinned below the confidence bar) and read-only files.
 - Plain words for paying, non-technical readers; zero internal jargon;
   honest claims only — nothing a ride of the real product would contradict.
 

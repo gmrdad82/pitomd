@@ -11,8 +11,8 @@ is already in. No feature talk yet — the situation first.
 ## First move (a concrete verb)
 
 What to actually do, in Said and Done. terms. Short paragraphs. Name real
-surfaces — the board, the dossier, the case file, the finder, the Overview —
-and real keys where they help.
+surfaces — the desk, the record, the dossier, the case file, the finder,
+the Overview — and real keys where they help.
 
 ![Alt text that describes the exact scenario in the shot](/said-and-done/shots/board.png)
 
@@ -20,7 +20,7 @@ _A one-line italic caption under every image — what the reader is looking at._
 
 ## Second move
 
-Each post carries at least one image or illustration from
+Each article carries at least one image or illustration from
 `/said-and-done/shots/` — a bare wall of text does not ship. Two to four
 `##` sections total; the slug page builds the table of contents from them,
 so make every heading say something on its own.
@@ -32,6 +32,10 @@ sales line. One sentence of voice is allowed; two is indulgent.
 
 <!--
 House rules:
+- Terms: Notebook, Chapter, Page — capitalized product concepts. Remarks
+  on a Page: a person leaves a Thought, an agent leaves an Update; never
+  "comments", "threads", or "Note". Lowercase "notes" means the reader's
+  own markdown files; never let two senses share a sentence.
 - Title: no "Said and Done." in the display title; the site provides the brand.
 - published stays false until the owner's nod; pubDate rides the 3–4 day cadence.
 - Every claim must be a real behavior of the app. No invented features.
