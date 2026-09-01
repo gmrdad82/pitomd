@@ -35,14 +35,14 @@ reports run outcomes to the owner's Slack.
 - Green is reported with the run URL and conclusion, not assumed from a
   passing local suite.
 - Dependabot rides the same watch: check open alerts (`gh api
-  repos/{owner}/{repo}/dependabot/alerts --jq '.[] | select(.state ==
-  "open")'`) and Dependabot PRs (`gh pr list --author app/dependabot`).
+repos/{owner}/{repo}/dependabot/alerts --jq '.[] | select(.state ==
+"open")'`) and Dependabot PRs (`gh pr list --author app/dependabot`).
   For each alert: name the package, the advisory, whether the vulnerable
   path is reachable in this static-site usage, and the minimal safe bump —
   every open alert acknowledged in the report, none silently skipped.
   Prefer targeted `npm install <pkg>@<version>` over blanket `npm update`;
   prove bumps with the full local gates plus `npm audit
-  --audit-level=high`. The owner merges Dependabot PRs and commits bumps.
+--audit-level=high`. The owner merges Dependabot PRs and commits bumps.
 
 ## Anti-patterns
 
