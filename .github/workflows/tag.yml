@@ -37,24 +37,26 @@ jobs:
             echo "::error::v${BASH_REMATCH[1]} already exists"; exit 1
           fi
 
-      # The site's own version follows the tag; the lock file follows the manifest.
-      - name: Bump the manifest to the tag
+      # Protected main takes no bot commits (and every main commit is the
+      # owner's, signed), so the release commit itself must carry the bump —
+      # `npm version X.Y.Z --no-git-tag-version` before committing. This
+      # step only verifies it did.
+      - name: The manifest must already carry the version
         env:
           BARE: ${{ steps.version.outputs.bare }}
-        run: npm version "$BARE" --no-git-tag-version
+        run: |
+          have=$(node -p "require('./package.json').version")
+          if [[ "$have" != "$BARE" ]]; then
+            echo "::error::package.json says $have but the message says $BARE — run 'npm version $BARE --no-git-tag-version' inside the release commit"; exit 1
+          fi
 
-      - name: Commit the manifest, then cut the tag on that commit
+      - name: Cut the tag on this commit
         env:
           VERSION: ${{ steps.version.outputs.version }}
           MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet; then
-            git add -u
-            git commit -m "The manifest follows $VERSION"
-            git push origin HEAD:main
-          fi
           git tag -a "$VERSION" -m "${MESSAGE%%$'\n'*}"
           git push origin "$VERSION"
 

@@ -2,7 +2,7 @@
 title: "Empty your head without losing a thing"
 description: "A brain dump method that actually closes the loop: get every open thought out in minutes, and let the desk file, connect, and resurface what you dumped."
 published: false
-pubDate: 2026-09-30
+pubDate: 2026-10-05
 ---
 
 My head has a maximum occupancy, and I found it the hard way. Some

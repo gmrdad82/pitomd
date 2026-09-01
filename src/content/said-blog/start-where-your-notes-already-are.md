@@ -2,7 +2,7 @@
 title: "Start where your notes already are"
 description: "How a folder of plain text and a command-line tool called qmd convinced me the best markdown notes app was the one that never asks you to move."
 published: false
-pubDate: 2026-09-26
+pubDate: 2026-10-01
 ---
 
 Every system I ever abandoned, I abandoned at the same doorstep: the

@@ -2,7 +2,7 @@
 title: "Move to Mars before you unpack"
 description: "The best note taking app example is a whole world: meet Mars or Bust, the hand-written sample expedition that lets you try everything before your own notes move in."
 published: false
-pubDate: 2026-09-23
+pubDate: 2026-09-28
 ---
 
 Every app opens empty, and empty is a liar. The screenshots showed a

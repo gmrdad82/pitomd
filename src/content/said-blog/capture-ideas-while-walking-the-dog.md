@@ -2,7 +2,7 @@
 title: "Capture ideas while walking the dog"
 description: "How to capture ideas on the go without an app ceremony: the two-dog field method for keeping every stray thought, told by a man who loses none anymore."
 published: false
-pubDate: 2026-10-21
+pubDate: 2026-10-26
 ---
 
 My best ideas do not visit me at the desk. They wait — politely,

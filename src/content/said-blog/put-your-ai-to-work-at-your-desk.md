@@ -2,7 +2,7 @@
 title: "Put your AI to work at your desk"
 description: "Turn your task manager into an AI agents workspace: assistants that read your pinned paragraphs, move Pages, and leave signed Updates — all on your own machine."
 published: false
-pubDate: 2026-09-16
+pubDate: 2026-09-21
 ---
 
 I talk to AI assistants the way some people talk to contractors: often,

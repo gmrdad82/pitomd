@@ -2,7 +2,7 @@
 title: "Search that knows what you meant"
 description: "Semantic search for notes, running entirely on your own machine: find the thought you half-remember, not just the words you happened to type."
 published: false
-pubDate: 2026-10-17
+pubDate: 2026-10-22
 ---
 
 The cruelest thing about most search is that it works. It does exactly

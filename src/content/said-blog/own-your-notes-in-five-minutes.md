@@ -2,7 +2,7 @@
 title: "Own your notes in five minutes"
 description: "A local notes app with no account, no cloud, and no strings: what setup looks like when the software plans to be owned by you, not the other way around."
 published: false
-pubDate: 2026-10-24
+pubDate: 2026-10-29
 ---
 
 I have a stopwatch ritual for new software, born of scar tissue: I

@@ -11,6 +11,7 @@ Read the matching guide in `agents/skills/` before starting:
 
 - [`agents/skills/web-dev.md`](agents/skills/web-dev.md) — the Astro stack, fx rules, verification
 - [`agents/skills/content.md`](agents/skills/content.md) — landing pages, guides, and blog posts
+- [`agents/skills/ci-watch.md`](agents/skills/ci-watch.md) — watching a push to green, red triage, Dependabot
 
 # Hard rules
 

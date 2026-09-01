@@ -2,7 +2,7 @@
 title: "Pay only if you want to say thanks"
 description: "A free note taking app with no trial, no watermark, and no guilt — and why the €4.99 exists at all: not as a toll, but as a thank-you."
 published: false
-pubDate: 2026-10-07
+pubDate: 2026-10-12
 ---
 
 Somewhere in my downloads folder is a graveyard of free trials. Note

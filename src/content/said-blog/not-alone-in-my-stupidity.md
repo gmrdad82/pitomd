@@ -2,7 +2,7 @@
 title: "I hope I'm not alone in my stupidity"
 description: "A confession about years of fence notes scattered across syncing cloud apps — and the permanent Page that finally gave one stubborn topic a home."
 published: false
-pubDate: 2026-09-03
+pubDate: 2026-09-07
 ---
 
 There is a saying I use on myself: I know I'm alone in my genius, but I

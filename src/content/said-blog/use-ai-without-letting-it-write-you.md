@@ -2,7 +2,7 @@
 title: "Use AI without letting it write you"
 description: "Using AI for ideas without waking up as its editor: the practice — and the desk — that keeps the thinking yours while the machine does the legwork."
 published: false
-pubDate: 2026-10-14
+pubDate: 2026-10-19
 ---
 
 There are two ways to use an AI, and they look identical from across

@@ -2,7 +2,7 @@
 title: "Carry the desk in your pocket"
 description: "A self-hosted notes and tasks app on your phone with no cloud in between: your desk, served by your own computer, reachable from the hardware store."
 published: false
-pubDate: 2026-09-19
+pubDate: 2026-09-24
 ---
 
 Standing in aisle seven of the hardware store, holding two boxes of

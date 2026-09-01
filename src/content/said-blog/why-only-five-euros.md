@@ -4,7 +4,7 @@ description: "Note taking app pricing, explained with a straight face: the free 
 pinExcerpt: "Said and Done. hands over the entire desk for free — the record, the keyboard, the search, the agents, the backups. Five Notebooks, ten Chapters, a hundred living Pages, forever, on your own machine, with no account and no tracking. The €4.99 exists for the day you outgrow those counts, and most people never do. It is less a price than a small token of support, so the desk keeps getting built."
 pinned: true
 published: false
-pubDate: 2026-10-31
+pubDate: 2026-11-05
 ---
 
 People ask the question with a squint, like the number must be hiding

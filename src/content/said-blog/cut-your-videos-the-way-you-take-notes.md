@@ -2,7 +2,7 @@
 title: "Cut your videos the way you take notes"
 description: "An easy video editor built on the same beliefs as the desk: your files stay put, your GPU does the work, and search finds what was said — Pito Studio, teased."
 published: false
-pubDate: 2026-10-10
+pubDate: 2026-10-15
 ---
 
 I record more than I should. Game sessions, screen captures, the

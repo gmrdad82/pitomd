@@ -2,7 +2,7 @@
 title: "Hand your whole topic to your AI"
 description: "Notes-to-AI integration two ways — one copy button that packs a topic's every source, and an MCP door for assistants that fetch it themselves."
 published: false
-pubDate: 2026-10-28
+pubDate: 2026-11-02
 ---
 
 Every good AI conversation I have starts the same way: with cargo. The

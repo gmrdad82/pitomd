@@ -1,12 +1,13 @@
-# Weekly article-runway check: Mondays 08:00 UTC, posts a Slack alert via
-# the announcer webhook when the scheduled buffer thins (fewer than 5
-# future articles, or under 14 days of schedule left). Manual dispatch
-# posts the status either way — the owner's on-demand pulse check.
+# Article-runway check on the publishing beat (owner cadence ruling
+# 2026-09-01): Mondays and Thursdays 08:00 UTC, right when Publish cron
+# fires. Posts a Slack alert via the announcer webhook when the scheduled
+# buffer thins (fewer than 5 future articles, or under 14 days of schedule
+# left). Manual dispatch posts the status either way — the on-demand pulse.
 name: Buffer check
 
 on:
   schedule:
-    - cron: "0 8 * * 1"
+    - cron: "0 8 * * 1,4"
   workflow_dispatch:
 
 permissions:

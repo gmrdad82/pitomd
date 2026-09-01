@@ -2,7 +2,7 @@
 title: "Type the task, get the note found for you"
 description: "Automatic note linking in practice: write a task with no reference and watch the app find the right file — and the right paragraph — on its own."
 published: false
-pubDate: 2026-09-12
+pubDate: 2026-09-17
 ---
 
 The gate to my back garden has a latch that sticks, and I have written

@@ -27,6 +27,10 @@ Three content jobs, one voice (the Pito estate canon — read it first):
 
 - Every piece of copy is a PROPOSAL for the owner's validation — drafts
   ship as decks (location, current, proposed, one-line why where needed).
+- PUBLISH FREEZE (owner ruling 2026-09-01): nothing flips to
+  `published: true` until the owner declares Said and Done. itself done.
+  Every article stays a draft; the Mon/Thu publish cron and announcer are
+  armed but find nothing due until he lifts this.
 - SEO basics ride every page: one h1, descriptive title + meta description,
   OG tags via the layout, real headings a skimmer can navigate, internal
   links between guide ↔ landing ↔ post where they genuinely help.

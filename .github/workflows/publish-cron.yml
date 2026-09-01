@@ -1,5 +1,11 @@
+# The publishing heartbeat (owner cadence ruling 2026-09-01): Mondays and
+# Thursdays 08:00 UTC. If an approved post's pubDate is today, wake Deploy
+# so it goes live — the whole blog schedule rides these two mornings, and
+# pubDates are pinned to Mon/Thu so nothing can fall between beats.
 name: Publish cron
 on:
+  schedule:
+    - cron: "0 8 * * 1,4"
   workflow_dispatch:
 
 permissions:

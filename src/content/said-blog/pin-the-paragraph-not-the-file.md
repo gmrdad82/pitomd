@@ -2,7 +2,7 @@
 title: "Pin the paragraph, not the file"
 description: "How to link tasks to notes at the line level — pins that show you the exact paragraph, survive your rewrites, and draw you a map of what your work leans on."
 published: false
-pubDate: 2026-09-09
+pubDate: 2026-09-14
 ---
 
 Last spring I decided to rebuild the back garden, and like every project I

@@ -2,7 +2,7 @@
 title: "Make your computer feel fast again"
 description: "Your machine is a monster; your apps waste it. What a fast note taking app feels like when the software respects the hardware it runs on."
 published: false
-pubDate: 2026-10-03
+pubDate: 2026-10-08
 ---
 
 My computer can simulate weather. It can render a city at a hundred and

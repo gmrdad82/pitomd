@@ -2,7 +2,7 @@
 title: "Build a desk on top of the files you already own"
 description: "Why I built a markdown task manager that sits on top of your own folder of notes instead of asking you to move into someone else's app."
 published: false
-pubDate: 2026-09-01
+pubDate: 2026-09-03
 ---
 
 My head does not stop. A house project, a dog that needs walking at the
