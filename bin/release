@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # bin/release — the release ceremony in one move (agents/skills/release.md).
 # Computes the next version from the latest v* tag (patch bump; pass X.Y.Z,
-# --minor or --major to override), asks only for the release sentence, then
-# bumps the manifest, folds in whatever the owner already staged, commits
-# "[vX.Y.Z] <sentence>" and pushes. tag.yml does the rest. --dry-run shows
-# the plan and stops before touching anything.
+# --minor or --major to override), takes the release sentence from -m "..."
+# or asks for it, then bumps the manifest, folds in whatever the owner
+# already staged, commits "[vX.Y.Z] <sentence>" and pushes. tag.yml does the
+# rest. --dry-run shows the plan and stops before touching anything.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
@@ -12,14 +12,17 @@ cd "$(dirname "$0")/.."
 DRY=""
 BUMP="patch"
 EXPLICIT=""
-for arg in "$@"; do
-  case "$arg" in
+SENTENCE=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
     --dry-run) DRY=1 ;;
     --minor) BUMP="minor" ;;
     --major) BUMP="major" ;;
-    [0-9]*.[0-9]*.[0-9]*) EXPLICIT="$arg" ;;
-    *) echo "usage: bin/release [X.Y.Z | --minor | --major] [--dry-run]"; exit 2 ;;
+    -m) shift; SENTENCE="${1:-}"; [[ -n "$SENTENCE" ]] || { echo "→ -m needs the sentence"; exit 2; } ;;
+    [0-9]*.[0-9]*.[0-9]*) EXPLICIT="$1" ;;
+    *) echo "usage: bin/release [X.Y.Z | --minor | --major] [-m \"sentence\"] [--dry-run]"; exit 2 ;;
   esac
+  shift
 done
 
 # Releases leave from main, up to date with origin.
@@ -51,8 +54,11 @@ unstaged=$(git status --porcelain | grep -cv '^[MARCD] ' || true)
 
 if [[ -n "$DRY" ]]; then echo "→ dry run — stopping here"; exit 0; fi
 
-read -rp "→ the release sentence (after [v$next]): " sentence
-[[ -n "$sentence" ]] || { echo "→ a release needs its sentence"; exit 1; }
+if [[ -z "$SENTENCE" ]]; then
+  read -rp "→ the release sentence (after [v$next]): " SENTENCE
+fi
+[[ -n "$SENTENCE" ]] || { echo "→ a release needs its sentence"; exit 1; }
+sentence="$SENTENCE"
 
 npm version "$next" --no-git-tag-version >/dev/null
 git add package.json package-lock.json

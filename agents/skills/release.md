@@ -20,12 +20,14 @@ to it — it only verifies and tags.
   `[v0.9.2] The desk learns to …`. Everything shipping in the release
   rides that commit or earlier.
 - **`bin/release` is the door the owner walks through**: stage what
-  ships, run it, give the sentence. It computes the next version from
-  the latest tag (patch by default; `X.Y.Z`, `--minor`, `--major`
-  override; `--dry-run` previews), runs the prettier gate, bumps the
-  manifest, commits `[vX.Y.Z] <sentence>` with the staged work folded
-  in, and pushes. Agents never run it — they prepare the tree and hand
-  the owner the staging list.
+  ships, run it, give the sentence — interactively, or inline with
+  `-m "the sentence"` so an agent can hand a complete snippet. It
+  computes the next version from the latest tag (patch by default;
+  `X.Y.Z`, `--minor`, `--major` override; `--dry-run` previews), runs
+  the prettier gate, bumps the manifest, commits `[vX.Y.Z] <sentence>`
+  with the staged work folded in, and pushes. Agents never run it —
+  they prepare the tree and hand the owner the staging list plus the
+  `-m` line.
 - **The release commit itself carries the manifest bump** — run
   `npm version X.Y.Z --no-git-tag-version` before committing (it rewrites
   package.json + package-lock.json only; the flag stops npm from cutting
