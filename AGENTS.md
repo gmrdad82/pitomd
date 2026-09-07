@@ -16,9 +16,8 @@ Read the matching guide in `agents/skills/` before starting:
 
 # Hard rules
 
-- No AI tool commits, tags, or pushes here. Deploy
-  (`.github/workflows/deploy.yml`) triggers are the owner's call each time —
-  ask, never assume.
+- Deploy (`.github/workflows/deploy.yml`) triggers are the owner's call each
+  time — ask, never assume.
 - **Reference, don't inject**: this site never bundles or imports the
   `pito` repo's source. Copy/adapt tokens and assets from a local sibling
   checkout; fx controllers are conceptual references reimplemented as
